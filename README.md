@@ -7,6 +7,7 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 * Make sure you have composer installed and then run
 > `composer install`
 * Rename /public/index-dist.php to /public/index.php
+* Change the permission on the *logs* folder. Make it writable by the web-server process. 
 * Browse to the public folder via your browser (eg. http://localhost/cfs-slim-skeleton-app/public/). You should see a default page.
 
 ## Configuration
@@ -18,7 +19,6 @@ Action methods in Controller classes MUST either return a string (i.e. containin
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
 injected into it via $response->getBody()->write($data) );
 
-Change the permission on the *logs* folder. Make it writable by the web-server process. 
 
 ## Documentation for Components Used
 * SlimPHP 3 http://www.slimframework.com/docs/
