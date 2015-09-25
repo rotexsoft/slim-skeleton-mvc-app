@@ -223,6 +223,14 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
 // End Dependency Injection Configuration
 ////////////////////////////////////////////////////////////////////////////////
 
+$app->map(['GET', 'POST'], '/', function ($request, $response, $args) {
+    
+    //TODO: Make default action configurable via the dependency injection container.
+    //Re-direct to default action
+    $redirect_path = $request->getUri()->getBasePath()."/base-controller/action-index";
+    return $response->withHeader('Location', $redirect_path);
+});
+
 $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function ($request, $response, $args) {
 
     //ServerRequestInterface $request, ResponseInterface $response 
