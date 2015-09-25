@@ -7,6 +7,7 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 * Make sure you have composer installed and then run
 > `composer install`
 * Rename /public/index-dist.php to /public/index.php
+* Browse to the public folder via your browser (eg. http://localhost/cfs-slim-skeleton-app/public/). You should see a default page.
 
 ## Configuration
 * To use LDAP autehntication, you will need to update the values for the *$server*, *'basedn'*, *'bindpw'*, *'searchfilter'* and '*$dnformat*' in the *'aura_auth_adapter_object'* entry in the dependency injection container.
