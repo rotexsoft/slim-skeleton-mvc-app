@@ -6,7 +6,7 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 * Clone or download source files from https://bitbucket.org/cfsweb/cfs-slim-skeleton-app
 * Make sure you have composer installed and then run
 > `composer install`
-* Rename /public/index-dist.php to /public/index.php
+* Copy /public/index-dist.php to /public/index.php
 * Change the permission on the *logs* folder. Make it writable by the web-server process. 
 * Browse to the public folder via your browser (eg. http://localhost/cfs-slim-skeleton-app/public/). You should see a default page.
 
