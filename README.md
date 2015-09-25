@@ -3,7 +3,7 @@
 This is a template web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.
 
 ## Installation
-* Clone or download
+* Clone or download source files from https://bitbucket.org/cfsweb/cfs-slim-skeleton-app
 * Make sure you have composer installed and then run
 > `composer install`
 * Rename /public/index-dist.php to /public/index.php
