@@ -119,6 +119,15 @@ class BaseController
         return $this->app->getContainer()->get('request')->getUri()->getBasePath();
     }
     
+    public function actionIndex() {
+                
+        //get the contents of the view first
+        $view_str = $this->getViewAsString('index.php');
+        $layout_data = ['content'=>$view_str, 'request_obj'=>$this->app->request];
+        
+        return $this->getLayoutAsString( 'main-template.php', $layout_data );
+    }
+    
     /**
      * 
      * 

@@ -5,7 +5,7 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 ## Installation
 * Clone or download
 * Make sure you have composer installed and then run
-    `composer install`
+> `composer install`
 * Rename /public/index-dist.php to /public/index.php
 
 ## Configuration
