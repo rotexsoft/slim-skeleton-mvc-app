@@ -5,8 +5,9 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 
 ## Installation
-* Clone or download source files from https://bitbucket.org/cfsweb/slim3-skeleton-mvc-app
+* Clone or download source files from https://github.com/rotexsoft/slim3-skeleton-mvc-app
 * Make sure you have composer installed and then run
+
 > `composer install`
 * Copy /public/index-dist.php to /public/index.php
 * Change the permission on the *logs* folder. Make it writable by the web-server process. 
