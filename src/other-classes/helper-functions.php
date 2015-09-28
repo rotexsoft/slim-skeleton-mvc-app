@@ -120,9 +120,9 @@ function camelToDashes($str)
 
 function dumpAuthinfo(\Aura\Auth\Auth $auth) {
 
-    return $auth->getFirstActive().PHP_EOL
-         . $auth->getLastActive().PHP_EOL
-         . $auth->getStatus().PHP_EOL
-         . $auth->getUserName().PHP_EOL
-         . print_r($auth->getUserData(), true).PHP_EOL;
+    return 'Initial Login Time: '. $auth->getFirstActive().PHP_EOL
+         . 'Time Now: ' . $auth->getLastActive().PHP_EOL
+         . 'Login Status: ' . $auth->getStatus().PHP_EOL
+         . 'Logged in Person\'s Username: ' . $auth->getUserName().PHP_EOL
+         . 'Logged in User\'s Data: ' . PHP_EOL . print_r($auth->getUserData(), true);
 }
