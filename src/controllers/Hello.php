@@ -18,6 +18,11 @@ class Hello extends \Slim3Mvc\Controllers\BaseController
         $this->view_renderer->prependPath($path_2_view_files);
     }
     
+    public function actionIndex() {
+
+        return 'Content Goes Here';
+    }
+    
     public function world($name, $another_param) {
         
         //echo $name, ' ', $another_param;

@@ -16,7 +16,6 @@ define('APP_ENV_TESTING', 'testing');
  *       APP_ENV_TESTING relevant to the environment you are installing your 
  *       web-app.
  * 
- * 
  * @return string
  */
 function getCurrentAppEnvironment() {
@@ -235,14 +234,14 @@ $app->map(['GET', 'POST'], '/', function ($request, $response, $args) {
     return $response->withHeader('Location', $redirect_path);
 });
 
-$app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function ($request, $response, $args) {
+$mvc_route_handler = function ($request, $response, $args) {
 
     //ServerRequestInterface $request, ResponseInterface $response 
     
     //NOTE: inside this function $this refers to $app. $app is automatically  
     //      bound to this closure by the Slim 3 when $app->map is called.
-    $container_4_app = $this->getContainer();
-    $logger = $container_4_app->get('logger');
+    $container = $this->getContainer();
+    $logger = $container->get('logger');
     
     //Further enhancements:
     //Add an assoc array that contains allowed actions for a controller
@@ -252,7 +251,7 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
     $action_method = \Slim3Mvc\OtherClasses\dashesToCamel($args['action']);
     $parameters_str = array_key_exists('parameters', $args)? rtrim($args['parameters'], '/') : '';//strip trailing forward slash
     $params = empty($parameters_str)? [] : explode('/', $parameters_str);//convert to array of parameters
-    
+
     $regex_4_valid_class_or_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
     
     if( !preg_match($regex_4_valid_class_or_method_name, $controller_class_name) ) {
@@ -264,7 +263,7 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
         //in php as defined in http://php.net/manual/en/language.oop5.basic.php
         //trigger 404 not found
         $logger->notice("Bad controller name `{$controller_class_name}`");
-        $notFoundHandler = $container_4_app->get('notFoundHandler');
+        $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);//invoke the not found handler
     }
     
@@ -277,13 +276,13 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
         //in php as defined in http://php.net/manual/en/language.oop5.basic.php
         //trigger 404 not found
         $logger->notice("Bad action name `{$action_method}`.");
-        $notFoundHandler = $container_4_app->get('notFoundHandler');
+        $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);//invoke the not found handler
     }
     
     if( !class_exists($controller_class_name) ) {
         
-        $namespace_4_controllers = $container_4_app->get('namespace_for_controllers');
+        $namespace_4_controllers = $container->get('namespace_for_controllers');
         
         //try to prepend name space
         if( class_exists($namespace_4_controllers.$controller_class_name) ) {
@@ -293,7 +292,7 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
         } else {
             
             //404 not Found
-            $notFoundHandler = $container_4_app->get('notFoundHandler');
+            $notFoundHandler = $container->get('notFoundHandler');
             return $notFoundHandler($request, $response);
         }
     }
@@ -305,7 +304,7 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
     if( !method_exists($controller_object, $action_method) ) {
         
         //trigger 404 not found
-        $notFoundHandler = $container_4_app->get('notFoundHandler');
+        $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);
     }
     
@@ -325,6 +324,9 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
     }
     
     return $response;
-});
+};
+
+$app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
+$app->map(['GET', 'POST'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
 
 $app->run();
