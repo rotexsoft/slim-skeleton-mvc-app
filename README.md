@@ -30,4 +30,8 @@ injected into it via $response->getBody()->write($data) );
 * Database ORM package http://rotexsoft.github.io/leanorm/
 
 * See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works.
+
+## SlimPHP 3's Implementation of PSR-7
+
+![Class Diagram of SlimPHP 3's Implementation of PSR-7](slim3-psr7.png)
  
