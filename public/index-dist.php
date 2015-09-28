@@ -173,6 +173,7 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
     
     $container['aura_auth_adapter_object'] = function ($c) {
         
+        $logger = $c['logger'];
         $server = 'ldap.server.org.ca';
         $cfs_ldap_adapter_specific_params = array(
             'filter'                        => '\w',
@@ -180,8 +181,8 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
             'bindpw'                        => 'Pa$$w0rd',
             'limit'                         => array('dn'),
             'searchfilter'                  => 'somefilter',
-            'successful_login_callback' 	=> function($login_timestamp_string) {
-                                                    echo $login_timestamp_string.'<br>';
+            'successful_login_callback' 	=> function($login_timestamp_string) use ($logger) {
+                                                    $logger->notice($login_timestamp_string);
                                                }
         );
         $dnformat = 'ou=Company Name,dc=Department Name,cn=users';

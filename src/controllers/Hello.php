@@ -23,7 +23,7 @@ class Hello extends \CfsSlim3\Controllers\BaseController
         //echo $name, ' ', $another_param;
         
         //get the contents of the view first
-        $view_str = $this->getViewAsString('default-content.php');
+        $view_str = $this->getViewAsString('world.php', ['name'=>$name, 'params'=>$another_param]);
         $layout_data = ['content'=>$view_str, 'request_obj'=>$this->app->request];
         
         return $this->getLayoutAsString( 'main-template.php', $layout_data );
