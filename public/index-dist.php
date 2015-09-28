@@ -2,29 +2,33 @@
 require '../vendor/autoload.php';
 
 define('APP_ENV_DEV', 'development');
-define('APP_ENV_PROD', 'production');
+define('APP_ENV_PRODUCTION', 'production');
 define('APP_ENV_STAGING', 'staging');
-define('APP_ENV_TEST', 'test');
+define('APP_ENV_TESTING', 'testing');
 
+/**
+ * 
+ * This function detects which environment your web-app is running in 
+ * (i.e. one of Production, Development, Staging or Testing).
+ * 
+ * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and the 
+ *       return one of APP_ENV_DEV, APP_ENV_PRODUCTION, APP_ENV_STAGING or 
+ *       APP_ENV_TESTING relevant to the environment you are installing your 
+ *       web-app.
+ * 
+ * 
+ * @return string
+ */
 function getCurrentAppEnvironment() {
     
-    $server_name_in_request = $_SERVER['SERVER_NAME'];
-    $request_uri_in_request = $_SERVER['REQUEST_URI'];
+    static $current_env;
     
-    if( $server_name_in_request === 'promis.cfs.nrcan.gc.ca' ) {
+    if(!$current_env) {
         
-        return APP_ENV_PROD;
-        
-    } else if ( $server_name_in_request === 'cfsdev.nofc.cfs.nrcan.gc.ca' ) {
-        
-        if( strpos($request_uri_in_request, 'promis-staging') !== FALSE ) {
-            
-            return APP_ENV_STAGING;
-        }
+        $current_env = include '.'.DIRECTORY_SEPARATOR.'env.php';
     }
     
-    //Always default to dev
-    return APP_ENV_DEV;
+    return $current_env;
 }
 
 function echo_with_pre($var) {
@@ -35,7 +39,6 @@ function echo_with_pre($var) {
 
 $app = new Slim\App();
 $container = $app->getContainer();
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Start: Dependency Injection Configuration
@@ -134,20 +137,20 @@ $container['notAllowedHandler'] = function ($c) {
 //Change this to the namespcace for your web-app's controller classes or
 //set it to an empty string if your controllers are in the default global
 //namespace.
-$container['namespace_for_controllers'] = '\\CfsSlim3\\Controllers\\';
+$container['namespace_for_controllers'] = '\\Slim3Mvc\\Controllers\\';
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function ($c) {
     
     //return a new instance on each access to $container['new_layout_renderer']
-    return new \CfsSlim3\OtherClasses\View([]);
+    return new \Slim3Mvc\OtherClasses\View([]);
 });
 
 //Object for rendering view files
 $container['new_view_renderer'] = $container->factory(function ($c) {
     
     //return a new instance on each access to $container['new_view_renderer']
-    return new \CfsSlim3\OtherClasses\View([]);
+    return new \Slim3Mvc\OtherClasses\View([]);
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -175,7 +178,7 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
         
         $logger = $c['logger'];
         $server = 'ldap.server.org.ca';
-        $cfs_ldap_adapter_specific_params = array(
+        $ldap_adapter_specific_params = array(
             'filter'                        => '\w',
             'basedn'                        => 'DC=yada,DC=yada,DC=yada,DC=yada',
             'bindpw'                        => 'Pa$$w0rd',
@@ -192,7 +195,7 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
                                             $server, 
                                             $dnformat,
                                             array(), 
-                                            $cfs_ldap_adapter_specific_params
+                                            $ldap_adapter_specific_params
                                         );
     };
     
@@ -236,8 +239,8 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
 
     //ServerRequestInterface $request, ResponseInterface $response 
     
-    //NOTE: inside this function $this refers to $app. $app is automatically bound 
-    //      to this closure by the Slim 3 when $app->map is called.
+    //NOTE: inside this function $this refers to $app. $app is automatically  
+    //      bound to this closure by the Slim 3 when $app->map is called.
     $container_4_app = $this->getContainer();
     $logger = $container_4_app->get('logger');
     
@@ -245,8 +248,8 @@ $app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', function 
     //Add an assoc array that contains allowed actions for a controller
     //$map = array('hello'=>'someothercontroller');
     
-    $controller_class_name = \CfsSlim3\OtherClasses\dashesToStudly($args['controller']);
-    $action_method = \CfsSlim3\OtherClasses\dashesToCamel($args['action']);
+    $controller_class_name = \Slim3Mvc\OtherClasses\dashesToStudly($args['controller']);
+    $action_method = \Slim3Mvc\OtherClasses\dashesToCamel($args['action']);
     $parameters_str = array_key_exists('parameters', $args)? rtrim($args['parameters'], '/') : '';//strip trailing forward slash
     $params = empty($parameters_str)? [] : explode('/', $parameters_str);//convert to array of parameters
     

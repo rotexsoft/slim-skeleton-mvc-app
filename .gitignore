@@ -35,4 +35,5 @@ phpunit.xml
 logs/*
 !logs/.htaccess
 
+/public/env.php
 /public/index.php

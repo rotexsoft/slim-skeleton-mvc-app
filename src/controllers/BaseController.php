@@ -1,5 +1,5 @@
 <?php
-namespace CfsSlim3\Controllers;
+namespace Slim3Mvc\Controllers;
 
 /**
  * Description of BaseController
@@ -23,7 +23,7 @@ class BaseController
      * 
      * View object for rendering layout files. 
      *
-     * @var \CfsSlim3\OtherClasses\View
+     * @var \Slim3Mvc\OtherClasses\View
      *  
      */
     protected $layout_renderer;
@@ -32,7 +32,7 @@ class BaseController
      * 
      * View object for rendering view files associated with controller actions. 
      *
-     * @var \CfsSlim3\OtherClasses\View
+     * @var \Slim3Mvc\OtherClasses\View
      *  
      */
     protected $view_renderer;
@@ -242,7 +242,7 @@ class BaseController
                 $msg = "Invalid login details. Please try again. <br>";
             }
             
-            $msg .= nl2br(\CfsSlim3\OtherClasses\dumpAuthinfo($auth));
+            $msg .= nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
 
             if( $loggedin_successfully ) {
                                 
@@ -298,7 +298,7 @@ class BaseController
             $msg = "Something went wrong; but you are not logged in. <br>";
         }
 
-        $msg .= nl2br(\CfsSlim3\OtherClasses\dumpAuthinfo($auth));
+        $msg .= nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
         
         $redirect_path = $this->getBasePath()
                         . "/{$this->controller_name_from_uri}/action-login-status"
@@ -366,7 +366,7 @@ class BaseController
                 break;
         }
 
-        $msg .= nl2br(\CfsSlim3\OtherClasses\dumpAuthinfo($auth));
+        $msg .= nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
         
         $redirect_path = 
             $this->getBasePath()

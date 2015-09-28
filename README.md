@@ -1,16 +1,20 @@
-# CFS Slim PHP 3 Skeleton App
+# SlimPHP 3 Skeleton MVC App
 
 This is a template web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.
 
+It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
+
 ## Installation
-* Clone or download source files from https://bitbucket.org/cfsweb/cfs-slim-skeleton-app
+* Clone or download source files from https://bitbucket.org/cfsweb/slim3-skeleton-mvc-app
 * Make sure you have composer installed and then run
 > `composer install`
 * Copy /public/index-dist.php to /public/index.php
 * Change the permission on the *logs* folder. Make it writable by the web-server process. 
-* Browse to the public folder via your browser (eg. http://localhost/cfs-slim-skeleton-app/public/). You should see a default page.
+* Browse to the public folder via your browser (eg. http://localhost/slim3-skeleton-mvc-app/public/). You should see a default page.
 
 ## Configuration
+* To setup an environment for your web-app, simply Copy /public/env-dist.php to /public/env.php and edit /public/env.php to return one of **APP_ENV_DEV**, **APP_ENV_PRODUCTION**, **APP_ENV_STAGING** or **APP_ENV_TESTING** relevant to the environment you are installing your web-app.
+
 * To use LDAP autehntication, you will need to update the values for the *$server*, *'basedn'*, *'bindpw'*, *'searchfilter'* and '*$dnformat*' in the *'aura_auth_adapter_object'* entry in the dependency injection container.
 > You can optionally change the default *'successful_login_callback'* callback.
 

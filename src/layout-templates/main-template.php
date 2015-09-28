@@ -11,7 +11,7 @@
         <div class="row">
             <div class="large-12 columns">
                 <h1>Welcome to Your New Site</h1>
-                <p>This site is powered by the <a href="https://bitbucket.org/cfsweb/cfs-slim-skeleton-app">CFS Slim PHP 3 Skeleton App</a></p>
+                <p>This site is powered by the <a href="https://bitbucket.org/cfsweb/slim3-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App.</a></p>
             </div>
         </div>
         <div class="row">

@@ -1,5 +1,5 @@
 <?php
-namespace CfsSlim3\OtherClasses;
+namespace Slim3Mvc\OtherClasses;
 
 /**
  * 
