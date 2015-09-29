@@ -30,7 +30,6 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
   * `http://yourserver.com/path_to_the_public_folder/base-controller/action-logout`
   * `http://yourserver.com/path_to_the_public_folder/base-controller/action-login-status/[1]`
     * [1] means parameter is optional
-  
   * `http://yourserver.com/path_to_the_public_folder/hello/action-check-login-status`
   * `http://yourserver.com/path_to_the_public_folder/hello/action-default-template-content`
   * `http://yourserver.com/path_to_the_public_folder/hello/action-index`
@@ -38,7 +37,7 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
   * `http://yourserver.com/path_to_the_public_folder/hello/action-logout`
   * `http://yourserver.com/path_to_the_public_folder/hello/action-login-status/[1]`
     * [1] means parameter is optional
-  * `http://yourserver.com/path_to_the_public_folder/hello/world/{name}/{another_parameter} `
+  * `http://yourserver.com/path_to_the_public_folder/hello/world/{name}/{another_parameter}`
     * you can do stuff like hello/world/john/doe
 
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
