@@ -21,7 +21,7 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 > You can optionally change the default *'successful_login_callback'* callback.
 
 
-* Below are the urls to controller & controller - actions / methods that are viewable by default
+* Below are the urls to controller & controller - actions / methods that are viewable by default. Note that `http://yourserver.com/path_to_the_public_folder/` should be changed to match your server setup.
   * `http://yourserver.com/path_to_the_public_folder/`
   * `http://yourserver.com/path_to_the_public_folder/base-controller/action-check-login-status`
   * `http://yourserver.com/path_to_the_public_folder/base-controller/action-default-template-content`
