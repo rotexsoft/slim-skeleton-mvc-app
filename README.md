@@ -21,6 +21,22 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 > You can optionally change the default *'successful_login_callback'* callback.
 
 
+* Below are the controller actions / methods that are viewable by default
+  * path_to_the_public_folder/
+base-controller/action-check-login-status
+base-controller/action-default-template-content
+base-controller/action-index
+base-controller/action-login
+base-controller/action-login-status/[1]  #[1] means parameter is optional
+base-controller/action-logout
+hello/action-check-login-status
+hello/action-default-template-content
+hello/action-index
+hello/action-login
+hello/action-login-status/[1]  #[1] means parameter is optional
+hello/action-logout
+hello/world/{name}/{another_parameter} # you can do stuff like hello/world/john/doe
+
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
 injected into it via $response->getBody()->write($data) );

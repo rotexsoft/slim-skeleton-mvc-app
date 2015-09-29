@@ -20,12 +20,10 @@ class Hello extends \Slim3Mvc\Controllers\BaseController
     
     public function actionIndex() {
 
-        return 'Content Goes Here';
+        return 'Hello@actionIndex: Controller Action Method Content Goes Here!';
     }
     
     public function world($name, $another_param) {
-        
-        //echo $name, ' ', $another_param;
         
         //get the contents of the view first
         $view_str = $this->getViewAsString('world.php', ['name'=>$name, 'params'=>$another_param]);
