@@ -21,23 +21,24 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 > You can optionally change the default *'successful_login_callback'* callback.
 
 
-* Below are the controller actions / methods that are viewable by default
-  * path_to_the_public_folder/
-  * path_to_the_public_folder/base-controller/action-check-login-status
-  * path_to_the_public_folder/base-controller/action-default-template-content
-  * path_to_the_public_folder/base-controller/action-index
-  * path_to_the_public_folder/base-controller/action-login
-  * path_to_the_public_folder/base-controller/action-login-status/[1]  
+* Below are the urls to controller & controller - actions / methods that are viewable by default
+  * http://yourserver.com/path_to_the_public_folder/
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-check-login-status
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-default-template-content
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-index
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-login
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-login-status/[1]  
     * `#[1] means parameter is optional`
-  * path_to_the_public_folder/base-controller/action-logout
-  * path_to_the_public_folder/hello/action-check-login-status
-  * path_to_the_public_folder/hello/action-default-template-content
-  * path_to_the_public_folder/hello/action-index
-  * path_to_the_public_folder/hello/action-login
-  * path_to_the_public_folder/hello/action-login-status/[1]
+  * http://yourserver.com/path_to_the_public_folder/base-controller/action-logout
+
+  * http://yourserver.com/path_to_the_public_folder/hello/action-check-login-status
+  * http://yourserver.com/path_to_the_public_folder/hello/action-default-template-content
+  * http://yourserver.com/path_to_the_public_folder/hello/action-index
+  * http://yourserver.com/path_to_the_public_folder/hello/action-login
+  * http://yourserver.com/path_to_the_public_folder/hello/action-login-status/[1]
     * `#[1] means parameter is optional`
-  * path_to_the_public_folder/hello/action-logout
-  * path_to_the_public_folder/hello/world/{name}/{another_parameter} 
+  * http://yourserver.com/path_to_the_public_folder/hello/action-logout
+  * http://yourserver.com/path_to_the_public_folder/hello/world/{name}/{another_parameter} 
     * `# you can do stuff like hello/world/john/doe`
 
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
