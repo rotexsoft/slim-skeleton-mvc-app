@@ -523,7 +523,7 @@ function (
     $host = ($scheme ? $scheme . ':' : '') . ($authority ? '//' . $authority : '');
 
     //log redirection
-    $log_msg = "ROUTE WITH ONLY CONTROLLER:"
+    $log_msg = "ROUTE WITH ONLY CONTROLLER REDIRECTING TO DEFAULT ACTION:"
              . " Redirecting from `{$host}$original_path` to `{$host}$redirect_path` ";
     
     $this->getContainer()->get('logger')->notice($log_msg);
