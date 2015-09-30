@@ -59,4 +59,3 @@ injected into it via $response->getBody()->write($data) );
 ## SlimPHP 3's Implementation of PSR-7
 
 ![Class Diagram of SlimPHP 3's Implementation of PSR-7](slim3-psr7.png)
- 
