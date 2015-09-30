@@ -9,6 +9,8 @@ namespace Slim3Mvc\OtherClasses;
  * 
  * @return string The word in camel-caps.
  * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
+ * 
  */
 function dashesToCamel($str)
 {
@@ -26,6 +28,8 @@ function dashesToCamel($str)
  * 
  * @return string The word in studly-caps.
  * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
+ * 
  */
 function dashesToStudly($str)
 {
@@ -41,6 +45,8 @@ function dashesToStudly($str)
  * @param string $str The underscore word.
  * 
  * @return string The word in camel-caps.
+ * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
  * 
  */
 function underToCamel($str)
@@ -59,6 +65,8 @@ function underToCamel($str)
  * 
  * @return string The word in studly-caps.
  * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
+ * 
  */
 function underToStudly($str)
 {
@@ -75,6 +83,8 @@ function underToStudly($str)
  * @param string $str The string to convert.
  * 
  * @return string The converted string.
+ * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
  * 
  */
 function toDashes($str)
@@ -93,6 +103,8 @@ function toDashes($str)
  * 
  * @return string The word with underscores in place of camel caps.
  * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
+ * 
  */
 function camelToUnder($str)
 {
@@ -109,6 +121,8 @@ function camelToUnder($str)
  * 
  * @return string The word with dashes in place of camel caps.
  * 
+ * This code originally from the Solar_Inflect class in the SolarPHP framework.
+ * 
  */
 function camelToDashes($str)
 {
@@ -116,7 +130,6 @@ function camelToDashes($str)
     $str = str_replace(' ', '-', ucwords($str));
     return strtolower($str);
 }
-
 
 function dumpAuthinfo(\Aura\Auth\Auth $auth) {
 

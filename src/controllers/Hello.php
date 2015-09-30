@@ -7,7 +7,6 @@
  */
 class Hello extends \Slim3Mvc\Controllers\BaseController
 {
-    
     public function __construct(\Slim\App $app, $controller_name_from_uri, $action_name_from_uri) {
         
         parent::__construct($app, $controller_name_from_uri, $action_name_from_uri);
@@ -26,9 +25,8 @@ class Hello extends \Slim3Mvc\Controllers\BaseController
     public function world($name, $another_param) {
         
         //get the contents of the view first
-        $view_str = $this->getViewAsString('world.php', ['name'=>$name, 'params'=>$another_param]);
-        $layout_data = ['content'=>$view_str, 'request_obj'=>$this->app->request];
+        $view_str = $this->renderView('world.php', ['name'=>$name, 'params'=>$another_param]);
         
-        return $this->getLayoutAsString( 'main-template.php', $layout_data );
+        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
 }

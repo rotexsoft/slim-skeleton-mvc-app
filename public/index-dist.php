@@ -6,6 +6,98 @@ define('APP_ENV_PRODUCTION', 'production');
 define('APP_ENV_STAGING', 'staging');
 define('APP_ENV_TESTING', 'testing');
 
+s3MVC_GetSuperGlobal();//this method is first called here to ensure that $_SERVER 
+                       //, $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are 
+                       //captured in their original state by the static $super_globals
+                       //variable inside s3MVC_GetSuperGlobal(), before any other 
+                       //library, framework, etc. accesses or modifies any of them.
+                       //Subsequent calls to s3MVC_GetSuperGlobal(..) will return
+                       //the stored values.
+
+/**
+ * 
+ * This function stores a snapshot of the following super globals $_SERVER, $_GET,
+ * $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV and then returns the stored values
+ * on subsequent calls. (In the case of $_SESSION, a reference to it is kept so that
+ * modifying s3MVC_GetSuperGlobal('session') will also modify $_SESSION).
+ * 
+ * IT IS STRONGLY RECOMMENDED THAY YOU USE LIBRARIES LIKE aura/session 
+ * (https://github.com/auraphp/Aura.Session) TO WORK WITH $_SESSION.
+ * USING s3MVC_GetSuperGlobal('session') IS HIGHLY DISCOURAGED.
+ * 
+ * @param string $global_name the name (case-insensitive) of a any of the super 
+ *                            globals mentioned above (excluding the $_). For 
+ *                            example 'Post', 'pOst', etc.
+ *                            s3MVC_GetSuperGlobal('get') === s3MVC_GetSuperGlobal('gEt'), etc.
+ * 
+ * @param string $key a key in the specified super global. For example $_GET['id']
+ *                    is equivalent to s3MVC_GetSuperGlobal('get', 'id');
+ * 
+ * @param string $default_val the value to return if $key is not an actual key in
+ *                            the specified super global.
+ * 
+ * @return mixed Returns an array containing all values in the specified super 
+ *               global if $key and $default_val were not supplied. A value associated
+ *               with a specific key in the specified super global is returned or the
+ *               $default_val if the specific key is not found in the specified super 
+ *               global (this happens when $global_name and $key are supplied;
+ *               $default_val may be supplied too). If no parameters were supplied
+ *               an array with the following keys 
+ *              (`server`, `get`, `post`, `files`, `cookie`, `env` and `session`) 
+ *              is returned (the corresponding values will be the value of the 
+ *              super global associated with each key).
+ * 
+ */
+function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
+    
+    static $super_globals;
+    
+    if( !$super_globals ) {
+        
+        $super_globals = [];
+        $super_globals['server'] = isset($_SERVER)? $_SERVER : []; //copy
+        $super_globals['get'] = isset($_GET)? $_GET : []; //copy
+        $super_globals['post'] = isset($_POST)? $_POST : []; //copy
+        $super_globals['files'] = isset($_FILES)? $_FILES : []; //copy
+        $super_globals['cookie'] = isset($_COOKIE)? $_COOKIE : []; //copy
+        $super_globals['env'] = isset($_ENV)? $_ENV : []; //copy
+        
+        if(isset($_SESSION)) {
+            
+            $super_globals['session'] =& $_SESSION; //obtain a reference
+            
+        } else {
+            
+            $super_globals['session'] = [];
+        }
+    }
+    
+    if( empty($global_name) ) {
+        
+        //return everything
+        return $super_globals;
+    }
+    
+    //normalize the global name
+    $global_name = strtolower($global_name);
+    
+    if( strpos($global_name, '$_') === 0 ) {
+        
+        $global_name = substr($global_name, 2);
+    }
+    
+    if( empty($key) ) {
+        
+        //return everything for the specified global
+        return array_key_exists($global_name, $super_globals)
+                                    ? $super_globals[$global_name] : [];
+    }
+    
+    //return value of the specified key in the specified global or the default value
+    return array_key_exists($key, $super_globals[$global_name])
+                                ? $super_globals[$global_name][$key] : $default_val;
+}
+
 /**
  * 
  * This function detects which environment your web-app is running in 
@@ -18,7 +110,7 @@ define('APP_ENV_TESTING', 'testing');
  * 
  * @return string
  */
-function getCurrentAppEnvironment() {
+function s3MVC_GetCurrentAppEnvironment() {
     
     static $current_env;
     
@@ -30,11 +122,50 @@ function getCurrentAppEnvironment() {
     return $current_env;
 }
 
-function echo_with_pre($var) {
+/**
+ * 
+ * Returns the base path segment of the URI.
+ * It performs the same function as \Slim\Http\Uri::getBasePath()
+ * You are strongly advised to used this function instead of 
+ * \Slim\Http\Uri::getBasePath(), in order to ensure that your 
+ * app will be compatible with other PSR-7 implementations because
+ * \Slim\Http\Uri::getBasePath() is not a PSR-7 method.
+ * 
+ * @return string
+ */
+function s3MVC_GetBaseUrlPath() {
     
-    //this function is only for debugging purposes
-    if( is_array($var) ) { $var = print_r($var, true); } echo "<pre>$var</pre>";
+    static $server, $base_path, $has_been_computed;
+    
+    if( !$server ) {
+        
+        //copy / capture the super global only once
+        $server = s3MVC_GetSuperGlobal('server');
+    }
+    
+    if( !$base_path && !$has_been_computed ) {
+        
+        $base_path = '';
+        $has_been_computed = true;
+        $requestScriptName = parse_url($server['SCRIPT_NAME'], PHP_URL_PATH);
+        $requestScriptDir = dirname($requestScriptName);
+        $requestUri = parse_url($server['REQUEST_URI'], PHP_URL_PATH);
+        
+        if (stripos($requestUri, $requestScriptName) === 0) {
+
+            $base_path = $requestScriptName;
+
+        } elseif ($requestScriptDir !== '/' && stripos($requestUri, $requestScriptDir) === 0) {
+
+            $base_path = $requestScriptDir;
+        }
+    }
+    
+    return $base_path;
 }
+
+//this function is only for debugging purposes
+function echo_with_pre($v){ $v=(!is_string($v))?var_export($v, true):$v; echo "<pre>$v</pre>"; }
 
 $app = new Slim\App();
 $container = $app->getContainer();
@@ -62,74 +193,110 @@ $container['logger'] = function ($c) {
 //Override the default 500 System Error Handler
 $container['errorHandler'] = function ($c) {
     
-    return function ($request, $response, $exception) use ($c) {
+    return function (
+            \Psr\Http\Message\ServerRequestInterface $request, 
+            \Psr\Http\Message\ResponseInterface $response, 
+            \Exception $exception
+          ) use ($c) {
                 
         $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
         
-        $layout_content = 'Something went wrong!<br>'. $exception->getMessage();
-        $output_str = $layout_renderer->getAsString( 
+        $layout_content = 'Something went wrong!';
+        
+        if(s3MVC_GetCurrentAppEnvironment() !== APP_ENV_PRODUCTION) {
+            
+            //Append exception message if we are not in production.
+            $layout_content .= '<br>'.$exception->getMessage();
+        }
+        
+        $output_str = $layout_renderer->getAsString(
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
-        return $response->withStatus(500)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->getBody()
-                        ->write($output_str);
+        //log the error message
+        $c['logger']->error(str_replace('<br>', ': ',"HTTP 500: $layout_content")); 
+        
+        $new_response = $response->withStatus(500)
+                                 ->withHeader('Content-Type', 'text/html');
+        
+        $new_response->getBody()->write($output_str);
+        
+        return $new_response;
     };
 };
 
 //Override the default Not Found Handler
 $container['notFoundHandler'] = function ($c) {
     
-    return function ($request, $response) use ($c) {
-        
+    return function (
+                \Psr\Http\Message\ServerRequestInterface $request, 
+                \Psr\Http\Message\ResponseInterface $response
+            ) use ($c) {
+  
         $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
         
-        $layout_content = 
-            "Page not found: {$request->getUri()->getBaseUrl()}/{$request->getUri()->getPath()}";
+        $layout_content = "Page not found: ".$request->getUri()->__toString();
             
         $output_str = $layout_renderer->getAsString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
-        $c['logger']->notice($layout_content); //log the not found message
+        $c['logger']->notice("HTTP 404: $layout_content"); //log the not found message
         
-        return $response->withStatus(404)
-                        ->withHeader('Content-Type', 'text/html')
-                        ->getBody()
-                        ->write($output_str);
+        $new_response = $response->withStatus(404)
+                                 ->withHeader('Content-Type', 'text/html');
+        
+        $new_response->getBody()->write($output_str);
+      
+        return $new_response;
     };
 };
 
 //Override the default Not Allowed Handler
 $container['notAllowedHandler'] = function ($c) {
     
-    return function ($request, $response, $methods) use ($c) {
+    return function (
+                \Psr\Http\Message\ServerRequestInterface $request, 
+                \Psr\Http\Message\ResponseInterface $response, 
+                $methods
+            ) use ($c) {
         
         $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
         
-        $layout_content = 'Method must be one of: ' . implode(', ', $methods);
+        $_405_message1 = 'Http method `'. strtoupper($request->getMethod())
+                     . '` not allowed on the url `'.$request->getUri()->__toString() 
+                     . '` ';
+        $_405_message2 = 'HTTP Method must be one of: ' 
+                         . implode( ' or ', array_map(function($val){ return "`$val`";}, $methods) );
+        
+        $layout_content = "$_405_message1<br>$_405_message2";
         $output_str = $layout_renderer->getAsString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
-        return $response->withStatus(405)
-                        ->withHeader('Allow', implode(', ', $methods))
-                        ->withHeader('Content-type', 'text/html')
-                        ->getBody()
-                        ->write($output_str);
+        $log_message = "$_405_message1. $_405_message2";
+        
+        $c['logger']->notice("HTTP 405: $log_message"); //log the message
+        
+        $new_response = $response->withStatus(405)
+                                 ->withHeader('Allow', implode(', ', $methods))
+                                 ->withHeader('Content-Type', 'text/html');
+        
+        $new_response->getBody()->write($output_str);
+        
+        return $new_response;
     };
 };
 
@@ -156,7 +323,7 @@ $container['new_view_renderer'] = $container->factory(function ($c) {
 // End configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
 
-if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
+if( s3MVC_GetCurrentAppEnvironment() === APP_ENV_DEV ) {
     
     //configuration specific to the development environment
     
@@ -165,7 +332,7 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
     ////////////////////////////////////////////////////////////////////////////
     $container['aura_auth_factory'] = function ($c) {
         
-        return new \Aura\Auth\AuthFactory($_COOKIE);
+        return new \Aura\Auth\AuthFactory(s3MVC_GetSuperGlobal('cookie'));
     };
     
     $container['aura_auth_object'] = function ($c) {
@@ -226,23 +393,36 @@ if( getCurrentAppEnvironment() === APP_ENV_DEV ) {
 // End Dependency Injection Configuration
 ////////////////////////////////////////////////////////////////////////////////
 
-$app->map(['GET', 'POST'], '/', function ($request, $response, $args) {
-    
-    //TODO: Make default action configurable via the dependency injection container.
-    //Re-direct to default action
-    $redirect_path = $request->getUri()->getBasePath()."/base-controller/action-index";
-    return $response->withHeader('Location', $redirect_path);
-});
+//default route handler
+$app->map(
+            ['GET', 'POST'], 
+            '/', 
+            function (
+                \Psr\Http\Message\ServerRequestInterface $request, 
+                \Psr\Http\Message\ResponseInterface $response, 
+                $args
+            ) {
+                //TODO: Make default action configurable via 
+                //the dependency injection container.
+                //Re-direct to default action
+                $redirect_path = s3MVC_GetBaseUrlPath()
+                                ."/base-controller/action-index";
 
-$mvc_route_handler = function ($request, $response, $args) {
+                return $response->withHeader('Location', $redirect_path);
+            }
+        );
 
-    //ServerRequestInterface $request, ResponseInterface $response 
-    
+$mvc_route_handler = 
+function(
+    \Psr\Http\Message\ServerRequestInterface $request, 
+    \Psr\Http\Message\ResponseInterface $response, 
+    $args
+) {
     //NOTE: inside this function $this refers to $app. $app is automatically  
-    //      bound to this closure by the Slim 3 when $app->map is called.
+    //      bound to this closure by Slim 3 when $app->map is called.
     $container = $this->getContainer();
     $logger = $container->get('logger');
-    
+
     //Further enhancements:
     //Add an assoc array that contains allowed actions for a controller
     //$map = array('hello'=>'someothercontroller');
@@ -291,7 +471,8 @@ $mvc_route_handler = function ($request, $response, $args) {
             
         } else {
             
-            //404 not Found
+            //404 Not Found: Controller class not found.
+            $logger->notice("Class `{$controller_class_name}` does not exist.");
             $notFoundHandler = $container->get('notFoundHandler');
             return $notFoundHandler($request, $response);
         }
@@ -303,7 +484,8 @@ $mvc_route_handler = function ($request, $response, $args) {
     
     if( !method_exists($controller_object, $action_method) ) {
         
-        //trigger 404 not found
+        //404 Not Found: Action method does not exist in the controller object.
+        $logger->notice("The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
         $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);
     }
@@ -313,7 +495,9 @@ $mvc_route_handler = function ($request, $response, $args) {
     
     //execute the controller's action
     $action_result = call_user_func_array(array($controller_object, $action_method), $params);
-
+    
+    //If we got this far, that means that the action method was successfully 
+    //executed on the controller object.
     if( is_string($action_result) ) {
         
         $response->getBody()->write($action_result); //write the string in the response object as the response body
@@ -326,7 +510,8 @@ $mvc_route_handler = function ($request, $response, $args) {
     return $response;
 };
 
-$app->map(['GET', 'POST'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
-$app->map(['GET', 'POST'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
+//mvc routes
+$app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
+$app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
 
 $app->run();

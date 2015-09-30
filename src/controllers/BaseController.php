@@ -1,6 +1,9 @@
 <?php
 namespace Slim3Mvc\Controllers;
 
+use \Psr\Http\Message\ServerRequestInterface,
+    \Psr\Http\Message\ResponseInterface;
+
 /**
  * Description of BaseController
  *
@@ -39,7 +42,10 @@ class BaseController
         
     /**
      *
+     * The action section of the url. 
      * 
+     * Eg. http://localhost/slim3-skeleton-mvc-app/public/base-controller/action-index
+     * will result in $this->action_name_from_uri === 'action-index'
      * 
      * @var string 
      * 
@@ -48,7 +54,10 @@ class BaseController
     
     /**
      *
+     * The controller section of the url. 
      * 
+     * Eg. http://localhost/slim3-skeleton-mvc-app/public/base-controller/action-index
+     * will result in $this->controller_name_from_uri === 'base-controller'
      * 
      * @var string 
      * 
@@ -60,8 +69,8 @@ class BaseController
      * 
      * 
      * @param \Slim\App $app
-     * @param type $controller_name_from_uri
-     * @param type $action_name_from_uri
+     * @param string $controller_name_from_uri
+     * @param string $action_name_from_uri
      * 
      */
     public function __construct(\Slim\App $app, $controller_name_from_uri, $action_name_from_uri) {
@@ -81,82 +90,79 @@ class BaseController
     
     /**
      * 
+     * Executes a PHP file and returns its output as a string. This file is 
+     * supposed to contain the layout template of your site.
      * 
-     * 
-     * @param type $file_name
-     * @param array $data
-     * 
-     * @return type
+     * @param string $file_name name of the file (including extension eg. `read.php`) 
+     *                          containing valid php to be executed and returned as
+     *                          string.
+     * @param array $data an array of data to be passed to the layout file. Each
+     *                    key in this array is automatically converted to php
+     *                    variables accessible in the layout file. 
+     *                    Eg. passing ['content'=>'yabadabadoo'] to this method 
+     *                    will result in a variable named $content (with a 
+     *                    value of 'yabadabadoo') being available in the layout
+     *                    file (i.e. the file named $file_name).
+     * @return string
      * 
      */
-    public function getLayoutAsString( $file_name, array $data = [] ) {
+    public function renderLayout( $file_name, array $data = ['content'=>''] ) {
         
         return $this->layout_renderer->getAsString($file_name, $data);
     }
     
     /**
      * 
+     * Executes a PHP file and returns its output as a string. This file is 
+     * supposed to contain the output markup (usually html) for the current 
+     * controller action method being executed.
      * 
-     * 
-     * @param type $file_name
-     * @param array $data
-     * 
-     * @return type
+     * @param string $file_name name of the file (including extension eg. `read.php`) 
+     *                          containing valid php to be executed and returned as
+     *                          string.
+     * @param array $data an array of data to be passed to the view file. Each
+     *                    key in this array is automatically converted to php
+     *                    variables accessible in the view file. 
+     *                    Eg. passing ['content'=>'yabadabadoo'] to this method 
+     *                    will result in a variable named $content (with a 
+     *                    value of 'yabadabadoo') being available in the view
+     *                    file (i.e. the file named $file_name).
+     * @return string
      * 
      */
-    public function getViewAsString( $file_name, array $data = [] ) {
+    public function renderView( $file_name, array $data = [] ) {
 
         return $this->view_renderer->getAsString($file_name, $data);
     }
     
-    /**
-     * 
-     * 
-     * 
-     */
-    public function getBasePath() {
-        
-        return $this->app->getContainer()->get('request')->getUri()->getBasePath();
-    }
-    
     public function actionIndex() {
-                
+
         //get the contents of the view first
-        $view_str = $this->getViewAsString('index.php');
-        $layout_data = ['content'=>$view_str, 'request_obj'=>$this->app->request];
+        $view_str = $this->renderView('index.php');
         
-        return $this->getLayoutAsString( 'main-template.php', $layout_data );
+        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
-    
     
     public function actionDefaultTemplateContent() {
-        
-        //echo $name, ' ', $another_param;
-        
+
         //get the contents of the view first
-        $view_str = $this->getViewAsString('default-content.php');
-        $layout_data = ['content'=>$view_str, 'request_obj'=>$this->app->request];
+        $view_str = $this->renderView('default-content.php');
         
-        return $this->getLayoutAsString( 'main-template.php', $layout_data );
+        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
     
-    /**
-     * 
-     * 
-     * 
-     */
     public function actionLogin() {
-        
+
         $success_redirect_path = '';
         $using_default_redirect = false;
         $request_obj = $this->app->getContainer()->get('request');
         
         if( 
-            $request_obj->isGet() 
-            && array_key_exists('login_redirect_path', $_GET)
+            strtoupper($request_obj->getMethod()) === 'GET' 
+            && !empty(s3MVC_GetSuperGlobal('get', 'login_redirect_path'))
         ) {
-            //should sanitize the value from $_GET below 
-            $success_redirect_path = $_GET['login_redirect_path'];
+            //TODO: SANITIZATION: should sanitize the value from $_GET below 
+            $success_redirect_path = s3MVC_GetSuperGlobal('get', 'login_redirect_path');
         }
         
         if( empty($success_redirect_path) ) {
@@ -166,22 +172,21 @@ class BaseController
         }
         
         $data_4_login_view = [
-                            'controller_object'=>$this, 
-                            'redirect_path'=>$success_redirect_path,
+                            'controller_object'=>$this,
                             'error_message' => ''
                         ];
         
-        if( $request_obj->isGet() ) {
-            
+        if( strtoupper($request_obj->getMethod()) === 'GET' ) {
+
             //show login form
-            $view_str = $this->getViewAsString('login.php', $data_4_login_view);
-            return $this->getLayoutAsString('main-template.php', ['content'=>$view_str, 'request_obj'=>$request_obj]);
+            $view_str = $this->renderView('login.php', $data_4_login_view);
+            return $this->renderLayout('main-template.php', ['content'=>$view_str]);
             
         } else {
             
             //this is a POST request, process login
-            $username = $_POST['username'];//should sanitize this value
-            $password = $_POST['password'];//should sanitize this value
+            $username = s3MVC_GetSuperGlobal('post', 'username');//TODO: SANITIZATION: should sanitize this value
+            $password = s3MVC_GetSuperGlobal('post', 'password');//TODO: SANITIZATION: should sanitize this value
             
             $auth = $this->app->getContainer()->get('aura_auth_object');
             $login_service = $this->app->getContainer()->get('aura_login_service');
@@ -225,7 +230,7 @@ class BaseController
 
                 $msg = "Cound not connect to IMAP or LDAP server.";
                 $msg .= " This could be because the username or password was wrong,";
-                $msg .= " or because the the connect operation itself failed in some way. ";
+                $msg .= " or because the the connect operation itself failed in some way. <br>";
                 //$msg .= $e->getMessage();
                 //throw new \Exception();
 
@@ -233,7 +238,7 @@ class BaseController
 
                 $msg = "Cound not bind to LDAP server.";
                 $msg .= "This could be because the username or password was wrong,";
-                $msg .= " or because the the bind operation itself failed in some way. ";
+                $msg .= " or because the the bind operation itself failed in some way. <br>";
                 //$msg .= $e->getMessage();
                 //throw new \Exception();
 
@@ -254,21 +259,25 @@ class BaseController
                     $success_redirect_path .= '?login_status='. rawurlencode($msg);
                 }
                 
-                if( strpos($success_redirect_path, $this->getBasePath()) === false ) {
+                if( strpos($success_redirect_path, s3MVC_GetBaseUrlPath()) === false ) {
                     
+                    //prepend base path
                     $success_redirect_path = 
-                        $this->getBasePath().'/'.ltrim($success_redirect_path, '/');
+                        s3MVC_GetBaseUrlPath().'/'.ltrim($success_redirect_path, '/');
                 }
                 
                 //re-direct
-                return $this->app->getContainer()->get('response')->withHeader('Location', $success_redirect_path);
-                
+                return $this->app
+                            ->getContainer()
+                            ->get('response')
+                            ->withHeader('Location', $success_redirect_path);
             } else {
                 
                 //re-display login form with error messages
                 $data_4_login_view['error_message'] = $msg;
-                $view_str = $this->getViewAsString('login.php', $data_4_login_view);
-                return $this->getLayoutAsString('main-template.php', ['content'=>$view_str, 'request_obj'=>$request_obj]);
+                $view_str = $this->renderView('login.php', $data_4_login_view);
+                
+                return $this->renderLayout('main-template.php', ['content'=>$view_str]);
             }
         }
     }
@@ -300,12 +309,13 @@ class BaseController
 
         $msg .= nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
         
-        $redirect_path = $this->getBasePath()
+        $redirect_path = s3MVC_GetBaseUrlPath()
                         . "/{$this->controller_name_from_uri}/action-login-status"
                         . '?login_status='. rawurlencode($msg);
-        
         //re-direct
-        return $this->app->getContainer()->get('response')->withHeader('Location', $redirect_path);
+        return $this->app->getContainer()
+                         ->get('response')
+                         ->withHeader('Location', $redirect_path);
     }
     
     /**
@@ -318,21 +328,21 @@ class BaseController
         $msg = '';
         $request_obj = $this->app->getContainer()->get('request');
         
-        if( $request_obj->isGet() ) {
+        if( strtoupper($request_obj->getMethod()) === 'GET' ) {
         
-            //the status message was passed via get; should sanitize this value
-            $message_in_get = isset($_GET) && array_key_exists('login_status', $_GET);
-            $msg = ($message_in_get) ? $_GET['login_status'] : $msg;
+            //TODO: SANITIZATION: the status message was passed via get; should sanitize this value
+            $get_array = s3MVC_GetSuperGlobal('get');
+            $message_in_get = array_key_exists('login_status', $get_array);
+            $msg = ($message_in_get) ? $get_array['login_status'] : $msg;
             
         } else {
             
-            //the status message was passed via get; should sanitize this value
-            $message_in_post = isset($_POST) && array_key_exists('login_status', $_POST);
-            $msg = ($message_in_post) ? $_POST['login_status'] : $msg;
+            //TODO: SANITIZATION: the status message was passed via get; should sanitize this value
+            $msg = s3MVC_GetSuperGlobal('post', 'login_status');
         }
         
-        $view_str = $this->getViewAsString('login-status.php', ['message'=>$msg, 'is_logged_in'=>$is_logged_in, 'controller_object'=>$this]);
-        return $this->getLayoutAsString('main-template.php', ['content'=>$view_str, 'request_obj'=>$request_obj]);
+        $view_str = $this->renderView('login-status.php', ['message'=>$msg, 'is_logged_in'=>$is_logged_in, 'controller_object'=>$this]);
+        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
     }
     
     /**
@@ -341,7 +351,7 @@ class BaseController
      * 
      */
     public function actionCheckLoginStatus() {
-        
+
         $msg = '';
         $auth = $this->app->getContainer()->get('aura_auth_object');
         $resume_service = $this->app->getContainer()->get('aura_resume_service');
@@ -369,12 +379,44 @@ class BaseController
         $msg .= nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
         
         $redirect_path = 
-            $this->getBasePath()
-                 . "/{$this->controller_name_from_uri}/action-login-status"
-                 . ( $auth->isValid() ? '/1' : '')
-                 . '?login_status='. rawurlencode($msg);
+            s3MVC_GetBaseUrlPath()
+                . "/{$this->controller_name_from_uri}/action-login-status"
+                . ( $auth->isValid() ? '/1' : '')
+                . '?login_status='. rawurlencode($msg);
         
         //re-direct
         return $this->app->getContainer()->get('response')->withHeader('Location', $redirect_path);
+    }
+
+    /**
+     * 
+     * Force 404 notFound from within action methods in your controller.
+     * For example if a database record could not be retrieved, you can force a
+     * notFound response.
+     * 
+     * @param ServerRequestInterface $req a request object
+     * @param ResponseInterface $res a response object
+     * @param string $_404_page_content a string containing the html to display as the 404 page.
+     *                                  If this string contains a value other than the default value,
+     *                                  render it as the 404 page
+     * 
+     * @return ResponseInterface a response object with the 404 status and 
+     *                           appropriate body (eg the html showing the 404 message)
+     */
+    protected function notFound(ServerRequestInterface $req, ResponseInterface $res, $_404_page_content='Page Not Found') {
+        
+        $not_found_handler = $this->app->getContainer()->get('notFoundHandler');
+        
+        if( is_callable($not_found_handler) && $_404_page_content === 'Page Not Found') {
+            
+            return $not_found_handler($req, $res);    
+        } 
+        
+        //404 handler could not be retrieved from the container
+        //manually set the 404
+        $new_res = $res->withStatus(404);
+        $new_res->getBody()->write($_404_page_content);
+        
+        return $new_res;
     }
 }
