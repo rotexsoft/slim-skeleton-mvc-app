@@ -81,11 +81,11 @@ class BaseController
         $this->action_name_from_uri = $action_name_from_uri;
         $this->controller_name_from_uri = $controller_name_from_uri;
         
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../site-layout-templates';
         $this->layout_renderer = $this->app->getContainer()->get('new_layout_renderer');
         $this->layout_renderer->appendPath($path_2_layout_files);
         
-        $path_2_view_files = __DIR__.DIRECTORY_SEPARATOR.'../views-4-controller-actions/base';
+        $path_2_view_files = __DIR__.DIRECTORY_SEPARATOR.'../views/base';
         $this->view_renderer = $this->app->getContainer()->get('new_view_renderer');
         $this->view_renderer->appendPath($path_2_view_files);
     }

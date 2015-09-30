@@ -13,7 +13,7 @@ class Hello extends \Slim3Mvc\Controllers\BaseController
         
         //Prepend view folder for this controller. 
         //It takes precedence over the view folder for the base controller. 
-        $path_2_view_files = __DIR__.DIRECTORY_SEPARATOR.'../views-4-controller-actions/hello';
+        $path_2_view_files = __DIR__.DIRECTORY_SEPARATOR.'../views/hello';
         $this->view_renderer->prependPath($path_2_view_files);
     }
     

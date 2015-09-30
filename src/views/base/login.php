@@ -9,6 +9,6 @@
 
 <form action="<?php echo $login_path; ?>" method="post">
   User Name: <input type="text" name="username"><br><br>
-  Last name: <input type="password" name="password"><br><br>
+  Last name: <input type="password" name="password" autocomplete="off"><br><br>
   <input type="submit" value="Login">
 </form>

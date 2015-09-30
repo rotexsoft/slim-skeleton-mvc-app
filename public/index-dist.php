@@ -103,7 +103,7 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
  * This function detects which environment your web-app is running in 
  * (i.e. one of Production, Development, Staging or Testing).
  * 
- * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and the 
+ * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and then
  *       return one of APP_ENV_DEV, APP_ENV_PRODUCTION, APP_ENV_STAGING or 
  *       APP_ENV_TESTING relevant to the environment you are installing your 
  *       web-app.
@@ -126,7 +126,7 @@ function s3MVC_GetCurrentAppEnvironment() {
  * 
  * Returns the base path segment of the URI.
  * It performs the same function as \Slim\Http\Uri::getBasePath()
- * You are strongly advised to used this function instead of 
+ * You are strongly advised to use this function instead of 
  * \Slim\Http\Uri::getBasePath(), in order to ensure that your 
  * app will be compatible with other PSR-7 implementations because
  * \Slim\Http\Uri::getBasePath() is not a PSR-7 method.
@@ -199,7 +199,7 @@ $container['errorHandler'] = function ($c) {
             \Exception $exception
           ) use ($c) {
                 
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -237,7 +237,7 @@ $container['notFoundHandler'] = function ($c) {
                 \Psr\Http\Message\ResponseInterface $response
             ) use ($c) {
   
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -269,7 +269,7 @@ $container['notAllowedHandler'] = function ($c) {
                 $methods
             ) use ($c) {
         
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -393,24 +393,20 @@ if( s3MVC_GetCurrentAppEnvironment() === APP_ENV_DEV ) {
 // End Dependency Injection Configuration
 ////////////////////////////////////////////////////////////////////////////////
 
-//default route handler
-$app->map(
-            ['GET', 'POST'], 
-            '/', 
-            function (
-                \Psr\Http\Message\ServerRequestInterface $request, 
-                \Psr\Http\Message\ResponseInterface $response, 
-                $args
-            ) {
-                //TODO: Make default action configurable via 
-                //the dependency injection container.
-                //Re-direct to default action
-                $redirect_path = s3MVC_GetBaseUrlPath()
-                                ."/base-controller/action-index";
+$default_route_handler = 
+function (
+    \Psr\Http\Message\ServerRequestInterface $request, 
+    \Psr\Http\Message\ResponseInterface $response, 
+    $args
+) {
+    //TODO: Make default action configurable via 
+    //the dependency injection container.
+    //Re-direct to default action
+    $redirect_path = s3MVC_GetBaseUrlPath()
+                    ."/base-controller/action-index";
 
-                return $response->withHeader('Location', $redirect_path);
-            }
-        );
+    return $response->withHeader('Location', $redirect_path);
+};
 
 $mvc_route_handler = 
 function(
@@ -510,8 +506,36 @@ function(
     return $response;
 };
 
-//mvc routes
+$mvc_controller_only_route_handler =             
+function (
+    \Psr\Http\Message\ServerRequestInterface $request, 
+    \Psr\Http\Message\ResponseInterface $response, 
+    $args
+) {
+    //TODO: Make default action configurable via 
+    //the dependency injection container.
+    //Re-direct to default action
+    $redirect_path = s3MVC_GetBaseUrlPath()."/{$args['controller']}/action-index";
+
+    return $response->withHeader('Location', $redirect_path);
+};
+
+/////////////////////////////
+// Start: mvc routes
+/////////////////////////////
+
+//default route
+$app->map( ['GET', 'POST'], '/', $default_route_handler );
+
+//controller with no action and params route handler
+$app->map(['GET', 'POST'], '/{controller}[/]', $mvc_controller_only_route_handler);
+
+//controller with action and optional params route handler
 $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
 $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
+
+/////////////////////////////
+// End: mvc routes
+/////////////////////////////
 
 $app->run();
