@@ -516,7 +516,18 @@ function (
     //the dependency injection container.
     //Re-direct to default action
     $redirect_path = s3MVC_GetBaseUrlPath()."/{$args['controller']}/action-index";
+    $original_path = s3MVC_GetBaseUrlPath().'/'.$request->getUri()->getPath();
+    
+    $scheme = $request->getUri()->getScheme();
+    $authority = $request->getUri()->getAuthority();
+    $host = ($scheme ? $scheme . ':' : '') . ($authority ? '//' . $authority : '');
 
+    //log redirection
+    $log_msg = "ROUTE WITH ONLY CONTROLLER:"
+             . " Redirecting from `{$host}$original_path` to `{$host}$redirect_path` ";
+    
+    $this->getContainer()->get('logger')->notice($log_msg);
+    
     return $response->withHeader('Location', $redirect_path);
 };
 
