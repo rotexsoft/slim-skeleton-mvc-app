@@ -110,7 +110,7 @@ class BaseController
      */
     public function renderLayout( $file_name, array $data = ['content'=>''] ) {
         
-        return $this->layout_renderer->getAsString($file_name, $data);
+        return $this->layout_renderer->renderAsString($file_name, $data);
     }
     
     /**
@@ -134,7 +134,7 @@ class BaseController
      */
     public function renderView( $file_name, array $data = [] ) {
 
-        return $this->view_renderer->getAsString($file_name, $data);
+        return $this->view_renderer->renderAsString($file_name, $data);
     }
     
     public function actionIndex() {

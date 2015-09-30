@@ -212,7 +212,7 @@ $container['errorHandler'] = function ($c) {
             $layout_content .= '<br>'.$exception->getMessage();
         }
         
-        $output_str = $layout_renderer->getAsString(
+        $output_str = $layout_renderer->renderAsString(
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
@@ -244,7 +244,7 @@ $container['notFoundHandler'] = function ($c) {
         
         $layout_content = "Page not found: ".$request->getUri()->__toString();
             
-        $output_str = $layout_renderer->getAsString( 
+        $output_str = $layout_renderer->renderAsString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
@@ -281,7 +281,7 @@ $container['notAllowedHandler'] = function ($c) {
                          . implode( ' or ', array_map(function($val){ return "`$val`";}, $methods) );
         
         $layout_content = "$_405_message1<br>$_405_message2";
-        $output_str = $layout_renderer->getAsString( 
+        $output_str = $layout_renderer->renderAsString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );

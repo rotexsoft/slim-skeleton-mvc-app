@@ -18,21 +18,37 @@ class View
      */
     protected $possible_paths_to_file;
     
+    /**
+     * 
+     * @param array $possible_paths_to_file
+     */
     public function __construct( array $possible_paths_to_file ) {
         
         $this->possible_paths_to_file = $possible_paths_to_file;
     }
 
+    /**
+     * 
+     * @param string $path
+     */
     public function appendPath( $path ) {
         
         $this->possible_paths_to_file[] = $path;
     }
 
+    /**
+     * 
+     * @param string $path
+     */
     public function prependPath( $path ) {
         
         array_unshift($this->possible_paths_to_file, $path);
     }
     
+    /**
+     * 
+     * @param string $number_of_paths_2_remove
+     */
     public function removeFirstNPaths($number_of_paths_2_remove) {
         
         if( is_numeric($number_of_paths_2_remove) ) {
@@ -47,6 +63,10 @@ class View
         }
     }
     
+    /**
+     * 
+     * @param string $number_of_paths_2_remove
+     */
     public function removeLastNPaths($number_of_paths_2_remove) {
         
         if( is_numeric($number_of_paths_2_remove) ) {
@@ -61,7 +81,14 @@ class View
         }
     }
     
-    public function getAsString( $file_name, array $data = [] ) {
+    /**
+     * 
+     * @param string $file_name
+     * @param array $data
+     * @return string
+     * @throws \Slim3Mvc\OtherClasses\ViewFileNotFoundException
+     */
+    public function renderAsString( $file_name, array $data = [] ) {
         
         $ds = DIRECTORY_SEPARATOR;
         
