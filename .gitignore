@@ -37,3 +37,4 @@ logs/*
 
 /public/env.php
 /public/index.php
+/public/dependencies.php
