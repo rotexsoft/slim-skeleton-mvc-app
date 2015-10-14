@@ -67,7 +67,8 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
             
         } else {
             
-            $super_globals['session'] = [];
+            $_SESSION = [];
+            $super_globals['session'] =& $_SESSION; //obtain a reference
         }
     }
     

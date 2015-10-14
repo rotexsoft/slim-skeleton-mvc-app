@@ -16,11 +16,10 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
   > You should add dependencies to the dependency injection container in `/public/dependencies.php`
 
 * Change the permission on the **logs** folder. Make it writable by the web-server process. 
+* To setup an environment for your web-app, simply copy `/public/env-dist.php` to `/public/env.php` and edit `/public/env.php` to return one of **APP_ENV_DEV**, **APP_ENV_PRODUCTION**, **APP_ENV_STAGING** or **APP_ENV_TESTING** relevant to the environment you are installing your web-app.
 * Browse to the public folder via your browser (eg. `http://localhost/slim3-skeleton-mvc-app/public/`). You should see a default page. Note that `http://yourserver.com/slim3-skeleton-mvc-app/public/` should be changed to match your server setup.
 
 ## Configuration
-* To setup an environment for your web-app, simply copy /public/env-dist.php to /public/env.php and edit /public/env.php to return one of **APP_ENV_DEV**, **APP_ENV_PRODUCTION**, **APP_ENV_STAGING** or **APP_ENV_TESTING** relevant to the environment you are installing your web-app.
-
 * To use LDAP autehntication, you will need to update the values for the *$server*, *'basedn'*, *'bindpw'*, *'searchfilter'* and '*$dnformat*' in the *'aura_auth_adapter_object'* entry in the dependency injection container.
 > You can optionally change the default *'successful_login_callback'* callback.
 
