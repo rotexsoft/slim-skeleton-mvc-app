@@ -38,5 +38,6 @@ logs/*
 /public/env.php
 /public/index.php
 /public/dependencies.php
+/public/ini-settings.php
 
 !public/js/*/vendor

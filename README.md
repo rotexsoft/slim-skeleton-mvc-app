@@ -13,13 +13,17 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 
 * Copy `/public/index-dist.php` to `/public/index.php`
 
+* Copy `/public/ini-settings-dist.php` to `/public/ini-settings.php`
+
+  > You should override php ini settings via call(s) to `ini_set(..., ...)` in `/public/ini-settings.php`
+
 * Copy `/public/dependencies-dist.php` to `/public/dependencies.php`
 
   > You should add dependencies to the dependency injection container in `/public/dependencies.php`
 
 * Change the permission on the **logs** folder. Make it writable by the web-server process. 
 
-* To setup an environment for your web-app, simply copy `/public/env-dist.php` to `/public/env.php` and edit `/public/env.php` to return one of **APP_ENV_DEV**, **APP_ENV_PRODUCTION**, **APP_ENV_STAGING** or **APP_ENV_TESTING** relevant to the environment you are installing your web-app.
+* To setup an environment for your web-app, simply copy `/public/env-dist.php` to `/public/env.php` and edit `/public/env.php` to return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-app.
 
 * Browse to the public folder via your browser (eg. `http://localhost/slim3-skeleton-mvc-app/public/`). You should see a default page. Note that `http://yourserver.com/slim3-skeleton-mvc-app/public/` should be changed to match your server setup.
 

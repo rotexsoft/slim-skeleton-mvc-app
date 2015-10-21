@@ -1,14 +1,62 @@
 <?php
-    $login_path = 
-        s3MVC_GetBaseUrlPath() . "/{$controller_object->controller_name_from_uri}/action-login";
+    $login_path = s3MVC_GetBaseUrlPath() 
+                . "/{$controller_object->controller_name_from_uri}/action-login";
+    
+    $logout_action_path = s3MVC_GetBaseUrlPath()
+                        . "/{$controller_object->controller_name_from_uri}/action-logout";
+
 ?>
 
 <?php if( !empty($error_message) ): ?>
+
     <p style="background-color: orange;"><?php echo $error_message;  ?></p>
+    
 <?php endif; ?>
 
-<form action="<?php echo $login_path; ?>" method="post">
-  User Name: <input type="text" name="username"><br><br>
-  Last name: <input type="password" name="password" autocomplete="off"><br><br>
-  <input type="submit" value="Login">
-</form>
+<?php if( !$controller_object->isLoggedIn() ): ?>
+    
+    <form action="<?php echo $login_path; ?>" method="post">
+        
+        <div class="row">
+            <div class="large-6 columns">
+                <div class="row collapse prefix-radius">
+                    <div class="small-3 columns">
+                        <span class="prefix">User Name: </span>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="text" name="username" placeholder="User Name" value="<?php echo $username; ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-6 columns">
+                <div class="row collapse prefix-radius">
+                    <div class="small-3 columns">
+                        <span class="prefix">Password: </span>
+                    </div>
+                    <div class="small-9 columns">
+                        <input type="password" name="password" autocomplete="off" placeholder="Password" value="<?php echo $password; ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="large-6 columns push-4">
+                <input type="submit" value="Login" class="button radius">
+            </div>
+        </div>
+
+    </form>
+    
+<?php else: ?>
+    
+    <form action="<?php echo $logout_action_path; ?>" method="post">
+        
+      <input type="submit" value="Logout">
+      
+    </form>
+    
+<?php endif; //if( !$controller_object->isLoggedIn() ): ?>

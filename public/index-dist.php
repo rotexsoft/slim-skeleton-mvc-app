@@ -1,10 +1,10 @@
 <?php
 require '../vendor/autoload.php';
 
-define('APP_ENV_DEV', 'development');
-define('APP_ENV_PRODUCTION', 'production');
-define('APP_ENV_STAGING', 'staging');
-define('APP_ENV_TESTING', 'testing');
+define('S3MVC_APP_ENV_DEV', 'development');
+define('S3MVC_APP_ENV_PRODUCTION', 'production');
+define('S3MVC_APP_ENV_STAGING', 'staging');
+define('S3MVC_APP_ENV_TESTING', 'testing');
 
 s3MVC_GetSuperGlobal();//this method is first called here to ensure that $_SERVER 
                        //, $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are 
@@ -13,6 +13,10 @@ s3MVC_GetSuperGlobal();//this method is first called here to ensure that $_SERVE
                        //library, framework, etc. accesses or modifies any of them.
                        //Subsequent calls to s3MVC_GetSuperGlobal(..) will return
                        //the stored values.
+
+//handle ini settings
+require_once '.'. DIRECTORY_SEPARATOR .'ini-settings.php';
+
 /**
  * 
  * This function stores a snapshot of the following super globals $_SERVER, $_GET,
@@ -104,8 +108,8 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
  * (i.e. one of Production, Development, Staging or Testing).
  * 
  * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and then
- *       return one of APP_ENV_DEV, APP_ENV_PRODUCTION, APP_ENV_STAGING or 
- *       APP_ENV_TESTING relevant to the environment you are installing your 
+ *       return one of S3MVC_APP_ENV_DEV, S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or 
+ *       S3MVC_APP_ENV_TESTING relevant to the environment you are installing your 
  *       web-app.
  * 
  * @return string

@@ -33,7 +33,7 @@ $container['errorHandler'] = function ($c) {
         
         $layout_content = 'Something went wrong!';
         
-        if(s3MVC_GetCurrentAppEnvironment() !== APP_ENV_PRODUCTION) {
+        if(s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION) {
             
             //Append exception message if we are not in production.
             $layout_content .= '<br>'.$exception->getMessage();
@@ -150,7 +150,7 @@ $container['new_view_renderer'] = $container->factory(function ($c) {
 // End configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
 
-if( s3MVC_GetCurrentAppEnvironment() === APP_ENV_DEV ) {
+if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_DEV ) {
     
     //configuration specific to the development environment
     
