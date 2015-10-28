@@ -21,8 +21,11 @@ require_once '.'. DIRECTORY_SEPARATOR .'ini-settings.php';
  * 
  * This function stores a snapshot of the following super globals $_SERVER, $_GET,
  * $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV and then returns the stored values
- * on subsequent calls. (In the case of $_SESSION, a reference to it is kept so that
- * modifying s3MVC_GetSuperGlobal('session') will also modify $_SESSION).
+ * on subsequent calls. (In the case of $_SESSION, a reference to it is kept so 
+ * that modifying s3MVC_GetSuperGlobal('session') will also modify $_SESSION). 
+ * If a session has not been started s3MVC_GetSuperGlobal('session') will always
+ * return null, likewise s3MVC_GetSuperGlobal('session', 'some_key') will always
+ * return $default_val.
  * 
  * IT IS STRONGLY RECOMMENDED THAY YOU USE LIBRARIES LIKE aura/session 
  * (https://github.com/auraphp/Aura.Session) TO WORK WITH $_SESSION.
@@ -55,6 +58,8 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
     
     static $super_globals;
     
+    $is_session_started = (session_status() === PHP_SESSION_ACTIVE);
+    
     if( !$super_globals ) {
         
         $super_globals = [];
@@ -65,14 +70,13 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
         $super_globals['cookie'] = isset($_COOKIE)? $_COOKIE : []; //copy
         $super_globals['env'] = isset($_ENV)? $_ENV : []; //copy
         
-        if(isset($_SESSION)) {
+        if( $is_session_started ) {
             
             $super_globals['session'] =& $_SESSION; //obtain a reference
             
         } else {
             
-            $_SESSION = [];
-            $super_globals['session'] =& $_SESSION; //obtain a reference
+            $super_globals['session'] = null;
         }
     }
     
@@ -95,6 +99,12 @@ function s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='') {
         //return everything for the specified global
         return array_key_exists($global_name, $super_globals)
                                     ? $super_globals[$global_name] : [];
+    }
+    
+    if( !$is_session_started && $global_name === 'session' ) {
+        
+        //return the default value because $super_globals['session'] === null
+        return $default_val;
     }
     
     //return value of the specified key in the specified global or the default value
