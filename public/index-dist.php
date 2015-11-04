@@ -15,7 +15,7 @@ s3MVC_GetSuperGlobal();//this method is first called here to ensure that $_SERVE
                        //the stored values.
 
 //handle ini settings
-require_once '.'. DIRECTORY_SEPARATOR .'ini-settings.php';
+require_once __DIR__. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'config'. DIRECTORY_SEPARATOR.'ini-settings.php';
 
 /**
  * 
@@ -130,7 +130,7 @@ function s3MVC_GetCurrentAppEnvironment() {
     
     if(!$current_env) {
         
-        $current_env = include '.'.DIRECTORY_SEPARATOR.'env.php';
+        $current_env = include __DIR__. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'config'. DIRECTORY_SEPARATOR.'env.php';
     }
     
     return $current_env;
@@ -189,7 +189,7 @@ $container = $app->getContainer();
 //        Add objects to the dependency injection container
 ////////////////////////////////////////////////////////////////////////////////
 
-require_once '.'. DIRECTORY_SEPARATOR .'dependencies.php';
+require_once __DIR__. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'config'. DIRECTORY_SEPARATOR.'dependencies.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 // End Dependency Injection Configuration
@@ -225,8 +225,8 @@ function(
     //Add an assoc array that contains allowed actions for a controller
     //$map = array('hello'=>'someothercontroller');
     
-    $controller_class_name = \Slim3Mvc\OtherClasses\dashesToStudly($args['controller']);
-    $action_method = \Slim3Mvc\OtherClasses\dashesToCamel($args['action']);
+    $controller_class_name = \Slim3Mvc\dashesToStudly($args['controller']);
+    $action_method = \Slim3Mvc\dashesToCamel($args['action']);
     $parameters_str = array_key_exists('parameters', $args)? rtrim($args['parameters'], '/') : '';//strip trailing forward slash
     $params = empty($parameters_str)? [] : explode('/', $parameters_str);//convert to array of parameters
 
@@ -240,7 +240,7 @@ function(
         //Make sure the controller name is a valid string usable as a class name
         //in php as defined in http://php.net/manual/en/language.oop5.basic.php
         //trigger 404 not found
-        $logger->notice("Bad controller name `{$controller_class_name}`");
+        $logger->notice("`".__FILE__."` on line ".__LINE__.": Bad controller name `{$controller_class_name}`");
         $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);//invoke the not found handler
     }
@@ -253,22 +253,28 @@ function(
         //Make sure the controller name is a valid string usable as a class name
         //in php as defined in http://php.net/manual/en/language.oop5.basic.php
         //trigger 404 not found
-        $logger->notice("Bad action name `{$action_method}`.");
+        $logger->notice("`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`.");
         $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);//invoke the not found handler
     }
     
     if( !class_exists($controller_class_name) ) {
         
-        $namespace_4_controllers = $container->get('namespace_for_controllers');
+        $namespaces_4_controllers = $container->get('namespaces_for_controllers');
         
         //try to prepend name space
-        if( class_exists($namespace_4_controllers.$controller_class_name) ) {
+        foreach($namespaces_4_controllers as $namespace_4_controllers) {
             
-            $controller_class_name = $namespace_4_controllers.$controller_class_name;
-            
-        } else {
-            
+            if( class_exists($namespace_4_controllers.$controller_class_name) ) {
+                
+                $controller_class_name = $namespace_4_controllers.$controller_class_name;
+                break;
+            }
+        }
+        
+        //class still doesn't exist
+        if( !class_exists($controller_class_name) ) {
+                        
             //404 Not Found: Controller class not found.
             $logger->notice("Class `{$controller_class_name}` does not exist.");
             $notFoundHandler = $container->get('notFoundHandler');
@@ -283,7 +289,7 @@ function(
     if( !method_exists($controller_object, $action_method) ) {
         
         //404 Not Found: Action method does not exist in the controller object.
-        $logger->notice("The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
+        $logger->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
         $notFoundHandler = $container->get('notFoundHandler');
         return $notFoundHandler($request, $response);
     }
@@ -325,13 +331,24 @@ function (
     $host = ($scheme ? $scheme . ':' : '') . ($authority ? '//' . $authority : '');
 
     //log redirection
-    $log_msg = "ROUTE WITH ONLY CONTROLLER REDIRECTING TO USE DEFAULT ACTION:"
+    $log_msg = "`".__FILE__."` on line ".__LINE__
+             .": ROUTE WITH ONLY CONTROLLER REDIRECTING TO USE DEFAULT ACTION:"
              . " Redirecting from `{$host}$original_path` to `{$host}$redirect_path` ";
     
     $this->getContainer()->get('logger')->notice($log_msg);
     
     return $response->withHeader('Location', $redirect_path);
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Start: Load app specific routes
+////////////////////////////////////////////////////////////////////////////////
+
+require_once __DIR__. DIRECTORY_SEPARATOR.'..'. DIRECTORY_SEPARATOR.'config'. DIRECTORY_SEPARATOR.'routes.php';
+
+////////////////////////////////////////////////////////////////////////////////
+// End: Load app specific routes
+////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////
 // Start: mvc routes

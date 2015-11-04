@@ -1,5 +1,5 @@
 <?php
-namespace Slim3Mvc\OtherClasses;
+namespace Slim3Mvc;
 
 /**
  * 
@@ -86,7 +86,7 @@ class View
      * @param string $file_name
      * @param array $data
      * @return string
-     * @throws \Slim3Mvc\OtherClasses\ViewFileNotFoundException
+     * @throws \Slim3Mvc\ViewFileNotFoundException
      */
     public function renderAsString( $file_name, array $data = [] ) {
         

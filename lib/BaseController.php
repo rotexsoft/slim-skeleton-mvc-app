@@ -1,5 +1,5 @@
 <?php
-namespace Slim3Mvc\Controllers;
+namespace Slim3Mvc;
 
 use \Psr\Http\Message\ServerRequestInterface,
     \Psr\Http\Message\ResponseInterface;
@@ -28,7 +28,7 @@ class BaseController
      * 
      * View object for rendering layout files. 
      *
-     * @var \Slim3Mvc\OtherClasses\View
+     * @var \Slim3Mvc\View
      *  
      */
     protected $layout_renderer;
@@ -37,7 +37,7 @@ class BaseController
      * 
      * View object for rendering view files associated with controller actions. 
      *
-     * @var \Slim3Mvc\OtherClasses\View
+     * @var \Slim3Mvc\View
      *  
      */
     protected $view_renderer;
@@ -84,7 +84,6 @@ class BaseController
     //////////////////////////////////
     // Get and Post Parameter keys
     //////////////////////////////////
-    const GET_POST_PARAM_LOGIN_STATUS = 'login_status';
     
     /**
      * 
@@ -103,11 +102,11 @@ class BaseController
         
         $ds = DIRECTORY_SEPARATOR;
         
-        $path_2_layout_files = __DIR__."{$ds}..{$ds}site-layout-templates";
+        $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}site-layout-templates";
         $this->layout_renderer = $this->app->getContainer()->get('new_layout_renderer');
         $this->layout_renderer->appendPath($path_2_layout_files);
         
-        $path_2_view_files = __DIR__."{$ds}..{$ds}views{$ds}base";
+        $path_2_view_files = __DIR__."{$ds}..{$ds}src{$ds}views{$ds}base";
         $this->view_renderer = $this->app->getContainer()->get('new_view_renderer');
         $this->view_renderer->appendPath($path_2_view_files);
         
@@ -293,19 +292,10 @@ class BaseController
             
             if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_DEV ) {
                 
-                $msg .= '<br>'.nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
+                $msg .= '<br>'.nl2br(\Slim3Mvc\dumpAuthinfo($auth));
             }
 
             if( $loggedin_successfully ) {
-                                
-                //redirect to desired or default destination
-                if($using_default_redirect) {
-                    
-                    $success_redirect_path .= '/1'; //will lead to
-                                                    //$this->actionLoginStatus('1')
-                    $param_key = static::GET_POST_PARAM_LOGIN_STATUS;
-                    $success_redirect_path .= "?{$param_key}=". rawurlencode($msg);
-                }
                 
                 if( strpos($success_redirect_path, s3MVC_GetBaseUrlPath()) === false ) {
                     
@@ -343,41 +333,15 @@ class BaseController
      */
     public function actionLogout($show_status_on_completion = false) {
         
-        $msg = '';
         $auth = $this->app->getContainer()->get('aura_auth_object');
         $logout_service = $this->app->getContainer()->get('aura_logout_service');
         $logout_service->logout($auth);
-
-        if ($auth->isAnon()) {
-
-            $msg = "You are now logged out.";
-
-        } else if ($auth->isValid()) {
-
-            $msg = "Something went wrong; you are still logged in.";
-            
-        } else {
-            
-            $msg = "Something went wrong; but you are not logged in.";
-        }
-
-        if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_DEV ) {
-
-            $msg .= '<br>'.nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
-        }
-        
-        $param_key = static::GET_POST_PARAM_LOGIN_STATUS;
-        
+                
         $actn = ($show_status_on_completion) ? 'action-login-status' : 'action-login';
         
         $redirect_path = 
             s3MVC_GetBaseUrlPath() . "/{$this->controller_name_from_uri}/{$actn}";
-              
-        if( $show_status_on_completion ) {
-            
-            $redirect_path .= "?{$param_key}=". rawurlencode($msg);
-        }
-        
+ 
         //re-direct
         return $this->app->getContainer()
                          ->get('response')
@@ -389,53 +353,31 @@ class BaseController
      * 
      * 
      */
-    public function actionLoginStatus($is_logged_in=false) {
+    public function actionLoginStatus() {
 
         $msg = '';
-        $request_obj = $this->app->getContainer()->get('request');
-        
-        if( strtoupper($request_obj->getMethod()) === 'GET' ) {
-        
-            //TODO: SANITIZATION: the status message was passed via get; should sanitize this value
-            $get_array = s3MVC_GetSuperGlobal('get');
-            $param_key = static::GET_POST_PARAM_LOGIN_STATUS;
-            $message_in_get = array_key_exists($param_key, $get_array);
-            $msg = ($message_in_get) ? $get_array[$param_key] : $msg;
             
-        } else {
-            
-            //TODO: SANITIZATION: the status message was passed via post; should sanitize this value
-            $msg = s3MVC_GetSuperGlobal('post', static::GET_POST_PARAM_LOGIN_STATUS );
-        }
-        
-        $view_str = $this->renderView('login-status.php', ['message'=>$msg, 'is_logged_in'=>$is_logged_in, 'controller_object'=>$this]);
-        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
-    }
-    
-    /**
-     * 
-     * 
-     * 
-     */
-    public function actionCheckLoginStatus() {
-
-        $msg = '';
+        //Just get the current login status
         $auth = $this->app->getContainer()->get('aura_auth_object');
 
         switch (true) {
-            
+
             case $auth->isAnon():
                 $msg = "You are not logged in.";
                 break;
+            
             case $auth->isIdle():
                 $msg = "Your session was idle for too long. Please log in again.";
                 break;
+            
             case $auth->isExpired():
                 $msg = "Your session has expired. Please log in again.";
                 break;
+            
             case $auth->isValid():
                 $msg = "You are still logged in.";
                 break;
+            
             default:
                 $msg =  "You have an unknown status.";
                 break;
@@ -443,19 +385,11 @@ class BaseController
 
         if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_DEV ) {
 
-            $msg .= '<br>'.nl2br(\Slim3Mvc\OtherClasses\dumpAuthinfo($auth));
+            $msg .= '<br>'.nl2br(\Slim3Mvc\dumpAuthinfo($auth));
         }
-        
-        $param_key = static::GET_POST_PARAM_LOGIN_STATUS;
-        $redirect_path = 
-            s3MVC_GetBaseUrlPath()
-                . "/{$this->controller_name_from_uri}/action-login-status"
-                . ( $auth->isValid() ? '/1' : '')
-                . "?{$param_key}=". rawurlencode($msg);
-        
-        //re-direct
-        return $this->app->getContainer()
-                         ->get('response')->withHeader('Location', $redirect_path);
+
+        $view_str = $this->renderView('login-status.php', ['message'=>$msg, 'is_logged_in'=>$this->isLoggedIn(), 'controller_object'=>$this]);
+        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
     }
 
     /**
@@ -484,17 +418,15 @@ class BaseController
         
         //404 handler could not be retrieved from the container
         //manually set the 404
-        $new_res = $res->withStatus(404);
-        $new_res->getBody()->write($_404_page_content);
+        $not_found_response = $res->withStatus(404);
+        $not_found_response->getBody()->write($_404_page_content);
         
-        return $new_res;
+        return $not_found_response;
     }
     
     public function isLoggedIn() {
         
-        $auth = $this->app->getContainer()->get('aura_auth_object');
-//echo_with_pre($this->app->getContainer()->get('aura_resume_service') === $this->app->getContainer()->get('aura_resume_service'));exit;
-        return ($auth->isValid() === true);
+        return ($this->app->getContainer()->get('aura_auth_object')->isValid() === true);
     }
     
     /**
@@ -502,8 +434,9 @@ class BaseController
      * Return a response object (an instance of \Psr\Http\Message\ResponseInterface)
      * if the user is not logged in (The url the user is currently accessing will be
      * stored in $_SESSION with the key `static::SESSN_PARAM_LOGIN_REDIRECT`. Upon
-     * a successful login, the user will be redirected to the current url in
-     * $this->actionLogin(). 
+     * a successful login, the user will be redirected back to the current url in
+     * $this->actionLogin().
+     * 
      * False is returned if the user is logged in and there is no need to redirect to 
      * the login page. 
      * 

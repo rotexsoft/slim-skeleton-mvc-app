@@ -4,7 +4,6 @@
     "require": {
         "php": ">=5.5.0",
         "slim/slim": "^3.0",
-        "rotexsoft/leanorm": "dev-master",
         "cfs/authenticator": "^1.0",
         "katzgrau/klogger": "dev-master"
     },
@@ -14,7 +13,15 @@
         "digitalnature/php-ref": "^1.0"
     },
     "autoload": {
-        "classmap": [ "src/", "tests/", "vendor/slim/" ],
-        "files": ["src/other-classes/helper-functions.php"]
+        "classmap": [ "src/", "tests/", "vendor/slim/", "lib/" ],
+        "files": ["lib/helper-functions.php"]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php ./s3mvc-tools/post-composer-install.php"
+        ]
+    },
+    "suggest": {
+        "rotexsoft/leanorm": "An efficient light-weight ORM for database access. See http://rotexsoft.github.io/leanorm/"
     }
 }

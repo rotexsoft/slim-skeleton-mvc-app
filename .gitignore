@@ -35,9 +35,10 @@ phpunit.xml
 logs/*
 !logs/.htaccess
 
-/public/env.php
+/config/env.php
 /public/index.php
-/public/dependencies.php
-/public/ini-settings.php
+/config/routes.php
+/config/dependencies.php
+/config/ini-settings.php
 
 !public/js/*/vendor

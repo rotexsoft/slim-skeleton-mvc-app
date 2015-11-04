@@ -3,7 +3,7 @@
                 . "/{$controller_object->controller_name_from_uri}/action-login";
     
     $logout_action_path = s3MVC_GetBaseUrlPath()
-                        . "/{$controller_object->controller_name_from_uri}/action-logout";
+                        . "/{$controller_object->controller_name_from_uri}/action-logout/1";
 
 ?>
 

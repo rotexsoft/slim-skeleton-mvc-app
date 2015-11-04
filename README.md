@@ -15,11 +15,9 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 
 * Copy `/public/ini-settings-dist.php` to `/public/ini-settings.php`
 
-  > You should override php ini settings via call(s) to `ini_set(..., ...)` in `/public/ini-settings.php`
+  > You should override php ini settings via call(s) to `ini_set(..., ...)` in `/config/ini-settings.php`
 
-* Copy `/public/dependencies-dist.php` to `/public/dependencies.php`
-
-  > You should add dependencies to the dependency injection container in `/public/dependencies.php`
+* You should add dependencies to the dependency injection container in `/config/dependencies.php`
 
 * Change the permission on the **logs** folder. Make it writable by the web-server process. 
 
@@ -59,11 +57,9 @@ injected into it via $response->getBody()->write($data) );
 ## Documentation for Components Used
 * SlimPHP 3 http://www.slimframework.com/docs/
 
-* Logger https://github.com/katzgrau/KLogger
+* Logger https://github.com/katzgrau/KLogger (a PSR-3 compliant logger)
 
 * Authentication https://bitbucket.org/cfsweb/cfs-authenticator
-
-* Database ORM package http://rotexsoft.github.io/leanorm/
 
 * See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works.
 
