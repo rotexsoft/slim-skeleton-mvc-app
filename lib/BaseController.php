@@ -46,8 +46,13 @@ class BaseController
      *
      * The action section of the url. 
      * 
+     * It should be set to an empty string if the action was not specified via the url
+     * 
      * Eg. http://localhost/slim3-skeleton-mvc-app/public/base-controller/action-index
      * will result in $this->action_name_from_uri === 'action-index'
+     * 
+     * http://localhost/slim3-skeleton-mvc-app/public/base-controller/
+     * will result in $this->action_name_from_uri === ''
      * 
      * @var string 
      * 
@@ -56,10 +61,15 @@ class BaseController
     
     /**
      *
-     * The controller section of the url. 
+     * The controller section of the url.
+     * 
+     * It should be set to an empty string if the controller was not specified via the url
      * 
      * Eg. http://localhost/slim3-skeleton-mvc-app/public/base-controller/action-index
      * will result in $this->controller_name_from_uri === 'base-controller'
+     * 
+     * http://localhost/slim3-skeleton-mvc-app/public/
+     * will result in $this->controller_name_from_uri === ''
      * 
      * @var string 
      * 
@@ -164,7 +174,7 @@ class BaseController
     }
     
     public function actionIndex() {
-
+s3MVC_dump_var($this->app->getContainer()->keys());exit;
         //get the contents of the view first
         $view_str = $this->renderView('index.php');
         
@@ -196,14 +206,22 @@ class BaseController
         if( empty($success_redirect_path) ) {
             
             $using_default_redirect = true;
-            $success_redirect_path = "{$this->controller_name_from_uri}/action-login-status";
+            
+            $controller = $this->controller_name_from_uri;
+            
+            if( empty($controller) ) {
+                
+                $controller = 'base-controller';
+            }
+            
+            $success_redirect_path = "{$controller}/action-login-status";
         }
         
         $data_4_login_view = [
                             'controller_object'=>$this,
                             'error_message' => '',
                             'username' => '',
-                            'password' => ''
+                            'password' => '',
                         ];
         
         if( strtoupper($request_obj->getMethod()) === 'GET' ) {
@@ -339,8 +357,14 @@ class BaseController
                 
         $actn = ($show_status_on_completion) ? 'action-login-status' : 'action-login';
         
-        $redirect_path = 
-            s3MVC_GetBaseUrlPath() . "/{$this->controller_name_from_uri}/{$actn}";
+        $controller = $this->controller_name_from_uri;
+
+        if( empty($controller) ) {
+
+            $controller = 'base-controller';
+        }
+        
+        $redirect_path = s3MVC_GetBaseUrlPath() . "/{$controller}/{$actn}";
  
         //re-direct
         return $this->app->getContainer()
@@ -457,9 +481,14 @@ class BaseController
             $current_url = 
                     $path . ($query ? '?'.$query :'') . ($frag ? '#'.$frag :'');
             
-            $redirect_path = 
-                s3MVC_GetBaseUrlPath()
-                    . "/{$this->controller_name_from_uri}/action-login";
+            $controller = $this->controller_name_from_uri;
+
+            if( empty($controller) ) {
+
+                $controller = 'base-controller';
+            }
+            
+            $redr_path = s3MVC_GetBaseUrlPath() . "/{$controller}/action-login";
                     
             if( session_status() !== PHP_SESSION_ACTIVE ) {
                 
@@ -472,7 +501,7 @@ class BaseController
 
             return $this->app->getContainer()
                              ->get('response')
-                             ->withHeader('Location', $redirect_path);
+                             ->withHeader('Location', $redr_path);
         }
         
         return false;

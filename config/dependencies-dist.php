@@ -1,5 +1,4 @@
 <?php
-
 //dependencies
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +40,7 @@ $container['errorHandler'] = function ($c) {
         if(s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION) {
             
             //Append exception message if we are not in production.
-            $layout_content .= '<br>'.$exception_info;
+            $layout_content .= '<br>'.nl2br($exception_info);
         }
         
         $output_str = $layout_renderer->renderAsString(
@@ -136,6 +135,18 @@ $container['notAllowedHandler'] = function ($c) {
 //as is, if your controllers are in the default global namespace.
 //Make sure you add the trailing slashes.
 $container['namespaces_for_controllers'] = ['\\Slim3Mvc\\'];
+
+//the `default_controller_class_name` is used to create a controller object to 
+//handle the default / route. Must be prefixed with the name-space if 
+//the controller class is in a namespace
+$container['default_controller_class_name'] = '\Slim3Mvc\BaseController';
+
+//the `default_action_name` is the name of the action / method to be 
+//called on the default controller to handle the default / route.
+//This method should return a response string (ie. valid html) or a PSR 7
+//response object containing valid html in its body.
+//This default action / method should accept no arguments / parameters.
+$container['default_action_name'] = 'actionIndex';
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function ($c) {

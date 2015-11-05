@@ -11,6 +11,8 @@ It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 
   > `composer install`
 
+* You may need to modify the `RewriteBase` directive in the `.htaccess` file, if you are using aliases in your apache web server and are getting 404 errors
+
 * Copy `/public/index-dist.php` to `/public/index.php`
 
 * Copy `/public/ini-settings-dist.php` to `/public/ini-settings.php`
