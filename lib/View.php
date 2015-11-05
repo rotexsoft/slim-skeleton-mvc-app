@@ -20,6 +20,20 @@ class View
     
     /**
      * 
+     * For use ONLY in $this->renderAsString(..)
+     * 
+     * To avoid confilict when extract($data) is called in $this->renderAsString(..)
+     * Referencing $this->found_path rather than $found_path inside 
+     * $this->renderAsString(..) allows for the existence of $data['found_path'] 
+     * which will be extracted to $found_path.
+     * 
+     * @var string
+     */
+    protected $found_path = '';
+
+
+    /**
+     * 
      * @param array $possible_paths_to_file
      */
     public function __construct( array $possible_paths_to_file ) {
@@ -83,27 +97,28 @@ class View
     
     /**
      * 
+     * WARNING $data CANNOT CONTAIN $data['this']. It will be unset by this 
+     * method in order to prevent overwritting $this.
+     * 
      * @param string $file_name
      * @param array $data
      * @return string
      * @throws \Slim3Mvc\ViewFileNotFoundException
      */
     public function renderAsString( $file_name, array $data = [] ) {
-        
-        $ds = DIRECTORY_SEPARATOR;
-        
-        $found_path = '';
+
+        $this->found_path = '';
         
         foreach ($this->possible_paths_to_file as $possible_path) {
             
-            if( file_exists( rtrim($possible_path, $ds ) . $ds . $file_name ) ) {
+            if( file_exists( rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name ) ) {
                 
-                $found_path = rtrim($possible_path, $ds ) . $ds . $file_name;
+                $this->found_path = rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name;
                 break;
             }
         }
         
-        if( empty($found_path) ) {
+        if( empty($this->found_path) ) {
             
             //the file does not exist in any of the possible paths supplied
             $msg = "ERROR: Could not load the file named `$file_name` "
@@ -115,11 +130,15 @@ class View
             throw new ViewFileNotFoundException($msg);
         }
         
+        
+        // prevent overwriting $this
+        unset($data['this']);
+        
         extract($data);
         ob_start();
         
-        require $found_path;
-        
+        require $this->found_path;
+       
         return ob_get_clean();
     }
 }
