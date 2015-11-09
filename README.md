@@ -4,6 +4,12 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 
 It introduces the Model-View-Controller structure to a SlimPHP3 web-application.
 
+## Requirements
+
+* PHP 5.5+
+* Pdo sqlite (3) extension for Authentication in non-production environments
+* Ldap extension
+
 ## Installation
 * Clone or download source files from https://github.com/rotexsoft/slim3-skeleton-mvc-app
 
@@ -64,6 +70,12 @@ injected into it via $response->getBody()->write($data) );
 * Authentication https://bitbucket.org/cfsweb/cfs-authenticator
 
 * See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works.
+
+## References
+* https://getcomposer.org/doc/articles/scripts.md
+* https://devedge.wordpress.com/2014/11/05/building-better-project-skeletons-with-composer-2/
+* http://www.binpress.com/tutorial/better-project-skeletons-with-composer/157
+
 
 ## SlimPHP 3's Implementation of PSR-7
 
