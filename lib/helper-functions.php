@@ -140,7 +140,7 @@ namespace Slim3Mvc {
              . 'Logged in User\'s Data: ' . PHP_EOL . print_r($auth->getUserData(), true);
     }
 
-    function color_for_console(
+    function color_4_console(
         $string, $foreground_color = null, $background_color = null
     ) {
         $foreground_colors = array();
