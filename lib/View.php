@@ -5,45 +5,52 @@ namespace Slim3Mvc;
  * 
  * Class for rendereing the contents of a php file.
  *
- * @author aadegbam
+ * @author Rotimi Adegbamigbe
+ * 
  */
 class View
 {
     /**
      * 
-     * Path(s) to folder(s) containing (*.php) files to be rendered via this class.
+     * Path(s) to directorie(s) containing (*.php) files to be rendered via this class.
      *
      * @var string|array
      *  
      */
     protected $possible_paths_to_file;
-    
-    /**
-     * 
-     * For use ONLY in $this->renderAsString(..)
-     * 
-     * To avoid confilict when extract($data) is called in $this->renderAsString(..)
-     * Referencing $this->found_path rather than $found_path inside 
-     * $this->renderAsString(..) allows for the existence of $data['found_path'] 
-     * which will be extracted to $found_path.
-     * 
-     * @var string
-     */
-    protected $found_path = '';
-
 
     /**
      * 
-     * @param array $possible_paths_to_file
+     * @param array $file_paths An array of path(s) to directorie(s) containing 
+     *                          (*.php) files to be rendered via this class.
+     * 
      */
-    public function __construct( array $possible_paths_to_file ) {
+    public function __construct( array $file_paths ) {
         
-        $this->possible_paths_to_file = $possible_paths_to_file;
+        $this->possible_paths_to_file = $file_paths;
     }
 
     /**
      * 
+     * Returns the value of the `possible_paths_to_file` property of an instance
+     * of this class.
+     * 
+     * @return array the array of path(s) to directorie(s) containing (*.php) 
+     *               files to be rendered via this class.
+     * 
+     */
+    public function getPossiblePathsToFile() {
+        
+        return $this->possible_paths_to_file;
+    }
+    
+    /**
+     * 
+     * Add a path as the last element of the array of path(s) to directorie(s) 
+     * containing (*.php) files to be rendered via this class.
+     * 
      * @param string $path
+     * 
      */
     public function appendPath( $path ) {
         
@@ -52,7 +59,11 @@ class View
 
     /**
      * 
+     * Add a path as the first element of the array of path(s) to directorie(s) 
+     * containing (*.php) files to be rendered via this class.
+     * 
      * @param string $path
+     * 
      */
     public function prependPath( $path ) {
         
@@ -61,7 +72,11 @@ class View
     
     /**
      * 
+     * Removes the first `n` elements in the array of path(s) to directorie(s) 
+     * containing (*.php) files to be rendered via this class.
+     * 
      * @param string $number_of_paths_2_remove
+     * 
      */
     public function removeFirstNPaths($number_of_paths_2_remove) {
         
@@ -79,7 +94,11 @@ class View
     
     /**
      * 
+     * Removes the last `n` elements in the array of path(s) to directorie(s) 
+     * containing (*.php) files to be rendered via this class.
+     * 
      * @param string $number_of_paths_2_remove
+     * 
      */
     public function removeLastNPaths($number_of_paths_2_remove) {
         
@@ -97,49 +116,82 @@ class View
     
     /**
      * 
-     * WARNING $data CANNOT CONTAIN $data['this']. It will be unset by this 
-     * method in order to prevent overwritting $this.
+	 * Captures and returns the output that is generated when a php file is included. 
      * 
-     * @param string $file_name
-     * @param array $data
-     * @return string
+     * @param string $file_name Name of php file to be included (with or without
+     *                          the directory path). If the directory path is not 
+     *                          included the file will be searched for in the list 
+     *                          of directories registered in $this->possible_paths_to_file
+     * 
+     * @param array $data Array of data to be extracted to make local variables.
+     * 
+     * 
+     * @return string the output that is generated when $file_name is included
+     * 
      * @throws \Slim3Mvc\ViewFileNotFoundException
+     * 
      */
     public function renderAsString( $file_name, array $data = [] ) {
 
-        $this->found_path = '';
+        $found_path = '';
         
         foreach ($this->possible_paths_to_file as $possible_path) {
             
             if( file_exists( rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name ) ) {
                 
-                $this->found_path = rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name;
+                $found_path = rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name;
                 break;
             }
         }
         
-        if( empty($this->found_path) ) {
+        if( empty($found_path) ) {
             
-            //the file does not exist in any of the possible paths supplied
+            //the file does not exist in any of the registered possible paths
             $msg = "ERROR: Could not load the file named `$file_name` "
-                    . "from any of the paths below:"
-                    . PHP_EOL . implode(PHP_EOL, $this->possible_paths_to_file) . PHP_EOL
-                    . PHP_EOL . get_class($this) . '::' . __FUNCTION__ . '(...).' 
-                    . PHP_EOL;
+                . "from any of the paths below:"
+                . PHP_EOL . implode(PHP_EOL, $this->possible_paths_to_file) . PHP_EOL
+                . PHP_EOL . get_class($this) . '::' . __FUNCTION__ . '(...).' 
+                . PHP_EOL;
             
             throw new ViewFileNotFoundException($msg);
         }
         
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+        ////
+        //// Deliberately not specifying parameters in the anonymous function's 
+        //// definition signature below in order to avoid having any explicit 
+        //// variable(s) defined inside the anonymous function. Rather, the 
+        //// parameters are being accessed via func_get_arg() and not even 
+        //// assigned to any local variable(s) inside the function.
+        ////
+        //// This way we need not worry about any variable(s) being overwritten
+        //// when extract(..) is called within the anonymous function.
+        ////  
+        ////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////
+		$render_view = function()
+		{
+            //func_get_arg(0): the name of the file to be included whose output 
+            //                 is to be captured and returned
+            
+            //func_get_arg(1): the data array from which to extract variables
+            
+            //Extract variables from the data array which may be needed in the
+            //view file to be included below.
+			extract(func_get_arg(1), EXTR_REFS);
+
+			// Capture the view output
+			ob_start();
+
+            // Load the view within the current scope
+            include func_get_arg(0);
+
+			// Get the captured output and close the buffer
+			return ob_get_clean();
+		};
         
-        // prevent overwriting $this
-        unset($data['this']);
-        
-        extract($data);
-        ob_start();
-        
-        require $this->found_path;
-       
-        return ob_get_clean();
+		return $render_view($found_path, $data);
     }
 }
 
