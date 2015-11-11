@@ -118,13 +118,14 @@ class View
      * 
 	 * Captures and returns the output that is generated when a php file is included. 
      * 
-     * @param string $file_name Name of php file to be included (with or without
-     *                          the directory path). If the directory path is not 
-     *                          included the file will be searched for in the list 
-     *                          of directories registered in $this->possible_paths_to_file
-     * 
+     * @param string $file_name Name of php file to be included (with/without
+     *                          the directory path). If the directory path is 
+     *                          included & the file exists, it is included and
+     *                          the output is returned. If the directory path is 
+     *                          not included, the file will be searched for in the 
+     *                          list of directories registered in $this->possible_paths_to_file.
+     *                          
      * @param array $data Array of data to be extracted to make local variables.
-     * 
      * 
      * @return string the output that is generated when $file_name is included
      * 
@@ -133,18 +134,24 @@ class View
      */
     public function renderAsString( $file_name, array $data = [] ) {
 
-        $found_path = '';
+        $located_file = file_exists($file_name) ? $file_name : false;
         
-        foreach ($this->possible_paths_to_file as $possible_path) {
+        if( $located_file === false ) {
             
-            if( file_exists( rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name ) ) {
-                
-                $found_path = rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name;
-                break;
+            //$file_name is not an existent file on its own. Search for it in 
+            //the list of paths registered in $this->possible_paths_to_file.
+            
+            foreach ( $this->possible_paths_to_file as $possible_path ) {
+
+                if( file_exists( rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name ) ) {
+
+                    $located_file = rtrim($possible_path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $file_name;
+                    break;
+                }
             }
         }
         
-        if( empty($found_path) ) {
+        if( $located_file === false ) {
             
             //the file does not exist in any of the registered possible paths
             $msg = "ERROR: Could not load the file named `$file_name` "
@@ -191,7 +198,7 @@ class View
 			return ob_get_clean();
 		};
         
-		return $render_view($found_path, $data);
+		return $render_view($located_file, $data);
     }
 }
 
