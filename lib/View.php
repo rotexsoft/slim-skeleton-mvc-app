@@ -186,7 +186,7 @@ class View
             
             //Extract variables from the data array which may be needed in the
             //view file to be included below.
-			extract(func_get_arg(1), EXTR_REFS);
+			extract(func_get_arg(1));
 
 			// Capture the view output
 			ob_start();
