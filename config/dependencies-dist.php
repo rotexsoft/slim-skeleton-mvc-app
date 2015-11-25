@@ -43,13 +43,21 @@ $container['errorHandler'] = function ($c) {
             $layout_content .= '<br>'.nl2br($exception_info);
         }
         
-        $output_str = $layout_renderer->renderAsString(
+        $output_str = $layout_renderer->renderToString(
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
-        //log the error message
-        $c['logger']->error(str_replace('<br>', PHP_EOL,"HTTP 500: $exception_info")); 
+        try {
+            
+            //log the error message
+            $c['logger']->error(str_replace('<br>', PHP_EOL, "HTTP 500: $exception_info"));
+
+        } catch (\Exception $exc) {
+            
+            //do something else
+            //echo $exc->getTraceAsString();
+        }
         
         $new_response = $response->withStatus(500)
                                  ->withHeader('Content-Type', 'text/html');
@@ -75,13 +83,22 @@ $container['notFoundHandler'] = function ($c) {
         
         $layout_content = "Page not found: ".$request->getUri()->__toString();
             
-        $output_str = $layout_renderer->renderAsString( 
+        $output_str = $layout_renderer->renderToString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
-        $c['logger']->notice("HTTP 404: $layout_content"); //log the not found message
-        
+        try {
+            
+            //log the not found message
+            $c['logger']->notice("HTTP 404: $layout_content");
+            
+        } catch (Exception $exc) {
+            
+            //do something else
+            //echo $exc->getTraceAsString();
+        }
+
         $new_response = $response->withStatus(404)
                                  ->withHeader('Content-Type', 'text/html');
         
@@ -112,15 +129,23 @@ $container['notAllowedHandler'] = function ($c) {
                          . implode( ' or ', array_map(function($val){ return "`$val`";}, $methods) );
         
         $layout_content = "$_405_message1<br>$_405_message2";
-        $output_str = $layout_renderer->renderAsString( 
+        $output_str = $layout_renderer->renderToString( 
                             'main-template.php', 
                             ['content'=>$layout_content, 'request_obj'=>$request] 
                         );
         
         $log_message = "$_405_message1. $_405_message2";
         
-        $c['logger']->notice("HTTP 405: $log_message"); //log the message
-        
+        try {
+            
+            $c['logger']->notice("HTTP 405: $log_message"); //log the message
+            
+        } catch (\Exception $exc) {
+            
+            //do something else
+            //echo $exc->getTraceAsString();
+        }
+
         $new_response = $response->withStatus(405)
                                  ->withHeader('Allow', implode(', ', $methods))
                                  ->withHeader('Content-Type', 'text/html');
@@ -134,12 +159,12 @@ $container['notAllowedHandler'] = function ($c) {
 //Add the namespcace(s) for your web-app's controller classes or leave it
 //as is, if your controllers are in the default global namespace.
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\Slim3Mvc\\'];
+$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\'];
 
 //the `default_controller_class_name` is used to create a controller object to 
 //handle the default / route. Must be prefixed with the name-space if 
 //the controller class is in a namespace
-$container['default_controller_class_name'] = '\Slim3Mvc\BaseController';
+$container['default_controller_class_name'] = '\Slim3MvcTools\BaseController';
 
 //the `default_action_name` is the name of the action / method to be 
 //called on the default controller to handle the default / route.
@@ -152,14 +177,24 @@ $container['default_action_name'] = 'actionIndex';
 $container['new_layout_renderer'] = $container->factory(function ($c) {
     
     //return a new instance on each access to $container['new_layout_renderer']
-    return new \Slim3Mvc\View([]);
+    $ds = DIRECTORY_SEPARATOR;
+    $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}site-layout-templates";
+    $layout_renderer = new \Rotexsoft\Renderer();
+    $layout_renderer->appendPath($path_2_layout_files);
+    
+    return $layout_renderer;
 });
 
 //Object for rendering view files
 $container['new_view_renderer'] = $container->factory(function ($c) {
     
     //return a new instance on each access to $container['new_view_renderer']
-    return new \Slim3Mvc\View([]);
+    $ds = DIRECTORY_SEPARATOR;
+    $path_2_view_files = __DIR__."{$ds}..{$ds}src{$ds}views{$ds}base";
+    $view_renderer = new \Rotexsoft\Renderer();
+    $view_renderer->appendPath($path_2_view_files);
+    
+    return $view_renderer;
 });
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -14,6 +14,31 @@ s3MVC_GetSuperGlobal(); //this method is first called here to ensure that $_SERV
                         //Subsequent calls to s3MVC_GetSuperGlobal(..) will return
                         //the stored values.
 
+/**
+ * 
+ * This function detects which environment your web-app is running in 
+ * (i.e. one of Production, Development, Staging or Testing).
+ * 
+ * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and then
+ *       return one of S3MVC_APP_ENV_DEV, S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or 
+ *       S3MVC_APP_ENV_TESTING relevant to the environment you are installing your 
+ *       web-app.
+ * 
+ * @return string
+ */
+function s3MVC_GetCurrentAppEnvironment() {
+
+    static $current_env;
+
+    if( !$current_env ) {
+
+        $root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
+        $current_env = include $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
+    }
+
+    return $current_env;
+}
+
 $s3mvc_root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
 
 //handle ini settings
@@ -81,7 +106,7 @@ $mvc_route_handler =
         //Add an assoc array that contains allowed actions for a controller
         //$map = array('hello'=>'someothercontroller');
 
-        $action_method = \Slim3Mvc\dashesToCamel($args['action']);
+        $action_method = \Slim3MvcTools\dashesToCamel($args['action']);
         
         //strip trailing forward slash
         $params_str = 
@@ -161,7 +186,7 @@ $mvc_controller_only_route_handler =
         //create controller
         $controller_object = 
             s3MVC_CreateController(
-                $this, $args['controller'], \Slim3Mvc\camelToDashes($action), 
+                $this, $args['controller'], \Slim3MvcTools\camelToDashes($action), 
                 $request, $response
             );
 

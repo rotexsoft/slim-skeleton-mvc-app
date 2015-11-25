@@ -1,11 +1,23 @@
 {
+    "name": "rotexsoft/slim3-skeleton-mvc-app",
+    "description": "This is a template mvc web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.",
+    "license": "BSD-2-Clause",
+    "type": "project",
+    "keywords": [ "mvc", "framework", "slim 3", "slimphp 3",  "slim3", "slimphp3", "slim-3", "slimphp-3"],
+    "homepage": "https://github.com/rotexsoft/slim3-skeleton-mvc-tools",
+    "authors": [
+        {
+            "name": "Rotimi Adegbamigbe",
+            "email": "rotexdegba007-github@yahoo.ca",
+            "homepage": "https://github.com/rotexdegba",
+            "role": "Developer"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=5.5.0",
-        "slim/slim": "^3.0",
-        "cfs/authenticator": "^1.0",
-        "katzgrau/klogger": "dev-master"
+        "rotexsoft/slim3-skeleton-mvc-tools": "dev-master"
     },
     "require-dev": {
         "php": ">=5.5.0",
@@ -13,12 +25,11 @@
         "digitalnature/php-ref": "^1.0"
     },
     "autoload": {
-        "classmap": [ "src/", "tests/", "vendor/slim/", "lib/" ],
-        "files": ["lib/helper-functions.php"]
+        "classmap": [ "src/", "tests/", "vendor/slim/" ]
     },
     "scripts": {
-        "post-install-cmd": [
-            "php ./s3mvc-tools/post-composer-install.php"
+        "post-create-project-cmd": [
+            "php ./s3mvc-tools/post-composer-create-project.php"
         ]
     },
     "suggest": {
