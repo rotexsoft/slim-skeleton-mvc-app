@@ -14,15 +14,15 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 ## Installation (Creating a Project)
 
-  `composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app`
+  **`$ composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app`**
 
 ### Testing the Installation
 
-1. `$ cd my-app` 
+1. **`$ cd my-app`**
 
-2. `$ php -S 0.0.0.0:8888 -t public` 
+2. **`$ php -S 0.0.0.0:8888 -t public`**
 
-3. Browse to http://localhost:8888
+3. Browse to **`http://localhost:8888`**
 
   * Below are the default links that are available upon installation
 
