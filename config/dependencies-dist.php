@@ -11,13 +11,16 @@ $container['use_mvc_routes'] = true;
                                       
 $container['logger'] = function ($c) {
 
-    $opts = [
-        'dateFormat'=>'Y-M-d g:i:s A', 
-        'filename'=>'daily_log_'.date('Y_M_d').'.txt',
-    ];
-    $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'logs' .DIRECTORY_SEPARATOR;
+    $ds = DIRECTORY_SEPARATOR;
+    $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
+    $file = dirname(__DIR__) . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
     
-    return new Katzgrau\KLogger\Logger($dir, Psr\Log\LogLevel::DEBUG, $opts);
+    $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
+    $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
+    $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
+    $adapter->setDateFormat('Y-M-d g:i:s A');
+    
+    return new \Vespula\Log\Log($adapter);
 };
 
 //Override the default 500 System Error Handler

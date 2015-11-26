@@ -221,7 +221,7 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
 /////////////////////////////
 
 //default route
-if($app->getContainer()->get('use_mvc_routes') ) {
+if( $app->getContainer()->get('use_mvc_routes') ) {
     
     $app->map( ['GET', 'POST'], '/', $default_route_handler );
 

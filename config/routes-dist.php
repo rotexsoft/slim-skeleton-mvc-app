@@ -14,7 +14,7 @@ $app->get('/foo/bar', function($request, $response, $args) {
 
 if( !$app->getContainer()->get('use_mvc_routes') ) {
     
-    //define the default / route
+    //define the default / route. You can chnage it for your app if desired
     $app->get('/', function($request, $response, $args) {
         $controller = new Hello($this, 'hello', 'action-index');
         return $controller->actionIndex();
