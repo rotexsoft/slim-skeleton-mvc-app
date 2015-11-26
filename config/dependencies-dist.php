@@ -5,6 +5,10 @@
 // Start configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
 
+//If true, the mvc routes will be enabled. If false, then you must explicitly
+//define the routes for your application inside config/routes.php
+$container['use_mvc_routes'] = true;
+                                      
 $container['logger'] = function ($c) {
 
     $opts = [

@@ -221,15 +221,17 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
 /////////////////////////////
 
 //default route
-$app->map( ['GET', 'POST'], '/', $default_route_handler );
+if($app->getContainer()->get('use_mvc_routes') ) {
+    
+    $app->map( ['GET', 'POST'], '/', $default_route_handler );
 
-//controller with no action and params route handler
-$app->map(['GET', 'POST'], '/{controller}[/]', $mvc_controller_only_route_handler);
+    //controller with no action and params route handler
+    $app->map(['GET', 'POST'], '/{controller}[/]', $mvc_controller_only_route_handler);
 
-//controller with action and optional params route handler
-$app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
-$app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
-
+    //controller with action and optional params route handler
+    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
+    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
+}
 /////////////////////////////
 // End: mvc routes
 /////////////////////////////

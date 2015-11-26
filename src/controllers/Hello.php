@@ -19,7 +19,10 @@ class Hello extends \Slim3MvcTools\BaseController
     
     public function actionIndex() {
 
-        return 'Hello@actionIndex: Controller Action Method Content Goes Here!';
+        //using a string here directly instead of a view
+        $view_str = 'Hello@actionIndex: Controller Action Method Content Goes Here!';
+        
+        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
     
     public function world($name, $another_param) {
