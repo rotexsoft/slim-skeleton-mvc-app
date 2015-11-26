@@ -226,7 +226,7 @@ echo \Slim3MvcTools\color_4_console(
 if( @unlink("{$root_folder}slim3-psr7.png") ) {
     
     echo \Slim3MvcTools\color_4_console(
-            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "Successfully Deleted! ".PHP_EOL.PHP_EOL, 
             "green", 
             "black"
         );
@@ -252,7 +252,7 @@ echo \Slim3MvcTools\color_4_console(
 if( @unlink("{$root_folder}slim3-psr7.pub") ) {
     
     echo \Slim3MvcTools\color_4_console(
-            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "Successfully Deleted! ".PHP_EOL.PHP_EOL, 
             "green", 
             "black"
         );
@@ -278,7 +278,7 @@ echo \Slim3MvcTools\color_4_console(
 if( @unlink("{$root_folder}phpunit.xml.dist") ) {
     
     echo \Slim3MvcTools\color_4_console(
-            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "Successfully Deleted! ".PHP_EOL.PHP_EOL, 
             "green", 
             "black"
         );

@@ -25,7 +25,7 @@ $container['errorHandler'] = function ($c) {
             \Exception $exception
           ) use ($c) {
                 
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -76,7 +76,7 @@ $container['notFoundHandler'] = function ($c) {
                 \Psr\Http\Message\ResponseInterface $response
             ) use ($c) {
   
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -117,7 +117,7 @@ $container['notAllowedHandler'] = function ($c) {
                 $methods
             ) use ($c) {
         
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/site-layout-templates';
+        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
         
         $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         $layout_renderer->appendPath($path_2_layout_files);
@@ -178,7 +178,7 @@ $container['new_layout_renderer'] = $container->factory(function ($c) {
     
     //return a new instance on each access to $container['new_layout_renderer']
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}site-layout-templates";
+    $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}layout-templates";
     $layout_renderer = new \Rotexsoft\Renderer();
     $layout_renderer->appendPath($path_2_layout_files);
     
