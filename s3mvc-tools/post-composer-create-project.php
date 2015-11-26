@@ -1,6 +1,6 @@
 <?php
 $ds = DIRECTORY_SEPARATOR;
-require_once __DIR__.DIRECTORY_SEPARATOR."..{$ds}vendor{$ds}rotexsoft{$ds}slim3-skeleton-mvc-tools{$ds}src{$ds}functions{$ds}framework-helpers.php";
+require_once __DIR__.DIRECTORY_SEPARATOR."..{$ds}vendor{$ds}rotexsoft{$ds}slim3-skeleton-mvc-tools{$ds}src{$ds}functions{$ds}str-helpers.php";
 
 echo \Slim3MvcTools\color_4_console(
         "Running post composer installation tasks for Slim3Mvc ........".PHP_EOL.PHP_EOL, 
