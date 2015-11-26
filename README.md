@@ -27,12 +27,12 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
   * Below are the default links that are available upon installation
 
     * `http://localhost:8888/base-controller/action-index/` same as `http://localhost:8888/base-controller/`
-    * `http://localhost:8888/base-controller/action-login/` comes with 2 default accounts *admin:admin* and *root:root*
+    * `http://localhost:8888/base-controller/action-login/` comes with 2 default accounts **admin:admin** and **root:root**
     * `http://localhost:8888/base-controller/action-logout/0`
     * `http://localhost:8888/base-controller/action-logout/1`
     * `http://localhost:8888/base-controller/action-login-status/`
     * `http://localhost:8888/hello/action-index/` same as `http://localhost:8888/hello/`
-    * `http://localhost:8888/hello/action-login/` comes with 2 default accounts *admin:admin* and *root:root*
+    * `http://localhost:8888/hello/action-login/` comes with 2 default accounts **admin:admin** and **root:root**
     * `http://localhost:8888/hello/action-logout/0`
     * `http://localhost:8888/hello/action-logout/1`
     * `http://localhost:8888/hello/action-login-status/`
