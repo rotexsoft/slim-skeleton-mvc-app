@@ -95,19 +95,19 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 ### Registered Objects / items in the Container
 
-* `**use_mvc_routes**`**:**
-* `**logger**`**:**
-* `**namespaces_for_controllers**`**:**
-* `**default_controller_class_name**`**:**
-* `**default_action_name**`**:**
-* `**new_layout_renderer**`**:**
-* `**new_view_renderer**`**:**
-* `**aura_auth_factory**`**:**
-* `**aura_auth_object**`**:**
-* `**aura_auth_adapter_object**`**:**
-* `**aura_login_service**`**:**
-* `**aura_logout_service**`**:**
-* `**aura_resume_service**`**:**
+* **`use_mvc_routes:`**
+* **`logger:`**
+* **`namespaces_for_controllers:`**
+* **`default_controller_class_name:`**
+* **`default_action_name:`**
+* **`new_layout_renderer:`**
+* **`new_view_renderer:`**
+* **`aura_auth_factory:`**
+* **`aura_auth_object:`**
+* **`aura_auth_adapter_object:`**
+* **`aura_login_service:`**
+* **`aura_logout_service:`**
+* **`aura_resume_service:`**
 
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
