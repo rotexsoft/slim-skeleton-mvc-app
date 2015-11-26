@@ -19,7 +19,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 ### Testing the Installation
 
 1. `$ cd my-app` 
+
 2. `$ php -S 0.0.0.0:8888 -t public` 
+
 3. Browse to http://localhost:8888
   * Below are the default links that are available upon installation
     * `http://localhost:8888/base-controller/action-index/` same as `http://localhost:8888/base-controller/`
