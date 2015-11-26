@@ -32,7 +32,7 @@
             "php ./s3mvc-tools/post-composer-create-project.php",
             "php -r \" unlink('./s3mvc-tools/post-composer-create-project.php'); \" ",
             "php -r \" unlink('./s3mvc-tools/.gitkeep'); \" ",
-            "php -r \" unlink('./s3mvc-tools'); \" "
+            "php -r \" rmdir('./s3mvc-tools'); \" "
         ]
     },
     "suggest": {
