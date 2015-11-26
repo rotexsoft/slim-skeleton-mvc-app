@@ -87,10 +87,13 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 * Controller classes must extend `\Slim3MvcTools\BaseController`
 
     //controller with no action and params route handler
+
     `/{controller}[/]`
 
     //controller with action and optional params route handler
+
     `/{controller}/{action}[/{parameters:.+}]`
+
     `/{controller}/{action}/` **//handle trailing slash**
 
 ### Registered Objects / items in the Container
