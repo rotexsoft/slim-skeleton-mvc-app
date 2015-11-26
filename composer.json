@@ -30,7 +30,9 @@
     "scripts": {
         "post-create-project-cmd": [
             "php ./s3mvc-tools/post-composer-create-project.php",
-            "php -r \" unlink('./s3mvc-tools/post-composer-create-project.php'); \" "
+            "php -r \" unlink('./s3mvc-tools/post-composer-create-project.php'); \" ",
+            "php -r \" unlink('./s3mvc-tools/.gitkeep'); \" ",
+            "php -r \" unlink('./s3mvc-tools'); \" "
         ]
     },
     "suggest": {
