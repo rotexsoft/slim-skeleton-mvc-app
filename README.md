@@ -14,7 +14,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 ## Installation (Creating a Project)
 
-  $ composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app
+  `composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app`
 
 ### Testing the Installation
 
