@@ -71,18 +71,31 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 ## Key files 
 * `composer.json`: contains your application's composer dependencies
+
 * `README.md`: Add documentation for your application here
+
 * `config/dependencies.php`: Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here
+
 * `config/env.php`: Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-app.
+
 * `config/ini-settings.php`: Modify ini settings via `ini_set(..)` here
+
 * `config/routes.php`: Add additional routes for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **use_mvc_routes** entry in `config/dependencies.php` to false).
+
 * `public/.htaccess`: Apache web-server settings
+
 * `public/index.php`: Entry point to application
+
 * `src/controllers/Hello.php`: Example Controller class
+
 * `src/layout-templates/main-template.php`: Default site template based on Foundation 5
+
 * `src/views/base/index.php`: View file associated with the `actionIndex` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+
 * `src/views/base/login.php`: View file associated with the `actionLogin` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+
 * `src/views/base/login-status.php`: View file associated with the `actionLoginStatus` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+
 * `src/views/hello/world.php`: View file associated with the `world` method in `src/controllers/Hello.php`
 
 ## Configuration
