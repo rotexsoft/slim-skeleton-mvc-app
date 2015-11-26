@@ -39,7 +39,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
     * `http://localhost:8888/hello/world/{name}/{another_parameter}`
       * you can do stuff like `http://localhost:8888/hello/world/john/doe`
 
-* You may need to modify the `RewriteBase` directive in the `public/.htaccess` file, if you are using aliases in your apache web server and are getting 404 errors
+* You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
 
 ## Key directories 
 * **`config`:** Contains files for configuring the application
