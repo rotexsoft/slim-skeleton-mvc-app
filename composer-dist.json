@@ -1,14 +1,6 @@
 {
     "name": "Name of your web app goes here.",
     "description": "Description of your web app goes here.",
-    "authors": [
-        {
-            "name": "Your Name goes here.",
-            "email": "Your Email goes here.",
-            "homepage": "Your personal URL goes here, if any.",
-            "role": "Developer"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
