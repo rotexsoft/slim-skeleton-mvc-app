@@ -58,7 +58,7 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php';
 // End Dependency Injection Configuration
 ////////////////////////////////////////////////////////////////////////////////
 
-$default_route_handler = 
+$s3mvc_default_route_handler = 
 function (
     \Psr\Http\Message\ServerRequestInterface $request, 
     \Psr\Http\Message\ResponseInterface $response, 
@@ -91,7 +91,7 @@ function (
     return $response;
 };
 
-$mvc_route_handler = 
+$s3mvc_route_handler = 
     function(
         \Psr\Http\Message\ServerRequestInterface $req, 
         \Psr\Http\Message\ResponseInterface $resp, 
@@ -169,7 +169,7 @@ $mvc_route_handler =
         return $resp;
     };
 
-$mvc_controller_only_route_handler =             
+$s3mvc_controller_only_route_handler =             
     function (
         \Psr\Http\Message\ServerRequestInterface $request, 
         \Psr\Http\Message\ResponseInterface $response, 
@@ -223,14 +223,14 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
 //default route
 if( $app->getContainer()->get('use_mvc_routes') ) {
     
-    $app->map( ['GET', 'POST'], '/', $default_route_handler );
+    $app->map( ['GET', 'POST'], '/', $s3mvc_default_route_handler );
 
     //controller with no action and params route handler
-    $app->map(['GET', 'POST'], '/{controller}[/]', $mvc_controller_only_route_handler);
+    $app->map(['GET', 'POST'], '/{controller}[/]', $s3mvc_controller_only_route_handler);
 
     //controller with action and optional params route handler
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
+    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $s3mvc_route_handler);
+    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $s3mvc_route_handler);//handle trailing slash
 }
 /////////////////////////////
 // End: mvc routes

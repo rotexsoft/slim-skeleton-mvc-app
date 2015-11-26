@@ -87,11 +87,11 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 * Controller classes must extend `\Slim3MvcTools\BaseController`
 
     //controller with no action and params route handler
-    $app->map(['GET', 'POST'], '/{controller}[/]', $mvc_controller_only_route_handler);
+    `/{controller}[/]`
 
     //controller with action and optional params route handler
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $mvc_route_handler);
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $mvc_route_handler);//handle trailing slash
+    `/{controller}/{action}[/{parameters:.+}]`
+    `/{controller}/{action}/` **//handle trailing slash**
 
 ### Registered Objects / items in the Container
 
@@ -118,7 +118,7 @@ injected into it via $response->getBody()->write($data) );
 * SlimPHP 3 http://www.slimframework.com/docs/
 * Slim3 Skeleton MVC Tools https://github.com/rotexsoft/slim3-skeleton-mvc-tools contains BaseController.php and other Slim3 Skeleton MVC specific classes and functions 
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
-* Authentication https://bitbucket.org/cfsweb/cfs-authenticator
+* Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
 * See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works
 * File-Renderer https://github.com/rotexsoft/file-renderer for rendering the template and view files
 
