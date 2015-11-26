@@ -8,6 +8,9 @@ echo \Slim3MvcTools\color_4_console(
         "black"
     );
 
+$raw_root_folder = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
+$root_folder = realpath($raw_root_folder).DIRECTORY_SEPARATOR;
+
 $raw_config_src_folder = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'config';
 $config_src_folder = realpath($raw_config_src_folder).DIRECTORY_SEPARATOR;
 
@@ -128,6 +131,136 @@ if( @rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php
     
     echo \Slim3MvcTools\color_4_console(
             "Error: Could not move `{$raw_public_src_folder}{$ds}index-dist.php` to `{$raw_public_src_folder}{$ds}index.php` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Moving `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not move `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Moving `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not move `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Moving `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not move `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Deleting `{$raw_root_folder}slim3-psr7.png` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @unlink("{$root_folder}slim3-psr7.png") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not delete `{$raw_root_folder}slim3-psr7.png` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Deleting `{$raw_root_folder}slim3-psr7.pub` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @unlink("{$root_folder}slim3-psr7.pub") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not delete `{$raw_root_folder}slim3-psr7.pub` ! ".PHP_EOL.PHP_EOL, 
             "red", 
             "black"
         );

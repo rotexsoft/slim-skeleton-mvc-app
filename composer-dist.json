@@ -1,0 +1,26 @@
+{
+    "name": "Name of your web app goes here.",
+    "description": "Description of your web app goes here.",
+    "authors": [
+        {
+            "name": "Your Name goes here.",
+            "email": "Your Email goes here.",
+            "homepage": "Your personal URL goes here, if any.",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=5.5.0",
+        "rotexsoft/slim3-skeleton-mvc-tools": "dev-master"
+    },
+    "require-dev": {
+        "php": ">=5.5.0",
+        "devster/ubench": "^1.1",
+        "digitalnature/php-ref": "^1.0"
+    },
+    "autoload": {
+        "classmap": [ "src/", "tests/", "vendor/slim/" ]
+    }
+}

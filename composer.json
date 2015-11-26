@@ -29,7 +29,8 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "php ./s3mvc-tools/post-composer-create-project.php"
+            "php ./s3mvc-tools/post-composer-create-project.php",
+            "rm ./s3mvc-tools/post-composer-create-project.php"
         ]
     },
     "suggest": {
