@@ -268,6 +268,33 @@ if( @unlink("{$root_folder}slim3-psr7.pub") ) {
 
 sleep(1);
 
+////////////////////////////////////////////////////////////
+echo \Slim3MvcTools\color_4_console(
+        "Deleting `{$raw_root_folder}phpunit.xml.dist` ....".PHP_EOL, 
+        "green", 
+        "black"
+    );
+        
+if( @unlink("{$root_folder}phpunit.xml.dist") ) {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Successfully Moved! ".PHP_EOL.PHP_EOL, 
+            "green", 
+            "black"
+        );
+
+} else {
+    
+    echo \Slim3MvcTools\color_4_console(
+            "Error: Could not delete `{$raw_root_folder}phpunit.xml.dist` ! ".PHP_EOL.PHP_EOL, 
+            "red", 
+            "black"
+        );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////////////////////////
 $logs_folder = __DIR__."{$ds}..{$ds}logs";
 echo \Slim3MvcTools\color_4_console(
         "Making `{$logs_folder}` writable ....".PHP_EOL, 
