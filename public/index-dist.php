@@ -18,7 +18,7 @@ define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 //      It only applies to the routes below:
 //          '/{controller}/{action}[/{parameters:.+}]'
 //          '/{controller}/{action}/'
-define('S3MVC_APP_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
+define('S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
 
 //If true, the mvc routes will be enabled. If false, then you must explicitly
 //define all the routes for your application inside config/routes.php
@@ -145,7 +145,7 @@ $s3mvc_route_handler =
 
         $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
         
-        if( S3MVC_APP_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
+        if( S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
             
             $action_method = s3MVC_PrependAction2ActionMethodName($action_method);
         }
