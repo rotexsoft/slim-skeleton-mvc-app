@@ -153,6 +153,9 @@ Action methods in Controller classes MUST either return a string (i.e. containin
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
 injected into it via $response->getBody()->write($data) );
 
+### Security Considerations
+
+* Make sure to validate / sanitize the password value posted to `\Slim3MvcTools\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
 
 ## Documentation for Components Used
 * SlimPHP 3 http://www.slimframework.com/docs/

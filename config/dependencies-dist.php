@@ -209,52 +209,59 @@ $container['new_view_renderer'] = $container->factory(function ($c) {
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////
-// Start Aura.Auth Authentication setup
+// Start Vespula.Auth Authentication setup
 ////////////////////////////////////////////////////////////////////////////   
-
-$container['aura_auth_factory'] = function ($c) {
-
-    return new \Aura\Auth\AuthFactory(s3MVC_GetSuperGlobal('cookie'));
-};
-
-$container['aura_auth_object'] = function ($c) {
-
-    return $c['aura_auth_factory']->newInstance();
-};
 
 if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     
     //configuration specific to the production environment
     
     ////////////////////////////////////////////////////////////////////////////
-    // Start Aura.Auth LDAP Authentication setup
+    // Start Vespula.Auth LDAP Authentication setup
     ////////////////////////////////////////////////////////////////////////////    
-    $container['aura_auth_adapter_object'] = function ($c) {
+    $container['vespula_auth'] = function ($c) {
         
-        $logger = $c['logger'];
-        $server = 'ldap.server.org.ca';
-        $ldap_adapter_specific_params = array(
-            'filter'                        => '\w',
-            'basedn'                        => 'DC=yada,DC=yada,DC=yada,DC=yada',
-            'bindpw'                        => 'Pa$$w0rd',
-            'limit'                         => array('dn'),
-            'searchfilter'                  => 'somefilter',
-            'successful_login_callback' 	=> function($login_timestamp_string) use ($logger) {
-                                                    $logger->notice($login_timestamp_string);
-                                               }
-        );
-        $dnformat = 'ou=Company Name,dc=Department Name,cn=users';
+        if( session_status() !== PHP_SESSION_ACTIVE ) { session_start(); }
         
-        return new \Cfs\Authenticator\Adapter\CfsLdapAdapter(
-                                            new \Aura\Auth\Phpfunc(),
-                                            $server, 
-                                            $dnformat,
-                                            array(), 
-                                            $ldap_adapter_specific_params
-                                        );
+        //Optionally pass a maximum idle time and a time until the session 
+        //expires (in seconds)
+        $expire = 3600;
+        $max_idle = 1200;
+        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+
+        /*
+         * `basedn`: The base dn to search through
+         * `binddn`: The dn used to bind to
+         * `bindpw`: A password used to bind to the server using the binddn
+         * `filter`: A filter used to search for the user. Eg. samaccountname=%s
+         */
+        $bind_options = [
+            'basedn' => 'OU=MyCompany,OU=Edmonton,OU=Alberta',
+            'bindn'  => 'cn=%s,OU=Users,OU=MyCompany,OU=Edmonton,OU=Alberta',
+            'bindpw' => 'Pa$$w0rd',
+            'filter' => 'samaccountname=%s',
+        ];
+
+        $ldap_options = [
+            LDAP_OPT_PROTOCOL_VERSION=>3
+        ];
+        
+        $attributes = [
+            'email',
+            'givenname'
+        ];
+
+        $uri = 'ldap.server.org.ca';
+        $dn = null;
+        
+        $adapter = new \Vespula\Auth\Adapter\Ldap(
+                        $uri, $dn, $bind_options, $ldap_options, $attributes
+                    );
+        
+        return new \Vespula\Auth\Auth($adapter, $session);
     };
     ////////////////////////////////////////////////////////////////////////////
-    // End Aura.Auth LDAP Authentication setup
+    // End Vespula.Auth LDAP Authentication setup
     ////////////////////////////////////////////////////////////////////////////
     
 } else {
@@ -262,20 +269,19 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     //configuration specific to non-production environments
     
     ////////////////////////////////////////////////////////////////////////////
-    // Start Aura.Auth PDO Authentication setup
+    // Start Vespula.Auth PDO Authentication setup
     ////////////////////////////////////////////////////////////////////////////
-    
-    $container['aura_auth_adapter_object'] = function ($c) {
-                
-        $pdo = new \PDO( 
-            'sqlite::memory:', 
-            null, 
-            null, 
-            [
-                PDO::ATTR_PERSISTENT => true, 
-                PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
-            ]
-        ); 
+    $container['vespula_auth'] = function ($c) {
+        
+        $pdo = new \PDO(
+                    'sqlite::memory:', 
+                    null, 
+                    null, 
+                    [
+                        PDO::ATTR_PERSISTENT => true, 
+                        PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
+                    ]
+                ); 
         
         $pass1 = password_hash('admin' , PASSWORD_DEFAULT);
         $pass2 = password_hash('root' , PASSWORD_DEFAULT);
@@ -288,41 +294,26 @@ CREATE TABLE user_authentication_accounts (
 INSERT INTO "user_authentication_accounts" VALUES( 'admin', '$pass1' );
 INSERT INTO "user_authentication_accounts" VALUES( 'root', '$pass2' );
 SQL;
-        //add two default user accounts
-        $pdo->exec($sql);
+        $pdo->exec($sql); //add two default user accounts
         
-        $hash = new \Aura\Auth\Verifier\PasswordVerifier(PASSWORD_DEFAULT);
-        $from = 'user_authentication_accounts';
+        //Optionally pass a maximum idle time and a time until the session 
+        //expires (in seconds)
+        $expire = 3600;
+        $max_idle = 1200;
+        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+        
         $cols = ['username', 'password'];
+        $from = 'user';
+        $where = ''; //optional
 
-        return $c['aura_auth_factory']->newPdoAdapter($pdo, $hash, $cols, $from);
+        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $cols, $from, $where);
+        
+        return new \Vespula\Auth\Auth($adapter, $session);
     };
     ////////////////////////////////////////////////////////////////////////////
-    // End Aura.Auth PDO Authentication setup
+    // End Vespula.Auth PDO Authentication setup
     ////////////////////////////////////////////////////////////////////////////
 }
-
-$container['aura_login_service'] = function ($c) {
-
-    $auth_factory = $c['aura_auth_factory'];
-    $auth_adapter = $c['aura_auth_adapter_object'];
-    return $auth_factory->newLoginService($auth_adapter);
-};
-
-$container['aura_logout_service'] = function ($c) {
-
-    $auth_factory = $c['aura_auth_factory'];
-    $auth_adapter = $c['aura_auth_adapter_object'];
-    return $auth_factory->newLogoutService($auth_adapter);
-};
-
-$container['aura_resume_service'] = function ($c) {
-
-    $auth_factory = $c['aura_auth_factory'];
-    $auth_adapter = $c['aura_auth_adapter_object'];
-    return $auth_factory->newResumeService($auth_adapter);
-};
-
 ////////////////////////////////////////////////////////////////////////////
-// End Aura.Auth Authentication setup
+// End Vespula.Auth Authentication setup
 ////////////////////////////////////////////////////////////////////////////  
