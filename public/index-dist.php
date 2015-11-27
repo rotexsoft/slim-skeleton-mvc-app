@@ -9,6 +9,10 @@ define('S3MVC_APP_ENV_TESTING', 'testing');
 define('S3MVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
+//If true, the mvc routes will be enabled. If false, then you must explicitly
+//define all the routes for your application inside config/routes.php
+define('S3MVC_APP_USE_MVC_ROUTES', false);
+
 //If true, the string `action` will be prepended to action method names (if the
 //method name does not already start with the string `action`). The resulting 
 //method name will be converted to camel case before being executed. 
@@ -19,10 +23,6 @@ define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 //          '/{controller}/{action}[/{parameters:.+}]'
 //          '/{controller}/{action}/'
 define('S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
-
-//If true, the mvc routes will be enabled. If false, then you must explicitly
-//define all the routes for your application inside config/routes.php
-define('S3MVC_APP_USE_MVC_ROUTES', true);
 
 //This is used to create a controller object to handle the default / route. 
 //Must be prefixed with the name-space if the controller class is in a namespace.
@@ -41,7 +41,6 @@ s3MVC_GetSuperGlobal(); //this method is first called here to ensure that $_SERV
                         //library, framework, etc. accesses or modifies any of them.
                         //Subsequent calls to s3MVC_GetSuperGlobal(..) will return
                         //the stored values.
-
 /**
  * 
  * This function detects which environment your web-app is running in 
