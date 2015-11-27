@@ -39,8 +39,8 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
     * `http://localhost:8888/hello/action-world/{name}/{another_parameter}`
       * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
-  * The **action-** part can be omitted from the links above if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to `true`
-    * For example `http://localhost:8888/hello/action-login/` will become `http://localhost:8888/hello/login/`
+  * The `action-` prefix can be omitted from the links above if `S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` is set to `true`
+    * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/)
 
 * You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
 
