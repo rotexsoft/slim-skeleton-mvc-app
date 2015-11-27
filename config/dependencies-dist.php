@@ -166,12 +166,12 @@ $container['notAllowedHandler'] = function ($c) {
 //Add the namespcace(s) for your web-app's controller classes or leave it
 //as is, if your controllers are in the default global namespace.
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\'];
+$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\'];
 
 //the `default_controller_class_name` is used to create a controller object to 
 //handle the default / route. Must be prefixed with the name-space if 
 //the controller class is in a namespace
-$container['default_controller_class_name'] = '\Slim3MvcTools\BaseController';
+$container['default_controller_class_name'] = '\\Slim3MvcTools\\Controllers\\BaseController';
 
 //the `default_action_name` is the name of the action / method to be 
 //called on the default controller to handle the default / route.
@@ -296,6 +296,8 @@ INSERT INTO "user_authentication_accounts" VALUES( 'root', '$pass2' );
 SQL;
         $pdo->exec($sql); //add two default user accounts
         
+        if( session_status() !== PHP_SESSION_ACTIVE ) { session_start(); }
+        
         //Optionally pass a maximum idle time and a time until the session 
         //expires (in seconds)
         $expire = 3600;
@@ -303,10 +305,10 @@ SQL;
         $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
         
         $cols = ['username', 'password'];
-        $from = 'user';
+        $from = 'user_authentication_accounts';
         $where = ''; //optional
 
-        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $cols, $from, $where);
+        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
         
         return new \Vespula\Auth\Auth($adapter, $session);
     };

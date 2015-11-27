@@ -5,7 +5,7 @@
  *
  * @author aadegbam
  */
-class Hello extends \Slim3MvcTools\BaseController
+class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
     public function __construct(\Slim\App $app, $controller_name_from_uri, $action_name_from_uri) {
         

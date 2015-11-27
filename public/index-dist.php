@@ -106,7 +106,7 @@ $s3mvc_route_handler =
         //Add an assoc array that contains allowed actions for a controller
         //$map = array('hello'=>'someothercontroller');
 
-        $action_method = \Slim3MvcTools\dashesToCamel($args['action']);
+        $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
         
         //strip trailing forward slash
         $params_str = 
@@ -186,7 +186,7 @@ $s3mvc_controller_only_route_handler =
         //create controller
         $controller_object = 
             s3MVC_CreateController(
-                $this, $args['controller'], \Slim3MvcTools\camelToDashes($action), 
+                $this, $args['controller'], \Slim3MvcTools\Functions\Str\camelToDashes($action), 
                 $request, $response
             );
 

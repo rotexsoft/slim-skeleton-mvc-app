@@ -123,6 +123,12 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 ### Registered Objects / items in the Container
 
+* **`errorHandler:`** see http://www.slimframework.com/docs/handlers/error.html
+
+* **`notFoundHandler:`** see http://www.slimframework.com/docs/handlers/not-found.html
+
+* **`notAllowedHandler:`** see http://www.slimframework.com/docs/handlers/not-allowed.html
+
 * **`use_mvc_routes:`**
 
 * **`logger:`**
@@ -137,17 +143,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 * **`new_view_renderer:`**
 
-* **`aura_auth_factory:`**
-
-* **`aura_auth_object:`**
-
-* **`aura_auth_adapter_object:`**
-
-* **`aura_login_service:`**
-
-* **`aura_logout_service:`**
-
-* **`aura_resume_service:`**
+* **`vespula_auth:`**
 
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
