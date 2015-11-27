@@ -4,10 +4,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Start configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
-
-//If true, the mvc routes will be enabled. If false, then you must explicitly
-//define the routes for your application inside config/routes.php
-$container['use_mvc_routes'] = true;
                                       
 $container['logger'] = function ($c) {
 
@@ -167,18 +163,6 @@ $container['notAllowedHandler'] = function ($c) {
 //as is, if your controllers are in the default global namespace.
 //Make sure you add the trailing slashes.
 $container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\'];
-
-//the `default_controller_class_name` is used to create a controller object to 
-//handle the default / route. Must be prefixed with the name-space if 
-//the controller class is in a namespace
-$container['default_controller_class_name'] = '\\Slim3MvcTools\\Controllers\\BaseController';
-
-//the `default_action_name` is the name of the action / method to be 
-//called on the default controller to handle the default / route.
-//This method should return a response string (ie. valid html) or a PSR 7
-//response object containing valid html in its body.
-//This default action / method should accept no arguments / parameters.
-$container['default_action_name'] = 'actionIndex';
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function ($c) {

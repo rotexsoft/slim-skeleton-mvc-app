@@ -9,6 +9,20 @@ define('S3MVC_APP_ENV_TESTING', 'testing');
 define('S3MVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
+//If true, the mvc routes will be enabled. If false, then you must explicitly
+//define the routes for your application inside config/routes.php
+define('S3MVC_APP_USE_MVC_ROUTES', true);
+
+//This is used to create a controller object to handle the default / route. 
+//Must be prefixed with the name-space if the controller class is in a namespace.
+define('S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', '\\Slim3MvcTools\\Controllers\\BaseController');
+
+//This is the name of the action / method to be called on the default controller 
+//to handle the default / route. This method should return a response string (ie. 
+//valid html) or a PSR 7 response object containing valid html in its body.
+//This default action / method should accept no arguments / parameters.
+define('S3MVC_APP_DEFAULT_ACTION_NAME', 'actionIndex');
+
 s3MVC_GetSuperGlobal(); //this method is first called here to ensure that $_SERVER, 
                         //$_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are 
                         //captured in their original state by the static $super_globals
@@ -73,8 +87,8 @@ function (
     //No controller or action was specified, so use default controller and 
     //invoke the default action on it.
     $container = $this->getContainer();
-    $default_action = $container->get('default_action_name');
-    $controller = $container->get('default_controller_class_name');
+    $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
+    $controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
     //create default controller
     $default_controller_obj = new $controller($this, '', '');
@@ -191,7 +205,7 @@ $s3mvc_controller_only_route_handler =
         //No action was specified, so invoke the default action on specified 
         //controller.
         $container = $this->getContainer();
-        $action = $container->get('default_action_name');
+        $action = S3MVC_APP_DEFAULT_ACTION_NAME;
 
         //s3MVC_CreateController could return a Response object if $args['controller']
         //doesn't match any existing controller class.
@@ -234,7 +248,7 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
 /////////////////////////////
 
 //default route
-if( $app->getContainer()->get('use_mvc_routes') ) {
+if( S3MVC_APP_USE_MVC_ROUTES ) {
     
     $app->map( ['GET', 'POST'], '/', $s3mvc_default_route_handler );
 

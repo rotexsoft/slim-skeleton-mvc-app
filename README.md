@@ -80,7 +80,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 * **`config/ini-settings.php`:** Modify ini settings via `ini_set(..)` here
 
-* **`config/routes.php`:** Add additional routes for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **use_mvc_routes** entry in `config/dependencies.php` to false).
+* **`config/routes.php`:** Add additional routes for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in `public/index.php` to false).
 
 * **`public/.htaccess`:** Apache web-server settings
 
@@ -110,6 +110,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 * `s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`
 * S3MVC_APP_PUBLIC_PATH
 * S3MVC_APP_ROOT_PATH
+* S3MVC_APP_USE_MVC_ROUTES
+* S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME
+* S3MVC_APP_DEFAULT_ACTION_NAME
 
 * Helper script for creating controller classes and a default index view:
 
@@ -127,7 +130,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
     `/{controller}/{action}/` **//handle trailing slash**
 
-### Registered Objects / items in the Container
+### Registered Objects in the Container (scalar values are defined as constants in the public/index.php file)
 
 * **`errorHandler:`** see http://www.slimframework.com/docs/handlers/error.html
 
@@ -135,15 +138,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 * **`notAllowedHandler:`** see http://www.slimframework.com/docs/handlers/not-allowed.html
 
-* **`use_mvc_routes:`**
-
 * **`logger:`**
 
 * **`namespaces_for_controllers:`**
-
-* **`default_controller_class_name:`**
-
-* **`default_action_name:`**
 
 * **`new_layout_renderer:`**
 

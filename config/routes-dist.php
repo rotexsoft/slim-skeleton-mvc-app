@@ -12,9 +12,10 @@ $app->get('/foo/bar', function($request, $response, $args) {
 
 */
 
-if( !$app->getContainer()->get('use_mvc_routes') ) {
+if( !S3MVC_APP_USE_MVC_ROUTES ) {
     
-    //define the default / route. You can chnage it for your app if desired
+    //Not using mvc routes. So at least define the default / route. 
+    //You can change it for your app if desired
     $app->get('/', function($request, $response, $args) {
         $controller = new Hello($this, 'hello', 'action-index');
         return $controller->actionIndex();
