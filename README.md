@@ -4,7 +4,7 @@ This is a template web-application (powered by SlimPHP 3), that can be extended 
 
 It adds the Model-View-Controller structure to a SlimPHP3 web-application.
 
-It ships with the Foundation 5 template (http://foundation.zurb.com/)
+It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 ## Requirements
 
@@ -22,11 +22,11 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
 2. **`$ php -S 0.0.0.0:8888 -t public`**
 
-3. Browse to **`http://localhost:8888`**
+3. Browse to http://localhost:8888
 
-  * Below are the default links that are available upon installation
+  * Below are the default links that are available upon installation:
 
-    * `http://localhost:8888/base-controller/action-index/` same as `http://localhost:8888/base-controller/`
+    * http://localhost:8888/base-controller/action-index/ same as http://localhost:8888/base-controller/
     * `http://localhost:8888/base-controller/action-login/` comes with 2 default accounts **admin:admin** and **root:root**
     * `http://localhost:8888/base-controller/action-logout/0`
     * `http://localhost:8888/base-controller/action-logout/1`
