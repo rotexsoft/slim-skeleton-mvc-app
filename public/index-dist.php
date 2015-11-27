@@ -279,8 +279,8 @@ if( S3MVC_APP_USE_MVC_ROUTES ) {
     $app->map(['GET', 'POST'], '/{controller}[/]', $s3mvc_controller_only_route_handler);
 
     //controller with action and optional params route handler
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}[/{parameters:.+}]', $s3mvc_route_handler);
-    $app->map([ 'GET', 'POST', 'PUT'], '/{controller}/{action}/', $s3mvc_route_handler);//handle trailing slash
+    $app->map([ 'GET', 'POST' ], '/{controller}/{action}[/{parameters:.+}]', $s3mvc_route_handler);
+    $app->map([ 'GET', 'POST' ], '/{controller}/{action}/', $s3mvc_route_handler);//handle trailing slash
 }
 /////////////////////////////
 // End: mvc routes

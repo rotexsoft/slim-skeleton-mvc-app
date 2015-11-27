@@ -1,11 +1,10 @@
-<?php
-//dependencies
+<?php  //Dependencies
 
 ////////////////////////////////////////////////////////////////////////////////
 // Start configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
                                       
-$container['logger'] = function ($c) {
+$container['logger'] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
@@ -27,11 +26,8 @@ $container['errorHandler'] = function ($c) {
             \Psr\Http\Message\ResponseInterface $response, 
             \Exception $exception
           ) use ($c) {
-                
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
-        
-        $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
-        $layout_renderer->appendPath($path_2_layout_files);
+
+        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         
         $layout_content = 'Something went wrong!';
         
@@ -40,26 +36,25 @@ $container['errorHandler'] = function ($c) {
                         . ' in `'.$exception->getFile().'`'
                         . '<br><br>'.$exception->getTraceAsString();
         
-        if(s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION) {
+        if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
             
             //Append exception message if we are not in production.
             $layout_content .= '<br>'.nl2br($exception_info);
         }
         
-        $output_str = $layout_renderer->renderToString(
-                            'main-template.php', 
-                            ['content'=>$layout_content, 'request_obj'=>$request] 
+        $output_str = $renderer->renderToString(
+                            'main-template.php', ['content'=>$layout_content] 
                         );
-        
         try {
-            
             //log the error message
-            $c['logger']->error(str_replace('<br>', PHP_EOL, "HTTP 500: $exception_info"));
+            $c['logger']->error( str_replace('<br>', PHP_EOL, "HTTP 500: $exception_info") );
 
-        } catch (\Exception $exc) {
+        } catch (\Exception $e) {
             
-            //do something else
-            //echo $exc->getTraceAsString();
+            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
+                
+                $output_str .= '<br>'.$e->getTraceAsString();
+            }
         }
         
         $new_response = $response->withStatus(500)
@@ -78,28 +73,23 @@ $container['notFoundHandler'] = function ($c) {
                 \Psr\Http\Message\ServerRequestInterface $request, 
                 \Psr\Http\Message\ResponseInterface $response
             ) use ($c) {
-  
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
-        
-        $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
-        $layout_renderer->appendPath($path_2_layout_files);
-        
+ 
+        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts        
         $layout_content = "Page not found: ".$request->getUri()->__toString();
-            
-        $output_str = $layout_renderer->renderToString( 
-                            'main-template.php', 
-                            ['content'=>$layout_content, 'request_obj'=>$request] 
+           
+        $output_str = $renderer->renderToString( 
+                            'main-template.php', ['content'=>$layout_content] 
                         );
-        
         try {
-            
             //log the not found message
             $c['logger']->notice("HTTP 404: $layout_content");
             
-        } catch (Exception $exc) {
+        } catch (\Exception $e) {
             
-            //do something else
-            //echo $exc->getTraceAsString();
+            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
+                
+                $output_str .= '<br>'.$e->getTraceAsString();
+            }
         }
 
         $new_response = $response->withStatus(404)
@@ -120,10 +110,7 @@ $container['notAllowedHandler'] = function ($c) {
                 $methods
             ) use ($c) {
         
-        $path_2_layout_files = __DIR__.DIRECTORY_SEPARATOR.'../src/layout-templates';
-        
-        $layout_renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
-        $layout_renderer->appendPath($path_2_layout_files);
+        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
         
         $_405_message1 = 'Http method `'. strtoupper($request->getMethod())
                      . '` not allowed on the url `'.$request->getUri()->__toString() 
@@ -132,21 +119,21 @@ $container['notAllowedHandler'] = function ($c) {
                          . implode( ' or ', array_map(function($val){ return "`$val`";}, $methods) );
         
         $layout_content = "$_405_message1<br>$_405_message2";
-        $output_str = $layout_renderer->renderToString( 
-                            'main-template.php', 
-                            ['content'=>$layout_content, 'request_obj'=>$request] 
+        
+        $output_str = $renderer->renderToString(
+                            'main-template.php', ['content'=>$layout_content] 
                         );
-        
-        $log_message = "$_405_message1. $_405_message2";
-        
         try {
             
+            $log_message = "$_405_message1. $_405_message2";
             $c['logger']->notice("HTTP 405: $log_message"); //log the message
             
-        } catch (\Exception $exc) {
+        } catch (\Exception $e) {
             
-            //do something else
-            //echo $exc->getTraceAsString();
+            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ){
+                
+                $output_str .= '<br>'.$e->getTraceAsString();
+            }
         }
 
         $new_response = $response->withStatus(405)
@@ -165,7 +152,7 @@ $container['notAllowedHandler'] = function ($c) {
 $container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\'];
 
 //Object for rendering layout files
-$container['new_layout_renderer'] = $container->factory(function ($c) {
+$container['new_layout_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_layout_renderer']
     $ds = DIRECTORY_SEPARATOR;
@@ -176,7 +163,7 @@ $container['new_layout_renderer'] = $container->factory(function ($c) {
 });
 
 //Object for rendering view files
-$container['new_view_renderer'] = $container->factory(function ($c) {
+$container['new_view_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_view_renderer']
     $ds = DIRECTORY_SEPARATOR;
@@ -201,7 +188,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     ////////////////////////////////////////////////////////////////////////////
     // Start Vespula.Auth LDAP Authentication setup
     ////////////////////////////////////////////////////////////////////////////    
-    $container['vespula_auth'] = function ($c) {
+    $container['vespula_auth'] = function () {
         
         if( session_status() !== PHP_SESSION_ACTIVE ) { session_start(); }
         
@@ -253,7 +240,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     ////////////////////////////////////////////////////////////////////////////
     // Start Vespula.Auth PDO Authentication setup
     ////////////////////////////////////////////////////////////////////////////
-    $container['vespula_auth'] = function ($c) {
+    $container['vespula_auth'] = function () {
         
         $pdo = new \PDO(
                     'sqlite::memory:', 

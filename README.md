@@ -75,31 +75,49 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 ## Key files 
 * **`composer.json`:** contains your application's composer dependencies
 
-* **`README.md`:** Add documentation for your application here
+* **`README.md`:** Add documentation for your application here.
 
-* **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here
+* **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here.
+
+    * Below are the objects that are registered in the container:
+
+        * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-found.html for more details.
+
+        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
+
+        * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
+
+        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the `Hello` controller that ships with this package), then you don't need to update `namespaces_for_controllers`. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where `BaseController` belongs).  
+
+        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the `renderLayout` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+
+        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the `renderView` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+
+        * **`vespula_auth:`** An object used by the `BaseController` to implement authentication functionality (see the `isLoggedIn`, `actionLogin`, `actionLogout` and `actionLoginStatus` methods in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
 * **`config/env.php`:** Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-app.
 
-* **`config/ini-settings.php`:** Modify ini settings via `ini_set(..)` here
+* **`config/ini-settings.php`:** Modify ini settings via `ini_set(..)` here. Remember to update `date.timezone` in this file to match your timezone.
 
-* **`config/routes.php`:** Add additional routes for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in `public/index.php` to false).
+* **`config/routes.php`:** Add additional routes for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in `public/index.php` to false). A default `/` route is defined in this file and will be active if **S3MVC_APP_USE_MVC_ROUTES** has a value of false.
 
-* **`public/.htaccess`:** Apache web-server settings
+* **`public/.htaccess`:** Apache web-server settings.
 
-* **`public/index.php`:** Entry point to application
+* **`public/index.php`:** Entry point to application.
 
-* **`src/controllers/Hello.php`:** Example Controller class
+* **`src/controllers/Hello.php`:** Example Controller class.
 
-* **`src/layout-templates/main-template.php`:** Default site template based on Foundation 5
+* **`src/layout-templates/main-template.php`:** Default site template based on Foundation 5.
 
-* **`src/views/base/index.php`:** View file associated with the `actionIndex` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+* **`src/views/base/index.php`:** View file associated with the `actionIndex` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
 
-* **`src/views/base/login.php`:** View file associated with the `actionLogin` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+* **`src/views/base/login.php`:** View file associated with the `actionLogin` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
 
-* **`src/views/base/login-status.php`:** View file associated with the `actionLoginStatus` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`
+* **`src/views/base/login-status.php`:** View file associated with the `actionLoginStatus` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
 
-* **`src/views/hello/world.php`:** View file associated with the `world` method in `src/controllers/Hello.php`
+* **`src/views/hello/world.php`:** View file associated with the `world` method in `src/controllers/Hello.php`.
 
 ## Configuration
 * To use LDAP autehntication, you will need to update the values for the *$server*, *'basedn'*, *'bindpw'*, *'searchfilter'* and '*$dnformat*' in the *'aura_auth_adapter_object'* entry in the dependency injection container.
@@ -122,6 +140,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
     * `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
 
 * Controller classes must extend `\Slim3MvcTools\BaseController`
+    
+    //default route with default controller and default action
+    `/`
 
     //controller with no action and params route handler
 
@@ -133,23 +154,8 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 
     `/{controller}/{action}/` **//handle trailing slash**
 
-### Registered Objects in the Container (scalar values are defined as constants in the public/index.php file)
 
-* **`errorHandler:`** see http://www.slimframework.com/docs/handlers/error.html
 
-* **`notFoundHandler:`** see http://www.slimframework.com/docs/handlers/not-found.html
-
-* **`notAllowedHandler:`** see http://www.slimframework.com/docs/handlers/not-allowed.html
-
-* **`logger:`**
-
-* **`namespaces_for_controllers:`**
-
-* **`new_layout_renderer:`**
-
-* **`new_view_renderer:`**
-
-* **`vespula_auth:`**
 
 Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
 or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
