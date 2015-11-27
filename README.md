@@ -22,7 +22,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 2. **`$ php -S 0.0.0.0:8888 -t public`**
 
-3. Browse to http://localhost:8888
+3. Browse to [http://localhost:8888](http://localhost:8888)
 
   * Below are the default links that are available upon installation:
 
