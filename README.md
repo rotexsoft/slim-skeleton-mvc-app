@@ -111,6 +111,10 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 * S3MVC_APP_PUBLIC_PATH
 * S3MVC_APP_ROOT_PATH
 
+* Helper script for creating controller classes and a default index view:
+
+    * `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
+
 * Controller classes must extend `\Slim3MvcTools\BaseController`
 
     //controller with no action and params route handler
