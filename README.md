@@ -108,6 +108,8 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/)
 * `s3MVC_GetBaseUrlPath()`
 * `s3MVC_GetCurrentAppEnvironment()`
 * `s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`
+* S3MVC_APP_PUBLIC_PATH
+* S3MVC_APP_ROOT_PATH
 
 * Controller classes must extend `\Slim3MvcTools\BaseController`
 
