@@ -9,8 +9,19 @@ define('S3MVC_APP_ENV_TESTING', 'testing');
 define('S3MVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
+//If true, the string `action` will be prepended to action method names (if the
+//method name does not already start with the string `action`). The resulting 
+//method name will be converted to camel case before being executed. 
+//If false, then action method names will only be converted to camel 
+//case before being executed. 
+//NOTE: This setting does not apply to S3MVC_APP_DEFAULT_ACTION_NAME.
+//      It only applies to the routes below:
+//          '/{controller}/{action}[/{parameters:.+}]'
+//          '/{controller}/{action}/'
+define('S3MVC_APP_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
+
 //If true, the mvc routes will be enabled. If false, then you must explicitly
-//define the routes for your application inside config/routes.php
+//define all the routes for your application inside config/routes.php
 define('S3MVC_APP_USE_MVC_ROUTES', true);
 
 //This is used to create a controller object to handle the default / route. 
@@ -56,6 +67,16 @@ function s3MVC_GetCurrentAppEnvironment() {
     return $current_env;
 }
 
+function s3MVC_PrependAction2ActionMethodName($action_method_name) {
+    
+    if( strtolower( substr($action_method_name, 0, 6) ) !== "action"){
+        
+        $action_method_name = 'action'.  ucfirst($action_method_name);
+    }
+    
+    return $action_method_name;
+}
+
 $s3mvc_root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
 
 //handle ini settings
@@ -86,7 +107,6 @@ function (
     
     //No controller or action was specified, so use default controller and 
     //invoke the default action on it.
-    $container = $this->getContainer();
     $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
     $controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
@@ -124,6 +144,11 @@ $s3mvc_route_handler =
         //$map = array('hello'=>'someothercontroller');
 
         $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
+        
+        if( S3MVC_APP_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
+            
+            $action_method = s3MVC_PrependAction2ActionMethodName($action_method);
+        }
         
         //strip trailing forward slash
         $params_str = 
@@ -204,21 +229,19 @@ $s3mvc_controller_only_route_handler =
 
         //No action was specified, so invoke the default action on specified 
         //controller.
-        $container = $this->getContainer();
-        $action = S3MVC_APP_DEFAULT_ACTION_NAME;
+        $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
 
         //s3MVC_CreateController could return a Response object if $args['controller']
         //doesn't match any existing controller class.
         $controller_object = 
             s3MVC_CreateController(
-                $this, $args['controller'], \Slim3MvcTools\Functions\Str\camelToDashes($action), 
-                $request, $response
+                $this, $args['controller'], '', $request, $response
             );
 
         //invoke default action
         $actn_res = 
             ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
-                ? $controller_object->$action() : $controller_object;
+                ? $controller_object->$default_action() : $controller_object;
 
         if( is_string($actn_res) ) {
 

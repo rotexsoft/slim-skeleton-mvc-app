@@ -25,7 +25,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
     
-    public function world($name, $another_param) {
+    public function actionWorld($name, $another_param) {
         
         //get the contents of the view first
         $view_str = $this->renderView('world.php', ['name'=>$name, 'params'=>$another_param]);
