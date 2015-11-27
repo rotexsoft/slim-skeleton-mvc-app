@@ -6,6 +6,9 @@ define('S3MVC_APP_ENV_PRODUCTION', 'production');
 define('S3MVC_APP_ENV_STAGING', 'staging');
 define('S3MVC_APP_ENV_TESTING', 'testing');
 
+define('S3MVC_APP_PUBLIC_PATH', dirname(__FILE__));
+define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
+
 s3MVC_GetSuperGlobal(); //this method is first called here to ensure that $_SERVER, 
                         //$_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are 
                         //captured in their original state by the static $super_globals
@@ -70,14 +73,14 @@ function (
     //No controller or action was specified, so use default controller and 
     //invoke the default action on it.
     $container = $this->getContainer();
-    $action = $container->get('default_action_name');
+    $default_action = $container->get('default_action_name');
     $controller = $container->get('default_controller_class_name');
     
     //create default controller
-    $default_controller = new $controller($this, '', '');
+    $default_controller_obj = new $controller($this, '', '');
 
     //invoke default action
-    $action_result = $default_controller->$action();
+    $action_result = $default_controller_obj->$default_action();
     
     if( is_string($action_result) ) {
         
@@ -87,7 +90,7 @@ function (
 
         $response = $action_result; //the action returned a Response object
     }
-        
+    
     return $response;
 };
 
@@ -136,9 +139,11 @@ $s3mvc_route_handler =
                                 $this, $args['controller'], $args['action'], 
                                 $req, $resp
                             );
-        
-        if( !method_exists($controller_obj, $action_method) ) {
-            
+
+        if( 
+            $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
+            && !method_exists($controller_obj, $action_method) 
+        ) {
             $controller_class_name = get_class($controller_obj);
 
             //404 Not Found: Action method does not exist in the controller object.
@@ -147,25 +152,30 @@ $s3mvc_route_handler =
             
             //invoke the not found handler
             return $notFoundHandler($req, $resp);
+            
+        } else if ( 
+            $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
+        ) {
+            //execute the controller's action
+            $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
+            
+            //If we got this far, that means that the action method was successfully 
+            //executed on the controller object.
+            if( is_string($actn_res) ) {
+
+                $resp->getBody()->write($actn_res); //write the string in the response object as the response body
+
+            } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
+
+                $resp = $actn_res; //the action returned a Response object
+            }
+        } else {
+            
+            //s3MVC_CreateController(..) returned a Response object containing a
+            //not found page.
+            $resp = $controller_obj;
         }
-
-        //line below prints the last time the current script (in this case index.php) was modified
-        //echo "Last modified: " . date ("F d Y H:i:s.", getlastmod()). '<br>';
-
-        //execute the controller's action
-        $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
-
-        //If we got this far, that means that the action method was successfully 
-        //executed on the controller object.
-        if( is_string($actn_res) ) {
-
-            $resp->getBody()->write($actn_res); //write the string in the response object as the response body
-
-        } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
-
-            $resp = $actn_res; //the action returned a Response object
-        }
-
+        
         return $resp;
     };
 
@@ -183,7 +193,8 @@ $s3mvc_controller_only_route_handler =
         $container = $this->getContainer();
         $action = $container->get('default_action_name');
 
-        //create controller
+        //s3MVC_CreateController could return a Response object if $args['controller']
+        //doesn't match any existing controller class.
         $controller_object = 
             s3MVC_CreateController(
                 $this, $args['controller'], \Slim3MvcTools\Functions\Str\camelToDashes($action), 
@@ -191,7 +202,9 @@ $s3mvc_controller_only_route_handler =
             );
 
         //invoke default action
-        $actn_res = $controller_object->$action();
+        $actn_res = 
+            ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
+                ? $controller_object->$action() : $controller_object;
 
         if( is_string($actn_res) ) {
 
