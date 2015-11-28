@@ -46,10 +46,9 @@ s3MVC_GetSuperGlobal(); //this method is first called here to ensure that $_SERV
  * This function detects which environment your web-app is running in 
  * (i.e. one of Production, Development, Staging or Testing).
  * 
- * NOTE: Make sure you rename /public/env-dist.php to /public/env.php and then
- *       return one of S3MVC_APP_ENV_DEV, S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or 
- *       S3MVC_APP_ENV_TESTING relevant to the environment you are installing your 
- *       web-app.
+ * NOTE: Make sure you edit /public/env.php to return one of S3MVC_APP_ENV_DEV, 
+ *       S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or S3MVC_APP_ENV_TESTING 
+ *       relevant to the environment you are installing your web-app.
  * 
  * @return string
  */
