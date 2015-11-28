@@ -89,9 +89,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
         * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
 
-        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-found.html for more details.
+        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in **`public/index.php`** or **`config/routes.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details.
 
-        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
+        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in **`public/index.php`** or **`config/routes.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
 
