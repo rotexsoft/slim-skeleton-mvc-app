@@ -204,17 +204,6 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 
 ## MVC Functionality
-
-* **`s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:**
-* **`s3MVC_DumpVar($v)`:**
-* **`s3MVC_GetBaseUrlPath()`:**
-* **`s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`:**
-
-
-* Helper script for creating controller classes and a default index view:
-
-    `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
-
 * Controller classes must extend `\Slim3MvcTools\Controllers\BaseController`
     
     //default route with default controller and default action
@@ -229,16 +218,16 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
     `/{controller}/{action}[/{parameters:.+}]`
 
     `/{controller}/{action}/` **//handle trailing slash**
+* Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client) or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, injected into it via $response->getBody()->write($data) );
+* **`s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:**
+* **`s3MVC_DumpVar($v)`:**
+* **`s3MVC_GetBaseUrlPath()`:**
+* **`s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`:**
+* Helper script for creating controller classes and a default index view:
 
+        `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
 
-
-
-Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client)
-or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, 
-injected into it via $response->getBody()->write($data) );
-
-### Security Considerations
-
+## Security Considerations
 * Make sure to validate / sanitize the password value posted to `\Slim3MvcTools\Controllers\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
 
 ## Documentation for Components Used
@@ -246,8 +235,8 @@ injected into it via $response->getBody()->write($data) );
 * Slim3 Skeleton MVC Tools https://github.com/rotexsoft/slim3-skeleton-mvc-tools contains BaseController.php and other Slim3 Skeleton MVC specific classes and functions 
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
 * Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
-* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works
 * File-Renderer https://github.com/rotexsoft/file-renderer for rendering the template and view files
+* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works
 
 
 ## References
