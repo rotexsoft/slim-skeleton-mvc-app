@@ -165,6 +165,31 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * **`public/index.php`:** Entry point to application.
 
+    * Below are some constants and functions defined in this file:
+
+        * **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`S3MVC_APP_DEFAULT_ACTION_NAME:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`s3MVC_GetCurrentAppEnvironment():`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+            * **`S3MVC_APP_ENV_DEV:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+            * **`S3MVC_APP_ENV_PRODUCTION:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+            * **`S3MVC_APP_ENV_STAGING:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+            * **`S3MVC_APP_ENV_TESTING:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`S3MVC_APP_PUBLIC_PATH:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`S3MVC_APP_ROOT_PATH:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+        * **`S3MVC_APP_USE_MVC_ROUTES:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+
+
 * **`src/controllers/Hello.php`:** Example Controller class.
 
 * **`src/layout-templates/main-template.php`:** Default site template based on Foundation 5.
@@ -185,7 +210,6 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 * `s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`
 * `s3MVC_DumpVar($v)`
 * `s3MVC_GetBaseUrlPath()`
-* `s3MVC_GetCurrentAppEnvironment()`
 * `s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`
 * S3MVC_APP_PUBLIC_PATH
 * S3MVC_APP_ROOT_PATH
