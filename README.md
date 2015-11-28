@@ -114,7 +114,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                         //extending \Slim3MvcTools\BaseController calls 
                                         //parent::__construct(...) in its own constructor.
 
-                //You can access this renderer from within your controller methods like so:
+                //You can also access this renderer from within your controller methods like so:
                 $this->app->getContainer()->get('new_layout_renderer'); //keep in mind that accessing it like 
                                                                         //this returns a new instance with 
                                                                         //each call.
@@ -135,7 +135,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                       //extending \Slim3MvcTools\BaseController calls 
                                       //parent::__construct(...) in its own constructor.
 
-                //You can access this renderer from within your controller methods like so:
+                //You can also access this renderer from within your controller methods like so:
                 $this->app->getContainer()->get('new_view_renderer'); //keep in mind that accessing it like
                                                                       //this returns a new instance with 
                                                                       //each call.
