@@ -11,7 +11,7 @@ define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
 //If true, the mvc routes will be enabled. If false, then you must explicitly
 //define all the routes for your application inside config/routes.php
-define('S3MVC_APP_USE_MVC_ROUTES', false);
+define('S3MVC_APP_USE_MVC_ROUTES', true);
 
 //If true, the string `action` will be prepended to action method names (if the
 //method name does not already start with the string `action`). The resulting 
