@@ -111,7 +111,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                 //You can access this renderer from within your controller methods like so:
                 $this->layout_renderer; //it is automatically set as a property of the controller 
                                         //object, as long as your controller object which should be
-                                        //extending \Slim3MvcTools\BaseController calls 
+                                        //extending \Slim3MvcTools\Controllers\BaseController calls 
                                         //parent::__construct(...) in its own constructor.
 
                 //You can also access this renderer from within your controller methods like so:
@@ -120,8 +120,8 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                                                         //each call.
 
                 //There is also a helper method available in all your controllers that
-                //extend \Slim3MvcTools\BaseController called renderLayout via which
-                //you can interact with $this->layout_renderer
+                //extend \Slim3MvcTools\Controllers\BaseController called renderLayout 
+                //via which you can interact with $this->layout_renderer
             ?>
             ```
 
@@ -132,7 +132,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                 //You can access this renderer from within your controller methods like so:
                 $this->view_renderer; //it is automatically set as a property of the controller 
                                       //object, as long as your controller object which should be
-                                      //extending \Slim3MvcTools\BaseController calls 
+                                      //extending \Slim3MvcTools\Controllers\BaseController calls 
                                       //parent::__construct(...) in its own constructor.
 
                 //You can also access this renderer from within your controller methods like so:
@@ -141,8 +141,8 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                                                       //each call.
 
                 //There is also a helper method available in all your controllers that
-                //extend \Slim3MvcTools\BaseController called renderView via which you
-                //can interact with $this->view_renderer
+                //extend \Slim3MvcTools\Controllers\BaseController called renderView 
+                //via which you can interact with $this->view_renderer
             ?>
             ```
 
@@ -204,21 +204,18 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 
 ## MVC Functionality
-* `s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`
-* `s3MVC_DumpVar($v)`
-* `s3MVC_GetBaseUrlPath()`
-* `s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`
-* S3MVC_APP_PUBLIC_PATH
-* S3MVC_APP_ROOT_PATH
-* S3MVC_APP_USE_MVC_ROUTES
-* S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME
-* S3MVC_APP_DEFAULT_ACTION_NAME
+
+* **`s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:**
+* **`s3MVC_DumpVar($v)`:**
+* **`s3MVC_GetBaseUrlPath()`:**
+* **`s3MVC_GetSuperGlobal($global_name='', $key='', $default_val='')`:**
+
 
 * Helper script for creating controller classes and a default index view:
 
-    * `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
+    `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
 
-* Controller classes must extend `\Slim3MvcTools\BaseController`
+* Controller classes must extend `\Slim3MvcTools\Controllers\BaseController`
     
     //default route with default controller and default action
     `/`
@@ -242,7 +239,7 @@ injected into it via $response->getBody()->write($data) );
 
 ### Security Considerations
 
-* Make sure to validate / sanitize the password value posted to `\Slim3MvcTools\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
+* Make sure to validate / sanitize the password value posted to `\Slim3MvcTools\Controllers\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
 
 ## Documentation for Components Used
 * SlimPHP 3 http://www.slimframework.com/docs/
