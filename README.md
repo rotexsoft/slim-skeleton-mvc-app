@@ -96,10 +96,10 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
             
             ```php
-                <?php
-                    //You can access the logger from within your controller like so
-                    $this->app->getContainer()->get('logger');
-                ?>
+            <?php
+                //You can access the logger from within your controller like so
+                $this->app->getContainer()->get('logger');
+            ?>
             ```
 
         * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the `Hello` controller that ships with this package), then you don't need to update `namespaces_for_controllers`. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where `BaseController` belongs).  
