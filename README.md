@@ -106,7 +106,43 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
         * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
+            ```php
+            <?php
+                //You can access this renderer from within your controller methods like so:
+                $this->layout_renderer; //it is automatically set as a property of the controller 
+                                        //object, as long as your controller object which should be
+                                        //extending \Slim3MvcTools\BaseController calls 
+                                        //parent::__construct(...) in its own constructor.
+
+                //You can access this renderer from within your controller methods like so:
+                $this->app->getContainer()->get('new_layout_renderer'); //keep in mind that accessing it like this
+                                                                        //returns a new instance with each call.
+
+                //There is also a helper method available in all your controllers that
+                //extend \Slim3MvcTools\BaseController called renderLayout via which
+                //you can interact with $this->layout_renderer
+            ?>
+            ```
+
         * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+
+            ```php
+            <?php
+                //You can access this renderer from within your controller methods like so:
+                $this->view_renderer; //it is automatically set as a property of the controller 
+                                      //object, as long as your controller object which should be
+                                      //extending \Slim3MvcTools\BaseController calls 
+                                      //parent::__construct(...) in its own constructor.
+
+                //You can access this renderer from within your controller methods like so:
+                $this->app->getContainer()->get('new_view_renderer'); //keep in mind that accessing it like this
+                                                                      //returns a new instance with each call.
+
+                //There is also a helper method available in all your controllers that
+                //extend \Slim3MvcTools\BaseController called renderView via which you
+                //can interact with $this->view_renderer
+            ?>
+            ```
 
         * **`vespula_auth:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, `actionLogout` and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
