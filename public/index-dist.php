@@ -25,7 +25,7 @@ define('S3MVC_APP_USE_MVC_ROUTES', true);
 define('S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
 
 //This is used to create a controller object to handle the default / route. 
-//Must be prefixed with the name-space if the controller class is in a namespace.
+//Must be prefixed with the namespace if the controller class is in a namespace.
 define('S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', '\\Slim3MvcTools\\Controllers\\BaseController');
 
 //This is the name of the action / method to be called on the default controller 
