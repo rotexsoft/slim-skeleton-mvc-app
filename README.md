@@ -165,9 +165,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * **`public/index.php`:** Entry point to application.
 
-    * Below are some constants and functions defined in this file:
+    * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file:
 
-        * **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`S3MVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**
+        * **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`S3MVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**.
 
         * **`S3MVC_APP_DEFAULT_ACTION_NAME:`** A string value. This is the name of the action or method to be called on the default controller to handle the default **`/`** route. This method should return a response string (ie. valid html) or a PSR 7 response object containing valid html in its body. This default action or method should accept no arguments or parameters.
 
@@ -175,19 +175,19 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
         * **`s3MVC_GetCurrentAppEnvironment():`** This function detects which environment your web-app is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
 
-            * **`S3MVC_APP_ENV_DEV:`** A string value representing that your application is running in a development environment.
+            * **`S3MVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
 
-            * **`S3MVC_APP_ENV_PRODUCTION:`** A string value representing that your application is running in a production / live environment.
+            * **`S3MVC_APP_ENV_PRODUCTION:`** A string value representing that your application is running in production / live mode.
 
-            * **`S3MVC_APP_ENV_STAGING:`** A string value representing that your application is running in a staging environment.
+            * **`S3MVC_APP_ENV_STAGING:`** A string value representing that your application is running in staging mode.
 
-            * **`S3MVC_APP_ENV_TESTING:`** A string value representing that your application is running in a testing environment.
+            * **`S3MVC_APP_ENV_TESTING:`** A string value representing that your application is running in testing mode.
 
         * **`S3MVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
 
         * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (ie. the folder containing all your apps folders like **`src`**, **`config`**, etc).
 
-        * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes.php`**
+        * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes.php`** (like working with pure Slim 3).
 
 
 * **`src/controllers/Hello.php`:** Example Controller class.
