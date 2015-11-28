@@ -102,13 +102,13 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
             ?>
             ```
 
-        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the **`Hello`** controller that ships with this package), then you don't need to update **`namespaces_for_controllers`**. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where `BaseController` belongs).  
+        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the **`Hello`** controller that ships with this package), then you don't need to update **`namespaces_for_controllers`**. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where **`BaseController`** belongs).  
 
-        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the `renderLayout` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
-        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the `renderView` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
-        * **`vespula_auth:`** An object used by the `BaseController` to implement authentication functionality (see the `isLoggedIn`, `actionLogin`, `actionLogout` and `actionLoginStatus` methods in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
+        * **`vespula_auth:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, `actionLogout` and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
             ```php
             <?php
