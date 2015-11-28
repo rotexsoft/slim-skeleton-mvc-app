@@ -207,6 +207,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 * Controller classes must extend `\Slim3MvcTools\Controllers\BaseController`
     
     //default route with default controller and default action
+
     `/`
 
     //controller with no action and params route handler
@@ -217,7 +218,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
     `/{controller}/{action}[/{parameters:.+}]`
 
-    `/{controller}/{action}/` **//handle trailing slash**
+    `/{controller}/{action}/` **//handles trailing slash**
 * Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client) or an instance of Psr\Http\Message\ResponseInterface (e.g. $response, that has the output to be displayed to the client, injected into it via $response->getBody()->write($data) );
 * **`s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:**
 * **`s3MVC_DumpVar($v)`:**
