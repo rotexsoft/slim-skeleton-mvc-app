@@ -96,10 +96,10 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
 
             ```php
-                <?php
-                    //You can access the logger from within your controller like so
-                    $this->app->getContainer()->get('logger');
-                ?>
+            <?php
+                //You can access the logger from within your controller like so
+                $this->app->getContainer()->get('logger');
+            ?>
             ```
 
         * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the `Hello` controller that ships with this package), then you don't need to update `namespaces_for_controllers`. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where `BaseController` belongs).  
@@ -109,6 +109,13 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
         * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the `renderView` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
         * **`vespula_auth:`** An object used by the `BaseController` to implement authentication functionality (see the `isLoggedIn`, `actionLogin`, `actionLogout` and `actionLoginStatus` methods in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
+
+            ```php
+            <?php
+                //You can access the logger from within your controller like so
+                $this->app->getContainer()->get('vespula_auth');
+            ?>
+            ```
 
 * **`config/env.php`:** Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-app.
 
