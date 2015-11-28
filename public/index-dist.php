@@ -106,10 +106,10 @@ function (
     //No controller or action was specified, so use default controller and 
     //invoke the default action on it.
     $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
-    $controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
+    $default_controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
     //create default controller
-    $default_controller_obj = new $controller($this, '', '');
+    $default_controller_obj = new $default_controller($this, '', '');
 
     //invoke default action
     $action_result = $default_controller_obj->$default_action();
@@ -236,6 +236,20 @@ $s3mvc_controller_only_route_handler =
                 $this, $args['controller'], '', $request, $response
             );
 
+        if( 
+            $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
+            && !method_exists($controller_object, $default_action) 
+        ) {
+            $controller_class_name = get_class($controller_object);
+
+            //404 Not Found: Action method does not exist in the controller object.
+            $this->getContainer()->get('logger')->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`.");
+            $notFoundHandler = $this->getContainer()->get('notFoundHandler');
+            
+            //invoke the not found handler
+            return $notFoundHandler($request, $response);
+        }
+        
         //invoke default action
         $actn_res = 
             ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
