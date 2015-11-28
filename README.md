@@ -50,7 +50,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
 
-## Key directories 
+## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
  
 * **`logs`:** Log files
@@ -78,7 +78,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 * **`vendor`:** Composer dependencies
 
 
-## Key files 
+## Key Files and Configuration
 * **`composer.json`:** contains your application's composer dependencies
 
 * **`README.md`:** Add documentation for your application here.
@@ -194,17 +194,14 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * **`src/layout-templates/main-template.php`:** Default site template based on Foundation 5.
 
-* **`src/views/base/index.php`:** View file associated with the `actionIndex` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
+* **`src/views/base/index.php`:** View file associated with the **`actionIndex`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
 
-* **`src/views/base/login.php`:** View file associated with the `actionLogin` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
+* **`src/views/base/login.php`:** View file associated with the **`actionLogin`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
 
-* **`src/views/base/login-status.php`:** View file associated with the `actionLoginStatus` method in `vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`.
+* **`src/views/base/login-status.php`:** View file associated with the **`actionLoginStatus`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
 
-* **`src/views/hello/world.php`:** View file associated with the `world` method in `src/controllers/Hello.php`.
+* **`src/views/hello/world.php`:** View file associated with the **`actionWorld`** method in **`src/controllers/Hello.php`**.
 
-## Configuration
-* To use LDAP autehntication, you will need to update the values for the *$server*, *'basedn'*, *'bindpw'*, *'searchfilter'* and '*$dnformat*' in the *'aura_auth_adapter_object'* entry in the dependency injection container.
-> You can optionally change the default *'successful_login_callback'* callback.
 
 ## MVC Functionality
 * `s3MVC_CreateController(\Slim\App $app, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`
