@@ -14,7 +14,13 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 ## Installation (Creating a Project)
 
+* Get the most recent development version (creates the project from the master branch in the repo)
+
   **`$ composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app`**
+
+* Get the most stable version (creates the project from the most recent tagged release in the repo)
+
+  **`$ composer create-project -n rotexsoft/slim3-skeleton-mvc-app my-app`**
 
 ### Testing the Installation
 
@@ -88,6 +94,12 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
         * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
+            
+            ```php
+          <?php
+              $this->app->getContainer()->get('logger');
+          ?>
+            ```
 
         * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the `Hello` controller that ships with this package), then you don't need to update `namespaces_for_controllers`. The default namespace that ships with this package is `'\\Slim3MvcTools\\Controllers\\'` (the namespace where `BaseController` belongs).  
 
