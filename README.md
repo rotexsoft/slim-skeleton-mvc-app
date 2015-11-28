@@ -94,7 +94,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
         * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in `public/index.php` or `config/routes.php`). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
-            
+
             ```php
                 <?php
                     //You can access the logger from within your controller like so
