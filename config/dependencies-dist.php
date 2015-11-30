@@ -190,8 +190,6 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     ////////////////////////////////////////////////////////////////////////////    
     $container['vespula_auth'] = function () {
         
-        if( session_status() !== PHP_SESSION_ACTIVE ) { session_start(); }
-        
         //Optionally pass a maximum idle time and a time until the session 
         //expires (in seconds)
         $expire = 3600;
@@ -264,8 +262,6 @@ INSERT INTO "user_authentication_accounts" VALUES( 'admin', '$pass1' );
 INSERT INTO "user_authentication_accounts" VALUES( 'root', '$pass2' );
 SQL;
         $pdo->exec($sql); //add two default user accounts
-        
-        if( session_status() !== PHP_SESSION_ACTIVE ) { session_start(); }
         
         //Optionally pass a maximum idle time and a time until the session 
         //expires (in seconds)
