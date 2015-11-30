@@ -99,9 +99,10 @@ function (
     \Psr\Http\Message\ServerRequestInterface $request, 
     \Psr\Http\Message\ResponseInterface $response, 
     $args
-) {
-    //NOTE: inside this function $this refers to $app. $app is automatically  
-    //      bound to this closure by Slim 3 when $app->map is called.
+) use ($app) {
+    //NOTE: inside this function $this refers to the Slim app's container. 
+    //      It is automatically bound to this closure by Slim 3 when any of
+    //      $app->map or $app->get or $app->post, etc is called.
     
     //No controller or action was specified, so use default controller and 
     //invoke the default action on it.
@@ -109,7 +110,7 @@ function (
     $default_controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
     //create default controller
-    $default_controller_obj = new $default_controller($this, '', '');
+    $default_controller_obj = new $default_controller($app, '', '');
 
     //invoke default action
     $action_result = $default_controller_obj->$default_action();
@@ -127,146 +128,147 @@ function (
 };
 
 $s3mvc_route_handler = 
-    function(
-        \Psr\Http\Message\ServerRequestInterface $req, 
-        \Psr\Http\Message\ResponseInterface $resp, 
-        $args
+function(
+    \Psr\Http\Message\ServerRequestInterface $req, 
+    \Psr\Http\Message\ResponseInterface $resp, 
+    $args
+) use ($app) {
+    //NOTE: inside this function $this refers to the Slim app's container. 
+    //      It is automatically bound to this closure by Slim 3 when any of
+    //      $app->map or $app->get or $app->post, etc is called.
+    $container = $this;
+    $logger = $container->get('logger');
+
+    //Further enhancements:
+    //Add an assoc array that contains allowed actions for a controller
+    //$map = array('hello'=>'someothercontroller');
+
+    $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
+
+    if( S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
+
+        $action_method = s3MVC_PrependAction2ActionMethodName($action_method);
+    }
+
+    //strip trailing forward slash
+    $params_str = 
+            isset($args['parameters'])? rtrim($args['parameters'], '/') : '';
+
+    //convert to array of parameters
+    $params = empty($params_str)? [] : explode('/', $params_str);
+
+    $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
+
+    if( ! preg_match($regex_4_valid_method_name, $action_method) ) {
+
+        //A valid php class' method name starts with a letter or underscore, 
+        //followed by any number of letters, numbers, or underscores.
+
+        //Make sure the controller name is a valid string usable as a class name
+        //in php as defined in http://php.net/manual/en/language.oop5.basic.php
+        //trigger 404 not found
+        $logger->notice("`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`.");
+        $notFoundHandler = $container->get('notFoundHandler');
+
+        //invoke the not found handler
+        return $notFoundHandler($req, $resp);
+    }
+
+    $controller_obj = s3MVC_CreateController(
+                        $app, $args['controller'], $args['action'], $req, $resp
+                    );
+
+    if( 
+        $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
+        && !method_exists($controller_obj, $action_method) 
     ) {
-        //NOTE: inside this function $this refers to $app. $app is automatically  
-        //      bound to this closure by Slim 3 when $app->map is called.
-        $container = $this->getContainer();
-        $logger = $container->get('logger');
+        $controller_class_name = get_class($controller_obj);
 
-        //Further enhancements:
-        //Add an assoc array that contains allowed actions for a controller
-        //$map = array('hello'=>'someothercontroller');
+        //404 Not Found: Action method does not exist in the controller object.
+        $logger->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
+        $notFoundHandler = $container->get('notFoundHandler');
 
-        $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
-        
-        if( S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
-            
-            $action_method = s3MVC_PrependAction2ActionMethodName($action_method);
-        }
-        
-        //strip trailing forward slash
-        $params_str = 
-                isset($args['parameters'])? rtrim($args['parameters'], '/') : '';
-        
-        //convert to array of parameters
-        $params = empty($params_str)? [] : explode('/', $params_str);
+        //invoke the not found handler
+        return $notFoundHandler($req, $resp);
 
-        $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
-
-        if( ! preg_match($regex_4_valid_method_name, $action_method) ) {
-
-            //A valid php class' method name starts with a letter or underscore, 
-            //followed by any number of letters, numbers, or underscores.
-
-            //Make sure the controller name is a valid string usable as a class name
-            //in php as defined in http://php.net/manual/en/language.oop5.basic.php
-            //trigger 404 not found
-            $logger->notice("`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`.");
-            $notFoundHandler = $container->get('notFoundHandler');
-            
-            //invoke the not found handler
-            return $notFoundHandler($req, $resp);
-        }
-
-        $controller_obj = s3MVC_CreateController(
-                                $this, $args['controller'], $args['action'], 
-                                $req, $resp
-                            );
-
-        if( 
-            $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
-            && !method_exists($controller_obj, $action_method) 
-        ) {
-            $controller_class_name = get_class($controller_obj);
-
-            //404 Not Found: Action method does not exist in the controller object.
-            $logger->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
-            $notFoundHandler = $container->get('notFoundHandler');
-            
-            //invoke the not found handler
-            return $notFoundHandler($req, $resp);
-            
-        } else if ( 
-            $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
-        ) {
-            //execute the controller's action
-            $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
-            
-            //If we got this far, that means that the action method was successfully 
-            //executed on the controller object.
-            if( is_string($actn_res) ) {
-
-                $resp->getBody()->write($actn_res); //write the string in the response object as the response body
-
-            } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
-
-                $resp = $actn_res; //the action returned a Response object
-            }
-        } else {
-            
-            //s3MVC_CreateController(..) returned a Response object containing a
-            //not found page.
-            $resp = $controller_obj;
-        }
-        
-        return $resp;
-    };
-
-$s3mvc_controller_only_route_handler =             
-    function (
-        \Psr\Http\Message\ServerRequestInterface $request, 
-        \Psr\Http\Message\ResponseInterface $response, 
-        $args
+    } else if ( 
+        $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
     ) {
-        //NOTE: inside this function $this refers to $app. $app is automatically  
-        //      bound to this closure by Slim 3 when $app->map is called.
+        //execute the controller's action
+        $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
 
-        //No action was specified, so invoke the default action on specified 
-        //controller.
-        $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
-
-        //s3MVC_CreateController could return a Response object if $args['controller']
-        //doesn't match any existing controller class.
-        $controller_object = 
-            s3MVC_CreateController(
-                $this, $args['controller'], '', $request, $response
-            );
-
-        if( 
-            $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
-            && !method_exists($controller_object, $default_action) 
-        ) {
-            $controller_class_name = get_class($controller_object);
-
-            //404 Not Found: Action method does not exist in the controller object.
-            $this->getContainer()->get('logger')->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`.");
-            $notFoundHandler = $this->getContainer()->get('notFoundHandler');
-            
-            //invoke the not found handler
-            return $notFoundHandler($request, $response);
-        }
-        
-        //invoke default action
-        $actn_res = 
-            ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
-                ? $controller_object->$default_action() : $controller_object;
-
+        //If we got this far, that means that the action method was successfully 
+        //executed on the controller object.
         if( is_string($actn_res) ) {
 
-            //write the string in the response object as the response body
-            $response->getBody()->write($actn_res);
+            $resp->getBody()->write($actn_res); //write the string in the response object as the response body
 
         } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
 
-            $response = $actn_res; //the action returned a Response object
+            $resp = $actn_res; //the action returned a Response object
         }
+    } else {
 
-        return $response;
-    };
+        //s3MVC_CreateController(..) returned a Response object containing a
+        //not found page.
+        $resp = $controller_obj;
+    }
+
+    return $resp;
+};
+
+$s3mvc_controller_only_route_handler =             
+function (
+    \Psr\Http\Message\ServerRequestInterface $request, 
+    \Psr\Http\Message\ResponseInterface $response, 
+    $args
+) use ($app) {
+    //NOTE: inside this function $this refers to the Slim app's container. 
+    //      It is automatically bound to this closure by Slim 3 when any of
+    //      $app->map or $app->get or $app->post, etc is called.
+
+    //No action was specified, so invoke the default action on specified 
+    //controller.
+    $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
+
+    //s3MVC_CreateController could return a Response object if $args['controller']
+    //doesn't match any existing controller class.
+    $controller_object = 
+        s3MVC_CreateController(
+            $app, $args['controller'], '', $request, $response
+        );
+
+    if( 
+        $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
+        && !method_exists($controller_object, $default_action) 
+    ) {
+        $controller_class_name = get_class($controller_object);
+
+        //404 Not Found: Action method does not exist in the controller object.
+        $this->get('logger')->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`.");
+        $notFoundHandler = $this->get('notFoundHandler');
+
+        //invoke the not found handler
+        return $notFoundHandler($request, $response);
+    }
+
+    //invoke default action
+    $actn_res = 
+        ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
+            ? $controller_object->$default_action() : $controller_object;
+
+    if( is_string($actn_res) ) {
+
+        //write the string in the response object as the response body
+        $response->getBody()->write($actn_res);
+
+    } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
+
+        $response = $actn_res; //the action returned a Response object
+    }
+
+    return $response;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Start: Load app specific routes
