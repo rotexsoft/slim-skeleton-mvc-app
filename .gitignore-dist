@@ -29,10 +29,4 @@ phpunit.xml
 logs/*
 !logs/.htaccess
 
-/config/env.php
-/public/index.php
-/config/routes.php
-/config/dependencies.php
-/config/ini-settings.php
-
 !public/js/*/vendor
