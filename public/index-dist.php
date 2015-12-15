@@ -110,7 +110,11 @@ function (
     $default_controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
     //create default controller
-    $default_controller_obj = new $default_controller($app, '', '');
+    $default_controller_obj = new $default_controller(
+                                        $app,
+                                        \Slim3MvcTools\Functions\Str\toDashes($default_controller),
+                                        \Slim3MvcTools\Functions\Str\toDashes($default_action)
+                                    );
 
     //invoke default action
     $action_result = $default_controller_obj->$default_action();
@@ -235,7 +239,7 @@ function (
     //doesn't match any existing controller class.
     $controller_object = 
         s3MVC_CreateController(
-            $app, $args['controller'], '', $request, $response
+            $app, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $request, $response
         );
 
     if( 
