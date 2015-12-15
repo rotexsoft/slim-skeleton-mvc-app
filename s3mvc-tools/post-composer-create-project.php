@@ -13,7 +13,7 @@ $config_src_folder = realpath($raw_config_src_folder).DIRECTORY_SEPARATOR;
 $raw_public_src_folder = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'public';
 $public_src_folder = realpath($raw_public_src_folder).DIRECTORY_SEPARATOR;
 
-printInfo( "Moving `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php` ....".PHP_EOL );
+printInfo( "Moving `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php` ...." );
         
 if( @rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}dependencies.php") ) {
     
@@ -25,7 +25,7 @@ if( @rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}de
 }
 sleep(1);
 
-printInfo( "Moving `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ....".PHP_EOL );
+printInfo( "Moving `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ...." );
         
 if( @rename("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
     
@@ -37,7 +37,7 @@ if( @rename("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") )
 }
 sleep(1);
 
-printInfo( "Moving `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php` ....".PHP_EOL );
+printInfo( "Moving `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php` ...." );
         
 if( @rename("{$config_src_folder}ini-settings-dist.php", "{$config_src_folder}ini-settings.php") ) {
     
@@ -49,7 +49,7 @@ if( @rename("{$config_src_folder}ini-settings-dist.php", "{$config_src_folder}in
 }
 sleep(1);
 
-printInfo( "Moving `{$config_src_folder}routes-dist.php` to `{$config_src_folder}routes.php` ....".PHP_EOL );
+printInfo( "Moving `{$config_src_folder}routes-dist.php` to `{$config_src_folder}routes.php` ...." );
         
 if( @rename("{$config_src_folder}routes-dist.php", "{$config_src_folder}routes.php") ) {
     
@@ -61,7 +61,7 @@ if( @rename("{$config_src_folder}routes-dist.php", "{$config_src_folder}routes.p
 }
 sleep(1);
 
-printInfo( "Moving `{$public_src_folder}index-dist.php` to `{$public_src_folder}index.php` ....".PHP_EOL );
+printInfo( "Moving `{$public_src_folder}index-dist.php` to `{$public_src_folder}index.php` ...." );
         
 if( @rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php") ) {
     
@@ -75,7 +75,7 @@ if( @rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php
 sleep(1);
 
 ////////////////////////////////////////////////////////////
-printInfo( "Moving `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore` ....".PHP_EOL );
+printInfo( "Moving `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore` ...." );
         
 if( @rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
     
@@ -89,7 +89,7 @@ if( @rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
 sleep(1);
 
 ////////////////////////////////////////////////////////////
-printInfo( "Moving `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md` ....".PHP_EOL );
+printInfo( "Moving `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md` ...." );
         
 if( @rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
     
@@ -103,7 +103,7 @@ if( @rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
 sleep(1);
 
 ////////////////////////////////////////////////////////////
-printInfo( "Moving `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json` ....".PHP_EOL );
+printInfo( "Moving `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json` ...." );
         
 if( @rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
     
