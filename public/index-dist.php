@@ -159,7 +159,7 @@ function(
 
     $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
-    if( ! preg_match($regex_4_valid_method_name, $action_method) ) {
+    if( ! preg_match( $regex_4_valid_method_name, preg_quote($action_method, '/') ) ) {
 
         //A valid php class' method name starts with a letter or underscore, 
         //followed by any number of letters, numbers, or underscores.
