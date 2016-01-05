@@ -4,8 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Site Title Goes Here</title>
-        <link rel="stylesheet" href="<?php echo s3MVC_GetBaseUrlPath(); ?>/css/foundation553/foundation.css" />
-        <script src="<?php echo s3MVC_GetBaseUrlPath(); ?>/js/foundation553/vendor/modernizr.js"></script>
+        <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/foundation553/foundation.css'); ?>" />
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation553/vendor/modernizr.js'); ?>"></script>
     </head>
     <body>
         <div class="row">
@@ -66,8 +66,8 @@
             </div> 
         </footer>
 
-        <script src="<?php echo s3MVC_GetBaseUrlPath(); ?>/js/foundation553/vendor/jquery.js"></script>
-        <script src="<?php echo s3MVC_GetBaseUrlPath(); ?>/js/foundation553/foundation.min.js"></script>
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation553/vendor/jquery.js'); ?>"></script>
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation553/foundation.min.js'); ?>"></script>
         <script> $(document).foundation(); </script>
     </body>
 </html>

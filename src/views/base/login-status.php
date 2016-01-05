@@ -4,23 +4,19 @@
     $prepend_action = !S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
 
     $action = ($prepend_action) ? 'action-login' : 'login' ;
-    $login_action_path = s3MVC_GetBaseUrlPath()
-                        . "/{$controller_object->controller_name_from_uri}/$action";
+    $login_action_path = s3MVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
                         
-    $action = ($prepend_action) ? 'action-logout' : 'logout' ;
-    $logout_action_path = s3MVC_GetBaseUrlPath()
-                        . "/{$controller_object->controller_name_from_uri}/$action/1";
+    $action1 = ($prepend_action) ? 'action-logout' : 'logout' ;
+    $logout_action_path = s3MVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/1");
 
-    $action = ($prepend_action) ? 'action-login-status' : 'login-status' ;
-    $check_login_status_action_path = 
-            s3MVC_GetBaseUrlPath()
-            . "/{$controller_object->controller_name_from_uri}/$action";
+    $action2 = ($prepend_action) ? 'action-login-status' : 'login-status' ;
+    $login_status_action_path = s3MVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action2");
 ?>
 
 <?php if( $is_logged_in ): ?>
 
     <p>
-        <a href="<?php echo $check_login_status_action_path; ?>">Check Login Status</a>
+        <a href="<?php echo $login_status_action_path; ?>">Check Login Status</a>
         <form action="<?php echo $logout_action_path; ?>" method="post">
           <input type="submit" value="Logout">
         </form>
