@@ -157,7 +157,7 @@ $container['new_layout_renderer'] = $container->factory(function () {
     //return a new instance on each access to $container['new_layout_renderer']
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}layout-templates";
-    $layout_renderer = new \Rotexsoft\Renderer('', [], [$path_2_layout_files]);
+    $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
     
     return $layout_renderer;
 });
@@ -168,7 +168,7 @@ $container['new_view_renderer'] = $container->factory(function () {
     //return a new instance on each access to $container['new_view_renderer']
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = __DIR__."{$ds}..{$ds}src{$ds}views{$ds}base";
-    $view_renderer = new \Rotexsoft\Renderer('', [], [$path_2_view_files]);
+    $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
 
     return $view_renderer;
 });
