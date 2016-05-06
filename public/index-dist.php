@@ -288,9 +288,10 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
 // Start: mvc routes
 /////////////////////////////
 
-//default route
+
 if( S3MVC_APP_USE_MVC_ROUTES ) {
     
+    //default route
     $app->map( ['GET', 'POST'], '/', $s3mvc_default_route_handler );
 
     //controller with no action and params route handler
