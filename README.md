@@ -1,6 +1,4 @@
-# SlimPHP 3 Skeleton MVC App
-
-WILL RESUME ACTIVE DEVELOPMENT IN JULY 2016.
+# SlimPHP 3 Skeleton MVC App [WILL RESUME ACTIVE DEVELOPMENT IN JULY 2016.]
 
 This is a template web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.
 
