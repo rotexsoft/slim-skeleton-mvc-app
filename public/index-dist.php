@@ -80,7 +80,9 @@ $s3mvc_root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
 //handle ini settings
 require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 
-$app = new Slim\App();
+$app_settings = require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
+
+$app = new Slim\App($app_settings);
 $container = $app->getContainer();
 
 ////////////////////////////////////////////////////////////////////////////////

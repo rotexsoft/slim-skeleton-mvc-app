@@ -13,6 +13,18 @@ $config_src_folder = realpath($raw_config_src_folder).DIRECTORY_SEPARATOR;
 $raw_public_src_folder = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'public';
 $public_src_folder = realpath($raw_public_src_folder).DIRECTORY_SEPARATOR;
 
+printInfo( "Moving `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php` ...." );
+        
+if( @rename("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
+    
+    printInfo( "Successfully Moved! ".PHP_EOL );
+
+} else {
+    
+    printError( "Could not move `{$raw_config_src_folder}{$ds}app-settings-dist.php` to `{$raw_config_src_folder}{$ds}app-settings.php` ! ".PHP_EOL );
+}
+sleep(1);
+
 printInfo( "Moving `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php` ...." );
         
 if( @rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}dependencies.php") ) {
