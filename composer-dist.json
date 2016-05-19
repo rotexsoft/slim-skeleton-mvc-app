@@ -8,7 +8,7 @@
         "rotexsoft/slim3-skeleton-mvc-tools": "dev-master"
     },
     "require-dev": {
-        "php": ">=5.5.0"
+        
     },
     "autoload": {
         "classmap": [ "src/", "tests/", "vendor/slim/" ]
