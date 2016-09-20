@@ -20,7 +20,7 @@ if( !S3MVC_APP_USE_MVC_ROUTES ) {
         
         $prepend_action = !S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
         $action = ($prepend_action) ? 'action-index' : 'index';
-        $controller = new Hello($this, 'hello', $action);
+        $controller = new \Slim3SkeletonMvcApp\Controllers\Hello($this, 'hello', $action);
         
         return $controller->actionIndex();
     });

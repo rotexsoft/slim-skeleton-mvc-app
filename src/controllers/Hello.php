@@ -1,4 +1,5 @@
 <?php
+namespace Slim3SkeletonMvcApp\Controllers;
 
 /**
  * Description of Hello
