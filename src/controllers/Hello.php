@@ -8,9 +8,12 @@ namespace Slim3SkeletonMvcApp\Controllers;
  */
 class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
-    public function __construct(\Slim\App $app, $controller_name_from_uri, $action_name_from_uri) {
-        
-        parent::__construct($app, $controller_name_from_uri, $action_name_from_uri);
+    public function __construct(
+        \Slim\App $app, $controller_name_from_uri, $action_name_from_uri, 
+        \Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res,
+        callable $not_found_handler        
+    ) {
+        parent::__construct($app, $controller_name_from_uri, $action_name_from_uri, $req, $res, $not_found_handler);
         
         //Prepend view folder for this controller. 
         //It takes precedence over the view folder for the base controller. 
