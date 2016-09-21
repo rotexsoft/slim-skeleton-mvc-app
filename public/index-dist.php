@@ -115,9 +115,15 @@ function (
     $default_controller_obj = new $default_controller(
                                         $app,
                                         \Slim3MvcTools\Functions\Str\toDashes($default_controller),
-                                        \Slim3MvcTools\Functions\Str\toDashes($default_action)
+                                        \Slim3MvcTools\Functions\Str\toDashes($default_action),
+                                        $request, $response, $this->get('notFoundHandler')
                                     );
-
+    
+    //Inject some dependencies into the controller
+    $default_controller_obj->setLayoutRenderer($this->get('new_layout_renderer'));
+    $default_controller_obj->setViewRenderer($this->get('new_view_renderer'));
+    $default_controller_obj->setVespulaAuthObject($this->get('vespula_auth'));
+    
     //invoke default action
     $action_result = $default_controller_obj->$default_action();
     
@@ -183,7 +189,12 @@ function(
     $controller_obj = s3MVC_CreateController(
                         $app, $args['controller'], $args['action'], $req, $resp
                     );
-
+    
+    //Inject some dependencies into the controller
+    $controller_obj->setLayoutRenderer($container->get('new_layout_renderer'));
+    $controller_obj->setViewRenderer($container->get('new_view_renderer'));
+    $controller_obj->setVespulaAuthObject($container->get('vespula_auth'));
+    
     if( 
         $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
         && !method_exists($controller_obj, $action_method) 
@@ -243,7 +254,12 @@ function (
         s3MVC_CreateController(
             $app, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $request, $response
         );
-
+    
+    //Inject some dependencies into the controller
+    $controller_object->setLayoutRenderer($this->get('new_layout_renderer'));
+    $controller_object->setViewRenderer($this->get('new_view_renderer'));
+    $controller_object->setVespulaAuthObject($this->get('vespula_auth'));
+    
     if( 
         $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
         && !method_exists($controller_object, $default_action) 
