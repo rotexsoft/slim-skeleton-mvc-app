@@ -8,7 +8,7 @@ $container['logger'] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
-    $file = dirname(__DIR__) . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
+    $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
     
     $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
     $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
@@ -156,7 +156,7 @@ $container['new_layout_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_layout_renderer']
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_layout_files = __DIR__."{$ds}..{$ds}src{$ds}layout-templates";
+    $path_2_layout_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
     
     return $layout_renderer;
@@ -167,7 +167,7 @@ $container['new_view_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_view_renderer']
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_view_files = __DIR__."{$ds}..{$ds}src{$ds}views{$ds}base";
+    $path_2_view_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
 
     return $view_renderer;
