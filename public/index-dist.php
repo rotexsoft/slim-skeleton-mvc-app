@@ -111,10 +111,13 @@ function (
     $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
     $default_controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
     
+    $default_controller_parts = explode('\\', $default_controller);
+    $default_controller_from_uri = \Slim3MvcTools\Functions\Str\toDashes(array_pop($default_controller_parts));
+    
     //create default controller
     $default_controller_obj = new $default_controller(
                                         $app,
-                                        \Slim3MvcTools\Functions\Str\toDashes($default_controller),
+                                        $default_controller_from_uri,
                                         \Slim3MvcTools\Functions\Str\toDashes($default_action),
                                         $request, $response, $this->get('notFoundHandler')
                                     );
