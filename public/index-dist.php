@@ -271,14 +271,16 @@ function (
         return $notFoundHandler($request, $response);
     }
 
-    $controller_object->preAction();
+    $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
+        && $controller_object->preAction();
 
     //invoke default action
     $actn_res = 
         ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
                     ? $controller_object->$default_action() : $controller_object;
 
-    $controller_object->postAction();
+    $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
+        && $controller_object->postAction();
     
     if( is_string($actn_res) ) {
 
