@@ -18,6 +18,9 @@ $container['logger'] = function () {
     return new \Vespula\Log\Log($adapter);
 };
 
+// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+$container['errorHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpServerErrorController';
+
 //Override the default 500 System Error Handler
 $container['errorHandler'] = function ($c) {
     
@@ -26,45 +29,22 @@ $container['errorHandler'] = function ($c) {
             \Psr\Http\Message\ResponseInterface $response, 
             \Exception $exception
           ) use ($c) {
+        
+        $errorHandlerClass = $c['errorHandlerClass'];
+        $errorHandler = new $errorHandlerClass( $c, '', '', $request, $response);
 
-        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
+        $errorHandler->preAction();
         
-        $layout_content = 'Something went wrong!';
-        
-        $exception_info = $exception->getMessage()
-                        . ' on line '.$exception->getLine() 
-                        . ' in `'.$exception->getFile().'`'
-                        . '<br><br>'.$exception->getTraceAsString();
-        
-        if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
-            
-            //Append exception message if we are not in production.
-            $layout_content .= '<br>'.nl2br($exception_info);
-        }
-        
-        $output_str = $renderer->renderToString(
-                            'main-template.php', ['content'=>$layout_content] 
-                        );
-        try {
-            //log the error message
-            $c['logger']->error( str_replace('<br>', PHP_EOL, "HTTP 500: $exception_info") );
+        // invoke the server error handler
+        $action_result = $errorHandler->generateServerErrorResponse($exception, $request, $response);
+        $errorHandler->postAction();
 
-        } catch (\Exception $e) {
-            
-            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
-                
-                $output_str .= '<br>'.$e->getTraceAsString();
-            }
-        }
-        
-        $new_response = $response->withStatus(500)
-                                 ->withHeader('Content-Type', 'text/html');
-        
-        $new_response->getBody()->write($output_str);
-        
-        return $new_response;
+        return $action_result;
     };
 };
+
+// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+$container['notFoundHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpNotFoundController';
 
 //Override the default Not Found Handler
 $container['notFoundHandler'] = function ($c) {
@@ -74,32 +54,21 @@ $container['notFoundHandler'] = function ($c) {
                 \Psr\Http\Message\ResponseInterface $response
             ) use ($c) {
  
-        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts        
-        $layout_content = "Page not found: ".$request->getUri()->__toString();
-           
-        $output_str = $renderer->renderToString( 
-                            'main-template.php', ['content'=>$layout_content] 
-                        );
-        try {
-            //log the not found message
-            $c['logger']->notice("HTTP 404: $layout_content");
-            
-        } catch (\Exception $e) {
-            
-            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ) {
-                
-                $output_str .= '<br>'.$e->getTraceAsString();
-            }
-        }
+        $notFoundHandlerClass = $c['notFoundHandlerClass'];
+        $notFoundHandler = new $notFoundHandlerClass( $c, '', '', $request, $response);
 
-        $new_response = $response->withStatus(404)
-                                 ->withHeader('Content-Type', 'text/html');
+        $notFoundHandler->preAction();
         
-        $new_response->getBody()->write($output_str);
-      
-        return $new_response;
+        //invoke the not found handler 
+        $action_result = $notFoundHandler->actionHttpNotFound();
+        $notFoundHandler->postAction();
+
+        return $action_result;
     };
 };
+
+// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+$container['notAllowedHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController';
 
 //Override the default Not Allowed Handler
 $container['notAllowedHandler'] = function ($c) {
@@ -110,39 +79,16 @@ $container['notAllowedHandler'] = function ($c) {
                 $methods
             ) use ($c) {
         
-        $renderer = $c['new_layout_renderer']; //get the view object for rendering layouts
-        
-        $_405_message1 = 'Http method `'. strtoupper($request->getMethod())
-                     . '` not allowed on the url `'.$request->getUri()->__toString() 
-                     . '` ';
-        $_405_message2 = 'HTTP Method must be one of: ' 
-                         . implode( ' or ', array_map(function($val){ return "`$val`";}, $methods) );
-        
-        $layout_content = "$_405_message1<br>$_405_message2";
-        
-        $output_str = $renderer->renderToString(
-                            'main-template.php', ['content'=>$layout_content] 
-                        );
-        try {
-            
-            $log_message = "$_405_message1. $_405_message2";
-            $c['logger']->notice("HTTP 405: $log_message"); //log the message
-            
-        } catch (\Exception $e) {
-            
-            if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_PRODUCTION ){
-                
-                $output_str .= '<br>'.$e->getTraceAsString();
-            }
-        }
+        $notAllowedHandlerClass = $c['notAllowedHandlerClass'];
+        $notAllowedHandler = new $notAllowedHandlerClass( $c, '', '', $request, $response);
 
-        $new_response = $response->withStatus(405)
-                                 ->withHeader('Allow', implode(', ', $methods))
-                                 ->withHeader('Content-Type', 'text/html');
+        $notAllowedHandler->preAction();
         
-        $new_response->getBody()->write($output_str);
-        
-        return $new_response;
+        // invoke the notAllowed handler
+        $action_result = $notAllowedHandler->generateNotAllowedResponse($methods, $request, $response);
+        $notAllowedHandler->postAction();
+
+        return $action_result;
     };
 };
 

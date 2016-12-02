@@ -101,7 +101,9 @@ function (
     \Psr\Http\Message\ServerRequestInterface $request, 
     \Psr\Http\Message\ResponseInterface $response, 
     $args
-) use ($app) {
+) 
+//use ($app) 
+{
     //NOTE: inside this function $this refers to the Slim app's container. 
     //      It is automatically bound to this closure by Slim 3 when any of
     //      $app->map or $app->get or $app->post, etc is called.
@@ -116,10 +118,10 @@ function (
     
     //create default controller
     $default_controller_obj = new $default_controller(
-                                        $app,
+                                        $this,
                                         $default_controller_from_uri,
                                         \Slim3MvcTools\Functions\Str\toDashes($default_action),
-                                        $request, $response, $this->get('notFoundHandler')
+                                        $request, $response
                                     );
     
     $default_controller_obj->preAction();
@@ -146,7 +148,9 @@ function(
     \Psr\Http\Message\ServerRequestInterface $req, 
     \Psr\Http\Message\ResponseInterface $resp, 
     $args
-) use ($app) {
+) 
+//use ($app) 
+{
     //NOTE: inside this function $this refers to the Slim app's container. 
     //      It is automatically bound to this closure by Slim 3 when any of
     //      $app->map or $app->get or $app->post, etc is called.
@@ -189,7 +193,7 @@ function(
     }
 
     $controller_obj = s3MVC_CreateController(
-                        $app, $args['controller'], $args['action'], $req, $resp
+                        $this, $args['controller'], $args['action'], $req, $resp
                     );
     
     if( 
@@ -241,7 +245,9 @@ function (
     \Psr\Http\Message\ServerRequestInterface $request, 
     \Psr\Http\Message\ResponseInterface $response, 
     $args
-) use ($app) {
+) 
+//use ($app) 
+{
     //NOTE: inside this function $this refers to the Slim app's container. 
     //      It is automatically bound to this closure by Slim 3 when any of
     //      $app->map or $app->get or $app->post, etc is called.
@@ -254,7 +260,7 @@ function (
     //doesn't match any existing controller class.
     $controller_object = 
         s3MVC_CreateController(
-            $app, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $request, $response
+            $this, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $request, $response
         );
         
     if( 

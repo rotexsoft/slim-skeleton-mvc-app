@@ -14,3 +14,6 @@
 * Look into adding documentation about using $request->getQueryParams() to get at GET parameters as opposed to $_GET
 
 * Look into adding documentation about using $request->getParsedBody() to get at POST parameters as opposed to $_POST
+    
+* in index.php look into adding a fallback exception handler via set_exception_handler to catch Exceptions that the errorHandler 
+in the dependencies file can't catch. 
