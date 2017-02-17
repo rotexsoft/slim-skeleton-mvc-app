@@ -185,7 +185,26 @@ function(
         //Make sure the controller name is a valid string usable as a class name
         //in php as defined in http://php.net/manual/en/language.oop5.basic.php
         //trigger 404 not found
-        $logger->notice("`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`.");
+        $req_as_str = 
+            s3MVC_psr7RequestObjToString(
+                $req,
+                ['route','routeInfo'],
+                true,  //$skip_req_attribs
+                true,  //$skip_req_body cos posted password might be there
+                true,  //$skip_req_cookie_params
+                false, //$skip_req_headers
+                false, //$skip_req_method
+                false, //$skip_req_proto_ver
+                true,  //$skip_req_query_params would be visible in the url / uri
+                true,  //$skip_req_target would be visible in the url / uri
+                false, //$skip_req_server_params
+                true,  //$skip_req_uploaded_files
+                false  //$skip_req_uri
+            );
+        $log_message = "`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`."
+                        . PHP_EOL . PHP_EOL. "Request Details:"
+                        . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
+        $logger->notice($log_message);
         $notFoundHandler = $container->get('notFoundHandler');
 
         //invoke the not found handler
@@ -203,7 +222,26 @@ function(
         $controller_class_name = get_class($controller_obj);
 
         //404 Not Found: Action method does not exist in the controller object.
-        $logger->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`.");
+        $req_as_str = 
+            s3MVC_psr7RequestObjToString(
+                $req,
+                ['route','routeInfo'],
+                true,  //$skip_req_attribs
+                true,  //$skip_req_body cos posted password might be there
+                true,  //$skip_req_cookie_params
+                false, //$skip_req_headers
+                false, //$skip_req_method
+                false, //$skip_req_proto_ver
+                true,  //$skip_req_query_params would be visible in the url / uri
+                true,  //$skip_req_target would be visible in the url / uri
+                false, //$skip_req_server_params
+                true,  //$skip_req_uploaded_files
+                false  //$skip_req_uri
+            );
+        $log_message = "`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`."
+                        . PHP_EOL . PHP_EOL. "Request Details:"
+                        . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
+        $logger->notice( $log_message );
         $notFoundHandler = $container->get('notFoundHandler');
 
         //invoke the not found handler
@@ -270,7 +308,26 @@ function (
         $controller_class_name = get_class($controller_object);
 
         //404 Not Found: Action method does not exist in the controller object.
-        $this->get('logger')->notice("`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`.");
+        $req_as_str = 
+            s3MVC_psr7RequestObjToString(
+                $request,
+                ['route','routeInfo'],
+                true,  //$skip_req_attribs
+                true,  //$skip_req_body cos posted password might be there
+                true,  //$skip_req_cookie_params
+                false, //$skip_req_headers
+                false, //$skip_req_method
+                false, //$skip_req_proto_ver
+                true,  //$skip_req_query_params would be visible in the url / uri
+                true,  //$skip_req_target would be visible in the url / uri
+                false, //$skip_req_server_params
+                true,  //$skip_req_uploaded_files
+                false  //$skip_req_uri
+            );
+        $log_message = "`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`."
+                        . PHP_EOL . PHP_EOL. "Request Details:"
+                        . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
+        $this->get('logger')->notice($log_message);
         $notFoundHandler = $this->get('notFoundHandler');
 
         //invoke the not found handler
