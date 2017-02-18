@@ -173,7 +173,7 @@ function(
             isset($args['parameters'])? rtrim($args['parameters'], '/') : '';
 
     //convert to array of parameters
-    $params = empty($params_str)? [] : explode('/', $params_str);
+    $params = empty($params_str) && mb_strlen($params_str, 'UTF-8') <= 0 ? [] : explode('/', $params_str);
 
     $regex_4_valid_method_name = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
 
