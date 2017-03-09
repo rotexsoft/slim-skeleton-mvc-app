@@ -157,6 +157,34 @@ if( @unlink("{$root_folder}slim3-psr7.pub") ) {
 sleep(1);
 
 ////////////////////////////////////////////////////////////
+printInfo( "Deleting `{$raw_root_folder}index.php-overview.docx` ....".PHP_EOL );
+        
+if( @unlink("{$root_folder}index.php-overview.docx") ) {
+    
+    printInfo( "Successfully Deleted! ".PHP_EOL );
+
+} else {
+    
+    printError( "Could not delete `{$raw_root_folder}index.php-overview.docx` ! ".PHP_EOL );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
+printInfo( "Deleting `{$raw_root_folder}index.php-overview.png` ....".PHP_EOL );
+        
+if( @unlink("{$root_folder}index.php-overview.png") ) {
+    
+    printInfo( "Successfully Deleted! ".PHP_EOL );
+
+} else {
+    
+    printError( "Could not delete `{$raw_root_folder}index.php-overview.png` ! ".PHP_EOL );
+}
+
+sleep(1);
+
+////////////////////////////////////////////////////////////
 printInfo( "Deleting `{$raw_root_folder}phpunit.xml.dist` ....".PHP_EOL );
         
 if( @unlink("{$root_folder}phpunit.xml.dist") ) {
