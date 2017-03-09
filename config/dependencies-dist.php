@@ -95,7 +95,7 @@ $container['notAllowedHandler'] = function ($c) {
 //Add the namespcace(s) for your web-app's controller classes or leave it
 //as is, if your controllers are in the default global namespace.
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\'];
+$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\', '\\Slim3SkeletonMvcApp\\Controllers\\'];
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function () {
