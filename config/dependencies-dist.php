@@ -51,7 +51,9 @@ $container['notFoundHandler'] = function ($c) {
     
     return function (
                 \Psr\Http\Message\ServerRequestInterface $request, 
-                \Psr\Http\Message\ResponseInterface $response
+                \Psr\Http\Message\ResponseInterface $response,
+                $_404_page_contents_str = null,
+                $_404_page_additional_log_msg = null
             ) use ($c) {
  
         $notFoundHandlerClass = $c['notFoundHandlerClass'];
@@ -60,7 +62,7 @@ $container['notFoundHandler'] = function ($c) {
         $notFoundHandler->preAction();
         
         //invoke the not found handler 
-        $action_result = $notFoundHandler->actionHttpNotFound();
+        $action_result = $notFoundHandler->actionHttpNotFound($_404_page_contents_str, $_404_page_additional_log_msg);
         $notFoundHandler->postAction();
 
         return $action_result;
