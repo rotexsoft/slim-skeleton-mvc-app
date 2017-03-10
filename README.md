@@ -49,6 +49,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
     * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/)
 
 * You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
+* You may need to set the **session.save_path** value via a call to **ini_set** in the **`config/ini-settings.php`** file
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
