@@ -75,7 +75,7 @@ function s3MVC_PrependAction2ActionMethodName($action_method_name) {
     return $action_method_name;
 }
 
-$s3mvc_root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
+$s3mvc_root_dir = S3MVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
 
 //handle ini settings
 require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
@@ -155,7 +155,6 @@ function(
     //      It is automatically bound to this closure by Slim 3 when any of
     //      $app->map or $app->get or $app->post, etc is called.
     $container = $this;
-    $logger = $container->get('logger');
 
     //Further enhancements:
     //Add an assoc array that contains allowed actions for a controller
@@ -169,8 +168,7 @@ function(
     }
 
     //strip trailing forward slash
-    $params_str = 
-            isset($args['parameters'])? rtrim($args['parameters'], '/') : '';
+    $params_str = isset($args['parameters'])? rtrim($args['parameters'], '/') : '';
 
     //convert to array of parameters
     $params = empty($params_str) && mb_strlen($params_str, 'UTF-8') <= 0 ? [] : explode('/', $params_str);
@@ -201,19 +199,16 @@ function(
                 true,  //$skip_req_uploaded_files
                 false  //$skip_req_uri
             );
-        $log_message = "`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`."
-                        . PHP_EOL . PHP_EOL. "Request Details:"
-                        . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
-        $logger->notice($log_message);
         $notFoundHandler = $container->get('notFoundHandler');
-
+        $log_message = "`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`."
+                    . PHP_EOL . PHP_EOL. "Request Details:"
+                    . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
+        
         //invoke the not found handler
-        return $notFoundHandler($req, $resp);
+        return $notFoundHandler($req, $resp, null, $log_message);
     }
 
-    $controller_obj = s3MVC_CreateController(
-                        $this, $args['controller'], $args['action'], $req, $resp
-                    );
+    $controller_obj = s3MVC_CreateController($this, $args['controller'], $args['action'], $req, $resp);
     
     if( 
         $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
@@ -238,21 +233,19 @@ function(
                 true,  //$skip_req_uploaded_files
                 false  //$skip_req_uri
             );
+        $notFoundHandler = $container->get('notFoundHandler');
         $log_message = "`".__FILE__."` on line ".__LINE__.": The action method `{$action_method}` does not exist in class `{$controller_class_name}`."
                         . PHP_EOL . PHP_EOL. "Request Details:"
                         . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
-        $logger->notice( $log_message );
-        $notFoundHandler = $container->get('notFoundHandler');
-
+        
         //invoke the not found handler
-        return $notFoundHandler($req, $resp);
+        return $notFoundHandler($req, $resp, null, $log_message);
 
     } else if ( 
         $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
     ) {    
         $controller_obj->preAction();
 
-        //invoke default action
         //execute the controller's action
         $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
 
@@ -280,8 +273,8 @@ function(
 
 $s3mvc_controller_only_route_handler =             
 function (
-    \Psr\Http\Message\ServerRequestInterface $request, 
-    \Psr\Http\Message\ResponseInterface $response, 
+    \Psr\Http\Message\ServerRequestInterface $req, 
+    \Psr\Http\Message\ResponseInterface $resp, 
     $args
 ) 
 //use ($app) 
@@ -298,7 +291,7 @@ function (
     //doesn't match any existing controller class.
     $controller_object = 
         s3MVC_CreateController(
-            $this, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $request, $response
+            $this, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $req, $resp
         );
         
     if( 
@@ -310,7 +303,7 @@ function (
         //404 Not Found: Action method does not exist in the controller object.
         $req_as_str = 
             s3MVC_psr7RequestObjToString(
-                $request,
+                $req,
                 ['route','routeInfo'],
                 true,  //$skip_req_attribs
                 true,  //$skip_req_body cos posted password might be there
@@ -324,14 +317,13 @@ function (
                 true,  //$skip_req_uploaded_files
                 false  //$skip_req_uri
             );
+        $notFoundHandler = $this->get('notFoundHandler');
         $log_message = "`".__FILE__."` on line ".__LINE__.": The action method `{$default_action}` does not exist in class `{$controller_class_name}`."
                         . PHP_EOL . PHP_EOL. "Request Details:"
                         . PHP_EOL . str_replace(PHP_EOL, PHP_EOL. "\t\t\t", "\t\t\t".$req_as_str);
-        $this->get('logger')->notice($log_message);
-        $notFoundHandler = $this->get('notFoundHandler');
 
         //invoke the not found handler
-        return $notFoundHandler($request, $response);
+        return $notFoundHandler($req, $resp, null, $log_message);
     }
 
     $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
@@ -348,14 +340,14 @@ function (
     if( is_string($actn_res) ) {
 
         //write the string in the response object as the response body
-        $response->getBody()->write($actn_res);
+        $resp->getBody()->write($actn_res);
 
     } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
 
-        $response = $actn_res; //the action returned a Response object
+        $resp = $actn_res; //the action returned a Response object
     }
 
-    return $response;
+    return $resp;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
