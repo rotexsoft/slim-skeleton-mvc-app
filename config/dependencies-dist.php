@@ -33,13 +33,12 @@ $container['errorHandler'] = function ($c) {
         $errorHandlerClass = $c['errorHandlerClass'];
         $errorHandler = new $errorHandlerClass( $c, '', '', $request, $response);
 
-        $errorHandler->preAction();
+        $response_from_pre_action = $errorHandler->preAction();
         
         // invoke the server error handler
-        $action_result = $errorHandler->generateServerErrorResponse($exception, $request, $response);
-        $errorHandler->postAction();
-
-        return $action_result;
+        $action_response = $errorHandler->generateServerErrorResponse($exception, $request, $response_from_pre_action);
+        
+        return $errorHandler->postAction($action_response);
     };
 };
 
@@ -58,14 +57,13 @@ $container['notFoundHandler'] = function ($c) {
  
         $notFoundHandlerClass = $c['notFoundHandlerClass'];
         $notFoundHandler = new $notFoundHandlerClass( $c, '', '', $request, $response);
-
-        $notFoundHandler->preAction();
         
-        //invoke the not found handler 
-        $action_result = $notFoundHandler->actionHttpNotFound($_404_page_contents_str, $_404_page_additional_log_msg);
-        $notFoundHandler->postAction();
-
-        return $action_result;
+        $notFoundHandler->setResponse( $notFoundHandler->preAction() );
+        
+        //invoke the not found handler
+        $action_response = $notFoundHandler->actionHttpNotFound($_404_page_contents_str, $_404_page_additional_log_msg);
+        
+        return $notFoundHandler->postAction($action_response);
     };
 };
 
@@ -84,13 +82,12 @@ $container['notAllowedHandler'] = function ($c) {
         $notAllowedHandlerClass = $c['notAllowedHandlerClass'];
         $notAllowedHandler = new $notAllowedHandlerClass( $c, '', '', $request, $response);
 
-        $notAllowedHandler->preAction();
+        $response_from_pre_action = $notAllowedHandler->preAction();
         
         // invoke the notAllowed handler
-        $action_result = $notAllowedHandler->generateNotAllowedResponse($methods, $request, $response);
-        $notAllowedHandler->postAction();
-
-        return $action_result;
+        $action_response = $notAllowedHandler->generateNotAllowedResponse($methods, $request, $response_from_pre_action);
+        
+        return $notAllowedHandler->postAction($action_response);
     };
 };
 

@@ -124,15 +124,15 @@ function (
                                         $request, $response
                                     );
     
-    $default_controller_obj->preAction();
+    $pre_action_response = $default_controller_obj->preAction();
+    $default_controller_obj->setResponse( $pre_action_response );
     
     //invoke default action
     $action_result = $default_controller_obj->$default_action();
     
-    $default_controller_obj->postAction();
-    
     if( is_string($action_result) ) {
         
+        $response = $pre_action_response;
         $response->getBody()->write($action_result); //write the string in the response object as the response body
         
     } elseif ( $action_result instanceof \Psr\Http\Message\ResponseInterface ) {
@@ -140,7 +140,7 @@ function (
         $response = $action_result; //the action returned a Response object
     }
     
-    return $response;
+    return $default_controller_obj->postAction($response);
 };
 
 $s3mvc_route_handler = 
@@ -243,24 +243,27 @@ function(
 
     } else if ( 
         $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
-    ) {    
-        $controller_obj->preAction();
+    ) {
+        $pre_action_response = $controller_obj->preAction();
+        $controller_obj->setResponse( $pre_action_response );
 
         //execute the controller's action
         $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
-
-        $controller_obj->postAction();
 
         //If we got this far, that means that the action method was successfully 
         //executed on the controller object.
         if( is_string($actn_res) ) {
 
+            $resp = $pre_action_response;
             $resp->getBody()->write($actn_res); //write the string in the response object as the response body
 
         } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
 
             $resp = $actn_res; //the action returned a Response object
         }
+        
+        $resp = $controller_obj->postAction($resp);
+
     } else {
 
         //s3MVC_CreateController(..) returned a Response object containing a
@@ -324,29 +327,36 @@ function (
 
         //invoke the not found handler
         return $notFoundHandler($req, $resp, null, $log_message);
+        
+    }  else if ( 
+        $controller_object instanceof \Slim3MvcTools\Controllers\BaseController 
+    ) {
+        $pre_action_response = $controller_object->preAction();
+        $controller_object->setResponse( $pre_action_response );
+
+        //invoke default action
+        $actn_res = $controller_object->$default_action();
+        
+        if( is_string($actn_res) ) {
+
+            $resp = $pre_action_response;
+            //write the string in the response object as the response body
+            $resp->getBody()->write($actn_res);
+
+        } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
+
+            $resp = $actn_res; //the action returned a Response object
+        }
+
+        $resp = $controller_object->postAction($resp);
+        
+    } else {
+        
+        //s3MVC_CreateController(..) returned a Response object containing a
+        //not found page.
+        $resp = $controller_object;
     }
-
-    $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
-        && $controller_object->preAction();
-
-    //invoke default action
-    $actn_res = 
-        ($controller_object instanceof \Slim3MvcTools\Controllers\BaseController)
-                    ? $controller_object->$default_action() : $controller_object;
-
-    $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
-        && $controller_object->postAction();
     
-    if( is_string($actn_res) ) {
-
-        //write the string in the response object as the response body
-        $resp->getBody()->write($actn_res);
-
-    } elseif ( $actn_res instanceof \Psr\Http\Message\ResponseInterface ) {
-
-        $resp = $actn_res; //the action returned a Response object
-    }
-
     return $resp;
 };
 
