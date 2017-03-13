@@ -22,6 +22,23 @@ if( !S3MVC_APP_USE_MVC_ROUTES ) {
         $action = ($prepend_action) ? 'action-index' : 'index';
         $controller = new \Slim3SkeletonMvcApp\Controllers\Hello($this, 'hello', $action, $request, $response);
         
-        return $controller->actionIndex();
+        $pre_action_response = $controller->preAction();
+        $controller->setResponse( $pre_action_response );
+
+        //invoke default action
+        $action_result = $controller->actionIndex();
+
+        if( is_string($action_result) ) {
+
+            $response = $pre_action_response;
+            $response->getBody()->write($action_result); //write the string in the response object as the response body
+
+        } elseif ( $action_result instanceof \Psr\Http\Message\ResponseInterface ) {
+
+            $response = $action_result; //the action returned a Response object
+        }
+
+        return $controller->postAction($response);
+        
     });
 }
