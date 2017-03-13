@@ -99,7 +99,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
             ```php
             <?php
                 //You can access the logger from within your controller like so:
-                $this->app->getContainer()->get('logger');
+                $this->container->get('logger');
             ?>
             ```
 
@@ -116,9 +116,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                         //parent::__construct(...) in its own constructor.
 
                 //You can also access this renderer from within your controller methods like so:
-                $this->app->getContainer()->get('new_layout_renderer'); //keep in mind that accessing it like 
-                                                                        //this returns a new instance with 
-                                                                        //each call.
+                $this->container->get('new_layout_renderer'); //keep in mind that accessing it like 
+                                                              //this returns a new instance with 
+                                                              //each call.
 
                 //There is also a helper method available in all your controllers that
                 //extend \Slim3MvcTools\Controllers\BaseController called renderLayout 
@@ -137,9 +137,9 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
                                       //parent::__construct(...) in its own constructor.
 
                 //You can also access this renderer from within your controller methods like so:
-                $this->app->getContainer()->get('new_view_renderer'); //keep in mind that accessing it like
-                                                                      //this returns a new instance with 
-                                                                      //each call.
+                $this->container->get('new_view_renderer'); //keep in mind that accessing it like
+                                                            //this returns a new instance with 
+                                                            //each call.
 
                 //There is also a helper method available in all your controllers that
                 //extend \Slim3MvcTools\Controllers\BaseController called renderView 
@@ -152,7 +152,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
             ```php
             <?php
                 //You can access the auth object from within your controller like so:
-                $this->app->getContainer()->get('vespula_auth');
+                $this->container->get('vespula_auth');
             ?>
             ```
 
