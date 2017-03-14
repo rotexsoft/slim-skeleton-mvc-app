@@ -28,7 +28,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_config_src_folder}{$ds}app-settings-dist.php` to `{$raw_config_src_folder}{$ds}app-settings.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php`!".PHP_EOL );
         }
         sleep(1);
 
@@ -40,7 +40,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_config_src_folder}{$ds}dependencies-dist.php` to `{$raw_config_src_folder}{$ds}dependencies.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php`!".PHP_EOL );
         }
         sleep(1);
 
@@ -52,7 +52,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_config_src_folder}{$ds}env-dist.php` to `{$raw_config_src_folder}{$ds}env.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php`!".PHP_EOL );
         }
         sleep(1);
 
@@ -64,7 +64,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_config_src_folder}{$ds}ini-settings-dist.php` to `{$raw_config_src_folder}{$ds}ini-settings.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php`!".PHP_EOL );
         }
         sleep(1);
 
@@ -76,7 +76,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_config_src_folder}{$ds}routes-dist.php` to `{$raw_config_src_folder}{$ds}routes.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}routes-dist.php` to `{$config_src_folder}routes.php`!".PHP_EOL );
         }
         sleep(1);
 
@@ -88,13 +88,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_public_src_folder}{$ds}index-dist.php` to `{$raw_public_src_folder}{$ds}index.php`!".PHP_EOL );
+            static::printError( "Could not move `{$public_src_folder}{$ds}index-dist.php` to `{$public_src_folder}{$ds}index.php`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore` ...." );
+        static::printInfo( "Moving `{$root_folder}.gitignore-dist` to `{$root_folder}.gitignore` ...." );
 
         if( @rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
 
@@ -102,13 +102,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_root_folder}.gitignore-dist` to `{$raw_root_folder}.gitignore`!".PHP_EOL );
+            static::printError( "Could not move `{$root_folder}.gitignore-dist` to `{$root_folder}.gitignore`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md` ...." );
+        static::printInfo( "Moving `{$root_folder}README-dist.md` to `{$root_folder}README.md` ...." );
 
         if( @rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
 
@@ -116,13 +116,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_root_folder}README-dist.md` to `{$raw_root_folder}README.md`!".PHP_EOL );
+            static::printError( "Could not move `{$root_folder}README-dist.md` to `{$root_folder}README.md`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json` ...." );
+        static::printInfo( "Moving `{$root_folder}composer-dist.json` to `{$root_folder}composer.json` ...." );
 
         if( @rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
 
@@ -130,13 +130,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not move `{$raw_root_folder}composer-dist.json` to `{$raw_root_folder}composer.json`!".PHP_EOL );
+            static::printError( "Could not move `{$root_folder}composer-dist.json` to `{$root_folder}composer.json`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$raw_root_folder}slim3-psr7.png` ....".PHP_EOL );
+        static::printInfo( "Deleting `{$root_folder}slim3-psr7.png` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}slim3-psr7.png") ) {
 
@@ -144,13 +144,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not delete `{$raw_root_folder}slim3-psr7.png`!".PHP_EOL );
+            static::printError( "Could not delete `{$root_folder}slim3-psr7.png`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$raw_root_folder}slim3-psr7.pub` ....".PHP_EOL );
+        static::printInfo( "Deleting `{$root_folder}slim3-psr7.pub` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}slim3-psr7.pub") ) {
 
@@ -158,13 +158,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not delete `{$raw_root_folder}slim3-psr7.pub`!".PHP_EOL );
+            static::printError( "Could not delete `{$root_folder}slim3-psr7.pub`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$raw_root_folder}index.php-overview.docx` ....".PHP_EOL );
+        static::printInfo( "Deleting `{$root_folder}index.php-overview.docx` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}index.php-overview.docx") ) {
 
@@ -172,13 +172,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not delete `{$raw_root_folder}index.php-overview.docx`!".PHP_EOL );
+            static::printError( "Could not delete `{$root_folder}index.php-overview.docx`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$raw_root_folder}index.php-overview.png` ....".PHP_EOL );
+        static::printInfo( "Deleting `{$root_folder}index.php-overview.png` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}index.php-overview.png") ) {
 
@@ -186,13 +186,13 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError( "Could not delete `{$raw_root_folder}index.php-overview.png`!".PHP_EOL );
+            static::printError( "Could not delete `{$root_folder}index.php-overview.png`!".PHP_EOL );
         }
 
         sleep(1);
 
         ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$raw_root_folder}phpunit.xml.dist` ....".PHP_EOL );
+        static::printInfo( "Deleting `{$root_folder}phpunit.xml.dist` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}phpunit.xml.dist") ) {
 
@@ -200,7 +200,7 @@ class S3MVC_PostComposerCreateHandler {
 
         } else {
 
-            static::printError("Could not delete `{$raw_root_folder}phpunit.xml.dist`!".PHP_EOL);
+            static::printError("Could not delete `{$root_folder}phpunit.xml.dist`!".PHP_EOL);
         }
 
         sleep(1);
@@ -227,7 +227,7 @@ class S3MVC_PostComposerCreateHandler {
 
             ////////////////////////////////////////////////////////////
             // delete src/layout-templates/main-template.php
-            static::printInfo( PHP_EOL."Deleting `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
+            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
 
             $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
 
@@ -237,14 +237,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
             }
 
             sleep(1);
 
             ///////////////////////////////////////////////////////////////////////////////////////
             // move main-template-no-foundation.php into main-template.php in src/layout-templates
-            static::printInfo( "Moving `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
+            static::printInfo( "Moving `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
 
             if( @rename("{$main_template_folder}main-template-no-foundation.php", "{$main_template_folder}main-template.php") ) {
 
@@ -252,7 +252,7 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not move `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
+                static::printError("Could not move `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
             }
 
             sleep(1);
@@ -261,7 +261,7 @@ class S3MVC_PostComposerCreateHandler {
 
             ////////////////////////////////////////////////////////////
             // delete src/views/base/login.php
-            static::printInfo( "Deleting `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
+            static::printInfo( "Deleting `{$root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
 
             $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
 
@@ -271,14 +271,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
             }
 
             sleep(1);
 
             ///////////////////////////////////////////////////////////////////////////////////////
             // move login-no-foundation.php into login.php  in src/views/base
-            static::printInfo( "Moving `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
+            static::printInfo( "Moving `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
 
             if( @rename("{$base_view_folder}login-no-foundation.php", "{$base_view_folder}login.php") ) {
 
@@ -286,7 +286,7 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not move `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
+                static::printError("Could not move `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
             }
 
             sleep(1);
@@ -295,7 +295,7 @@ class S3MVC_PostComposerCreateHandler {
 
             ////////////////////////////////////////////////////////////
             // delete public/css/foundation
-            static::printInfo( "Deleting `{$raw_root_folder}public{$ds}css{$ds}foundation` ....".PHP_EOL );
+            static::printInfo( "Deleting `{$root_folder}public{$ds}css{$ds}foundation` ....".PHP_EOL );
 
             $base_foundation_css_folder = "{$root_folder}public{$ds}css{$ds}foundation";
 
@@ -305,14 +305,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}public{$ds}css{$ds}foundation`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}public{$ds}css{$ds}foundation`!".PHP_EOL);
             }
 
             sleep(1);
 
             ////////////////////////////////////////////////////////////
             // delete public/js/foundation
-            static::printInfo( "Deleting `{$raw_root_folder}public{$ds}js{$ds}foundation` ....".PHP_EOL );
+            static::printInfo( "Deleting `{$root_folder}public{$ds}js{$ds}foundation` ....".PHP_EOL );
 
             $base_foundation_js_folder = "{$root_folder}public{$ds}js{$ds}foundation";
 
@@ -322,7 +322,7 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}public{$ds}js{$ds}foundation`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}public{$ds}js{$ds}foundation`!".PHP_EOL);
             }
 
             sleep(1);
@@ -334,7 +334,7 @@ class S3MVC_PostComposerCreateHandler {
 
             ///////////////////////////////////////////////////////////////
             // delete src/layout-templates/main-template-no-foundation.php
-            static::printInfo( PHP_EOL."Deleting `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` ....".PHP_EOL );
+            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` ....".PHP_EOL );
 
             $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
 
@@ -344,14 +344,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php`!".PHP_EOL);
             }
 
             sleep(1);
 
             ///////////////////////////////////////////////////////////////
             // delete src/views/base/login-no-foundation.php
-            static::printInfo( PHP_EOL."Deleting `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` ....".PHP_EOL );
+            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` ....".PHP_EOL );
 
             $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
 
@@ -361,14 +361,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php`!".PHP_EOL);
             }
 
             sleep(1);
 
             ///////////////////////////////////////////////////////////////
             // delete public/css/app.css
-            static::printInfo( PHP_EOL."Deleting `{$raw_root_folder}public{$ds}css{$ds}app.css` ....".PHP_EOL );
+            static::printInfo( PHP_EOL."Deleting `{$root_folder}public{$ds}css{$ds}app.css` ....".PHP_EOL );
 
             $base_public_css_folder = "{$root_folder}public{$ds}css{$ds}";
 
@@ -378,14 +378,14 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}public{$ds}css{$ds}app.css`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}public{$ds}css{$ds}app.css`!".PHP_EOL);
             }
 
             sleep(1);
 
             ///////////////////////////////////////////////////////////////
             // delete public/js/app.js
-            static::printInfo( PHP_EOL."Deleting `{$raw_root_folder}public{$ds}js{$ds}app.js` ....".PHP_EOL );
+            static::printInfo( PHP_EOL."Deleting `{$root_folder}public{$ds}js{$ds}app.js` ....".PHP_EOL );
 
             $base_public_js_folder = "{$root_folder}public{$ds}js{$ds}";
 
@@ -395,7 +395,7 @@ class S3MVC_PostComposerCreateHandler {
 
             } else {
 
-                static::printError("Could not delete `{$raw_root_folder}public{$ds}js{$ds}app.js`!".PHP_EOL);
+                static::printError("Could not delete `{$root_folder}public{$ds}js{$ds}app.js`!".PHP_EOL);
             }
 
             sleep(1);
