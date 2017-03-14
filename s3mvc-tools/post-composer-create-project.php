@@ -185,20 +185,6 @@ if( @unlink("{$root_folder}index.php-overview.png") ) {
 sleep(1);
 
 ////////////////////////////////////////////////////////////
-printInfo( "Deleting `{$raw_root_folder}sample-controller.png` ....".PHP_EOL );
-        
-if( @unlink("{$root_folder}sample-controller.png") ) {
-    
-    printInfo( "Successfully Deleted! ".PHP_EOL );
-
-} else {
-    
-    printError( "Could not delete `{$raw_root_folder}sample-controller.png` ! ".PHP_EOL );
-}
-
-sleep(1);
-
-////////////////////////////////////////////////////////////
 printInfo( "Deleting `{$raw_root_folder}phpunit.xml.dist` ....".PHP_EOL );
         
 if( @unlink("{$root_folder}phpunit.xml.dist") ) {

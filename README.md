@@ -207,7 +207,49 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 
 ## MVC Functionality
-![Example Controller Class](sample-controller.png)
+```php
+<?php
+namespace Slim3SkeletonMvcApp\Controllers;
+
+class Hello extends \Slim3MvcTools\Controllers\BaseController
+{
+    public function __construct(
+        \Interop\Container\ContainerInterface $container, 
+		$controller_name_from_uri, $action_name_from_uri, 
+        \Psr\Http\Message\ServerRequestInterface $req, 
+		\Psr\Http\Message\ResponseInterface $res     
+    ) {
+        parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
+    }
+    
+    public function actionIndex() {
+
+        return 'in Hello::actionIndex()<br>';
+    }
+	
+    public function actionThere($first_name, $last_name) {
+
+        return "Hello There $first_name, $last_name";
+    }
+	
+    public function preAction() {
+        
+		// add code that you need to be executed before each controller action method is executed
+		$response = parent::preAction();
+		
+        return $response;
+    }
+    
+    public function postAction(\Psr\Http\Message\ResponseInterface $response) {
+		
+        // add code that you need to be executed after each controller action method is executed
+        $response = parent::postAction($response);
+		
+        return $response;
+    }
+}
+?>
+```
 **Figure 2: an Hello Controller class**
 
 * There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests (if and only if **S3MVC_APP_USE_MVC_ROUTES** is set to **`true`**):
