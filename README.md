@@ -286,7 +286,7 @@ in Hello::actionIndex()
 in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
 in Middleware after current route handler
 ```
-**Figure 3: Output of executing `http://localhost:8888/hello/`**
+**Figure 3: Output of executing** `http://localhost:8888/hello/`
 
 ```
 in Middleware before current route handler
@@ -296,7 +296,7 @@ Hello There john, Doe
 in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
 in Middleware after current route handler
 ```
-**Figure 4: Output of executing `http://localhost:8888/hello/action-there/john/Doe`**
+**Figure 4: Output of executing** `http://localhost:8888/hello/action-there/john/Doe`
 
 ```php
 <?php
