@@ -30,4 +30,11 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
         
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
+    
+    public function actionThere($first_name, $last_name) {
+
+        $view_str = "Hello There $first_name, $last_name<br>";
+        
+        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
+    }
 }
