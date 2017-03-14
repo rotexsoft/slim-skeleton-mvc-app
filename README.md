@@ -276,7 +276,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 * **`The controller with no action and params route handler:`** `/{controller}[/]`: works in a similar manner that the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoke with no parameters.
 
 ### **Controller Execution Flow** 
-* Given the code in **figures 5** and **6** below, executing `http://localhost:8888/hello/` will generate the output in Figure 3 below and executing `http://localhost:8888/hello/action-there/john/Doe` (or `http://localhost:8888/hello/there/john/Doe` if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 4 below:
+Given the code in **figures 5** and **6** below, executing `http://localhost:8888/hello/` will generate the output in Figure 3 below and executing `http://localhost:8888/hello/action-there/john/Doe` (or `http://localhost:8888/hello/there/john/Doe` if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 4 below:
 
 ```
 in Middleware before current route handler
