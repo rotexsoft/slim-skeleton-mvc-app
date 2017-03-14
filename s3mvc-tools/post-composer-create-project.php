@@ -227,7 +227,7 @@ if( function_exists('readline') ) {
     $response = readline("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
 }
 
-if ( strtoupper($response) === 'N' ) {
+if ( strtoupper(trim($response)) === 'N' ) {
    
     ////////////////////////////////////////////////////////////
     // delete src/layout-templates/main-template.php
