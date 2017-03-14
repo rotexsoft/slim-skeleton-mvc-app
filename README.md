@@ -275,6 +275,93 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
     
 * **`The controller with no action and params route handler:`** `/{controller}[/]`: works in a similar manner that the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoke with no parameters.
 
+* **Controller Execution Flow:** Given the code in figures 5 and 6 below, executing http://localhost:8888/hello/ will generate the output in Figure 3 below and executing http://localhost:8888/hello/action-there/john/Doe (or http://localhost:8888/hello/there/john/Doe if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 4 below
+`
+in Middleware before current route handler
+in Hello::__construct(...)
+in Hello::preAction()
+in Hello::actionIndex()
+in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
+in Middleware after current route handler
+`
+**Figure 3: Output of executing `http://localhost:8888/hello/`**
+
+`
+in Middleware before current route handler
+in Hello::__construct(...)
+in Hello::preAction()
+Hello There john, Doe
+in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
+in Middleware after current route handler
+`
+**Figure 4: Output of executing `http://localhost:8888/hello/action-there/john/Doe`**
+
+```php
+<?php
+namespace Slim3SkeletonMvcApp\Controllers;
+
+class Hello extends \Slim3MvcTools\Controllers\BaseController
+{
+    public function __construct(
+        \Interop\Container\ContainerInterface $container, 
+		$controller_name_from_uri, $action_name_from_uri, 
+        \Psr\Http\Message\ServerRequestInterface $req, 
+		\Psr\Http\Message\ResponseInterface $res     
+    ) {
+        parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
+		$this->response->getBody()->write('in Hello::__construct(...)<br>'); 
+    }
+    
+    public function actionIndex() {
+
+        return 'in Hello::actionIndex()<br>';
+    }
+	
+    public function actionThere($first_name, $last_name) {
+
+        return "Hello There $first_name, $last_name<br>";
+    }
+	
+    public function preAction() {
+        
+		// add code that you need to be executed before each controller action method is executed
+		$response = parent::preAction();
+		$response->getBody()->write('in Hello::preAction()<br>'); 
+		
+        return $response;
+    }
+    
+    public function postAction(\Psr\Http\Message\ResponseInterface $response) {
+		
+        // add code that you need to be executed after each controller action method is executed
+        $response = parent::postAction($response);
+		$response->getBody()->write('in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)<br>');
+		
+        return $response;
+    }
+}
+```
+**Figure 5: Example Hello Controller Class**
+
+```php
+<?php
+$app->add(function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, $next) {
+
+    $response->getBody()->write('in Middleware before current route handler<br>');
+	
+	$new_response = $next($request, $response); // this will eventually execute the route handler
+												// for the matched route for the current request.
+												// This is where the controller is instantiated 
+												// and the appropriate controller method is 
+												// invoked with / without parameters.
+												
+    $new_response->getBody()->write('in Middleware after current route handler<br>');
+    
+    return $new_response;
+});
+```
+**Figure 6: Sample middleware that should be placed in `./config/routes.php`**
+
 ### S3MVC Helper Functions
 * **`s3MVC_CreateController(\Interop\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
 * **`s3MVC_DumpVar($v)`:** for dumping variables during development for debugging purposes.
