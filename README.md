@@ -166,7 +166,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * **`public/index.php`:** Entry point to application.
 
-	* ***Figure 1: Overview of the index.php file *** ![Overview of the index.php file](index.php-overview.png)
+	* **Figure 1: Overview of the index.php file** ![Overview of the index.php file](index.php-overview.png)
 
     * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file:
 
