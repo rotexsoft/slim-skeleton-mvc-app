@@ -150,6 +150,20 @@ class S3MVC_PostComposerCreateHandler {
         sleep(1);
 
         ////////////////////////////////////////////////////////////
+        static::printInfo( "Deleting `{$root_folder}TODO.md` ....".PHP_EOL );
+
+        if( @unlink("{$root_folder}TODO.md") ) {
+
+            static::printInfo( "Successfully Deleted!".PHP_EOL );
+
+        } else {
+
+            static::printError( "Could not delete `{$root_folder}TODO.md`!".PHP_EOL );
+        }
+
+        sleep(1);
+
+        ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}slim3-psr7.pub` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}slim3-psr7.pub") ) {
