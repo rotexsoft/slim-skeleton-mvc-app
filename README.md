@@ -90,8 +90,18 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
         * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
 
-        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in **`public/index.php`** or **`config/routes.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details.
-
+        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in **`public/index.php`** or **`config/routes.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details. 
+            * The handler for this framework is slighlty different from the pure Slim 3 one in that it adds two additional optional parameters in addition to the request and response parameters specified in the Slim 3 framework's default handler:
+            ```php
+            <?php
+                function (
+                    \Psr\Http\Message\ServerRequestInterface $request, 
+                    \Psr\Http\Message\ResponseInterface $response,
+                    $_404_page_contents_str = null,
+                    $_404_page_additional_log_msg = null
+                )
+            ?>
+            ```
         * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in **`public/index.php`** or **`config/routes.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
         * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
@@ -276,6 +286,24 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 * **`The controller with no action and params route handler:`** `/{controller}[/]`: works in a similar manner that the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoke with no parameters.
 
 ### **Controller Execution Flow** 
+Middlewares added to your app, like the one in **Figure 6**, will be executed for all routes (MVC ones above included) in your app.
+You can also use the **`preAction()`** and  **`postAction(\Psr\Http\Message\ResponseInterface $response)`** methods 
+in any of your controllers to inject code you want to be executed before and after each action method is run during 
+a request to an action in a specific controller. You can create a BaseController 
+(which extends `\Slim3MvcTools\Controllers\BaseController`) in your app which all 
+your app's controllers will extend. This BaseController's 
+**`preAction()`** and  **`postAction(\Psr\Http\Message\ResponseInterface $response)`** methods
+can then be used to implement common logic which you want to be executed before and after any 
+action method is run in any of your controllers.
+
+In a nutshell; for each request, middleware code is first executed 
+(in Slim 3 the handler associated with the route matched for the current request
+is also executed as a middleware). When the route handler for any of the MVC routes mentioned above is executed,
+the **`preAction()`** method for the current controller is executed first, followed by the current action method
+and then followed by the **`postAction(\Psr\Http\Message\ResponseInterface $response)`** method for the current 
+controller. Finally, other middleware code (if any) is executed after the route handler for the current request 
+has been executed. 
+
 Given the code in **figures 5** and **6** below, executing **`http://localhost:8888/hello/`** will generate the output in Figure 3 below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 4 below:
 
 ```
@@ -364,6 +392,18 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http
 ```
 **Figure 6: Sample middleware that should be placed in `./config/routes.php`**
 
+### **Using the File Renderer for Rendering Views and Layouts inside Controller Action Methods** 
+????????????
+Talk about cascading view system in renderView( $file_name, array $data = [] ).
+
+### **Creating Controller Classes via the Commnadline** 
+????????????
+????????????
+* Helper script for creating controller classes and a default index view:
+
+        `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
+
+
 ### S3MVC Helper Functions
 * **`s3MVC_CreateController(\Interop\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
 * **`s3MVC_DumpVar($v)`:** for dumping variables during development for debugging purposes.
@@ -375,9 +415,6 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http
 * **`s3MVC_psr7RequestObjToString(\Psr\Http\Message\ServerRequestInterface $req,...)`:** a helper function for dumping PSR-7 request objects for debugging purposes.
 * **`s3MVC_psr7UploadedFileToString(\Psr\Http\Message\UploadedFileInterface $file)`:** a helper function for dumping PSR-7 file objects for debugging purposes.
 
-* Helper script for creating controller classes and a default index view:
-
-        `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
 
 ## Security Considerations
 * Make sure to validate / sanitize the password value posted to `\Slim3MvcTools\Controllers\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
