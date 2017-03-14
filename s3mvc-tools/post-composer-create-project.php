@@ -216,6 +216,7 @@ if( chmod($logs_folder, 0777) ) {
 ////////////////////////////////////////////////////////////////////////////////
 printInfo("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)", false);
 
+$stdin = fopen('php://stdin', 'r');
 $response = fgetc($stdin);
 
 if ( strtoupper($response) === 'N' ) {
