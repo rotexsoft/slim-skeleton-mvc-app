@@ -215,16 +215,10 @@ if( chmod($logs_folder, 0777) ) {
 //Interactive Part: Ask if user wants foundation template
 ////////////////////////////////////////////////////////////////////////////////
 
-$response = 'Y'; // enable foundation by default
+// $response = 'Y'; // enable foundation by default
 
-$readline_is_available = false;
-
-if( function_exists('readline') ) {
-    
-    $readline_is_available = true;
-    // \Slim3MvcTools\Functions\Str\color_4_console( $str, "green",  "black");
-    $response = readline("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
-}
+// \Slim3MvcTools\Functions\Str\color_4_console( $str, "green",  "black");
+$response = readFromLine("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
 
 if ( strtoupper(trim($response)) === 'N' ) {
    
@@ -427,4 +421,10 @@ function printInfo($str, $append_new_line = true) {
         
         echo PHP_EOL;
     }
+}
+
+function readFromLine( $prompt = '' )
+{
+    echo $prompt;
+    return rtrim( fgets( STDIN ), "\n" );
 }
