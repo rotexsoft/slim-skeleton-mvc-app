@@ -436,20 +436,22 @@ class S3MVC_PostComposerCreateHandler {
     
     public static function rrmdir($src) {
         
-        if( strlen($src) <=0 || !is_dir($src) ) {
-            
-            return false;
-        }
+        if( strlen($src) <=0 || !is_dir($src) ) { return false; }
         
         $dir = opendir($src);
         
         while(false !== ( $file = readdir($dir)) ) {
+            
             if (( $file != '.' ) && ( $file != '..' )) {
+                
                 $full = $src . '/' . $file;
+                
                 if ( is_dir($full) ) {
+                    
                     static::rrmdir($full);
-                }
-                else {
+                    
+                } else {
+                    
                     unlink($full);
                 }
             }
