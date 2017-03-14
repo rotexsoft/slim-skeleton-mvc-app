@@ -241,22 +241,6 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 
         return "Hello There $first_name, $last_name";
     }
-	
-    public function preAction() {
-        
-		// add code that you need to be executed before each controller action method is executed
-		$response = parent::preAction();
-		
-        return $response;
-    }
-    
-    public function postAction(\Psr\Http\Message\ResponseInterface $response) {
-		
-        // add code that you need to be executed after each controller action method is executed
-        $response = parent::postAction($response);
-		
-        return $response;
-    }
 }
 ?>
 ```
