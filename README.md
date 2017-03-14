@@ -262,8 +262,8 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 ```
 **Figure 2: an Hello Controller class**
 
-* There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests. 
-* These four routes will be enabled, if and only if **S3MVC_APP_USE_MVC_ROUTES** is set to **`true`**.
+* There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests
+* These four routes will be enabled, if and only if **S3MVC_APP_USE_MVC_ROUTES** is set to **`true`**
 * Below are the four routes:
     * **`/`**: the **default route**. It creates an instance of the default controller (configurable via **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME**) and executes the default action method (configurable via **S3MVC_APP_DEFAULT_ACTION_NAME**) on the default controller. This route should be used for the home-page of your app.
         * For example, given **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** with a value of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello'`** and **S3MVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **default route** will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
