@@ -214,11 +214,18 @@ if( chmod($logs_folder, 0777) ) {
 ////////////////////////////////////////////////////////////////////////////////
 //Interactive Part: Ask if user wants foundation template
 ////////////////////////////////////////////////////////////////////////////////
-printInfo("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)", false);
+//printInfo("", false);
 
-//$stdin = fopen('php://stdin', 'r');
-//$response = fgetc($stdin);
-$response = fgetc(STDIN);
+$response = 'Y'; // enable foundation by default
+
+$readline_is_available = false;
+
+if( function_exists('readline') ) {
+    
+    $readline_is_available = true;
+    // \Slim3MvcTools\Functions\Str\color_4_console( $str, "green",  "black");
+    $response = readline("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
+}
 
 if ( strtoupper($response) === 'N' ) {
    
