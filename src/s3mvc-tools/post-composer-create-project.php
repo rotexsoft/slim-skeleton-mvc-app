@@ -256,7 +256,6 @@ class S3MVC_PostComposerCreateHandler {
             }
 
             sleep(1);
-
             ////////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -291,7 +290,6 @@ class S3MVC_PostComposerCreateHandler {
             }
 
             sleep(1);
-
             ////////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -407,8 +405,7 @@ class S3MVC_PostComposerCreateHandler {
         }
     }
 
-
-     public static function printError($str, $append_new_line = true) {
+    public static function printError($str, $append_new_line = true) {
 
         echo \Slim3MvcTools\Functions\Str\color_4_console( "ERROR: $str", "red",  "black");
 
@@ -436,7 +433,10 @@ class S3MVC_PostComposerCreateHandler {
     
     public static function rrmdir($src) {
         
-        if( strlen($src) <=0 || !is_dir($src) ) { return false; }
+        if( strlen($src) <=0 || !is_dir($src) ) { 
+            
+            return false;
+        }
         
         $dir = opendir($src);
         
