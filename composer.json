@@ -33,7 +33,8 @@
             "S3MVC_PostComposerCreateHandler::exec",
             "php -r \" unlink('./src/s3mvc-tools/post-composer-create-project.php'); \" ",
             "php -r \" unlink('./src/s3mvc-tools/.gitkeep'); \" ",
-            "php -r \" rmdir('./src/s3mvc-tools'); \" "
+            "php -r \" rmdir('./src/s3mvc-tools'); \" ",
+            "@composer dumpautoload -o"
         ]
     },
     "suggest": {

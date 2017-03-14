@@ -305,7 +305,7 @@ class S3MVC_PostComposerCreateHandler {
 
             $base_foundation_css_folder = "{$root_folder}public{$ds}css{$ds}foundation";
 
-            if( @rmdir("{$base_foundation_css_folder}") ) {
+            if( static::rrmdir("{$base_foundation_css_folder}") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -322,7 +322,7 @@ class S3MVC_PostComposerCreateHandler {
 
             $base_foundation_js_folder = "{$root_folder}public{$ds}js{$ds}foundation";
 
-            if( @rmdir("{$base_foundation_js_folder}") ) {
+            if( static::rrmdir("{$base_foundation_js_folder}") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -436,5 +436,31 @@ class S3MVC_PostComposerCreateHandler {
         
         echo $prompt;
         return trim(rtrim( fgets( STDIN ), PHP_EOL ));
+    }
+    
+    public static function rrmdir($src) {
+        
+        if( strlen($src) <=0 || !is_dir($src) ) {
+            
+            return false;
+        }
+        
+        $dir = opendir($src);
+        
+        while(false !== ( $file = readdir($dir)) ) {
+            if (( $file != '.' ) && ( $file != '..' )) {
+                $full = $src . '/' . $file;
+                if ( is_dir($full) ) {
+                    static::rrmdir($full);
+                }
+                else {
+                    unlink($full);
+                }
+            }
+        }
+        
+        closedir($dir);
+        
+        return @rmdir($src);
     }
 }
