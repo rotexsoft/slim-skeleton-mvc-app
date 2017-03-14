@@ -166,7 +166,7 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 * **`public/index.php`:** Entry point to application.
 
-	* ![Overview of the index.php file](index.php-overview.png)
+	* **Figure 1: Overview of the index.php file ** ![Overview of the index.php file](index.php-overview.png)
 
     * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file:
 
@@ -207,10 +207,14 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
 
 ## MVC Functionality
+![Example Controller Class](sample-controller.png)
+**Figure 2: an Hello Controller class**
+
 * There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests (if and only if **S3MVC_APP_USE_MVC_ROUTES** is set to **`true`**):
-    * **`/`**: the default route. It creates an instance of the default controller (configurable via **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME**) and executes the default action method (configurable via **S3MVC_APP_DEFAULT_ACTION_NAME**) on the default controller.
+    * **`/`**: the default route. It creates an instance of the default controller (configurable via **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME**) and executes the default action method (configurable via **S3MVC_APP_DEFAULT_ACTION_NAME**) on the default controller. This route should be used for the home-page of your app.
+        * Given **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** with a value of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello'`** and **S3MVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the default right will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
     * **`/{controller}[/]`**: the controller only route. It creates an instance of the controller specified in the url and executes the default action method (configurable via **S3MVC_APP_DEFAULT_ACTION_NAME**) on the specified controller.
-    * **`/{controller}/{action}/`**: the controller and action only route. It creates an instance of the controller specified in the url and executes the action method specified in the url on the specified controller.
+    * **`/{controller}/{action}/`**: the controller and action only route. It creates an instance of the controller specified in the url and executes the action method specified in the url on the specified controller. The specified method in the specified controller should not accept any parameters / arguments.
     * **`/{controller}/{action}[/{parameters:.+}]`**: the controller, action and optional parameters route. It creates an instance of the controller specified in the url and executes the action method specified in the url (with the parameters specified in the url, if any) on the specified controller.
         * This route also responds to **`/{controller}/{action}`** (without a trailing slash)
 
