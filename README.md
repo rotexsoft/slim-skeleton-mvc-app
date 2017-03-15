@@ -323,39 +323,39 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
     public function __construct(
         \Interop\Container\ContainerInterface $container, 
-		$controller_name_from_uri, $action_name_from_uri, 
+        $controller_name_from_uri, $action_name_from_uri, 
         \Psr\Http\Message\ServerRequestInterface $req, 
-		\Psr\Http\Message\ResponseInterface $res     
+        \Psr\Http\Message\ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
-		$this->response->getBody()->write('in Hello::__construct(...)<br>'); 
+        $this->response->getBody()->write('in Hello::__construct(...)<br>'); 
     }
     
     public function actionIndex() {
 
         return 'in Hello::actionIndex()<br>';
     }
-	
+    
     public function actionThere($first_name, $last_name) {
 
         return "Hello There $first_name, $last_name<br>";
     }
-	
+    
     public function preAction() {
         
-		// add code that you need to be executed before each controller action method is executed
-		$response = parent::preAction();
-		$response->getBody()->write('in Hello::preAction()<br>'); 
-		
+        // add code that you need to be executed before each controller action method is executed
+        $response = parent::preAction();
+        $response->getBody()->write('in Hello::preAction()<br>'); 
+        
         return $response;
     }
     
     public function postAction(\Psr\Http\Message\ResponseInterface $response) {
-		
+        
         // add code that you need to be executed after each controller action method is executed
         $response = parent::postAction($response);
-		$response->getBody()->write('in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)<br>');
-		
+        $response->getBody()->write('in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)<br>');
+        
         return $response;
     }
 }
