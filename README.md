@@ -364,15 +364,15 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 
 ```php
 <?php
-$app->add(function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, $next) {
+$app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, $next) {
 
-    $response->getBody()->write('in Middleware before current route handler<br>');
+    $res->getBody()->write('in Middleware before current route handler<br>');
     
-    $new_response = $next($request, $response); // this will eventually execute the route handler
-                                                // for the matched route for the current request.
-                                                // This is where the controller is instantiated 
-                                                // and the appropriate controller method is 
-                                                // invoked with / without parameters.
+    $new_response = $next($req, $res); // this will eventually execute the route handler
+                                       // for the matched route for the current request.
+                                       // This is where the controller is instantiated 
+                                       // and the appropriate controller method is 
+                                       // invoked with / without parameters.
                                                 
     $new_response->getBody()->write('in Middleware after current route handler<br>');
     
