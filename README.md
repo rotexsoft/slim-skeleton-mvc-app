@@ -227,9 +227,9 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
     public function __construct(
         \Interop\Container\ContainerInterface $container, 
-		$controller_name_from_uri, $action_name_from_uri, 
+        $controller_name_from_uri, $action_name_from_uri, 
         \Psr\Http\Message\ServerRequestInterface $req, 
-		\Psr\Http\Message\ResponseInterface $res     
+        \Psr\Http\Message\ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
@@ -238,7 +238,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 
         return 'in Hello::actionIndex()<br>';
     }
-	
+    
     public function actionThere($first_name, $last_name) {
 
         return "Hello There $first_name, $last_name";
@@ -367,17 +367,18 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 $app->add(function (\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response, $next) {
 
     $response->getBody()->write('in Middleware before current route handler<br>');
-	
-	$new_response = $next($request, $response); // this will eventually execute the route handler
-												// for the matched route for the current request.
-												// This is where the controller is instantiated 
-												// and the appropriate controller method is 
-												// invoked with / without parameters.
-												
+    
+    $new_response = $next($request, $response); // this will eventually execute the route handler
+                                                // for the matched route for the current request.
+                                                // This is where the controller is instantiated 
+                                                // and the appropriate controller method is 
+                                                // invoked with / without parameters.
+                                                
     $new_response->getBody()->write('in Middleware after current route handler<br>');
     
     return $new_response;
 });
+?>
 ```
 **Figure 6: Sample middleware that should be placed in `./config/routes.php`**
 
