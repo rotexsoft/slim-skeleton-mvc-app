@@ -64,3 +64,6 @@ s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $p
 * Pdo sqlite (3) extension for Authentication in non-production environments
 * Composer (https://getcomposer.org)
 
+## Documentation
+
+* - [Quick Start Guide](documentation/QUICKSTART.md)
