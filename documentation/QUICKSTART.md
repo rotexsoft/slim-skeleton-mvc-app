@@ -21,7 +21,7 @@
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of Slim3MvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
 		
-        can be automatically mapped to be responded to by a specific method in a Controller class.
+        can be automatically mapped to be responded to by a specific method in a Controller class. Note that items enclosed in `[]` are optional.
 
     * Below are the default links that are available upon installation:
 
