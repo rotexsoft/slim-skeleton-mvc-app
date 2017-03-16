@@ -189,7 +189,7 @@
 
 * **`public/index.php`:** Entry point to application.
 
-	* **Figure 1: Overview of the index.php file** ![Overview of the index.php file](index.php-overview.png)
+	* **Figure 1: Overview of the index.php file** ![Overview of the index.php file](../index.php-overview.png)
 
     * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file:
 
@@ -442,4 +442,4 @@ Talk about cascading view system in renderView( $file_name, array $data = [] ).
 
 ## SlimPHP 3's Implementation of PSR-7
 
-![Class Diagram of SlimPHP 3's Implementation of PSR-7](slim3-psr7.png)
+![Class Diagram of SlimPHP 3's Implementation of PSR-7](../slim3-psr7.png)
