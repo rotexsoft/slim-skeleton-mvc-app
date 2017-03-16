@@ -139,9 +139,9 @@ class S3MVC_PostComposerCreateHandler {
         // delete documentation folder
         static::printInfo( "Deleting `{$root_folder}documentation` ....".PHP_EOL );
 
-        $base_documentation_js_folder = "{$root_folder}documentation";
+        $base_documentation_folder = "{$root_folder}documentation";
 
-        if( static::rrmdir("{$base_documentation_js_folder}") ) {
+        if( static::rrmdir("{$base_documentation_folder}") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
