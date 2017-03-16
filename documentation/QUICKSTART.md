@@ -18,7 +18,7 @@
 
 3. Browse to [http://localhost:8888](http://localhost:8888)
 
-    * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of `Slim3MvcTools\Controllers\BaseController`:** 
+    * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of `Slim3MvcTools\Controllers\BaseController`:** urls in the form of `http(s)://server-name:port[/]<base-application-path>[/][<controller-name>][/<action-method-name>][/parameter1]...[/parameterN]`
 
     * Below are the default links that are available upon installation:
 
