@@ -26,7 +26,6 @@
     "autoload": {
         "classmap": [ "src/", "tests/", "vendor/slim/" ]
     },
-    "bin": ["src/s3mvc-tools/post-composer-create-project.php"],
     "scripts": {
         "post-create-project-cmd": [
             "S3MVC_PostComposerCreateHandler::exec",
