@@ -92,7 +92,6 @@
 
 * **`vendor`:** Composer dependencies
 
-
 ## Key Files and Configuration
 * **`composer.json`:** contains your application's composer dependencies
 
