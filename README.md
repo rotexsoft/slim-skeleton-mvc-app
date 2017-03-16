@@ -414,7 +414,7 @@ Talk about cascading view system in renderView( $file_name, array $data = [] ).
 ????????????
 * Helper script for creating controller classes and a default index view:
 
-        `php ./vendor/rotexsoft/slim3-skeleton-mvc-tools/src/scripts/create-controller.php`
+        `php ./vendor/bin/s3mvc-create-controller.php`
 
 
 ### S3MVC Helper Functions
