@@ -34,8 +34,10 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
 
     * [http://localhost:8888/base-controller/action-index/](http://localhost:8888/base-controller/action-index/) same as [http://localhost:8888/base-controller/](http://localhost:8888/base-controller/)
         * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionIndex()`** under the hood
+
     * [http://localhost:8888/base-controller/action-login/](http://localhost:8888/base-controller/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
         * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`** under the hood
+
     * [http://localhost:8888/base-controller/action-logout/0](http://localhost:8888/base-controller/action-logout/0)
         * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
     * [http://localhost:8888/base-controller/action-logout/1](http://localhost:8888/base-controller/action-logout/1)
