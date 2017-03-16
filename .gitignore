@@ -37,7 +37,7 @@ logs/*
 
 /config/env.php
 /public/index.php
-/config/routes.php
+/config/routes-and-middlewares.php
 /config/app-settings.php
 /config/dependencies.php
 /config/ini-settings.php

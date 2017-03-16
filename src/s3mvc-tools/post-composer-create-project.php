@@ -68,15 +68,15 @@ class S3MVC_PostComposerCreateHandler {
         }
         sleep(1);
 
-        static::printInfo( "Moving `{$config_src_folder}routes-dist.php` to `{$config_src_folder}routes.php` ...." );
+        static::printInfo( "Moving `{$config_src_folder}routes-and-middlewares-dist.php` to `{$config_src_folder}routes-and-middlewares.php` ...." );
 
-        if( @rename("{$config_src_folder}routes-dist.php", "{$config_src_folder}routes.php") ) {
+        if( @rename("{$config_src_folder}routes-and-middlewares-dist.php", "{$config_src_folder}routes-and-middlewares.php") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
         } else {
 
-            static::printError( "Could not move `{$config_src_folder}routes-dist.php` to `{$config_src_folder}routes.php`!".PHP_EOL );
+            static::printError( "Could not move `{$config_src_folder}routes-and-middlewares-dist.php` to `{$config_src_folder}routes-and-middlewares.php`!".PHP_EOL );
         }
         sleep(1);
 

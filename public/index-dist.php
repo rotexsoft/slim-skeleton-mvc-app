@@ -10,7 +10,7 @@ define('S3MVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
 //If true, the mvc routes will be enabled. If false, then you must explicitly
-//define all the routes for your application inside config/routes.php
+//define all the routes for your application inside config/routes-and-middlewares.php
 define('S3MVC_APP_USE_MVC_ROUTES', true);
 
 //If true, the string `action` will be prepended to action method names (if the
@@ -364,7 +364,7 @@ function (
 // Start: Load app specific routes
 ////////////////////////////////////////////////////////////////////////////////
 
-require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes.php';
+require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 // End: Load app specific routes
