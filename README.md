@@ -50,7 +50,7 @@ s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $p
 * Ships whith a BaseController class (i.e. **`Slim3MvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight, easily extensible and powerful [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
 
 * Provides a command-line script for creating Controller classes (that extend **`Slim3MvcTools\Controllers\BaseController`** or any of its descendants). 
-	* `./vendor/bin/s3mvc-create-controller` on *nix-like Oses and `.\vendor\bin\s3mvc-create-controller.bat` on Windows 
+	* **`./vendor/bin/s3mvc-create-controller`** on **`*nix-like`** Oses and **`.\vendor\bin\s3mvc-create-controller.bat`** on **`Windows`**
 
 * Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`Slim3MvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
 
