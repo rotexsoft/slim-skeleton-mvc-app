@@ -216,7 +216,6 @@
 
         * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
 
-
 * **`src/controllers/Hello.php`:** Example Controller class.
 
 * **`src/layout-templates/main-template.php`:** Default site template based on the Zurb Foundation front-end framework.
