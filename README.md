@@ -66,4 +66,4 @@ s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $p
 
 ## Documentation
 
-* - [Quick Start Guide](documentation/QUICKSTART.md)
+* [Quick Start Guide](documentation/QUICKSTART.md)
