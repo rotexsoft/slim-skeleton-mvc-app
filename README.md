@@ -33,20 +33,31 @@ It ships with the Foundation 5 template (http://foundation.zurb.com/).
   * Below are the default links that are available upon installation:
 
     * [http://localhost:8888/base-controller/action-index/](http://localhost:8888/base-controller/action-index/) same as [http://localhost:8888/base-controller/](http://localhost:8888/base-controller/)
-        * This link is mapped to **`Slim3MvcTools\Controllers\BaseController::actionIndex()`** under the hood
+        * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionIndex()`** under the hood
     * [http://localhost:8888/base-controller/action-login/](http://localhost:8888/base-controller/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
+        * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`** under the hood
     * [http://localhost:8888/base-controller/action-logout/0](http://localhost:8888/base-controller/action-logout/0)
+        * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
     * [http://localhost:8888/base-controller/action-logout/1](http://localhost:8888/base-controller/action-logout/1)
+        * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
     * [http://localhost:8888/base-controller/action-login-status/](http://localhost:8888/base-controller/action-login-status/)
+        * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLoginStatus()`** under the hood
     * [http://localhost:8888/hello/action-index/](http://localhost:8888/hello/action-index/) same as [http://localhost:8888/hello/](http://localhost:8888/hello/)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionIndex()`** under the hood
     * [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogin()`** under the hood
     * [http://localhost:8888/hello/action-logout/0](http://localhost:8888/hello/action-logout/0)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
     * [http://localhost:8888/hello/action-logout/1](http://localhost:8888/hello/action-logout/1)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
     * [http://localhost:8888/hello/action-login-status/](http://localhost:8888/hello/action-login-status/)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLoginStatus()`** under the hood
     * `http://localhost:8888/hello/action-there/{first_name}/{last_name}`
-      * you can do stuff like [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)`** under the hood
+        * you can do stuff like [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe)
     * `http://localhost:8888/hello/action-world/{name}/{another_parameter}`
-      * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
+        * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
+        * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
   * The `action-` prefix can be omitted from the links above if `S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` is set to `true`
     * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
