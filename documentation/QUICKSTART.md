@@ -18,6 +18,8 @@
 
 3. Browse to [http://localhost:8888](http://localhost:8888)
 
+    * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of `Slim3MvcTools\Controllers\BaseController`:** 
+
     * Below are the default links that are available upon installation:
 
         * [http://localhost:8888/base-controller/action-index/](http://localhost:8888/base-controller/action-index/) same as [http://localhost:8888/base-controller/](http://localhost:8888/base-controller/)
