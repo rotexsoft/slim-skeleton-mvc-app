@@ -136,6 +136,23 @@ class S3MVC_PostComposerCreateHandler {
         sleep(1);
 
         ////////////////////////////////////////////////////////////
+        // delete documentation folder
+        static::printInfo( "Deleting `{$root_folder}documentation` ....".PHP_EOL );
+
+        $base_documentation_js_folder = "{$root_folder}documentation";
+
+        if( static::rrmdir("{$base_documentation_js_folder}") ) {
+
+            static::printInfo( "Successfully Deleted!".PHP_EOL  );
+
+        } else {
+
+            static::printError("Could not delete `{$root_folder}documentation`!".PHP_EOL);
+        }
+
+        sleep(1);
+
+        ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}slim3-psr7.png` ....".PHP_EOL );
 
         if( @unlink("{$root_folder}slim3-psr7.png") ) {
