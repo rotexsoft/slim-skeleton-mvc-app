@@ -252,7 +252,7 @@ class S3MVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////////////////////////
         //Interactive Part: Ask if user wants foundation template
         ////////////////////////////////////////////////////////////////////////////////
-        $response = static::readFromLine("Do you want to use the Zurb Foundation CSS/JS framework that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
+        $response = static::readFromLine("Do you want to use the Zurb Foundation front-end framework (which includes jQuery) that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
 
         if ( strtoupper(trim($response)) === 'N' ) {
 
