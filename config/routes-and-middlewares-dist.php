@@ -1,4 +1,24 @@
 <?php
+// Define project specific midddle-wares using $app which is an instance of Slim
+/*
+For example:
+
+$app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, $next) {
+
+    $res->getBody()->write('in Middleware before current route handler<br>');
+    
+    $new_response = $next($req, $res); // this will eventually execute the route handler
+                                       // for the matched route for the current request.
+                                       // This is where the controller is instantiated 
+                                       // and the appropriate controller method is 
+                                       // invoked with / without parameters.
+                                                
+    $new_response->getBody()->write('in Middleware after current route handler<br>');
+    
+    return $new_response;
+});
+
+*/
 
 // Define project specific routes using $app which is an instance of Slim
 
