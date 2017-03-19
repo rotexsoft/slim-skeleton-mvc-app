@@ -233,7 +233,7 @@ Now let's run our php development server again:
 php -S 0.0.0.0:8888 -t public
 ```
 
-Browse to http://localhost:8888/movie-catalog-base orhttp://localhost:8888/movie-catalog-base/index 
+Browse to http://localhost:8888/movie-catalog-base or http://localhost:8888/movie-catalog-base/index 
 and you should see the output below:
 ```
 You have successfully executed MovieCatalog\Controllers\MovieCatalogBase::actionIndex()
