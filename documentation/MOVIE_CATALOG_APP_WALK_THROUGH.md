@@ -469,7 +469,7 @@ with the code below:
     ////////////////////////////////////////////////////////////////////////////
 ```
 
-Next we create an action method named actionInitUsers in the 
+Next we create an action method named `actionInitUsers` in the 
 `\MovieCatalog\Controllers\Users` class to create a user with the username 
 `admin` and password `admin` (if and only if the `user_authentication_accounts` 
 table contains no data). It will be accessible via http://localhost:8888/users/init-users.
@@ -525,3 +525,12 @@ Below is the method:
         return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
     }
 ```
+
+`actionInitUsers()` above checks if there is no data in the `user_authentication_accounts` 
+table and if there is none, it then proceeds to insert a row of data into the table with a 
+`username` value of **`admin`** and `password` value of **`admin`** (note that it's the 
+hashed form of the password that is stored in the `user_authentication_accounts` table).
+If there is data in the `user_authentication_accounts` table, the method just sets a
+message to be displayed.
+
+
