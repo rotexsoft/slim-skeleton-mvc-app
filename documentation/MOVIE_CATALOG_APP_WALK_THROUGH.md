@@ -536,6 +536,12 @@ message to be displayed.
 All we now need to do to ensure we have a user with the username **`admin`** in 
 our app is to browse to http://localhost:8888/users/init-users. After this,
 we can login to our app with a `username` of **`admin`** and a `password` of
-**`admin`**.
+**`admin`**. We can login via any controller with the path **`<controller_name>/login`** 
+in our url, where **`<controller_name>`** can be substitued with the controller 
+names of any of the controllers we have created in our appl. Below are the login 
+urls currently available in our app:
+
+- **http://localhost:8888/users/login :**
+
 
 
