@@ -421,3 +421,46 @@ application:
 ```
 composer dumpautoload -o
 ```
+
+
+Next, we configure the `Vespula.Auth PDO Authentication setup` section of our
+dependencies file (**`./config/dependencies.php`**) to authenticate against the 
+`user_authentication_accounts` table in our MySQL `movie_catalog` database by updating 
+`$container['vespula_auth']` in the `Vespula.Auth PDO Authentication setup` section 
+with the code below:
+
+```php
+    ////////////////////////////////////////////////////////////////////////////
+    // Start Vespula.Auth PDO Authentication setup
+    ////////////////////////////////////////////////////////////////////////////
+    $container['vespula_auth'] = function ($c) {
+
+        $pdo = new \PDO(
+            $c['db_dsn'], 
+            $c['db_uname'], 
+            $c['db_passwd'], 
+            [
+                PDO::ATTR_PERSISTENT => true,
+                PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+            ]
+        );
+        
+        //Optionally pass a maximum idle time and a time until the session 
+        //expires (in seconds)
+        $expire = 3600;
+        $max_idle = 1200;
+        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+        
+        $cols = ['username', 'password'];
+        $from = 'user_authentication_accounts';
+        $where = ''; //optional
+
+        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
+        
+        return new \Vespula\Auth\Auth($adapter, $session);
+    };
+    ////////////////////////////////////////////////////////////////////////////
+    // End Vespula.Auth PDO Authentication setup
+    ////////////////////////////////////////////////////////////////////////////
+```
