@@ -526,7 +526,7 @@ Below is the method:
     }
 ```
 
-`actionInitUsers()` above checks if there is no data in the `user_authentication_accounts` 
+**actionInitUsers()** above checks if there is no data in the `user_authentication_accounts` 
 table and if there is none, it then proceeds to insert a row of data into the table with a 
 `username` value of **`admin`** and `password` value of **`admin`** (note that it's the 
 hashed form of the password that is stored in the `user_authentication_accounts` table).
