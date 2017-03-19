@@ -87,7 +87,7 @@ We just created the database for our app with two tables: **`movie_listings`**
 **`user_authentication_accounts`** (for storing usernames and password hashes of
 users that can login to our app).
 
-Next we are going to create some controller classes for our application by running 
+Next we are going to create some controller classes for our app by running 
 the commands below:
 
 ```
@@ -98,13 +98,13 @@ the commands below:
 composer dumpautoload -o
 ``` 
 
-We should now have the following files and folders in our application:
+We should now have the following files and folders in our app:
 
 * **./src/controllers/MovieCatalogBase.php:** containing the
 **`\MovieCatalog\Controllers\MovieCatalogBase`** class which is a direct sub-class
 of **`\Slim3MvcTools\Controllers\BaseController`**. This class will serve as the 
-base controller class in our application which all other controllers will extend.
-All logic common to all other controllers in our application should be implemented here.
+base controller class in our app which all other controllers will extend.
+All logic common to all other controllers in our app should be implemented here.
 
     * **./src/views/movie-catalog-base/:** is the folder where view files for 
     **\MovieCatalog\Controllers\MovieCatalogBase** should be placed. A default
@@ -119,7 +119,7 @@ All logic common to all other controllers in our application should be implement
 **`\MovieCatalog\Controllers\MovieListings`** class which is a sub-class of
 **`\MovieCatalog\Controllers\MovieCatalogBase`**. This controller class will 
 contain action methods to list all, view each, add, edit and delete movie 
-listings in our application.
+listings in our app.
 
     * **./src/views/movie-listings/:** is the folder where view files for 
     **\MovieCatalog\Controllers\MovieListings** should be placed. A default
@@ -138,7 +138,7 @@ listings in our application.
 * **./src/controllers/HttpNotAllowedNotFoundServerErrorHandler.php:** containing the
 **`\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`** class which is a sub-class of
 **`\MovieCatalog\Controllers\MovieCatalogBase`**. This controller class will 
-be used for handling HTTP `404`, `405` and `500` errors in our application. 
+be used for handling HTTP `404`, `405` and `500` errors in our app. 
 
     * **./src/views/http-not-allowed-not-found-server-error-handler/:** is the 
     folder where view files for **\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler** 
@@ -154,7 +154,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our application.
     to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** and
     **$container['notAllowedHandlerClass']** to delegate 
     `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` as the 
-    handler for HTTP 404, 405 and 500 errors in our application. The default 
+    handler for HTTP 404, 405 and 500 errors in our app. The default 
     handlers for HTTP 404, 405 and 500 errors are the 
 
         * `\Slim3MvcTools\Controllers\HttpServerErrorController`, 
@@ -186,7 +186,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our application.
 **`\MovieCatalog\Controllers\Users`** class which is a sub-class of
 **`\MovieCatalog\Controllers\MovieCatalogBase`**. This controller class will 
 contain action methods to manage users (i.e. list all, view each, add, edit 
-and delete) that can login to our application.
+and delete) that can login to our app.
 
     * **./src/views/users/:** is the folder where view files for 
     **\MovieCatalog\Controllers\Users** should be placed. A default
@@ -206,7 +206,7 @@ assigning a value of **`'\\MovieCatalog\\Controllers\\HttpNotAllowedNotFoundServ
 to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** and
 **$container['notAllowedHandlerClass']** in order to make the 
 `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` class the 
-handler for HTTP 404, 405 and 500 errors in our application. 
+handler for HTTP 404, 405 and 500 errors in our app. 
 
 Next, we add the value (**`'\\MovieCatalog\\Controllers\\'`**) to the 
 **$container['namespaces_for_controllers']** array in the dependencies file.
@@ -225,7 +225,7 @@ in the request url and the second edit makes
 Since `S3MVC_APP_DEFAULT_ACTION_NAME` has a default value of **`'actionIndex'`**, 
 this means that the **`'actionIndex'`** method in 
 **`\MovieCatalog\Controllers\MovieListings'`** would be used to handle the 
-**`/`** route in our application.
+**`/`** route in our app.
 
 Now let's run our php development server again:
 
@@ -420,7 +420,7 @@ $container['users_model'] = function ($c) {
 
 Now, we run the command below to allow composer's autoloader to be able to find
 the `BaseCollection`, `BaseModel` and `BaseRecord` classes we just added to our
-application:
+app:
 
 ```
 composer dumpautoload -o
@@ -532,5 +532,10 @@ table and if there is none, it then proceeds to insert a row of data into the ta
 hashed form of the password that is stored in the `user_authentication_accounts` table).
 If there is data in the `user_authentication_accounts` table, the method just sets a
 message to be displayed.
+
+All we now need to do to ensure we have a user with the username **`admin`** in 
+our app is to browse to http://localhost:8888/users/init-users. After this,
+we can login to our app with a `username` of **`admin`** and a `password` of
+**`admin`**.
 
 
