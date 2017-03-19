@@ -538,15 +538,21 @@ our app is to browse to http://localhost:8888/users/init-users. After this,
 we can login to our app with a `username` of **`admin`** and a `password` of
 **`admin`**. We can login via any controller with the path **`<controller_name>/login`** 
 in our url, where **`<controller_name>`** can be substitued with the controller 
-names of any of the controllers we have created in our appl. Below are the login 
-urls currently available in our app (they are all calling 
+names of any of the controllers we have created in our appl. 
+
+Below are the login urls currently available in our app (they are all calling 
 **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`**):
 
 - **http://localhost:8888/base-controller/login :** logging in via `\Slim3MvcTools\Controllers\BaseController` 
+
 - **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim3-skeleton-mvc-app/) app)
+
 - **http://localhost:8888/http-not-allowed-not-found-server-error-handler/login :** logging in via `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
+
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase`
+
 - **http://localhost:8888/movie-listings/login :** logging in via `\MovieCatalog\Controllers\MovieListings`
+
 - **http://localhost:8888/users/login :** logging in via `\MovieCatalog\Controllers\Users`
 
 
