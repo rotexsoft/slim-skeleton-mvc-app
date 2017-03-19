@@ -7,8 +7,8 @@ framework. This tutorial assumes you are working in a Linux environment (you may
 have to tweak some of the commands if you are using Windows).
 
 The only additional composer packages that will be used in this tutorial are the 
-[Paris ORM](https://packagist.org/packages/j4mie/paris) package (a lightweight 
-Active Record implementation) for implementing the model layer of the app and the 
+[Leanorm](https://packagist.org/packages/rotexsoft/leanorm) package (A light-weight, 
+PHP data access library) for implementing the model layer of the app and the 
 [Slim Flash](https://packagist.org/packages/slim/flash) package for displaying
 flash messages.
 The sql provided in this walk through was written to work with MySQL, but can be 
@@ -73,10 +73,12 @@ CREATE TABLE `movie_listings`(
 ); 
 
 CREATE TABLE user_authentication_accounts (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, 
     `username` VARCHAR(255), 
     `password` VARCHAR(255),
     `record_creration_date` DATETIME NOT NULL, 
-    `record_last_modification_date` DATETIME NOT NULL
+    `record_last_modification_date` DATETIME NOT NULL, 
+    PRIMARY KEY (`id`) 
 );
 ```
 
@@ -261,13 +263,13 @@ our controllers have been correctly setup and we are now ready to start implemen
 methods in our controllers. You can stop the php development server for now.
 
 Now, we need to install the two composer packages (ie. 
-[Paris ORM](https://packagist.org/packages/j4mie/paris) and 
+[Leanorm](https://packagist.org/packages/rotexsoft/leanorm) and 
 [Slim Flash](https://packagist.org/packages/slim/flash)) we are going to use
 for creating our model classes and manage flash messaging in our app. Run the 
 commands below to install these packages:
 ```
 composer require slim/flash
-composer require j4mie/paris
+composer require rotexsoft/leanorm
 ```
 
 We then go on to register a `Slim Flash` object in the container in our dependencies
@@ -285,4 +287,125 @@ $container['slim_flash'] = function () {
 };
 ```
 
+Next, add the classes below to the **`./src/models/`** folder:
 
+**BaseCollection.php**
+
+```php
+<?php
+
+class BaseCollection extends \LeanOrm\Model\Collection {
+    //put your code here
+}
+```
+
+**BaseModel.php**
+
+```php
+<?php
+
+class BaseModel extends \LeanOrm\Model {
+
+    public function __construct(
+        $dsn='', $uname='', $paswd='', array $pdo_driver_opts=[], array $ext_opts=[]
+    ) {
+        parent::__construct($dsn, $uname, $paswd, $pdo_driver_opts, $ext_opts);
+        
+        $col_names = $this->getTableColNames();
+        
+        if( in_array('record_creration_date', $col_names) ) {
+        
+            $this->_created_timestamp_column_name = 'record_creration_date';
+        }
+        
+        if( in_array('record_last_modification_date', $col_names) ) {
+        
+            $this->_updated_timestamp_column_name = 'record_last_modification_date';
+        }
+    }
+}
+```
+**BaseRecord.php**
+
+```php
+<?php
+
+class BaseRecord extends \LeanOrm\Model\Record {
+
+    public function getDateCreated() {
+        
+        $col = $this->getModel()->getCreatedTimestampColumnName();
+        
+        if( in_array($col, $this->getModel()->getTableColNames()) ) {
+            
+            return date('M j, Y g:i a T', strtotime($this->$col));
+        }
+        
+        return '';
+    }
+    
+    public function getLastModfiedDate() {
+        
+        $col = $this->getModel()->getUpdatedTimestampColumnName();
+        
+        if( in_array($col, $this->getModel()->getTableColNames()) ) {
+            
+            return date('M j, Y g:i a T', strtotime($this->$col));
+        }
+        
+        return '';
+    }
+}
+```
+
+We then go on to register a Model objects (for the `movie_listings` and 
+`user_authentication_accounts` database tables) in the container in our 
+dependencies file by adding the code below to **`./config/dependencies.php`**
+(**NOTE:** you should update `$container['db_dsn']`, `$container['db_uname']`, 
+`$container['db_passwd']` to suit your database server):
+
+```php
+$container['db_dsn'] = 'mysql:host=server-name;dbname=movie_catalog';
+$container['db_uname'] = 'user_name';
+$container['db_passwd'] = 'pass';
+
+$container['movie_listings_model'] = function ($c) {
+
+    $model = new \BaseModel (
+        $c['db_dsn'], $c['db_uname'], $c['db_passwd'],
+        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'],
+        [
+            'primary_col' => 'id',
+            'table_name' => 'movie_listings',
+
+            //If not set, \LeanOrm\Model\Collection will be used by default
+            'collection_class_name' => 'BaseCollection',
+
+            //If not set, \LeanOrm\Model\Record will be used by default 
+            'record_class_name' => 'BaseRecord',
+        ]
+    );
+
+    return $model;
+};
+
+$container['users_model'] = function ($c) {
+
+    $model = new \BaseModel (
+        $c['db_dsn'], $c['db_uname'], $c['db_passwd'],
+        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'],
+        [
+            'primary_col' => 'id',
+            'table_name' => 'user_authentication_accounts',
+
+            //If not set, \LeanOrm\Model\Collection will be used by default
+            'collection_class_name' => 'BaseCollection',
+
+            //If not set, \LeanOrm\Model\Record will be used by default 
+            'record_class_name' => 'BaseRecord',
+        ]
+    );
+
+    return $model;
+};
+```
