@@ -318,12 +318,16 @@ class BaseModel extends \LeanOrm\Model {
         $col_names = $this->getTableColNames();
         
         if( in_array('record_creration_date', $col_names) ) {
-        
+            
+            // this column will be automatically updated 
+            // when a new record is saved to the database
             $this->_created_timestamp_column_name = 'record_creration_date';
         }
         
         if( in_array('record_last_modification_date', $col_names) ) {
         
+            // this column will be automatically updated 
+            // when a record (new or existent) is saved to the database
             $this->_updated_timestamp_column_name = 'record_last_modification_date';
         }
     }
@@ -463,4 +467,61 @@ with the code below:
     ////////////////////////////////////////////////////////////////////////////
     // End Vespula.Auth PDO Authentication setup
     ////////////////////////////////////////////////////////////////////////////
+```
+
+Next we create an action method named actionInitUsers in the 
+`\MovieCatalog\Controllers\Users` class to create a user with the username 
+`admin` and password `admin` (if and only if the `user_authentication_accounts` 
+table contains no data). It will be accessible via http://localhost:8888/users/init-users.
+Below is the method:
+
+```php
+    public function actionInitUsers() {
+        
+        $view_str = ''; // will hold output to be injected into 
+                        // the site layout file (i.e. 
+                        // `./src/layout-templates/main-template.php`)
+                        // when $this->renderLayout(...) is called
+        
+        $model_obj = $this->container->get('users_model');
+        $num_existing_users = $model_obj->fetchValue(['cols'=>['count(*)']]);
+        
+        if( !is_numeric($num_existing_users) ) {
+            
+            // no need to add entries for the `record_creration_date`
+            // and `record_last_modification_date` fields in the 
+            // $user_data array below
+            $user_data = [
+                'username' => 'admin', 
+                'password' => password_hash('admin' , PASSWORD_DEFAULT)
+            ];
+            $user_record = $model_obj->createNewRecord($user_data);
+            
+            if( $user_record->save() !== false ) {
+                
+                $view_str = 'First user successfully initialized!';
+                
+            } else {
+                
+                $view_str = 'Error: could not create first user!';
+            }
+            
+        } else if( 
+            is_numeric($num_existing_users) 
+            && ((int)$num_existing_users) > 0 
+        ) {
+            $view_str = 'First user already initialized!';
+            
+        } else {
+            
+            $view_str = 'Error: could not initialize first user!';
+        }
+        
+        // The 'content' key in the array below will be available in
+        // `./src/layout-templates/main-template.php` as $content
+        // 
+        // Note: $this->layout_template_file_name has a value of
+        //       'main-template.php'
+        return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
+    }
 ```
