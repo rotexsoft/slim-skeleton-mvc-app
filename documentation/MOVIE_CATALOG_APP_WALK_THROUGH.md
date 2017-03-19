@@ -233,25 +233,29 @@ Now let's run our php development server again:
 php -S 0.0.0.0:8888 -t public
 ```
 
-Browse to http://localhost:8888/movie-catalog-base and you should see the output below:
+Browse to http://localhost:8888/movie-catalog-base orhttp://localhost:8888/movie-catalog-base/index 
+and you should see the output below:
 ```
 You have successfully executed MovieCatalog\Controllers\MovieCatalogBase::actionIndex()
 This is the default view for MovieCatalog\Controllers\MovieCatalogBase::actionIndex().
 ```
 
-Next, browse to http://localhost:8888/movie-listings and you should see the output below:
+Next, browse to http://localhost:8888/movie-listings or http://localhost:8888/movie-listings/index 
+and you should see the output below:
 ```
 You have successfully executed MovieCatalog\Controllers\MovieListings::actionIndex()
 This is the default view for MovieCatalog\Controllers\MovieListings::actionIndex().
 ```
 
-Next, browse to http://localhost:8888/users and you should see the output below:
+Next, browse to http://localhost:8888/users or http://localhost:8888/users/index 
+and you should see the output below:
 ```
 You have successfully executed MovieCatalog\Controllers\Users::actionIndex()
 This is the default view for MovieCatalog\Controllers\Users::actionIndex().
 ```
 
 Then, browse to http://localhost:8888/http-not-allowed-not-found-server-error-handler 
+or http://localhost:8888/http-not-allowed-not-found-server-error-handler/index 
 and you should see the output below:
 ```
 You have successfully executed MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler::actionIndex()
@@ -408,4 +412,12 @@ $container['users_model'] = function ($c) {
 
     return $model;
 };
+```
+
+Now, we run the command below to allow composer's autoloader to be able to find
+the `BaseCollection`, `BaseModel` and `BaseRecord` classes we just added to our
+application:
+
+```
+composer dumpautoload -o
 ```
