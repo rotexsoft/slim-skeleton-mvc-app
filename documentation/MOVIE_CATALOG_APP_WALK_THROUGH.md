@@ -899,7 +899,7 @@ Now let's implement the view portion of the feature by adding the code below
 to **./src/views/users/index.php**:
 
 ```php
-<h4>Users</h4>
+<h4>All Users</h4>
 
 <?php if( $collection_of_user_records instanceof \BaseCollection && count($collection_of_user_records) > 0 ): ?>
 
@@ -969,5 +969,34 @@ code below:
     }
 ```
 
+We've implemented the controller portion of the feature to view a single user. 
+Now let's implement the view portion of the feature by creating a **view.php** 
+file in **./src/views/users/** adding the code below to it:
 
+```php
+<h4>View User</h4>
+<ul style="list-style: none;">
+    <li>
+        <strong>Username:</strong> 
+        <?php echo $user_record->username; ?>
+    </li>
+    <li>
+        <strong>Date Created:</strong> 
+        <?php echo $user_record->getDateCreated(); ?>
+    </li>
+    <li>
+        <strong>Date Last Modified:</strong> 
+        <?php echo $user_record->getLastModfiedDate(); ?>
+    </li>
+</dl>
+<p>
+    <a href="<?php echo s3MVC_MakeLink( "users/index" ); ?>">View all Users</a>
+    <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+        | <a href="<?php echo s3MVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+        <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+
+    <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
+</p>
+```
 
