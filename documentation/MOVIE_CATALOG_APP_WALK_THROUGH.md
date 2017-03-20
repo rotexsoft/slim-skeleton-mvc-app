@@ -490,7 +490,9 @@ Below is the method:
             
             // no need to add entries for the `record_creration_date`
             // and `record_last_modification_date` fields in the 
-            // $user_data array below
+            // $user_data array below since leanorm will 
+            // automatically populate those fields when
+            // the new record is saved.
             $user_data = [
                 'username' => 'admin', 
                 'password' => password_hash('admin' , PASSWORD_DEFAULT)
@@ -606,7 +608,8 @@ to contain navigation links to some of the features we will be implementing.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Da Numba 1 Movie Catalog App</title>
         <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
+        
         <style>
             /* style for menu items */
             ul.menu li.active-link,
@@ -731,7 +734,6 @@ to contain navigation links to some of the features we will be implementing.
             </div>
         </footer>
 
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
         <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
         <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
         <script> $(document).foundation(); </script>
@@ -958,7 +960,7 @@ code below:
             return $this->generateNotFoundResponse(
                             $this->request, 
                             $this->response,
-                            'Request user does not exist.'
+                            'Requested user does not exist.'
                         );
         }
         
@@ -971,7 +973,7 @@ code below:
 
 We've implemented the controller portion of the feature to view a single user. 
 Now let's implement the view portion of the feature by creating a **view.php** 
-file in **./src/views/users/** adding the code below to it:
+file in **./src/views/users/** and adding the code below to it:
 
 ```php
 <h4>View User</h4>
@@ -1005,6 +1007,481 @@ Now our feature to view a single user is completed and can be accessed at
 with a numeric id of a user e.g. http://localhost:8888/users/view/2 to view details
 of a single user with an id of 2.
 
-Next, we implement the action method to view a single user; i.e. **actionAdd()**. 
-To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\Users** with the 
+Next, we implement the action method to add a new user; i.e. **actionAdd()**. 
+To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\Users** with 
+the code below:
+
+```php
+    public function actionAdd() {
+        
+        // The call below is to get a response object for
+        // redirecting the user to the login page if the
+        // user is not currently logged in. You must be 
+        // logged in in order to be able to add a new user.
+        // If the user is logged in, $login_response will
+        // receive a value of false from
+        // $this->getResponseObjForLoginRedirectionIfNotLoggedIn().
+        $login_response = $this->getResponseObjForLoginRedirectionIfNotLoggedIn();
+        
+        if( $login_response instanceof \Psr\Http\Message\ResponseInterface ) {
+            
+            //redirect to login
+            return $login_response;
+        }
+        
+        $model_obj = $this->container->get('users_model');
+        $error_msgs = [];
+        $error_msgs['form-errors'] = [];
+        $error_msgs['username'] = [];
+        $error_msgs['password'] = [];
+        
+        // create an associative array with keys being the names of the columns in the 
+        // db table associated with the model and a default value of '' for each item 
+        // in the array
+        $default_data = array_combine( 
+            $model_obj->getTableColNames(), 
+            array_fill(0, count($model_obj->getTableColNames()), '') 
+        );
+        
+        // remove item whose key is primary key column name
+        // since primary key values are auto-generated
+        unset($default_data[$model_obj->getPrimaryColName()]); 
+
+        // create a new record with the default data generated above
+        $record = $model_obj->createNewRecord($default_data);
+        
+        if( $this->request->getMethod() === 'POST' ) {
+            
+            // POST Request
+            $has_field_errors = false;
+            
+            // Read the post data
+            $posted_data = s3MVC_GetSuperGlobal('post');
+            
+            if( mb_strlen( ''.$posted_data['username'], 'UTF-8') <= 0 ) {
+                
+                $error_msgs['username'][] = 'Username Cannot be blank!';
+                $has_field_errors = true;
+                
+            } else {
+                
+                // check that posted username is not already assigned to an
+                // existing user
+                $params = [
+                    'where' => [['col'=>'username', 'op'=>'=', 'val'=>$posted_data['username']]]
+                ];
+
+                $existing_user_with_same_username = $model_obj->fetchOneRecord($params);
+                
+                if( $existing_user_with_same_username instanceof \BaseRecord ) {
+                    
+                    // username is already assigned to an existing user
+                    $error_msgs['username'][] = 'Username already taken!';
+                    $has_field_errors = true;
+                }
+            }
+            
+            if( mb_strlen( ''.$posted_data['password'], 'UTF-8') <= 0 ) {
+                
+                $error_msgs['password'][] = 'Password Cannot be blank!';
+                $has_field_errors = true;
+            }
+     
+            //load posted data into new record object
+            $record->loadData($posted_data);
+
+            if ( !$has_field_errors ) {
+                
+                // hash the password
+                $record->password = password_hash($record->password, PASSWORD_DEFAULT);
+                
+                // try to save
+                if ( $record->save() !== false ) {
+
+                    //successfully saved;
+                    $rdr_path = s3MVC_MakeLink("users/index");
+                    $this->setSuccessFlashMessage('Successfully Saved!');
+
+                    // re-direct to the list all users page
+                    return $this->response->withHeader('Location', $rdr_path);
+                    
+                } else {
+
+                    //Record could not be saved.
+                    $error_msgs['form-errors'][] = 'Save Failed!';
+                } // if ( $record->save() !== false ) 
+                
+            } else {
+                
+                $error_msgs['form-errors'][] = 'Form contains error(s)!';
+            } // if ( !$has_field_errors )
+                
+        } //if( $this->request->getMethod() === 'POST' )
+
+        $view_data = [];
+        $view_data['error_msgs'] = $error_msgs;
+        $view_data['user_record'] = $record;
+        
+        $view_str = $this->renderView('add.php', $view_data);
+        
+        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
+    }
+```
+
+We've implemented the controller portion of the feature to add a new user. 
+Now let's implement the view portion of the feature by creating an **add.php** 
+file in **./src/views/users/** and adding the code below to it:
+
+```php
+<h4 style="margin-bottom: 20px;">Add New User</h4>
+
+<form method="POST" 
+      action="<?php echo s3MVC_MakeLink("users/add"); ?>" 
+      enctype="multipart/form-data"
+>
+
+<?php printErrorMsg('form-errors', $error_msgs); //print form level error message(s) if any ?>
+
+    <div class="row" id="row-username">
+        
+        <div class="small-3 columns">
+            <label for="username" class="middle text-right">
+                Username<span style="color: red;"> *</span>
+            </label>                
+        </div>
+         
+        <?php $input_elems_error_css_class = (count($error_msgs['username']) > 0)? ' class="is-invalid-input" ' : ''; ?>
+        
+        <div class="small-7 columns end">
+            <input type="text" 
+                   name="username" 
+                   id="username" 
+                   maxlength="255" 
+                   required="required"
+                   <?php echo $input_elems_error_css_class; ?>
+                   value="<?php echo $user_record->username; ?>"
+            >
+            <?php printErrorMsg('username', $error_msgs); //print error message(s) if any ?>
+        </div>
+    </div>
+    
+    <div class="row" id="row-password">
+        
+        <div class="small-3 columns">
+            <label for="password" class="middle text-right">
+                Password<span style="color: red;"> *</span>
+            </label>                
+        </div>
+         
+        <?php $input_elems_error_css_class = (count($error_msgs['password']) > 0)? ' class="is-invalid-input" ' : ''; ?>
+        
+        <div class="small-7 columns end">
+            <input type="password" 
+                   name="password" 
+                   id="password" 
+                   maxlength="255" 
+                   required="required"
+                   <?php echo $input_elems_error_css_class; ?>
+                   value="<?php echo $user_record->password; ?>"
+            >
+            <?php printErrorMsg('password', $error_msgs); //print error message(s) if any ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-3 small-centered columns">
+            <input type="submit" 
+                   name="save-button" 
+                   id="save-button" 
+                   class="button" 
+                   value="Save"
+            >
+            <input type="submit" 
+                   name="cancel-button" 
+                   id="cancel-button" 
+                   class="button" 
+                   value="Cancel"
+            >
+        </div>
+    </div>
+</form>
+
+<script>
+    // When Cancel button is clicked, redirect to list all users page
+    $('#cancel-button').on(
+        'click',
+        function( event ) {
+            // Do this so that when the Cancel button is clicked 
+            // the browser does not try to submit the form
+            event.preventDefault(); 
+            window.location.href = '<?php echo s3MVC_MakeLink("/users/index"); ?>';
+        }
+    );
+</script>
+
+<?php
+function printErrorMsg($element_name, array $error_msgs) {
+
+    if( isset($error_msgs[$element_name]) ) {
+
+        foreach($error_msgs[$element_name] as $err_msg) {
+
+            //spit out error message for $element_name
+            echo "<div class=\"alert callout\">{$err_msg}</div>";
+
+        } //foreach($error_msgs[$element_name] as $err_msg)
+    } //if( array_key_exists($element_name, $error_msgs) )
+}
+```
+
+Now our feature to view a add a new user is completed and can be accessed at 
+http://localhost:8888/users/add.
+
+Let's now implement the action method to edit an existing user; i.e. **actionEdit($id)**. 
+To do this, we add **actionEdit($id)** to **\MovieCatalog\Controllers\Users** with the 
 code below:
+
+```php
+    public function actionEdit($id) {
+        
+        // The call below is to get a response object for
+        // redirecting the user to the login page if the
+        // user is not currently logged in. You must be 
+        // logged in in order to be able to edit an 
+        // existing user. If the user is logged in, 
+        // $login_response will receive a value of 
+        // false from $this->getResponseObjForLoginRedirectionIfNotLoggedIn().
+        $login_response = $this->getResponseObjForLoginRedirectionIfNotLoggedIn();
+        
+        if( $login_response instanceof \Psr\Http\Message\ResponseInterface ) {
+            
+            //redirect to login
+            return $login_response;
+        }
+        
+        $model_obj = $this->container->get('users_model');
+        $error_msgs = [];
+        $error_msgs['form-errors'] = [];
+        $error_msgs['username'] = [];
+        $error_msgs['password'] = [];
+        
+        // fetch the record for the user with the specified $id
+        $record = $model_obj->fetch($id);
+        
+        if( !($record instanceof \BaseRecord) ) {
+            
+            // Could not find record for the user with the specified $id
+            return $this->generateNotFoundResponse(
+                            $this->request, 
+                            $this->response,
+                            'Requested user does not exist.'
+                        );
+        }
+        
+        if( $this->request->getMethod() === 'POST' ) {
+            
+            // POST Request
+            $has_field_errors = false;
+            
+            // Read the post data
+            $posted_data = s3MVC_GetSuperGlobal('post');
+            
+            if( mb_strlen( ''.$posted_data['username'], 'UTF-8') <= 0 ) {
+                
+                $error_msgs['username'][] = 'Username Cannot be blank!';
+                $has_field_errors = true;
+                
+            } else {
+                
+                // check that posted username is not already assigned to an
+                // existing user (except the user with the value of $id)
+                $params = [
+                    'where' => [
+                        [ 'col' => 'username', 'op' => '=', 'val'=>$posted_data['username'] ],
+                        [ 'col' => 'id', 'op' => '!=', 'val' => $id ],
+                    ]
+                ];
+
+                $existing_user_with_same_username = $model_obj->fetchOneRecord($params);
+                
+                if( $existing_user_with_same_username instanceof \BaseRecord ) {
+
+                    // username is already assigned to an existing user
+                    $error_msgs['username'][] = 'Username already taken!';
+                    $has_field_errors = true;
+                }
+            }
+            
+            if( mb_strlen( ''.$posted_data['password'], 'UTF-8') <= 0 ) {
+                
+                $error_msgs['password'][] = 'Password Cannot be blank!';
+                $has_field_errors = true;
+            }
+     
+            //load posted data into new record object
+            $record->loadData($posted_data);
+
+            if ( !$has_field_errors ) {
+                
+                
+                if( $record->isChanged('password') ) {
+                  
+                    // only hash the password if it's different from the exisitng hashed
+                    // password
+                    $record->password = password_hash($record->password, PASSWORD_DEFAULT);
+                }
+                // try to save
+                if ( $record->save() !== false ) {
+
+                    //successfully saved;
+                    $rdr_path = s3MVC_MakeLink("users/index");
+                    $this->setSuccessFlashMessage('Successfully Saved!');
+
+                    // re-direct to the list all users page
+                    return $this->response->withHeader('Location', $rdr_path);
+                    
+                } else {
+
+                    //Record could not be saved.
+                    $error_msgs['form-errors'][] = 'Save Failed!';
+                } // if ( $record->save() !== false ) 
+                
+            } else {
+                
+                $error_msgs['form-errors'][] = 'Form contains error(s)!';
+            } // if ( !$has_field_errors )
+                
+        } //if( $this->request->getMethod() === 'POST' )
+
+        $view_data = [];
+        $view_data['error_msgs'] = $error_msgs;
+        $view_data['user_record'] = $record;
+        
+        $view_str = $this->renderView('edit.php', $view_data);
+        
+        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
+    }
+```
+
+We've implemented the controller portion of the feature to edit an existing user. 
+Now let's implement the view portion of the feature by creating an **edit.php** 
+file in **./src/views/users/** and adding the code below to it:
+
+```php
+<h4 style="margin-bottom: 20px;">Edit User</h4>
+
+<form method="POST" 
+      action="<?php echo s3MVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
+      enctype="multipart/form-data"
+>
+
+<?php printErrorMsg('form-errors', $error_msgs); //print form level error message(s) if any ?>
+
+    <div class="row" id="row-username">
+        
+        <div class="small-3 columns">
+            <label for="username" class="middle text-right">
+                Username<span style="color: red;"> *</span>
+            </label>                
+        </div>
+         
+        <?php $input_elems_error_css_class = (count($error_msgs['username']) > 0)? ' class="is-invalid-input" ' : ''; ?>
+        
+        <div class="small-7 columns end">
+            <input type="text" 
+                   name="username" 
+                   id="username" 
+                   maxlength="255" 
+                   required="required"
+                   <?php echo $input_elems_error_css_class; ?>
+                   value="<?php echo $user_record->username; ?>"
+            >
+            <?php printErrorMsg('username', $error_msgs); //print error message(s) if any ?>
+        </div>
+    </div>
+    
+    <div class="row" id="row-password">
+        
+        <div class="small-3 columns">
+            <label for="password" class="middle text-right">
+                Password<span style="color: red;"> *</span>
+            </label>                
+        </div>
+         
+        <?php $input_elems_error_css_class = (count($error_msgs['password']) > 0)? ' class="is-invalid-input" ' : ''; ?>
+        
+        <div class="small-7 columns end">
+            <input type="password" 
+                   name="password" 
+                   id="password" 
+                   maxlength="255" 
+                   required="required"
+                   <?php echo $input_elems_error_css_class; ?>
+                   value="<?php echo $user_record->password; ?>"
+            >
+            <?php printErrorMsg('password', $error_msgs); //print error message(s) if any ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-3 small-centered columns">
+            <input type="submit" 
+                   name="save-button" 
+                   id="save-button" 
+                   class="button" 
+                   value="Save"
+            >
+            <input type="submit" 
+                   name="cancel-button" 
+                   id="cancel-button" 
+                   class="button" 
+                   value="Cancel"
+            >
+        </div>
+    </div>
+</form>
+
+<script>
+    // When Cancel button is clicked, redirect to list all users page
+    $('#cancel-button').on(
+        'click',
+        function( event ) {
+            // Do this so that when the Cancel button is clicked 
+            // the browser does not try to submit the form
+            event.preventDefault(); 
+            window.location.href = '<?php echo s3MVC_MakeLink("/users/index"); ?>';
+        }
+    );
+</script>
+
+<?php
+function printErrorMsg($element_name, array $error_msgs) {
+
+    if( isset($error_msgs[$element_name]) ) {
+
+        foreach($error_msgs[$element_name] as $err_msg) {
+
+            //spit out error message for $element_name
+            echo "<div class=\"alert callout\">{$err_msg}</div>";
+
+        } //foreach($error_msgs[$element_name] as $err_msg)
+    } //if( array_key_exists($element_name, $error_msgs) )
+}
+```
+
+Now our feature to edit an existing user is completed and can be accessed at 
+`http://localhost:8888/users/edit/<some_num>` (**`<some_num>`** should be 
+replaced with a numeric id of a user e.g. http://localhost:8888/users/edit/2 
+to edit an existing user with an id of 2.
+
+We are now going to implement the last feature for managing users (i.e. the 
+ability to delete a specific user). We would be implementing this feature 
+differently because it does not require a view. We will add an **actionDelete($id)** 
+method to **\MovieCatalog\Controllers\MovieCatalogBase** instead of 
+**\MovieCatalog\Controllers\Users**. We do this because this same method will 
+also be used to delete movie listings. Just add the code below  to
+**\MovieCatalog\Controllers\MovieCatalogBase**:
+
+```php
+
+```
