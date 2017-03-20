@@ -822,6 +822,27 @@ for our app) like so:
     }
 ```
 
+We should also make some of these variables available to all our views via the 
+**renderView** method in our controller. We will override the **renderView** method in 
+**`\MovieCatalog\Controllers\MovieCatalogBase`** (since it's the base controller
+for our app) like so:
+
+```php
+    
+    public function renderView($file_name, array $data=[]) {
+        
+        //define common layout vars
+        $common_layout_data = [];
+        $common_layout_data['is_logged_in'] = $this->isLoggedIn();
+        $common_layout_data['action_name_from_uri'] = $this->action_name_from_uri;
+        $common_layout_data['controller_name_from_uri'] = $this->controller_name_from_uri;
+        $common_layout_data['logged_in_users_username'] = 
+            $this->isLoggedIn() ? $this->container->get('vespula_auth')->getUsername() : '';
+        
+        return parent::renderView($file_name, array_merge( $common_layout_data, $data ) );
+    }
+```
+
 We are going to add the following methods to **`\MovieCatalog\Controllers\MovieCatalogBase`** 
 for managing flash messages: 
 ```php
