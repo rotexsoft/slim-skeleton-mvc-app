@@ -589,10 +589,10 @@ Below is a list of all the features we will be implementing
 * **\MovieCatalog\Controllers\MovieListings** controller
 
     - List all movies via **`actionIndex()`**  (will be located at http://localhost:8888/movie-listings/ or http://localhost:8888/movie-listings/index)
-    - View a single movie via **`actionView($id)`**
-    - Add a new movie via **`actionAdd()`**
-    - Edit an existing movie via **`actionEdit($id)`**
-    - Delete a specific movie via **`actionDelete($id)`**
+    - View a single movie via **`actionView($id)`** (will be located at http://localhost:8888/movie-listings/view/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Add a new movie via **`actionAdd()`** (will be located at http://localhost:8888/movie-listings/add)
+    - Edit an existing movie via **`actionEdit($id)`** (will be located at http://localhost:8888/movie-listings/edit/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Delete a specific movie via **`actionDelete($id)`** (will be located at http://localhost:8888/movie-listings/delete/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
 
 
 
