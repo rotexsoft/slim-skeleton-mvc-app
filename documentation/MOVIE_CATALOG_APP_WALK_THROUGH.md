@@ -594,60 +594,7 @@ Below is a list of all the features we will be implementing
     - Delete a specific movie via **`actionDelete($id)`** (will be located at http://localhost:8888/movie-listings/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
 
 Next we edit our site's layout template (**`./src/layout-templates/main-template.php`**) 
-to contain links to all the features we will be implementing.
-
-**`./src/layout-templates/main-template.php`** before edit:
-```php
-<!doctype html>
-<html class="no-js" lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Site Title Goes Here</title>
-        <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-    </head>
-    <body>
-        <div class="row">
-            <div class="small-12 columns">
-                <ul class="menu" style="padding-left: 0;">
-                    <li><a href="#">Section 1</a></li>
-                    <li><a href="#">Section 2</a></li>
-                    <li><a href="#">Section 3</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="small-12 columns">
-                <h1>Welcome to Your New Site</h1>
-                <p>This site is powered by the <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App Micro-Framework</a> based on SlimPHP 3. It also ships with the <a href="http://foundation.zurb.com/">Foundation</a> UI framework. Everything you need to know about using the Foundation UI framework can be found <a href="http://foundation.zurb.com/docs">here</a>.</p>
-            </div>
-        </div>
-
-        <div class="row">    
-            <div class="small-12 columns">
-                <?php echo $content; ?>                
-            </div>
-        </div>
-
-        <footer class="row">
-            <div class="small-12 columns">
-                <hr/>
-                <div class="row">
-                    <div class="small-6 columns">
-                        <p>© Copyright no one at all. Go to town.</p>
-                    </div>
-                </div>
-            </div> 
-        </footer>
-
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
-        <script> $(document).foundation(); </script>
-    </body>
-</html>
-```
+to contain navigation links to some of the features we will be implementing.
 
 **`./src/layout-templates/main-template.php`** after edit:
 ```php
@@ -900,5 +847,32 @@ for managing flash messages:
     }
 ```
 
+Our layout template file is good to go (navigation links have been set-up, a 
+flash messaging mechanism is in place and required php variables are automatically 
+injected whenever **\MovieCatalog\Controllers\MovieCatalogBase::renderLayout($file_name, array $data=[])** 
+is called). 
 
+We are now ready to start implementing features in our **\MovieCatalog\Controllers\Users** 
+and **\MovieCatalog\Controllers\MovieListings** controllers.
+
+Let's start with the **\MovieCatalog\Controllers\Users** controller. Let's implement
+the action method to list all users; i.e. **actionIndex()**. To do this, update
+**actionIndex()** in **\MovieCatalog\Controllers\Users** with the code below:
+
+```php
+    public function actionIndex() {
+        
+        $view_data = [];
+        $model_obj = $this->container->get('users_model');
+        
+        //grab all existing user records
+        $view_data['collection_of_user_records'] = 
+                    $model_obj->fetchRecordsIntoCollection();
+        
+        //render the view first and capture the output
+        $view_str = $this->renderView('index.php', $view_data);
+        
+        return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
+    }
+```
 
