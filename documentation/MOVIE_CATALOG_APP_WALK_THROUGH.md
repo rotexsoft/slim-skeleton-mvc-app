@@ -1000,3 +1000,11 @@ file in **./src/views/users/** adding the code below to it:
 </p>
 ```
 
+Now our feature to view a single user is completed and can be accessed at 
+`http://localhost:8888/users/view/<some_num>` (**`<some_num>`** should be replaced
+with a numeric id of a user e.g. http://localhost:8888/users/view/2 to view details
+of a single user with an id of 2.
+
+Next, we implement the action method to view a single user; i.e. **actionAdd()**. 
+To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\Users** with the 
+code below:
