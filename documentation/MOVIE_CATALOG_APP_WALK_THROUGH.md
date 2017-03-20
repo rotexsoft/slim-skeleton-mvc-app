@@ -807,7 +807,7 @@ for our app) like so:
 ```php
     public function renderLayout($file_name, array $data=[]) {
         
-        //define common layout vars
+        // define common layout variables
         $common_layout_data = [];
         $common_layout_data['content'] = 'Content Goes Here!';
         $common_layout_data['is_logged_in'] = $this->isLoggedIn();
@@ -830,7 +830,7 @@ for our app) like so:
 ```php
     public function renderView($file_name, array $data=[]) {
         
-        //define common layout vars
+        // define common view variables
         $common_layout_data = [];
         $common_layout_data['is_logged_in'] = $this->isLoggedIn();
         $common_layout_data['action_name_from_uri'] = $this->action_name_from_uri;
