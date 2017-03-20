@@ -550,7 +550,9 @@ and http://localhost:8888/init-users will become active:
 
 ```php
 $app->get(
-    '/init-users', 
+        
+    '/init-users',
+        
     function(
         \Psr\Http\Message\ServerRequestInterface $request, 
         \Psr\Http\Message\ResponseInterface $response, 
