@@ -805,39 +805,20 @@ method in our controller. We will override the **renderLayout** method in
 for our app) like so:
 
 ```php
-    
     public function renderLayout($file_name, array $data=[]) {
         
-        //layout vars        
-        $this->layout_renderer->setVar('action_name_from_uri', $this->action_name_from_uri);
-        $this->layout_renderer->setVar('controller_name_from_uri', $this->controller_name_from_uri);
-        $this->layout_renderer->setVar('is_logged_in', $this->isLoggedIn());
-        $this->layout_renderer->setVar('logged_in_users_username', '');
+        //define common layout vars
+        $common_layout_data = [];
+        $common_layout_data['content'] = 'Content Goes Here!';
+        $common_layout_data['is_logged_in'] = $this->isLoggedIn();
+        $common_layout_data['last_flash_message'] = $this->getLastFlashMessage();
+        $common_layout_data['action_name_from_uri'] = $this->action_name_from_uri;
+        $common_layout_data['controller_name_from_uri'] = $this->controller_name_from_uri;
+        $common_layout_data['last_flash_message_css_class'] = $this->getLastFlashMessageCssClass();
+        $common_layout_data['logged_in_users_username'] = 
+                    $this->isLoggedIn() ? $this->container->get('vespula_auth')->getUsername() : '';
         
-        if ( $this->isLoggedIn() ) {
-
-            $logged_in_username = $this->container->get('vespula_auth')->getUsername();
-            $this->layout_renderer->setVar('logged_in_users_username', $logged_in_username);
-        }
-        
-        $this->layout_renderer->setVar('last_flash_message', $this->getLastFlashMessage());
-        $this->layout_renderer->setVar('last_flash_message_css_class', $this->getLastFlashMessageCssClass());
-
-        if ( !isset($this->layout_renderer->content) ) {
-
-            $this->layout_renderer->setVar('content', 'Content Goes Here!');
-        }
-        
-        // Note that items in $data with the same key name as any of the layout
-        // variables above (e.g. if $data === ['action_name_from_uri' => 'new-action-name-from-uri' ])
-        // will overwrite the values set by the corresponding call to 
-        // $this->layout_renderer->setVar above. In the earlier example.
-        // $action_name_from_uri will have a value of 'new-action-name-from-uri'
-        // in the layout template since $data['action_name_from_uri'] (in the call 
-        // to parent::renderLayout($file_name, $data) below) will overwrite
-        // the effect of the earlier call above to 
-        // $this->layout_renderer->setVar('action_name_from_uri', $this->action_name_from_uri);
-        return parent::renderLayout($file_name, $data);
+        return parent::renderLayout($file_name, array_merge( $common_layout_data, $data ) );
     }
 ```
 
