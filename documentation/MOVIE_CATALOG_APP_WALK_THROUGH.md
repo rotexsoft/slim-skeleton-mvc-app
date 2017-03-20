@@ -649,13 +649,245 @@ to contain links to all the features we will be implementing.
 </html>
 ```
 
-- Updated <title>
-- Added function makeMenuItemActive($links_controller_name, $controller_name_from_uri) for highlighting links
-- 
-
-
 **`./src/layout-templates/main-template.php`** after edit:
 ```php
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Da Numba 1 Movie Catalog App</title>
+        <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/foundation/foundation.css'); ?>" />
 
+        <style>
+            /* style for menu items */
+            ul.menu li.active-link,
+            ul.menu li.active-link a{
+                color: #fff;
+            }
+            ul.menu li.active-link{
+                background-color: #2e8acd;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <ul class="dropdown menu" data-dropdown-menu>
+                        <li class="menu-text">Da Numba 1 Movie Catalog App</li>
+                        <li <?php isset($controller_name_from_uri) && makeMenuItemActive('movie-listings', $controller_name_from_uri); ?> >
+                            <a href="<?php echo s3MVC_MakeLink("movie-listings"); ?>">
+                                Home
+                            </a>
+                        </li>
+                        <li <?php isset($controller_name_from_uri) && makeMenuItemActive('users', $controller_name_from_uri); ?> >
+                            <a href="<?php echo s3MVC_MakeLink("users"); ?>">Manage Users</a>
+                            <ul class="menu vertical">
+                                <li><a href="<?php echo s3MVC_MakeLink("users/add"); ?>">Add New User</a></li>
+                            </ul>
+                        </li>
+                    </ul> <!-- <ul class="dropdown menu" data-dropdown-menu> -->
+                </div> <!-- <div class="top-bar-left"> -->
+
+                <div class="top-bar-right">
+                    <ul class="menu">
+                        <li><input type="search" placeholder="Search"></li>
+                        <li><button type="button" class="button">Search</button></li>
+                        <li>&nbsp;</li>
+                        <li>
+                            <?php
+                                if( !isset($controller_name_from_uri) ) {
+
+                                    $controller_name_from_uri = 'movie-listings';
+                                }
+
+                                $login_action_path = s3MVC_MakeLink("/{$controller_name_from_uri}/login");
+                                $logout_action_path = s3MVC_MakeLink("/{$controller_name_from_uri}/logout");
+                            ?>
+                            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+                                <strong style="color: #7f8fa4;">Logged in as <?php echo isset($logged_in_users_username) ? $logged_in_users_username : ''; ?></strong>
+                                <a class="button" href="<?php echo $logout_action_path; ?>">
+                                    <strong>Log Out</strong>
+                                </a>
+
+                            <?php else: ?>
+
+                                <a class="button" href="<?php echo $login_action_path; ?>">
+                                    <strong>Log in</strong>
+                                </a>
+
+                            <?php endif; ?>
+                        </li>
+                    </ul> <!-- <ul class="menu"> -->
+                </div> <!-- <div class="top-bar-right"> -->
+            </div> <!-- <div class="top-bar"> -->
+        </div> <!-- <div class="row"> -->
+
+        <?php if( isset($last_flash_message) && $last_flash_message !== null  ): ?>
+
+            <?php $last_flash_message_css_class = isset($last_flash_message_css_class)? $last_flash_message_css_class : ''; ?>
+
+            <div class="row" style="margin-top: 1em;">
+                <div class="callout <?php echo $last_flash_message_css_class; echo is_array($last_flash_message)? '' : ' text-center'; ?>"  data-closable>
+                    <button class="close-button" data-close>&times;</button>
+                    <p>
+                        <?php if( is_array($last_flash_message) ): ?>
+                            
+                            <ul>
+                            <?php foreach($last_flash_message as $curr_flash_msg): ?>
+                        
+                                <li><?php echo $curr_flash_msg; ?></li>
+                        
+                            <?php endforeach; // foreach($last_flash_message as $curr_flash_msg): ?>
+                            </ul>
+                        <?php else: ?>
+                            <?php echo $last_flash_message; ?>
+                        <?php endif; // if( is_array($last_flash_message) ): ?>
+                    </p>
+                </div> <!-- <div class="callout <?php echo $last_flash_message_css_class; echo is_array($last_flash_message)? '' : ' text-center'; ?>"  data-closable> -->
+            </div> <!-- <div class="row" style="margin-top: 1em;"> -->
+
+        <?php endif; //if( $last_flash_message !== null )?>
+
+        <div class="row" style="margin-top: 1em;">
+            <div class="small-12 columns">
+                <?php echo $content; ?>
+            </div>
+        </div>
+
+        <footer class="row">
+            <div class="small-12 columns">
+                <hr/>
+                <div class="row">
+                    <div class="small-6 columns">
+                        <p>Copyright &copy; <?php echo date('Y'); ?>. Da Numba 1 Movie Catalog App.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
+        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
+        <script> $(document).foundation(); </script>
+    </body>
+</html>
+
+<?php
+function makeMenuItemActive($links_controller_name, $controller_name_from_uri) {
+
+    if( trim($controller_name_from_uri) === trim($links_controller_name) ) {
+
+        echo 'class="active-link"';
+
+    } else { echo ''; }
+}
 ```
+
+Our layout template (**`./src/layout-templates/main-template.php`**) is now fully
+configured. If you look closely at the edited template file, you will notice the
+following **php** variables:
+
+- **$controller_name_from_uri**
+- **$action_name_from_uri** (this variable is not actually present in the template but we will be setting it for consistency sake)
+- **$is_logged_in**
+- **$logged_in_users_username**
+- **$last_flash_message**
+- **$last_flash_message_css_class**
+- **$content**
+
+We need to inject these variables into our layout template via the **renderLayout**
+method in our controller. We will override the **renderLayout** method in 
+**`\MovieCatalog\Controllers\MovieCatalogBase`** (since it's the base controller
+for our app) like so:
+
+```php
+    public function renderLayout($file_name, array $data=[]) {
+        
+        //layout vars        
+        $this->layout_renderer->setVar('action_name_from_uri', $this->action_name_from_uri);
+        $this->layout_renderer->setVar('controller_name_from_uri', $this->controller_name_from_uri);
+        $this->layout_renderer->setVar('is_logged_in', $this->isLoggedIn());
+        $this->layout_renderer->setVar('logged_in_users_username', '');
+        
+        if ( $this->isLoggedIn() ) {
+
+            $logged_in_username = $this->container->get('vespula_auth')->getUsername();
+            $this->layout_renderer->setVar('logged_in_users_username', $logged_in_username);
+        }
+        
+        $this->layout_renderer->setVar('last_flash_message', $this->getLastFlashMessage());
+        $this->layout_renderer->setVar('last_flash_message_css_class', $this->getLastFlashMessageCssClass());
+
+        if ( !isset($this->layout_renderer->content) ) {
+
+            $this->layout_renderer->setVar('content', 'Content Goes Here!');
+        }
+        
+        return parent::renderLayout($file_name, $data);
+    }
+```
+
+We are going to add the following methods to **`\MovieCatalog\Controllers\MovieCatalogBase`** 
+for managing flash messages: 
+```php
+    protected function setErrorFlashMessage($msg) {
+        
+        $this->setFlashMessage($msg);
+        $this->setFlashMessageCssClass('alert');
+    }
+
+    protected function setSuccessFlashMessage($msg) {
+        
+        $this->setFlashMessage($msg);
+        $this->setFlashMessageCssClass('success');
+    }
+
+    protected function setWarningFlashMessage($msg) {
+        
+        $this->setFlashMessage($msg);
+        $this->setFlashMessageCssClass('warning');
+    }
+    
+    protected function setFlashMessage($msg) {
+
+        $msg_key = 'curr_msg';
+        $this->container->get('slim_flash')->addMessage($msg_key, $msg);
+    }
+
+    protected function getLastFlashMessage() {
+
+        $msg_key = 'curr_msg';
+        $messages = $this->container->get('slim_flash')->getMessage($msg_key);
+
+        if( is_array($messages) && count($messages) === 1 ) {
+            
+            $messages = array_pop($messages);
+        }
+        return $messages;
+    }
+
+    protected function setFlashMessageCssClass($css_class) {
+
+        $msg_key = 'curr_msg_css_class';
+        $this->container->get('slim_flash')->addMessage($msg_key, $css_class);
+    }
+
+    protected function getLastFlashMessageCssClass() {
+
+        $msg_key = 'curr_msg_css_class';
+        $messages = $this->container->get('slim_flash')->getMessage($msg_key);
+        
+        if( is_array($messages) && count($messages) > 0 ) {
+            
+            $messages = array_pop($messages);
+        }
+        return $messages;
+    }
+```
+
+
 
