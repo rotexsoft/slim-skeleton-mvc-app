@@ -538,7 +538,29 @@ our app is to browse to http://localhost:8888/users/init-users. After this,
 we can login to our app with a `username` of **`admin`** and a `password` of
 **`admin`**. We can login via any controller with the path **`<controller_name>/login`** 
 in our url, where **`<controller_name>`** can be substitued with the controller 
-names of any of the controllers we have created in our appl. 
+names of any of the controllers we have created in our app. 
+
+We can even create a manual route **/init-users** in **`./config/routes-and-middlewares.php`** 
+that redirects to http://localhost:8888/users/init-users. So we can use a shorter
+url http://localhost:8888/init-users to accomplish the same goal of creating the
+**`admin`** user. 
+
+Just add the code below to **`./config/routes-and-middlewares.php`**
+and http://localhost:8888/init-users will become active:
+
+```php
+$app->get(
+    '/init-users', 
+    function(
+        \Psr\Http\Message\ServerRequestInterface $request, 
+        \Psr\Http\Message\ResponseInterface $response, 
+        $args
+    ) {
+        return $response->withStatus(301)
+                        ->withHeader('Location', '/users/init-users');
+    }
+);
+```
 
 Below are the login urls currently available in our app (they are all calling 
 **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`**):
@@ -549,6 +571,26 @@ Below are the login urls currently available in our app (they are all calling
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase` 
 - **http://localhost:8888/movie-listings/login :** logging in via `\MovieCatalog\Controllers\MovieListings` 
 - **http://localhost:8888/users/login :** logging in via `\MovieCatalog\Controllers\Users` 
+
+Next we edit our site's layout template to contain links to all the features we will be implementing.
+Below is a list of all the features we will be implementing
+
+* **Users** controller
+
+    - List all users **`actionIndex()`** (will be located at http://localhost:8888/users/ or http://localhost:8888/users/index)
+    - View a single user **`actionView($id)`**
+    - Add the first user (i.e. the **`admin`** user) **`actionInitUsers()`** **[Already Implemented]** (located at http://localhost:8888/users/init-users[SlimPHP 3 Skeleton mvc route] or http://localhost:8888/init-users [manally defined route])
+    - Add a new user **`actionAdd()`**
+    - Edit an existing user **`actionEdit($id)`**
+    - Delete a specific user **`actionDelete($id)`**
+
+* **MovieListings** controller
+
+    - List all movies **`actionIndex()`**  (will be located at http://localhost:8888/movie-listings/ or http://localhost:8888/movie-listings/index)
+    - View a single movie **`actionView($id)`**
+    - Add a new movie **`actionAdd()`**
+    - Edit an existing movie **`actionEdit($id)`**
+    - Delete a specific movie **`actionDelete($id)`**
 
 
 
