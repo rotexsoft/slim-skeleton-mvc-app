@@ -577,22 +577,22 @@ Below are the login urls currently available in our app (they are all calling
 Next we edit our site's layout template to contain links to all the features we will be implementing.
 Below is a list of all the features we will be implementing
 
-* **Users** controller
+* **\MovieCatalog\Controllers\Users** controller
 
-    - List all users **`actionIndex()`** (will be located at http://localhost:8888/users/ or http://localhost:8888/users/index)
-    - View a single user **`actionView($id)`** (will be located at http://localhost:8888/users/view/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Add the first user (i.e. the **`admin`** user) **`actionInitUsers()`** **[Already Implemented]** (located at http://localhost:8888/users/init-users [SlimPHP 3 Skeleton mvc route] or http://localhost:8888/init-users [manally defined route])
-    - Add a new user **`actionAdd()`** (will be located at http://localhost:8888/users/add)
-    - Edit an existing user **`actionEdit($id)`** (will be located at http://localhost:8888/users/edit/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Delete a specific user **`actionDelete($id)`** (will be located at http://localhost:8888/users/delete/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - List all users via **`actionIndex()`** (will be located at http://localhost:8888/users/ or http://localhost:8888/users/index)
+    - View a single user via **`actionView($id)`** (will be located at http://localhost:8888/users/view/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Add the first user (i.e. the **`admin`** user) via **`actionInitUsers()`** **[Already Implemented]** (located at http://localhost:8888/users/init-users [SlimPHP 3 Skeleton mvc route] or http://localhost:8888/init-users [manally defined route])
+    - Add a new user via **`actionAdd()`** (will be located at http://localhost:8888/users/add)
+    - Edit an existing user via **`actionEdit($id)`** (will be located at http://localhost:8888/users/edit/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Delete a specific user via **`actionDelete($id)`** (will be located at http://localhost:8888/users/delete/21 , where `21` could be any number and will be converted to the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
 
-* **MovieListings** controller
+* **\MovieCatalog\Controllers\MovieListings** controller
 
-    - List all movies **`actionIndex()`**  (will be located at http://localhost:8888/movie-listings/ or http://localhost:8888/movie-listings/index)
-    - View a single movie **`actionView($id)`**
-    - Add a new movie **`actionAdd()`**
-    - Edit an existing movie **`actionEdit($id)`**
-    - Delete a specific movie **`actionDelete($id)`**
+    - List all movies via **`actionIndex()`**  (will be located at http://localhost:8888/movie-listings/ or http://localhost:8888/movie-listings/index)
+    - View a single movie via **`actionView($id)`**
+    - Add a new movie via **`actionAdd()`**
+    - Edit an existing movie via **`actionEdit($id)`**
+    - Delete a specific movie via **`actionDelete($id)`**
 
 
 
