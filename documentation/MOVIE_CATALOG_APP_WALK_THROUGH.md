@@ -593,6 +593,6 @@ Below is a list of all the features we will be implementing
     - Edit an existing movie via **`actionEdit($id)`** (will be located at http://localhost:8888/movie-listings/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
     - Delete a specific movie via **`actionDelete($id)`** (will be located at http://localhost:8888/movie-listings/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
 
-Next we edit our site's layout template (**`./src/layout-templates/main-template.php 
+Next we edit our site's layout template (**`./src/layout-templates/main-template.php`**) 
 to contain links to all the features we will be implementing.
 
