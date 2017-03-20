@@ -611,10 +611,10 @@ to contain navigation links to some of the features we will be implementing.
             /* style for menu items */
             ul.menu li.active-link,
             ul.menu li.active-link a{
-                color: #fff;
+                color: #2e8acd;
             }
             ul.menu li.active-link{
-                background-color: #2e8acd;
+                background-color: orange;
             }
         </style>
     </head>
@@ -631,9 +631,13 @@ to contain navigation links to some of the features we will be implementing.
                         </li>
                         <li <?php isset($controller_name_from_uri) && makeMenuItemActive('users', $controller_name_from_uri); ?> >
                             <a href="<?php echo s3MVC_MakeLink("users"); ?>">Manage Users</a>
-                            <ul class="menu vertical">
-                                <li><a href="<?php echo s3MVC_MakeLink("users/add"); ?>">Add New User</a></li>
-                            </ul>
+                            
+                            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+                                <ul class="menu vertical">
+                                    <li><a href="<?php echo s3MVC_MakeLink("users/add"); ?>">Add New User</a></li>
+                                </ul>
+                            <?php endif; // if( isset($is_logged_in) && $is_logged_in ) ?>
+                            
                         </li>
                     </ul> <!-- <ul class="dropdown menu" data-dropdown-menu> -->
                 </div> <!-- <div class="top-bar-left"> -->
@@ -655,7 +659,6 @@ to contain navigation links to some of the features we will be implementing.
                             ?>
                             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-                                <strong style="color: #7f8fa4;">Logged in as <?php echo isset($logged_in_users_username) ? $logged_in_users_username : ''; ?></strong>
                                 <a class="button" href="<?php echo $logout_action_path; ?>">
                                     <strong>Log Out</strong>
                                 </a>
@@ -698,6 +701,18 @@ to contain navigation links to some of the features we will be implementing.
             </div> <!-- <div class="row" style="margin-top: 1em;"> -->
 
         <?php endif; //if( $last_flash_message !== null )?>
+
+        <div class="row" style="margin-top: 1em;">
+            <div class="small-12 columns">
+                <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+                    <strong style="color: #7f8fa4;">
+                        Logged in as <?php echo isset($logged_in_users_username) ? $logged_in_users_username : ''; ?>
+                    </strong>
+
+                <?php endif; ?>
+            </div>
+        </div>
 
         <div class="row" style="margin-top: 1em;">
             <div class="small-12 columns">
@@ -865,7 +880,10 @@ the action method to list all users; i.e. **actionIndex()**. To do this, update
         $view_data = [];
         $model_obj = $this->container->get('users_model');
         
-        //grab all existing user records
+        // Grab all existing user records.
+        // Note that the variable $collection_of_user_records will be available
+        // in your index.php view (in this case ./src/views/users/index.php)
+        // when $this->renderView('index.php', $view_data) is called.
         $view_data['collection_of_user_records'] = 
                     $model_obj->fetchRecordsIntoCollection();
         
@@ -875,4 +893,81 @@ the action method to list all users; i.e. **actionIndex()**. To do this, update
         return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
     }
 ```
+
+We've implemented the controller portion of the feature to list all users. 
+Now let's implement the view portion of the feature by adding the code below
+to **./src/views/users/index.php**:
+
+```php
+<h4>Users</h4>
+
+<?php if( $collection_of_user_records instanceof \BaseCollection && count($collection_of_user_records) > 0 ): ?>
+
+    <ul>
+        <?php foreach ($collection_of_user_records as $user_record): ?>
+
+            <li>
+                <?php echo $user_record->username; ?> | 
+                <a href="<?php echo s3MVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
+
+                <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+                    | <a href="<?php echo s3MVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+                    <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+
+                <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
+            </li>
+
+        <?php endforeach; ?>
+    </ul>
+
+<?php else: ?>
+
+    <p>
+        No user(s) exist. 
+        <a href="<?php echo s3MVC_MakeLink( "users/init-users" ); ?>">Initialize</a> 
+        the system with an admin user.
+    </p>
+
+<?php endif; ?>
+```
+
+Now our feature to list all users is completed and can be accessed at http://localhost:8888/users 
+or http://localhost:8888/users/index .
+
+Let's now implement the action method to view a single user; i.e. **actionView($id)**. 
+To do this, we add **actionView($id)** to **\MovieCatalog\Controllers\Users** with the 
+code below:
+
+```php
+    public function actionView($id) {
+        
+        $model_obj = $this->container->get('users_model');
+        $view_data = [];
+        
+        // Grab record for the user whose id was specified.
+        // Note that the variable $user_record will be available
+        // in your view.php view (in this case ./src/views/users/view.php)
+        // when $this->renderView('view.php', $view_data) is called.
+        $view_data['user_record'] = $model_obj->fetch($id);
+        
+        if( !($view_data['user_record'] instanceof \BaseRecord) ) {
+            
+            // We could not find any user with the specified id in the database.
+            // Generate and return an http 404 resposne.
+            return $this->generateNotFoundResponse(
+                            $this->request, 
+                            $this->response,
+                            'Request user does not exist.'
+                        );
+        }
+        
+        //get the contents of the view first
+        $view_str = $this->renderView('view.php', $view_data);
+
+        return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
+    }
+```
+
+
 
