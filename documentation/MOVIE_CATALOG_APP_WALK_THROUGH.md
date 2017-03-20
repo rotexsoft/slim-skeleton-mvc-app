@@ -805,6 +805,7 @@ method in our controller. We will override the **renderLayout** method in
 for our app) like so:
 
 ```php
+    
     public function renderLayout($file_name, array $data=[]) {
         
         //layout vars        
@@ -827,6 +828,15 @@ for our app) like so:
             $this->layout_renderer->setVar('content', 'Content Goes Here!');
         }
         
+        // Note that items in $data with the same key name as any of the layout
+        // variables above (e.g. if $data === ['action_name_from_uri' => 'new-action-name-from-uri' ])
+        // will overwrite the values set by the corresponding call to 
+        // $this->layout_renderer->setVar above. In the earlier example.
+        // $action_name_from_uri will have a value of 'new-action-name-from-uri'
+        // in the layout template since $data['action_name_from_uri'] (in the call 
+        // to parent::renderLayout($file_name, $data) below) will overwrite
+        // the effect of the earlier call above to 
+        // $this->layout_renderer->setVar('action_name_from_uri', $this->action_name_from_uri);
         return parent::renderLayout($file_name, $data);
     }
 ```
