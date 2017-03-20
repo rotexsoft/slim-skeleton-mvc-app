@@ -828,7 +828,6 @@ We should also make some of these variables available to all our views via the
 for our app) like so:
 
 ```php
-    
     public function renderView($file_name, array $data=[]) {
         
         //define common layout vars
