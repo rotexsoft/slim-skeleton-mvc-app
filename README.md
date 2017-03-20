@@ -47,7 +47,7 @@ s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $p
 * Provides an automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of **`Slim3MvcTools\Controllers\BaseController`**. You don't need to define any routes for your application if you adhere to using Controllers that are compatible with the routing scheme
 	* Also supports operating using only pure Slim PHP3 functionality (i.e. disabling the automatic routing scheme described above and allowing you to manually / explicitly define routes and middle-wares for your application that may or may not make use of Controller classes as route handlers)
 
-* Ships whith a BaseController class (i.e. **`Slim3MvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight, easily extensible and powerful [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
+* Ships whith a BaseController class (i.e. **`Slim3MvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight and easily extensible [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
 
 * Provides a command-line script for creating Controller classes (that extend **`Slim3MvcTools\Controllers\BaseController`** or any of its descendants). 
 	* **`./vendor/bin/s3mvc-create-controller`** on **`*nix-like`** Oses and **`.\vendor\bin\s3mvc-create-controller.bat`** on **`Windows`**

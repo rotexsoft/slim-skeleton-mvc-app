@@ -21,7 +21,12 @@
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of Slim3MvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
 		
-        can be automatically mapped to be responded to by a specific method in a Controller class. Note that items enclosed in `[]` are optional.
+        can be automatically mapped to be responded to by a specific method in a Controller class, if **`S3MVC_APP_USE_MVC_ROUTES`** is set to **`true`** in **`./public/index.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
+
+        * **`<base-path>`:** this is usually the alias setup in your webserver's configuration file that points to your site's document root folder  (in this case **`./public`**). For example in an apache web-server's configuration file you could have an alias definition like so:
+            > Alias /my-app /path/to/my-app/public
+        
+            making your application accessible via `http://server/my-app/` or `https://server/my-app/` (if using SSL), where **my-app** is the value of **`<base-path>`** in this example. The **`<base-path>`** section of the url is optional since your web-server's main document root could be directly set to your site's document root folder (i.e. **`./public`**), as seen in step **2** above where the **php** development server is 
 
     * Below are the default links that are available upon installation:
 
