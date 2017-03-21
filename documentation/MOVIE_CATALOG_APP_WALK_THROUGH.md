@@ -1511,7 +1511,7 @@ Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
         }
 
         // get model object
-        $model_obj = $this->container->$model_key_name_in_container;
+        $model_obj = $this->container->get($model_key_name_in_container);
         
         // fetch the record
         $record = $model_obj->fetch($id);
