@@ -4,7 +4,7 @@
     "license": "BSD-2-Clause",
     "type": "project",
     "keywords": [ "mvc", "framework", "slim 3", "slimphp 3",  "slim3", "slimphp3", "slim-3", "slimphp-3"],
-    "homepage": "https://github.com/rotexsoft/slim3-skeleton-mvc-tools",
+    "homepage": "https://github.com/rotexsoft/slim3-skeleton-mvc-app",
     "authors": [
         {
             "name": "Rotimi Adegbamigbe",
