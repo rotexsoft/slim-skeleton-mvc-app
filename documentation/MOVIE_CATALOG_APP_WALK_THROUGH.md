@@ -1004,7 +1004,7 @@ file in **./src/views/users/** and adding the code below to it:
 
 Now our feature to view a single user is completed and can be accessed at 
 `http://localhost:8888/users/view/<some_num>` (**`<some_num>`** should be replaced
-with a numeric id of a user e.g. http://localhost:8888/users/view/2 to view details
+with a numeric id of a user; e.g. http://localhost:8888/users/view/2 to view details
 of a single user with an id of 2.
 
 Next, we implement the action method to add a new user; i.e. **actionAdd()**. 
@@ -1025,7 +1025,7 @@ the code below:
         
         if( $login_response instanceof \Psr\Http\Message\ResponseInterface ) {
             
-            //redirect to login
+            // redirect to login page
             return $login_response;
         }
         
@@ -1255,7 +1255,7 @@ code below:
         
         if( $login_response instanceof \Psr\Http\Message\ResponseInterface ) {
             
-            //redirect to login
+            // redirect to login page
             return $login_response;
         }
         
@@ -1323,13 +1323,13 @@ code below:
 
             if ( !$has_field_errors ) {
                 
-                
                 if( $record->isChanged('password') ) {
                   
-                    // only hash the password if it's different from the exisitng hashed
-                    // password
+                    // only hash the password if it's different from the exisitng 
+                    // hashed password
                     $record->password = password_hash($record->password, PASSWORD_DEFAULT);
                 }
+                
                 // try to save
                 if ( $record->save() !== false ) {
 
@@ -1354,8 +1354,8 @@ code below:
         } //if( $this->request->getMethod() === 'POST' )
 
         $view_data = [];
-        $view_data['error_msgs'] = $error_msgs;
         $view_data['user_record'] = $record;
+        $view_data['error_msgs'] = $error_msgs;
         
         $view_str = $this->renderView('edit.php', $view_data);
         
@@ -1471,17 +1471,95 @@ function printErrorMsg($element_name, array $error_msgs) {
 
 Now our feature to edit an existing user is completed and can be accessed at 
 `http://localhost:8888/users/edit/<some_num>` (**`<some_num>`** should be 
-replaced with a numeric id of a user e.g. http://localhost:8888/users/edit/2 
+replaced with a numeric id of a user; e.g. http://localhost:8888/users/edit/2 
 to edit an existing user with an id of 2.
 
 We are now going to implement the last feature for managing users (i.e. the 
 ability to delete a specific user). We would be implementing this feature 
 differently because it does not require a view. We will add an **actionDelete($id)** 
-method to **\MovieCatalog\Controllers\MovieCatalogBase** instead of 
-**\MovieCatalog\Controllers\Users**. We do this because this same method will 
-also be used to delete movie listings. Just add the code below  to
-**\MovieCatalog\Controllers\MovieCatalogBase**:
+method to **\MovieCatalog\Controllers\Users** and **doDelete($id, $model_key_name_in_container)** 
+to **\MovieCatalog\Controllers\MovieCatalogBase**. **doDelete($id, $model_key_name_in_container)** 
+will also be used by the **actionDelete($id)** we will be adding later to 
+**\MovieCatalog\Controllers\MovieCatalogBase** to delete movie listings. 
+Add the code below to **\MovieCatalog\Controllers\Users**:
 
 ```php
-
+    public function actionDelete($id) {
+        
+        return $this->doDelete($id, 'users_model');
+    }
 ```
+
+Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
+
+```php
+    protected function doDelete($id, $model_key_name_in_container) {
+
+        // The call below is to get a response object for
+        // redirecting the user to the login page if the
+        // user is not currently logged in. You must be 
+        // logged in in order to be able to delete an 
+        // existing record. If the user is logged in, 
+        // $login_response will receive a value of 
+        // false from $this->getResponseObjForLoginRedirectionIfNotLoggedIn().
+        $login_response = $this->getResponseObjForLoginRedirectionIfNotLoggedIn();
+        
+        if( $login_response instanceof \Psr\Http\Message\ResponseInterface ) {
+            
+            // redirect to login page
+            return $login_response;
+        }
+
+        // get model object
+        $model_obj = $this->container->$model_key_name_in_container;
+        
+        // fetch the record
+        $record = $model_obj->fetch($id);
+        
+        if( !($record instanceof \BaseRecord) ) {
+            
+            // Could not find record with the specified $id
+            return $this->generateNotFoundResponse(
+                        $this->request, 
+                        $this->response,
+                        'Requested item could not be deleted. It does not exist.'
+                    );
+        }
+        
+        // We will be redirecting to the default action of the current 
+        // controller
+        $rdr_path = s3MVC_MakeLink("{$this->controller_name_from_uri}");
+        
+        if ( $record->delete() === false ) {
+            
+            // Delete operation was not successful. Set error message.
+            $this->setErrorFlashMessage('Could not Delete Record!');
+            
+        } else {
+            
+            // Delete operation was successful. Set success message.
+            $this->setSuccessFlashMessage('Successfully Deleted!');
+        }
+        
+        // Redirect to the default action of the current controller
+        return $this->response->withHeader('Location', $rdr_path);
+    }
+```
+
+At this point, our feature to delete a specific user is completed and can be 
+accessed at `http://localhost:8888/users/delete/<some_num>` (**`<some_num>`** 
+should be replaced with a numeric id of a user; e.g. 
+http://localhost:8888/users/delete/2 to delete a specific user with an id of 2.
+
+Yipee! We have implemented all the earlier specified features for managing users
+in the **\MovieCatalog\Controllers\Users** controller; i.e.:
+
+- Initializing the app with an **admin** user via **actionInitUsers()** (if no user exists)
+- Listing all users via **actionIndex()**
+- Viewing a single user via **actionView($id)**
+- Adding a new user via **actionAdd()**
+- Editing an existing user via **actionEdit($id)**
+- Deleting a specific user via **actionDelete($id)**
+
+Now we move on to implementing features necessary for managing movie listing in 
+the **\MovieCatalog\Controllers\MovieListings** controller.  
