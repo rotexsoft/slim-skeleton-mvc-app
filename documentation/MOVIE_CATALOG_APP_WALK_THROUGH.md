@@ -471,12 +471,16 @@ with the code below:
 
 Next we create an action method named `actionInitUsers` in the 
 `\MovieCatalog\Controllers\Users` class to create a user with the username 
-`admin` and password `admin` (if and only if the `user_authentication_accounts` 
-table contains no data). It will be accessible via http://localhost:8888/users/init-users.
+`admin` and a password supplied by the user (if and only if the `user_authentication_accounts` 
+table contains no data). It will be reachable at `http://localhost:8888/users/init-users/<entered_password>`.
+Where `<entered_password>` is whatever value the user wants to be the password.
+This method can be improved upon, by receiving the desired password via HTTP POST, 
+we are receiving it via the url in this tutorial for convenience purposes (not 
+secure if your app or web-server logs the url of each request).
 Below is the method:
 
 ```php
-    public function actionInitUsers() {
+    public function actionInitUsers($password) {
         
         $view_str = ''; // will hold output to be injected into 
                         // the site layout file (i.e. 
@@ -495,7 +499,7 @@ Below is the method:
             // the new record is saved.
             $user_data = [
                 'username' => 'admin', 
-                'password' => password_hash('admin' , PASSWORD_DEFAULT)
+                'password' => password_hash($password , PASSWORD_DEFAULT)
             ];
             $user_record = $model_obj->createNewRecord($user_data);
             
@@ -528,32 +532,36 @@ Below is the method:
     }
 ```
 
-**actionInitUsers()** above checks if there is no data in the `user_authentication_accounts` 
+**actionInitUsers($password)** above checks if there is no data in the `user_authentication_accounts` 
 table and if there is none, it then proceeds to insert a row of data into the table with a 
-`username` value of **`admin`** and `password` value of **`admin`** (note that it's the 
-hashed form of the password that is stored in the `user_authentication_accounts` table).
-If there is data in the `user_authentication_accounts` table, the method just sets a
+`username` value of **`admin`** and `password` with value supplied in **$password** 
+(note that it's the hashed form of the password that is stored in the 
+`user_authentication_accounts` table). If there is data in the 
+`user_authentication_accounts` table, the method just sets a
 message to be displayed.
 
-All we now need to do to ensure we have a user with the username **`admin`** in 
-our app is to browse to http://localhost:8888/users/init-users. After this,
-we can login to our app with a `username` of **`admin`** and a `password` of
+All we now need to do to ensure we have a user with the username **`admin`** and
+password `admin` in our app is to browse to http://localhost:8888/users/init-users/admin. 
+After this, we can login to our app with a `username` of **`admin`** and a `password` of
 **`admin`**. We can login via any controller with the path **`<controller_name>/login`** 
-in our url, where **`<controller_name>`** can be substitued with the controller 
+in our url, where **`<controller_name>`** can be substituted with the controller 
 names of any of the controllers we have created in our app. 
 
-We can even create a manual route **/init-users** in **`./config/routes-and-middlewares.php`** 
-that redirects to http://localhost:8888/users/init-users. So we can use a shorter
-url http://localhost:8888/init-users to accomplish the same goal of creating the
-**`admin`** user. 
+We can even create a manual route **/init-users/{password}[/]** in 
+**`./config/routes-and-middlewares.php`** that redirects to 
+`http://localhost:8888/users/init-users/<entered_password>`. 
+So we can use a shorter url `http://localhost:8888/init-users/<entered_password>` 
+to accomplish the same goal of creating the **`admin`** user. For example,
+http://localhost:8888/init-users/admin will also create a user with the 
+username **`admin`** and password `admin` (if there are no users yet in the app).
 
 Just add the code below to **`./config/routes-and-middlewares.php`**
-and http://localhost:8888/init-users will become active:
+and `http://localhost:8888/init-users/<entered_password>` will become active:
 
 ```php
 $app->get(
         
-    '/init-users',
+    '/init-users/{password}[/]',
         
     function(
         \Psr\Http\Message\ServerRequestInterface $request, 
@@ -561,7 +569,7 @@ $app->get(
         $args
     ) {
         return $response->withStatus(301)
-                        ->withHeader('Location', '/users/init-users');
+                        ->withHeader('Location', '/users/init-users/'.$args['password']);
     }
 );
 ```
@@ -582,7 +590,7 @@ Below is a list of all the features we will be implementing
 
     - List all users via **`actionIndex()`** (will be located at http://localhost:8888/users/ or http://localhost:8888/users/index)
     - View a single user via **`actionView($id)`** (will be located at http://localhost:8888/users/view/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Add the first user (i.e. the **`admin`** user) via **`actionInitUsers()`** **[Already Implemented]** (located at http://localhost:8888/users/init-users [a SlimPHP 3 Skeleton mvc route] or http://localhost:8888/init-users [a manally defined route])
+    - Add the first user (i.e. the **`admin`** user) via **`actionInitUsers($password)`** **[Already Implemented]** (located at `http://localhost:8888/users/init-users/<entered_password>` [a SlimPHP 3 Skeleton mvc route] or `http://localhost:8888/init-users/<entered_password>` [a manually defined route])
     - Add a new user via **`actionAdd()`** (will be located at http://localhost:8888/users/add)
     - Edit an existing user via **`actionEdit($id)`** (will be located at http://localhost:8888/users/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
     - Delete a specific user via **`actionDelete($id)`** (will be located at http://localhost:8888/users/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
@@ -915,7 +923,11 @@ to **./src/views/users/index.php**:
                 <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
                     | <a href="<?php echo s3MVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-                    <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+                    <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
+                       onclick="return confirm('Are you sure?');"
+                    >
+                        Delete
+                    </a>
 
                 <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
             </li>
@@ -926,10 +938,34 @@ to **./src/views/users/index.php**:
 <?php else: ?>
 
     <p>
-        No user(s) exist. 
-        <a href="<?php echo s3MVC_MakeLink( "users/init-users" ); ?>">Initialize</a> 
-        the system with an admin user.
+        No user(s) exist. <br>
+        Initialize the system with an <strong>admin</strong> user with a password of: 
+        <input id="initialize-password" type="password" style="width: 25%; display:inline;">.
+        <input id="initialize-button" type="submit" value="Initialize">
     </p>
+
+    <script>
+        // When the Initialize button is clicked, redirect to 
+        // /users/init-users/<entered_password>, where <entered_password> 
+        // is the value entered into the password text-box
+        $('#initialize-button').on(
+            'click',
+            function( event ) {
+
+                var entered_password = $('#initialize-password').val();
+
+                if( entered_password === '' ) {
+
+                    alert('Password cannot be empty!');
+                    return false;
+                }
+
+                window.location.href = 
+                    '<?php echo s3MVC_MakeLink("/users/init-users"); ?>' 
+                    + '/' + entered_password;
+            }
+        );
+    </script>
 
 <?php endif; ?>
 ```
@@ -1554,7 +1590,7 @@ http://localhost:8888/users/delete/2 to delete a specific user with an id of 2.
 Yipee! We have implemented all the earlier specified features for managing users
 in the **\MovieCatalog\Controllers\Users** controller; i.e.:
 
-- Initializing the app with an **admin** user via **actionInitUsers()** (if no user exists)
+- Initializing the app with an **admin** user via **actionInitUsers($password)** (if no user exists)
 - Listing all users via **actionIndex()**
 - Viewing a single user via **actionView($id)**
 - Adding a new user via **actionAdd()**
