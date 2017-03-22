@@ -1599,3 +1599,84 @@ in the **\MovieCatalog\Controllers\Users** controller; i.e.:
 
 Now we move on to implementing features necessary for managing movie listing in 
 the **\MovieCatalog\Controllers\MovieListings** controller.  
+
+Let's implement the action method to list all movies; i.e. **actionIndex()**. 
+To do this, update **actionIndex()** in **\MovieCatalog\Controllers\MovieListings** 
+with the code below:
+
+```php
+    public function actionIndex() {
+        
+        $view_data = [];
+        $model_obj = $this->container->get('movie_listings_model');
+        
+        // Grab all existing user records.
+        // Note that the variable $collection_of_movie_records will be available
+        // in your index.php view (in this case ./src/views/movie-listings/index.php)
+        // when $this->renderView('index.php', $view_data) is called.
+        $view_data['collection_of_movie_records'] = $model_obj->fetchRecordsIntoCollection();
+        
+        //render the view first and capture the output
+        $view_str = $this->renderView('index.php', $view_data);
+        
+        return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
+    }
+```
+
+We've implemented the controller portion of the feature to list all movies. 
+Now let's implement the view portion of the feature by adding the code below
+to **./src/views/movie-listings/index.php**:
+
+```php
+<?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+    <div class="row" style="margin-top: 1em;">
+        <div class="small-6 columns">
+            <h4>All Movies</h4>
+        </div>
+        <div class="small-6 columns text-right">
+            <a class="button" href="<?php echo s3MVC_MakeLink( "movie-listings/add" ); ?>">
+                <strong>+ Add new Movie Listing</strong>
+            </a>
+        </div>
+    </div>
+
+<?php endif; ?>
+
+<?php if( $collection_of_movie_records instanceof \BaseCollection && count($collection_of_movie_records) > 0 ): ?>
+
+    <ul>
+    <?php foreach ($collection_of_movie_records as $movie_record): ?>
+
+        <li>
+            <?php echo $movie_record->title; ?> | 
+            <a href="<?php echo s3MVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
+
+            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+
+                | <a href="<?php echo s3MVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+                <a href="<?php echo s3MVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
+                   onclick="return confirm('Are you sure?');"
+                >
+                    Delete
+                </a>
+
+            <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
+        </li>
+
+    <?php endforeach; ?>
+    </ul>
+
+<?php else: ?>
+
+<p>
+    No Movies yet. Please <a href="<?php echo s3MVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
+    one or more movie listing(s).
+</p>
+
+<?php endif; ?>
+```
+
+Now our feature to list all movies is completed and can be accessed at http://localhost:8888/movie-listings 
+or http://localhost:8888/movie-listings/index .
+
