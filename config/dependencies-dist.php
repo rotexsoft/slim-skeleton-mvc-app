@@ -18,7 +18,7 @@ $container['logger'] = function () {
     return new \Vespula\Log\Log($adapter);
 };
 
-// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
 $container['errorHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpServerErrorController';
 
 //Override the default 500 System Error Handler
@@ -42,7 +42,7 @@ $container['errorHandler'] = function ($c) {
     };
 };
 
-// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
 $container['notFoundHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpNotFoundController';
 
 //Override the default Not Found Handler
@@ -67,7 +67,7 @@ $container['notFoundHandler'] = function ($c) {
     };
 };
 
-// this can be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
+// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
 $container['notAllowedHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController';
 
 //Override the default Not Allowed Handler
