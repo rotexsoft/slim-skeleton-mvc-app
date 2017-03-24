@@ -149,12 +149,12 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     really not needed, since this controller is only meant to handle the 
     earlier mentioned HTTP errors.
 
-    * Edit the **./config/dependecies.php** by assigning a value of 
+    * Edit the **./config/dependencies.php** by assigning a value of 
     **`'\\MovieCatalog\\Controllers\\HttpNotAllowedNotFoundServerErrorHandler'`** 
-    to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** and
-    **$container['notAllowedHandlerClass']** to delegate 
-    `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` as the 
-    handler for HTTP 404, 405 and 500 errors in our app. The default 
+    to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** 
+    and **$container['notAllowedHandlerClass']** to delegate 
+    `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` as 
+    the handler for HTTP 404, 405 and 500 errors in our app. The default 
     handlers for HTTP 404, 405 and 500 errors are the 
 
         * `\Slim3MvcTools\Controllers\HttpServerErrorController`, 
@@ -168,7 +168,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
     that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
     our HTTP 404, 405 and 500 error handler.
-        * Also note that the methods below can be overriden in 
+        * Also note that the methods below can be overridden in 
         `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
         order to change the how 404, 405 and 500 errors are actually handled:
             - `\Slim3MvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
@@ -179,7 +179,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
         
         the `\Slim3MvcTools\Controllers\BaseController` implementations of these
         methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-        if they are not overriden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
+        if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
 
 
 * **./src/controllers/Users.php:** containing the
@@ -233,15 +233,17 @@ Now let's run our php development server again:
 php -S 0.0.0.0:8888 -t public
 ```
 
-Browse to http://localhost:8888/movie-catalog-base or http://localhost:8888/movie-catalog-base/index 
-and you should see the output below:
+Browse to http://localhost:8888/movie-catalog-base or 
+http://localhost:8888/movie-catalog-base/index and you should see the output below:
+
 ```
 You have successfully executed MovieCatalog\Controllers\MovieCatalogBase::actionIndex()
 This is the default view for MovieCatalog\Controllers\MovieCatalogBase::actionIndex().
 ```
 
-Next, browse to http://localhost:8888/movie-listings or http://localhost:8888/movie-listings/index 
-and you should see the output below:
+Next, browse to http://localhost:8888/movie-listings or 
+http://localhost:8888/movie-listings/index and you should see the output below:
+
 ```
 You have successfully executed MovieCatalog\Controllers\MovieListings::actionIndex()
 This is the default view for MovieCatalog\Controllers\MovieListings::actionIndex().
@@ -249,6 +251,7 @@ This is the default view for MovieCatalog\Controllers\MovieListings::actionIndex
 
 Next, browse to http://localhost:8888/users or http://localhost:8888/users/index 
 and you should see the output below:
+
 ```
 You have successfully executed MovieCatalog\Controllers\Users::actionIndex()
 This is the default view for MovieCatalog\Controllers\Users::actionIndex().
@@ -257,6 +260,7 @@ This is the default view for MovieCatalog\Controllers\Users::actionIndex().
 Then, browse to http://localhost:8888/http-not-allowed-not-found-server-error-handler 
 or http://localhost:8888/http-not-allowed-not-found-server-error-handler/index 
 and you should see the output below:
+
 ```
 You have successfully executed MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler::actionIndex()
 This is the default view for MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler::actionIndex(). 
@@ -2367,4 +2371,6 @@ ability to delete a specific movie) by adding the code below to
 ```
 
 We are done, we have successfully implemented all the features required to manage 
-movie listings and users in our app.
+movie listings and users in our app. Obviously, other features like searching, e.t.c. 
+can be implemented to further enhance the app.
+
