@@ -185,6 +185,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
         * Also note that the methods below can be overridden in 
         `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
         order to change the how 404, 405 and 500 errors are actually handled:
+
             - `\Slim3MvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
 
             - `\Slim3MvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
