@@ -143,7 +143,7 @@ listings in our app.
     **./src/views/movie-listings/index.php** would be used 
     instead of **./src/views/movie-catalog-base/index.php** because it
     is in the controller's own view folder. If there were no **index.php**
-    in **./src/views/movie-listings/**, **./src/views/movie-catalog-base/index.php**
+    in **./src/views/movie-listings/**, then **./src/views/movie-catalog-base/index.php**
     would be used when the **renderView('index.php')** method is called from within
     **\MovieCatalog\Controllers\MovieListings**.
 
@@ -162,13 +162,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     really not needed, since this controller is only meant to handle the 
     earlier mentioned HTTP errors.
 
-    * Edit the **./config/dependencies.php** by assigning a value of 
-    **`'\\MovieCatalog\\Controllers\\HttpNotAllowedNotFoundServerErrorHandler'`** 
-    to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** 
-    and **$container['notAllowedHandlerClass']** to delegate 
-    `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` as 
-    the handler for HTTP 404, 405 and 500 errors in our app. The default 
-    handlers for HTTP 404, 405 and 500 errors are the 
+    * The default handlers for HTTP 404, 405 and 500 errors are the 
 
         * `\Slim3MvcTools\Controllers\HttpServerErrorController`, 
 
@@ -179,7 +173,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
         classes which are direct sub-classes of `\Slim3MvcTools\Controllers\BaseController`. 
         These default handlers will not be able to take advantage of the `preAction()` and 
         `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
-        that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
+        that's why we will be later making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
         our HTTP 404, 405 and 500 error handler.
 
     * Also note that the methods below can be overridden in 
@@ -192,7 +186,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
 
         * `\Slim3MvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
         
-        the `\Slim3MvcTools\Controllers\BaseController` implementations of these
+        The `\Slim3MvcTools\Controllers\BaseController` implementations of these
         methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
         if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
 
@@ -212,7 +206,7 @@ and delete) that can login to our app.
     **./src/views/users/index.php** would be used 
     instead of **./src/views/movie-catalog-base/index.php** because it
     is in the controller's own view folder. If there were no **index.php**
-    in **./src/views/users/**, **./src/views/movie-catalog-base/index.php**
+    in **./src/views/users/**, then **./src/views/movie-catalog-base/index.php**
     would be used when the **renderView('index.php')** method is called from 
     within **\MovieCatalog\Controllers\Users**.
 
