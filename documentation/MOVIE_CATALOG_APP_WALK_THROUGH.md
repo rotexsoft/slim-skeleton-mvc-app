@@ -176,11 +176,11 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
 
         * `\Slim3MvcTools\Controllers\HttpMethodNotAllowedController`
 
-    classes which are direct sub-classes of `\Slim3MvcTools\Controllers\BaseController`. 
-    These default handlers will not be able to take advantage of the `preAction()` and 
-    `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
-    that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-    our HTTP 404, 405 and 500 error handler.
+        classes which are direct sub-classes of `\Slim3MvcTools\Controllers\BaseController`. 
+        These default handlers will not be able to take advantage of the `preAction()` and 
+        `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
+        that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
+        our HTTP 404, 405 and 500 error handler.
 
     * Also note that the methods below can be overridden in 
     `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
@@ -192,9 +192,9 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
 
         * `\Slim3MvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
         
-    the `\Slim3MvcTools\Controllers\BaseController` implementations of these
-    methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-    if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
+        the `\Slim3MvcTools\Controllers\BaseController` implementations of these
+        methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
+        if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
 
 
 * **./src/controllers/Users.php:** containing the
