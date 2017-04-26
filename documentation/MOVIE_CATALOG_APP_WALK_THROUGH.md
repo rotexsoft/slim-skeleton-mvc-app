@@ -182,19 +182,19 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
     our HTTP 404, 405 and 500 error handler.
 
-        * Also note that the methods below can be overridden in 
-        `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
-        order to change the how 404, 405 and 500 errors are actually handled:
+    * Also note that the methods below can be overridden in 
+    `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
+    order to change the how 404, 405 and 500 errors are actually handled:
 
-            - `\Slim3MvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
+        * `\Slim3MvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
 
-            - `\Slim3MvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
+        * `\Slim3MvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
 
-            - `\Slim3MvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
+        * `\Slim3MvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
         
-        the `\Slim3MvcTools\Controllers\BaseController` implementations of these
-        methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-        if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
+    the `\Slim3MvcTools\Controllers\BaseController` implementations of these
+    methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
+    if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
 
 
 * **./src/controllers/Users.php:** containing the
