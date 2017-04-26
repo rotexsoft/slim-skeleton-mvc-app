@@ -1530,7 +1530,7 @@ differently because it does not require a view. We will add an **actionDelete($i
 method to **\MovieCatalog\Controllers\Users** and **doDelete($id, $model_key_name_in_container)** 
 to **\MovieCatalog\Controllers\MovieCatalogBase**. **doDelete($id, $model_key_name_in_container)** 
 will also be used by the **actionDelete($id)** we will be adding later to 
-**\MovieCatalog\Controllers\MovieCatalogBase** to delete movie listings. 
+**\MovieCatalog\Controllers\MovieListings** to delete movie listings. 
 Add the code below to **\MovieCatalog\Controllers\Users**:
 
 ```php
@@ -1779,7 +1779,8 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 Now our feature to view a movie is completed and can be accessed at 
 `http://localhost:8888/movie-listings/view/<some_num>` (**`<some_num>`** should 
 be replaced with a numeric id of a movie; e.g. http://localhost:8888/movie-listings/view/2 
-to view details of a single movie with an id of 2.
+to view details of a single movie with an id of 2. At this point there is no movie in the database 
+so there's nothing to view yet. 
 
 Next, we implement the action method to add a new movie; i.e. **actionAdd()**. 
 To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\MovieListings** 
