@@ -181,6 +181,7 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
     that's why we are making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
     our HTTP 404, 405 and 500 error handler.
+
         * Also note that the methods below can be overridden in 
         `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
         order to change the how 404, 405 and 500 errors are actually handled:
