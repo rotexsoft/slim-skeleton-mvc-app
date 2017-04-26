@@ -47,6 +47,19 @@ http://localhost:8888 in your browser (you should see a welcome page):
 php -S 0.0.0.0:8888 -t public
 ```
 
+> **NOTE:** you may get a **session_start()** error if the folder configured for storing
+php sessions is not writable by the php webserver started in the command above.
+This can be fixed by setting the value of the php configuration option **session.save_path**
+to a path to a folder that the built-in php webserver can write to. This configuration
+option should be set inside **./movie-catalog/config/ini-settings.php**, since it's 
+the first file from **./movie-catalog/config** that gets loaded in 
+**./movie-catalog/public/index.php** (your application's bootstrap file).
+> Adding the line of code below to **./movie-catalog/config/ini-settings.php** will
+cause php session files to be written to the **./movie-catalog/tmp/session** folder 
+(which you should ensure is writable by the php webserver process):
+
+>`ini_set('session.save_path', S3MVC_APP_ROOT_PATH.'/tmp/session');`
+
 Once we've verified that the welcome page is being displayed, we are sure that 
 our app was successfully installed. Now we can stop the php development server
 we started in the last command above by pressing the **`ctrl`** and **`c`** keys
