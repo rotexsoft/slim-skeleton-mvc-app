@@ -80,7 +80,7 @@ CREATE TABLE `movie_listings`(
     `genre` VARCHAR(255), 
     `duration_in_minutes` INT, 
     `mpaa_rating` VARCHAR(255), 
-    `record_creration_date` DATETIME NOT NULL, 
+    `record_creation_date` DATETIME NOT NULL, 
     `record_last_modification_date` DATETIME NOT NULL, 
     PRIMARY KEY (`id`) 
 ); 
@@ -89,7 +89,7 @@ CREATE TABLE user_authentication_accounts (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT, 
     `username` VARCHAR(255), 
     `password` VARCHAR(255),
-    `record_creration_date` DATETIME NOT NULL, 
+    `record_creation_date` DATETIME NOT NULL, 
     `record_last_modification_date` DATETIME NOT NULL, 
     PRIMARY KEY (`id`) 
 );
@@ -330,11 +330,11 @@ class BaseModel extends \LeanOrm\Model {
         
         $col_names = $this->getTableColNames();
         
-        if( in_array('record_creration_date', $col_names) ) {
+        if( in_array('record_creation_date', $col_names) ) {
             
             // this column will be automatically updated 
             // when a new record is saved to the database
-            $this->_created_timestamp_column_name = 'record_creration_date';
+            $this->_created_timestamp_column_name = 'record_creation_date';
         }
         
         if( in_array('record_last_modification_date', $col_names) ) {
@@ -505,7 +505,7 @@ Below is the method:
         
         if( !is_numeric($num_existing_users) ) {
             
-            // no need to add entries for the `record_creration_date`
+            // no need to add entries for the `record_creation_date`
             // and `record_last_modification_date` fields in the 
             // $user_data array below since leanorm will 
             // automatically populate those fields when
