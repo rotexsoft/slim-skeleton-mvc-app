@@ -167,6 +167,145 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Mes
 ????????????
 Talk about cascading view system in renderView( $file_name, array $data = [] ).
 
+### Escaping View Data
+If you use `\Slim3MvcTools\Controllers\BaseController::renderLayout( $file_name, array $data = ['content'=>'Content should be placed here!'] )`
+and `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $data = [] )` for rendering your layout and view files in your 
+application, you can easily escape data in your views.
+
+The variable **$this** inside any view or layout file(s) rendered via the earlier mentioned
+render methods references an instance of **Rotexsoft\FileRenderer\Renderer** and as a result,
+the methods below (which all return an escaped string) will be available in such view or layout file(s):
+
+- **$this->escapeCss($string):** for escaping data which is meant to be rendered within `<style>` tags or inside the style attribute of any html element.
+- **$this->escapeHtml($string):** for escaping data that is meant to be within html elements e.g divs(`<div>`), paragraphs(`<p>`), etc.
+- **$this->escapeHtmlAttr($string):** for escaping data which is meant to be rendered as an attribute value within an html element in a view.
+- **$this->escapeJs($string):** for escaping data which is meant to be rendered as string literals or digits within Javascript code in a view.
+- **$this->escapeUrl($string):** for escaping data being inserted into a URL and not to the whole URL itself.
+
+The sample layout file below demonstrates how to use the above methods:
+
+```php
+<?php
+
+$bad_css_with_xss = <<<INPUT
+body { background-image: url('http://example.com/foo.jpg?'); }</style>
+<script>alert('You\\'ve been XSSed!')</script><style>
+INPUT;
+
+$paragraph_data_from_file_renderer = 'This is a Paragraph!!';
+$var_that_should_be_html_escaped = '<script>alert("zf2");</script>';
+$var_that_should_be_html_attr_escaped = 'faketitle" onmouseover="alert(/ZF2!/);';
+$var_that_should_be_css_escaped = $bad_css_with_xss;
+$another_var_that_should_be_css_escaped = ' display: block; " onclick="alert(\'You\\\'ve been XSSed!\'); ';
+$var_that_can_be_safely_js_escaped = "javascript's cool";
+$a_var_that_can_be_safely_js_escaped = '563';
+$a_var_that_cant_be_guaranteed_to_be_safely_js_escaped = ' var x = \'Yo!\'; alert(x); ';
+$var_that_should_be_url_escaped = ' " onmouseover="alert(\'zf2\')';
+
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Escaped Entities</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <style>
+            <?php // CSS escaping is being applied to the variable below ?>
+            <?php echo $this->escapeCss($var_that_should_be_css_escaped); ?>
+        </style>
+
+        <script type="text/javascript">
+            // Javascript escaping is being applied to the variable below
+            var some_string = '<?php echo $this->escapeJs($var_that_can_be_safely_js_escaped); ?>';
+            alert(some_string);
+        </script>
+    </head>
+    <body>
+        <!-- An unescaped variable -->
+        <p><?php echo $paragraph_data_from_file_renderer; ?></p>
+
+        <div>
+            <!-- Html Attribute escaping is being applied to the variable below -->
+            <span title="<?php echo $this->escapeHtmlAttr($var_that_should_be_html_attr_escaped); ?>" >
+                What framework are you using?
+                <!-- Html escaping is being applied to the variable below -->
+                <?php echo $this->escapeHtml($var_that_should_be_html_escaped); ?>
+            </span>
+        </div>
+
+        <!-- CSS escaping is being applied to the variable below -->
+        <p style="<?php echo $this->escapeCss($another_var_that_should_be_css_escaped); ?>">
+            User controlled CSS needs to be properly escaped!
+
+            <!-- Url escaping is being applied to the variable below -->
+            <a href="http://example.com/?name=<?php echo $this->escapeUrl($var_that_should_be_url_escaped); ?>">Click here!</a>
+        </p>
+
+        <!-- Javascript escaping is being applied to the variable below -->
+        <p onclick="var a_number = <?php echo $this->escapeJs($a_var_that_can_be_safely_js_escaped); ?>; alert(a_number);">
+            Javascript escaping the variable in this paragraph's onclick attribute should
+            be safe if the variable contains basic alphanumeric characters. It will definitely
+            prevent XSS attacks.
+        </p>
+
+        <!-- Javascript escaping is being applied to the variable below -->
+        <p onclick="<?php echo $this->escapeJs($a_var_that_cant_be_guaranteed_to_be_safely_js_escaped); ?>">
+            Javascript escaping the variable in this paragraph's onclick attribute may lead
+            to Javascript syntax error(s) but will prevent XSS attacks.
+        </p>
+    </body>
+</html>
+```
+
+### Implementing View Helpers
+If you use `\Slim3MvcTools\Controllers\BaseController::renderLayout( $file_name, array $data = ['content'=>'Content should be placed here!'] )`
+and `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $data = [] )` for rendering your layout and view files in your 
+application, you can easily create helper functions that will be accessible to all layout and view file(s) rendered via the earlier mentioned
+methods.
+
+To accomplish this, you need to first create a sub-class of **\Rotexsoft\FileRenderer\Renderer** and swap out 
+instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **new_layout_renderer** 
+and **new_view_renderer** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
+**\MyApp\Utils\MyCustomFileRenderer**, your updated dependencies entries would look like below:
+
+```php
+<?php
+//Object for rendering layout files
+$container['new_layout_renderer'] = $container->factory(function () {
+    
+    //return a new instance on each access to $container['new_layout_renderer']
+    $ds = DIRECTORY_SEPARATOR;
+    $path_2_layout_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
+    $layout_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_layout_files]);
+    
+    return $layout_renderer;
+});
+
+//Object for rendering view files
+$container['new_view_renderer'] = $container->factory(function () {
+    
+    //return a new instance on each access to $container['new_view_renderer']
+    $ds = DIRECTORY_SEPARATOR;
+    $path_2_view_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
+    $view_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_view_files]);
+
+    return $view_renderer;
+});
+?>
+```
+
+Once you have registered your custom FileRenderer class like as illustrated above, the variable **$this** 
+inside any view or layout file(s) rendered via the earlier mentioned render methods will now reference an 
+instance of your custom FileRenderer class (in this case **\MyApp\Utils\MyCustomFileRenderer**). 
+All you need to do at this point to create helper methods that will be available in your layout and
+view file(s) is to add such methods as public methods to your custom FileRenderer class and they will 
+then be accessible inside your layout and view file(s) via **$this**->`whateverTheMethodName($params..)`.
+For example, if I add a public method `formatPhoneNum($phone_num)` to **\MyApp\Utils\MyCustomFileRenderer**
+then I can simply call `$this->formatPhoneNum($some_string)` from within any of my layout or view files 
+provided that the files are rendered via a call to `\Slim3MvcTools\Controllers\BaseController::renderLayout( $file_name, array $data = ['content'=>'Content should be placed here!'] )`
+or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $data = [] )`.
+
 ### **Creating Controller Classes via the Commnadline** 
 ????????????
 ????????????

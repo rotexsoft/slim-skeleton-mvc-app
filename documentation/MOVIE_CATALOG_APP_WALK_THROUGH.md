@@ -19,6 +19,10 @@ User Management,
 access control and the likes are left out of this tutorial since there are a variety 
 of ways and packages that can be used to implement these features.
 
+The source files for the fully developed app illustrated in this walk-through is located 
+at https://github.com/rotexsoft/movie-catalog-web-app . You can download the files or 
+clone the repository to follow along if you wish.
+
 First, we create the new app by running the command below:
 
 ```
@@ -56,7 +60,7 @@ the first file from **./movie-catalog/config** that gets loaded in
 **./movie-catalog/public/index.php** (your application's bootstrap file).
 > Adding the line of code below to **./movie-catalog/config/ini-settings.php** will
 cause php session files to be written to the **./movie-catalog/tmp/session** folder 
-(which you should ensure is writable by the php webserver process):
+(which you should create and ensure is writable by the php webserver process):
 
 >`ini_set('session.save_path', S3MVC_APP_ROOT_PATH.'/tmp/session');`
 
@@ -2384,3 +2388,76 @@ We are done, we have successfully implemented all the features required to manag
 movie listings and users in our app. Obviously, other features like searching, e.t.c. 
 can be implemented to further enhance the app.
 
+To return a list of all movies in **json** format, you can update **actionIndex()** 
+in **\MovieCatalog\Controllers\MovieListings** with the code below and add a **format** 
+parameter with the value of **json** to the url like so 
+(http://localhost:8888/movie-listings?format=json)
+
+```php
+    public function actionIndex() {
+        
+        $view_data = [];
+        $model_obj = $this->container->get('movie_listings_model');
+        
+        // Grab all existing movie records.
+        // Note that the variable $collection_of_movie_records will be available
+        // in your index.php view (in this case ./src/views/movie-listings/index.php)
+        // when $this->renderView('index.php', $view_data) is called.
+        $view_data['collection_of_movie_records'] = $model_obj->fetchRecordsIntoCollection();
+        
+        $response_format = s3MVC_GetSuperGlobal('get', 'format', null);
+        
+        if( 
+            !is_null($response_format) 
+            && !in_array( trim(mb_strtolower( ''.$response_format, 'UTF-8')), ['html', 'xhtml'] )
+        ) {
+            //handle other specified formats (non-html)
+            if ( trim(mb_strtolower(''.$response_format, 'UTF-8')) === 'json' ) {
+                
+                // return response in json format
+                $movie_listings_array = [];
+                
+                if( 
+                    $view_data['collection_of_movie_records'] instanceof \BaseCollection 
+                    && count($view_data['collection_of_movie_records']) > 0 
+                ) {
+                    //convert collection of movie_listings records to an array of arrays
+                    foreach ($view_data['collection_of_movie_records'] as $record) {
+
+                        // $record->getData() gets the underlying associative array 
+                        // containing a record's data
+                        $movie_listings_array[] = $record->getData();
+                    }
+                }
+                
+                $this->response
+                     ->getBody()
+                     ->write($json = json_encode($movie_listings_array));
+
+                // Ensure that the json encoding passed successfully
+                if ($json === false) {
+                    
+                    throw new \RuntimeException(json_last_error_msg(), json_last_error());
+                }
+                
+                return $this->response
+                            ->withHeader('Content-Type', 'application/json;charset=utf-8');
+                
+            } else {
+                
+                // Unknown format specified, generate an error page
+                $req = $this->request;
+                $res = $this->response;
+                $msg = "Unknown format `$response_format` specified";
+                return $this->generateNotFoundResponse($req, $res, $msg);
+            }
+            
+        } else {
+            
+            // return response in html format
+            // render the view first and capture the output
+            $view_str = $this->renderView('index.php', $view_data);
+            return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
+        }
+    }
+```
