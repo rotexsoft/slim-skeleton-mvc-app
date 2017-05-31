@@ -2367,7 +2367,7 @@ function printErrorMsg($element_name, array $error_msgs) {
 Now our feature to edit an existing movie is completed and can be accessed at 
 `http://localhost:8888/movie-listings/edit/<some_num>` (**`<some_num>`** should be 
 replaced with a numeric id of a movie; e.g. http://localhost:8888/movie-listings/edit/2 
-to edit an existing movie with an id of 2.
+to edit an existing movie with an id of 2).
 
 We are now going to implement the last feature for managing movies (i.e. the 
 ability to delete a specific movie) by adding the code below to 
