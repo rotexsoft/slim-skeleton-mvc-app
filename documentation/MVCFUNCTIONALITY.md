@@ -301,6 +301,7 @@ instance of your custom FileRenderer class (in this case **\MyApp\Utils\MyCustom
 All you need to do at this point to create helper methods that will be available in your layout and
 view file(s) is to add such methods as public methods to your custom FileRenderer class and they will 
 then be accessible inside your layout and view file(s) via **$this**->`whateverTheMethodName($params..)`.
+
 For example, if I add a public method `formatPhoneNum($phone_num)` to **\MyApp\Utils\MyCustomFileRenderer**
 then I can simply call `$this->formatPhoneNum($some_string)` from within any of my layout or view files 
 provided that the files are rendered via a call to `\Slim3MvcTools\Controllers\BaseController::renderLayout( $file_name, array $data = ['content'=>'Content should be placed here!'] )`
