@@ -66,7 +66,11 @@ s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $p
 
 ## Documentation
 
-* [Documentation](documentation/INDEX.md) Please submit an issue or a pull request if you find any issues with the documentation.
+* [Quick Start Guide](documentation/QUICKSTART.md)
+* [MVC Functionality](documentation/MVCFUNCTIONALITY.md)
+* [Real World Usage: Creating a Movie Catalog application](documentation/MOVIE_CATALOG_APP_WALK_THROUGH.md)
+* All command-line examples assume you have changed directory to the root folder of your newly created application.
+* Please submit an issue or a pull request if you find any issues with the documentation.
 
 ## Issues
 
