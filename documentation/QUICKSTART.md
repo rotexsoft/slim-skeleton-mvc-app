@@ -107,6 +107,8 @@
 
 * **`README.md`:** Add documentation for your application here.
 
+* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object in `public/index.php` here. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information.
+
 * **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here.
 
     * Below are the objects that are registered in the container:
@@ -243,3 +245,4 @@
 * **`src/views/base/login-status.php`:** View file associated with the **`actionLoginStatus`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
 
 * **`src/views/hello/world.php`:** View file associated with the **`actionWorld`** method in **`src/controllers/Hello.php`**.
+
