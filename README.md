@@ -45,8 +45,8 @@ of this template application framework.
 `-- README.md
 ```
 
-* Provides some helper functions like **`s3MVC_UriToString(\Psr\Http\Message\UriInterface $uri)`**,
-**`s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)`**, etc. in the default global namespace and a few string helper functions in the **`Slim3MvcTools\Functions\Str`** namespace
+* Provides some helper functions like **s3MVC_UriToString(\Psr\Http\Message\UriInterface $uri)**,
+**s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)**, etc. in the default global namespace and a few string helper functions in the **`Slim3MvcTools\Functions\Str`** namespace
 
 * Provides an automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of **`Slim3MvcTools\Controllers\BaseController`**. You don't need to define any routes for your application if you adhere to using Controllers that are compatible with the routing scheme
 	* Also supports operating using only pure Slim PHP3 functionality (i.e. disabling the automatic routing scheme described above and allowing you to manually / explicitly define routes and middle-wares for your application that may or may not make use of Controller classes as route handlers)
