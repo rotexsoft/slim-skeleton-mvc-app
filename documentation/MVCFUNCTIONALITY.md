@@ -183,9 +183,9 @@ layout template file as variable(s).
 
     * For example, **renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] )** will render a file
     named **site-layout.php** with a variable named **$description** with the value of `You are viewing page one` 
-    available inside **site-layout.php** during the rendition (see Figures 7 and 8 below for examples). 
+    available inside **site-layout.php** during rendition (see Figures 7 and 8 below for examples). 
     The default layout template file (**./src/layout-templates/main-template.php**) that ships with this 
-    framework contains a **$content** php variable (you should populate this variable with page-specific content).
+    framework contains a **$content** php variable (you should populate this variable with page-specific content). <br>
     
     ```php
     <?php
