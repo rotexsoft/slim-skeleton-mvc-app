@@ -46,12 +46,12 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 * Controller classes must extend `\Slim3MvcTools\Controllers\BaseController`. These classes must be named using studly case / caps e.g. **StaticPages**, **MobileDataProviders** and must be referenced in the controller segment of the url in all lowercases with dashes preceding capital case characters (except for the first capital case character). For example, `http://localhost:8888/mobile-data-providers/` will be responded to by the default action (defined via **`S3MVC_APP_DEFAULT_ACTION_NAME`**; default value is **`actionIndex()`** ) method in the controller named **MobileDataProviders**, `http://localhost:8888/mobile-data-providers/list-providers` or `http://localhost:8888/mobile-data-providers/action-list-providers` (if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`false`**) will be responded to by the **`actionListProviders()`** method in the controller named **`MobileDataProviders`**, etc.
     * Controller action methods should be named using camel case (e.g. **`listProviders()`** ). In addition, they must be prefixed with the word **`action`** if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true`; in this case **`actionListProviders()`**
 
-* Action methods in Controller classes MUST either return a string (ie. containing the output to display to the client) or an instance of **Psr\Http\Message\ResponseInterface** (e.g. $response, that has the output to be displayed to the client, injected into it via `$response->getBody()->write($data)` );
+* Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client) or an instance of **Psr\Http\Message\ResponseInterface** (e.g. $response, that has the output to be displayed to the client, injected into it via `$response->getBody()->write($data)` );
 
 * **`The default route with default controller and default action route handler:`** The default route handler responds to the **`/`** route by creating an instance of the default controller (defined via **`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`**) and calling the default action method (defined via **`S3MVC_APP_DEFAULT_ACTION_NAME:`**) on the controller object and returning the result as a response object (if the method returns a string the default route handler will write the string into a response object and return that object). 
 
 * **`The controller with action and optional params route handler:`** The mvc route handler responds to the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes by going through the steps below:
-    * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's avalid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's a valid class name, it then goes on to check if the class exists in the gloabal namespace first, and if not, then it continues checking in the namespaces registered in the container (**`namespaces_for_controllers`**). If the class does not exist, it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the class exists, an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (ie. $instance_of_hello_controller->actionWorld('john', 'doe')) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter ($instance_of_hello_controller->actionWorld()) this happens when the **`/{controller}/{action}/`** route is matched. 
+    * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's avalid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's a valid class name, it then goes on to check if the class exists in the gloabal namespace first, and if not, then it continues checking in the namespaces registered in the container (**`namespaces_for_controllers`**). If the class does not exist, it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the class exists, an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (i.e. $instance_of_hello_controller->actionWorld('john', 'doe')) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter ($instance_of_hello_controller->actionWorld()) this happens when the **`/{controller}/{action}/`** route is matched. 
     
 * **`The controller with no action and no params route handler:`** `/{controller}[/]`: works in a similar manner that the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoke with no parameters.
 
@@ -164,9 +164,140 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Mes
 **Figure 6: Sample middleware that should be placed in `./config/routes-and-middlewares.php`**
 
 ### **Using the File Renderer for Rendering Views and Layouts inside Controller Action Methods** 
-????????????
-Talk about cascading view system in renderView( $file_name, array $data = [] ).
 
+There is an optional built-in template file rendering system available to all controllers that extend 
+`\Slim3MvcTools\Controllers\BaseController` via the two methods in `\Slim3MvcTools\Controllers\BaseController`
+(i.e. **renderLayout($file_name, array $data=['content'=>''])** and **renderView($file_name, array $data=[])**). 
+
+The layout and view files for your application only need be written in php (only html, css, js and php code 
+expected), no need to learn any new templating language or syntax. 
+ 
+* **`renderLayout($file_name, array $data=['content'=>'Content should be placed here!']):`** for rendering 
+the layout file for your application. This file should contain the overall html structure for all your website's 
+pages. Layout files should be located in **`./src/layout-templates`**, you can change this location or add extra 
+location(s) by updating the **`new_layout_renderer`** section in **`./config/dependencies.php`**. Just call 
+**renderLayout** with the name of the php layout file you want to render (e.g. `some-page.php` which will be 
+searched for in **`./src/layout-templates`** or whatever location(s) were registered in the **`new_layout_renderer`** 
+section in **`./config/dependencies.php`**) and an optional associative array whose key(s) will be injected into the 
+layout template file as variable(s). 
+
+    * For example, **renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] )** will render a file
+    named **site-layout.php** with a variable named **$description** with the value of `You are viewing page one` 
+    available inside **site-layout.php** during the rendition (see Figures 7 and 8 below for examples). 
+    The default layout template file (**./src/layout-templates/main-template.php**) that ships with this 
+    framework contains a **$content** php variable (you should populate this variable with page-specific content).
+    
+    ```php
+    <?php
+    class Hello extends \Slim3MvcTools\Controllers\BaseController
+    {
+        public function __construct(
+            \Interop\Container\ContainerInterface $container, 
+            $controller_name_from_uri, $action_name_from_uri, 
+            \Psr\Http\Message\ServerRequestInterface $req, 
+            \Psr\Http\Message\ResponseInterface $res     
+        ) {
+            parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
+        }
+
+        public function actionIndex() {
+
+            return $this->renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] );
+        }
+    }
+    ?>
+    ```
+    **Figure 7: a sample controller class**
+
+    ```php
+    <!doctype html>
+    <html class="no-js" lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <title>Site Title Goes Here</title>
+        </head>
+        <body>
+            <div>
+                <ul style="padding-left: 0;">
+                    <li style="display: inline;"><a href="#">Section 1</a></li>
+                    <li style="display: inline;"><a href="#">Section 2</a></li>
+                </ul>
+            </div>
+            <div> <h1>Welcome to Your New Site</h1> </div> <br>
+            <div> <?php echo $description; ?> </div>
+            <footer>
+                <div>
+                    <hr/>
+                    <p>
+                        This site is powered by the 
+                        <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app">
+                            SlimPHP 3 Skeleton MVC App.
+                        </a>
+                    </p>
+                </div> 
+            </footer>
+        </body>
+    </html>
+    ```
+    **Figure 8: a sample layout file (site-layout.php) located in ./src/layout-templates/**
+
+* **`renderView( $file_name, array $data = [] ):`** for rendering the view file(s) (usually from within an 
+action method in your controller). View files should be located in **`src/views/<controller_name_from_uri>`**, 
+where **`<controller_name_from_uri>`** represents the name of the controller class in all lowercase format with 
+words separated with dashes. For example, view files for a controller named **PostComments** should be located in 
+**src/views/post-comments**. If a view file cannot be located in  **`src/views/<controller_name_from_uri>`**, 
+**renderView($file_name, array $data=[])** will search the view folder(s) of the parent classes of the specified 
+controller (NOTE: the view folder associated with **\Slim3MvcTools\Controllers\BaseController** is **src/views/base**, 
+you can change this location by updating the **`new_view_renderer`** section in **`./config/dependencies.php`**). 
+
+    * For example, if the **PostComments** controller extends a controller named **MyAppBase** which in turn extends 
+    **\Slim3MvcTools\Controllers\BaseController**, then view files for the **PostComments** controller which cannot 
+    be found in **src/views/post-comments** will be searched for first in **src/views/my-app-base** and if not 
+    found in **src/views/my-app-base** will be finally searched for in **src/views/base** (or whatever location
+    you set for the view folder of **\Slim3MvcTools\Controllers\BaseController** in the **`new_view_renderer`** 
+    section in **`./config/dependencies.php`**). If the specified view file cannot be found in any of the paths 
+    then an exception would be thrown letting you know that the file could not be found in the expected paths.
+    
+        * Given the folder structure below in your application: 
+        ```
+        ./path/to/your/app
+        |-- config/
+        |-- logs/
+        |-- public/
+        |-- src/
+        |    |-- controllers
+        |    |   |-- MyAppBase.php
+        |    |   |-- PostComments.php
+        |    |-- layout-templates
+        |    |   `-- main-template.php
+        |    |-- models
+        |    `-- views
+        |        |-- base
+        |        |   |-- index.php
+        |        |   `-- default.php
+        |        |-- my-app-base
+        |        |   |-- index.php
+        |        |   `-- list.php
+        |        `-- post-comments
+        |            |-- index.php
+        |            `-- new-comments.php
+        |-- tests/
+        |-- tmp/
+        |-- vendor/
+        |
+        |-- .gitignore
+        |-- composer.json
+        |-- composer.lock
+        `-- README.md
+        ```
+        
+        From within any action method in your **PostComments** controller, calling:
+            * **$this->renderView('new-comments.php')** will render **src/views/post-comments/new-comments.php**
+            * **$this->renderView('index.php', ['var1'=>"var 1's value"])** will render **src/views/post-comments/index.php** with a variable **$var1** (with a value of `var 1's value`) available in **src/views/post-comments/index.php**. Note that the **index.php** files in **src/views/my-app-base/** and **src/views/base/** are ignored, since **src/views/post-comments/index.php** is the most specific to the **PostComments** controller (i.e. it exists in the view folder (**src/views/post-comments/**) for the **PostComments** controller) 
+            * **$this->renderView('list.php',  ['var2'=>"var 2's value"])** will render **src/views/my-app-base/list.php** with a variable **$var2** (with a value of `var 2's value`) available in **src/views/my-app-base/list.php**
+            * **$this->renderView('default.php')** will render **src/views/base/default.php**
+            * **$this->renderView('non-existent.php')** will throw an Exception stating that **non-existent.php** could not be found
+    
 ### Escaping View Data
 If you use `\Slim3MvcTools\Controllers\BaseController::renderLayout( $file_name, array $data = ['content'=>'Content should be placed here!'] )`
 and `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $data = [] )` for rendering your layout and view files in your 

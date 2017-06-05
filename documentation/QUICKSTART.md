@@ -109,7 +109,7 @@
 
 * **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` here. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information.
 
-* **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here.
+* **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (i.e. Pimple) here.
 
     * Below are the objects that are registered in the container:
 
@@ -117,7 +117,7 @@
 
         * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
 
-        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (ie. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details. 
+        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details. 
 
             * The handler for this framework is slightly different from the pure Slim 3 one in that it adds two additional optional parameters in addition to the request and response parameters specified in the Slim 3 framework's default handler:
             ```php
@@ -132,7 +132,7 @@
             ```
         * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
 
-        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (ie. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
+        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
         * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
 
@@ -214,7 +214,7 @@
 
         * **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`S3MVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**.
 
-        * **`S3MVC_APP_DEFAULT_ACTION_NAME:`** A string value. This is the name of the action or method to be called on the default controller to handle the default **`/`** route. This method should return a response string (ie. valid html) or a PSR 7 response object containing valid html in its body. This default action or method should accept no arguments or parameters.
+        * **`S3MVC_APP_DEFAULT_ACTION_NAME:`** A string value. This is the name of the action or method to be called on the default controller to handle the default **`/`** route. This method should return a response string (i.e. valid html) or a PSR 7 response object containing valid html in its body. This default action or method should accept no arguments or parameters.
 
         * **`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** A string value. This is used to create a controller object to handle the default **`/`** route. Must be prefixed with the namespace if the controller class is in a namespace.
 
@@ -230,7 +230,7 @@
 
         * **`S3MVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
 
-        * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (ie. the folder containing all your apps folders like **`src`**, **`config`**, etc).
+        * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your apps folders like **`src`**, **`config`**, etc).
 
         * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
 

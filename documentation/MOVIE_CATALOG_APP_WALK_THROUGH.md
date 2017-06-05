@@ -283,7 +283,7 @@ If browsing to all the links above resulted in the corresponding output, then al
 our controllers have been correctly setup and we are now ready to start implementing
 methods in our controllers. You can stop the php development server for now.
 
-Now, we need to install the two composer packages (ie. 
+Now, we need to install the two composer packages (i.e. 
 [Leanorm](https://packagist.org/packages/rotexsoft/leanorm) and 
 [Slim Flash](https://packagist.org/packages/slim/flash)) we are going to use
 for creating our model classes and manage flash messaging in our app. Run the 
