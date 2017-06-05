@@ -242,7 +242,7 @@ layout template file as variable(s).
     ```
     **Figure 8: a sample layout file (site-layout.php) located in ./src/layout-templates/**
 
-* **`renderView( $file_name, array $data = [] ):`** for rendering the view file(s) (usually from within an 
+* **`renderView($file_name, array $data=[]):`** for rendering the view file(s) (usually from within an 
 action method in your controller). View files should be located in **`src/views/<controller_name_from_uri>`**, 
 where **`<controller_name_from_uri>`** represents the name of the controller class in all lowercase format with 
 words separated with dashes. For example, view files for a controller named **PostComments** should be located in 
