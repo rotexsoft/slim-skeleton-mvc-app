@@ -308,8 +308,8 @@ The variable **$this** inside any view or layout file(s) rendered via the earlie
 render methods references an instance of **Rotexsoft\FileRenderer\Renderer** and as a result,
 the methods below (which all return an escaped string) will be available in such view or layout file(s):
 
-- **$this->escapeCss($string):** for escaping data which is meant to be rendered within `<style>` tags or inside the style attribute of any html element.
-- **$this->escapeHtml($string):** for escaping data that is meant to be within html elements e.g divs(`<div>`), paragraphs(`<p>`), etc.
+- **$this->escapeCss($string):** for escaping data which is meant to be rendered within `<style></style>` tags or inside the style attribute of any html element.
+- **$this->escapeHtml($string):** for escaping data that is meant to be within html elements e.g divs(`<div></div>`), paragraphs(`<p></p>`), etc.
 - **$this->escapeHtmlAttr($string):** for escaping data which is meant to be rendered as an attribute value within an html element in a view.
 - **$this->escapeJs($string):** for escaping data which is meant to be rendered as string literals or digits within Javascript code in a view.
 - **$this->escapeUrl($string):** for escaping data being inserted into a URL and not to the whole URL itself.
