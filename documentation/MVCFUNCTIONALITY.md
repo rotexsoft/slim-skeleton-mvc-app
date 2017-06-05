@@ -166,8 +166,8 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Mes
 ### **Using the File Renderer for Rendering Views and Layouts inside Controller Action Methods** 
 
 There is an optional built-in template file rendering system available to all controllers that extend 
-**`\Slim3MvcTools\Controllers\BaseController`** via the two methods in **`\Slim3MvcTools\Controllers\BaseController`**
-(i.e. **renderLayout($file_name, array $data=['content'=>''])** and **renderView($file_name, array $data=[])**). 
+**`\Slim3MvcTools\Controllers\BaseController`** via two methods in **`\Slim3MvcTools\Controllers\BaseController`**
+(i.e. **renderLayout($file_name, array $data=['content'=>''])** and **renderView($file_name, array $data=[])** ). 
 
 The layout and view files for your application only need be written in php (only html, css, js and php code 
 expected), no need to learn any new templating language or syntax. 
