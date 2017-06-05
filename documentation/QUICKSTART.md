@@ -236,7 +236,7 @@
 
 * **`src/controllers/Hello.php`:** Example Controller class.
 
-* **`src/layout-templates/main-template.php`:** Default site template based on the Zurb Foundation front-end framework.
+* **`src/layout-templates/main-template.php`:** Default site template you can use as a starting point for your application's layout.
 
 * **`src/views/base/index.php`:** View file associated with the **`actionIndex`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
 
