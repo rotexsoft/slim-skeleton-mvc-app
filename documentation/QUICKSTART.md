@@ -26,7 +26,7 @@
         * **`<base-path>`:** this is usually the alias setup in your webserver's configuration file that points to your site's document root folder  (in this case **`./public`**). For example in an apache web-server's configuration file you could have an alias definition like so:
             > Alias /my-app /path/to/my-app/public
         
-            making your application accessible via `http://server/my-app/` or `https://server/my-app/` (if using SSL), where **my-app** is the value of **`<base-path>`** in this example. The **`<base-path>`** section of the url is optional since your web-server's main document root could be directly set to your site's document root folder (i.e. **`./public`**), as seen in step **2** above where the **php** development server is 
+            making your application accessible via `http://server/my-app/` or `https://server/my-app/` (if using SSL), where **my-app** is the value of **`<base-path>`** in this example. The **`<base-path>`** section of the url is optional since your web-server's main document root could be directly set to your site's document root folder (i.e. **`./public`**), as seen in step **2** above where the **php** development server is used.
 
     * Below are the default links that are available upon installation:
 
