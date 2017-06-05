@@ -107,7 +107,7 @@
 
 * **`README.md`:** Add documentation for your application here.
 
-* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object in `public/index.php` here. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information.
+* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` here. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information.
 
 * **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (ie. Pimple) here.
 
