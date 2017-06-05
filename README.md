@@ -2,6 +2,10 @@
 
 This is a template web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.
 
+While it is not necessary to have expert understanding of the SlimPHP 3 framework (https://www.slimframework.com/docs/) in order
+to build web-applications with this template application framework, such understanding would help in maximizing the capabilities
+of this template application framework.
+
 ## Features / Benefits of using the Slim MVC Framework
 * It adds the Model-View-Controller structure to your web-application. Actually, really more of Controller-View functionality with a **model** folder provided for housing your Model classes (leaving you with the responsibility of choosing whichever ORM / Database Access Library suits your needs or are most comfortable with)
 
