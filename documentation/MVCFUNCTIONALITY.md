@@ -76,7 +76,7 @@ and then followed by the **`postAction(\Psr\Http\Message\ResponseInterface $resp
 controller. Finally, other middleware code (if any) is executed after the route handler for the current request 
 has been executed. 
 
-Given the code in **figures 4** and **5** below, executing **`http://localhost:8888/hello/`** will generate the output in Figure 2 below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 3 below:
+Given the code in **figures 4** and **5** below, executing **`http://localhost:8888/hello/`** will generate the output in **Figure 2** below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in **Figure 3** below:
 
 ```
 in Middleware before current route handler
