@@ -172,8 +172,8 @@ There is an optional built-in template file rendering system available to all co
 1. **renderLayout($file_name, array $data=['content'=>''])** 
 2. and **renderView($file_name, array $data=[])** ). 
 
-The layout and view files for your application only need be written in php (only html, css, js and php code 
-expected), no need to learn any new templating language or syntax. 
+The layout and view files for your application only need be written in php (i.e. only html, css, js 
+and php code expected), no need to learn any new templating language or syntax. 
  
 * **`renderLayout($file_name, array $data=['content'=>'Content should be placed here!']):`** for rendering 
 the layout file for your application. This file should contain the overall html structure for all your website's 
