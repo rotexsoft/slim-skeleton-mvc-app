@@ -27,7 +27,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 }
 ?>
 ```
-**Figure 2: an Hello Controller class**
+**Figure 1: an Hello Controller class**
 
 * There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests
 * These four routes will be enabled, if and only if **S3MVC_APP_USE_MVC_ROUTES** is set to **`true`**
@@ -56,7 +56,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 * **`The controller with no action and no params route handler:`** `/{controller}[/]`: works in a similar manner that the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoke with no parameters.
 
 ### **Controller Execution Flow** 
-Middlewares added to your app, like the one in **Figure 6**, will be executed for all routes (MVC ones above included) in your app.
+Middlewares added to your app, like the one in **Figure 5**, will be executed for all routes (MVC ones above included) in your app.
 You can also use the **`preAction()`** and  **`postAction(\Psr\Http\Message\ResponseInterface $response)`** methods 
 in any of your controllers to inject code you want to be executed before and after each action method is run during 
 a request to an action in a specific controller. You can create a BaseController 
@@ -74,7 +74,7 @@ and then followed by the **`postAction(\Psr\Http\Message\ResponseInterface $resp
 controller. Finally, other middleware code (if any) is executed after the route handler for the current request 
 has been executed. 
 
-Given the code in **figures 5** and **6** below, executing **`http://localhost:8888/hello/`** will generate the output in Figure 3 below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 4 below:
+Given the code in **figures 4** and **5** below, executing **`http://localhost:8888/hello/`** will generate the output in Figure 2 below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in Figure 3 below:
 
 ```
 in Middleware before current route handler
@@ -84,7 +84,7 @@ in Hello::actionIndex()
 in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
 in Middleware after current route handler
 ```
-**Figure 3: Output of executing** `http://localhost:8888/hello/`
+**Figure 2: Output of executing** `http://localhost:8888/hello/`
 
 ```
 in Middleware before current route handler
@@ -94,7 +94,7 @@ Hello There john, Doe
 in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
 in Middleware after current route handler
 ```
-**Figure 4: Output of executing** `http://localhost:8888/hello/action-there/john/Doe`
+**Figure 3: Output of executing** `http://localhost:8888/hello/action-there/john/Doe`
 
 ```php
 <?php
@@ -141,7 +141,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
     }
 }
 ```
-**Figure 5: Example Hello Controller Class**
+**Figure 4: Example Hello Controller Class**
 
 ```php
 <?php
@@ -161,7 +161,7 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Mes
 });
 ?>
 ```
-**Figure 6: Sample middleware that should be placed in `./config/routes-and-middlewares.php`**
+**Figure 5: Sample middleware that should be placed in `./config/routes-and-middlewares.php`**
 
 ### **Using the File Renderer for Rendering Views and Layouts inside Controller Action Methods** 
 
@@ -183,7 +183,7 @@ layout template file as variable(s).
 
     * For example, **renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] )** will render a file
     named **site-layout.php** with a variable named **$description** with the value of `You are viewing page one` 
-    available inside **site-layout.php** during rendition (see Figures 7 and 8 below for examples). 
+    available inside **site-layout.php** during rendition (see Figures 6 and 7 below for examples). 
     The default layout template file (**./src/layout-templates/main-template.php**) that ships with this 
     framework contains a **$content** php variable (you should populate this variable with page-specific content).  
     ---
@@ -208,7 +208,7 @@ layout template file as variable(s).
     }
     ?>
     ```
-    **Figure 7: a sample controller class**
+    **Figure 6: a sample controller class**
 
     ```php
     <!doctype html>
@@ -240,7 +240,7 @@ layout template file as variable(s).
         </body>
     </html>
     ```
-    **Figure 8: a sample layout file (site-layout.php) located in ./src/layout-templates/**
+    **Figure 7: a sample layout file (site-layout.php) located in ./src/layout-templates/**
 
 * **`renderView($file_name, array $data=[]):`** for rendering the view file(s) (usually from within an 
 action method in your controller). View files should be located in **`src/views/<controller_name_from_uri>`**, 
