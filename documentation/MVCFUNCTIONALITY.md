@@ -57,7 +57,8 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 * **`The controller with no action and no params route handler:`** `/{controller}[/]`: works in a similar manner to the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`S3MVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoked with no parameters.
 
 ### **Controller Execution Flow** 
-Middlewares added to your app, like the one in **Figure 5**, will be executed for all routes (MVC ones above included) in your app.
+Middlewares added to your app, like the one in **Figure 5** below, will be executed for all routes (MVC ones above included) in your app.
+Such middlewares should be added to **`config/routes-and-middlewares.php`**.
 You can also use the **`preAction()`** and  **`postAction(\Psr\Http\Message\ResponseInterface $response)`** methods 
 in any of your controllers to inject code you want to be executed before and after each action method is run during 
 a request to an action in a specific controller. You can create a BaseController 
