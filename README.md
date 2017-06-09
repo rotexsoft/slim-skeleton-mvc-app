@@ -55,6 +55,7 @@ of this template application framework.
 
 * Provides a command-line script for creating Controller classes (that extend **`Slim3MvcTools\Controllers\BaseController`** or any of its descendants). 
 	* **`./vendor/bin/s3mvc-create-controller`** on **`*nix-like`** Oses and **`.\vendor\bin\s3mvc-create-controller.bat`** on **`Windows`**
+        * NOTE: **`./vendor/bin/s3mvc-create-controller-wizard`** is the interactive version of **`./vendor/bin/s3mvc-create-controller`**
 
 * Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`Slim3MvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
 

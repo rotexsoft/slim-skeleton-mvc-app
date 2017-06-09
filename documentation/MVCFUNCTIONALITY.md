@@ -44,7 +44,7 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
 
 ### **More on Controllers and MVC Routes** 
 * Controller classes must extend `\Slim3MvcTools\Controllers\BaseController`. These classes must be named using studly case / caps e.g. **StaticPages**, **MobileDataProviders** and must be referenced in the controller segment of the url in all lowercases with dashes preceding capital case characters (except for the first capital case character). For example, `http://localhost:8888/mobile-data-providers/` will be responded to by the default action (defined via **`S3MVC_APP_DEFAULT_ACTION_NAME`**; default value is **`actionIndex()`** ) method in the controller named **MobileDataProviders**, `http://localhost:8888/mobile-data-providers/list-providers` or `http://localhost:8888/mobile-data-providers/action-list-providers` (if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`false`**) will be responded to by the **`actionListProviders()`** method in the controller named **`MobileDataProviders`**, etc.
-    * NOTE: there is a helper script available for creating Controller Classes and some default view files (see **`./vendor/bin/s3mvc-create-controller`**)
+    * NOTE: there is a helper script available for creating Controller Classes and some default view files (see **`./vendor/bin/s3mvc-create-controller`** or **`/vendor/bin/s3mvc-create-controller-wizard`**)
     * Controller action methods should be named using camel case (e.g. **`listProviders()`** ). In addition, they must be prefixed with the word **`action`** if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true`; in this case **`actionListProviders()`**
 
 * Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client) or an instance of **Psr\Http\Message\ResponseInterface** (e.g. $response, that has the output to be displayed to the client, injected into it via `$response->getBody()->write($data)` );
@@ -452,6 +452,8 @@ or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $da
 
     * On Windows
         * `.\vendor\bin\s3mvc-create-controller.bat`
+        
+    * NOTE: **`s3mvc-create-controller-wizard`** is the interactive version of the script above
 
 
 ### S3MVC Helper Functions

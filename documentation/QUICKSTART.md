@@ -136,7 +136,7 @@
 
         * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
 
-        * **`logger:`** A PSR-3 compliant logger, that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
+        * **`logger:`** Any PSR-3 compliant logger (PSR-3 strongly recommended: HTTP 404, 405 & 500 error handlers in **\\Slim3MvcTools\\Controllers\\BaseController** rely on this), that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
 
             ```php
             <?php
