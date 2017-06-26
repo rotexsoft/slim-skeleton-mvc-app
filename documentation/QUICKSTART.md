@@ -145,26 +145,25 @@
 
         * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the **`Hello`** controller that ships with this package), then you don't need to update **`namespaces_for_controllers`**. The default namespace that ships with this package is **`'\\Slim3MvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs).  
             
-            * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your app's **./composer.json**
+            * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your app's **./composer.json**.
 
         * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
-                //You can access this renderer from within your controller methods like so:
-                $this->layout_renderer; //it is automatically set as a property of the controller 
-                                        //object, as long as your controller object which should be
-                                        //extending \Slim3MvcTools\Controllers\BaseController calls 
-                                        //parent::__construct(...) in its own constructor.
+                // You can access this renderer from within your controller methods like so:
+                $this->layout_renderer; // it is automatically set as a property of the controller 
+                                        // object, as long as your controller object extends
+                                        // \Slim3MvcTools\Controllers\BaseController.
 
-                //You can also access this renderer from within your controller methods like so:
-                $this->container->get('new_layout_renderer'); //keep in mind that accessing it like 
-                                                              //this returns a new instance with 
-                                                              //each call.
+                // You can also access this renderer from within your controller methods like so:
+                $this->container->get('new_layout_renderer'); // keep in mind that accessing it like 
+                                                              // this returns a new instance with 
+                                                              // each call.
 
-                //There is also a helper method available in all your controllers that
-                //extend \Slim3MvcTools\Controllers\BaseController called renderLayout 
-                //via which you can interact with $this->layout_renderer
+                // There is also a helper method available in all your controllers that
+                // extend \Slim3MvcTools\Controllers\BaseController called renderLayout 
+                // via which you can interact with $this->layout_renderer
             ?>
             ```
 
@@ -172,20 +171,19 @@
 
             ```php
             <?php
-                //You can access this renderer from within your controller methods like so:
-                $this->view_renderer; //it is automatically set as a property of the controller 
-                                      //object, as long as your controller object which should be
-                                      //extending \Slim3MvcTools\Controllers\BaseController calls 
-                                      //parent::__construct(...) in its own constructor.
+                // You can access this renderer from within your controller methods like so:
+                $this->view_renderer; // it is automatically set as a property of the controller 
+                                      // object, as long as your controller object extends
+                                      // \Slim3MvcTools\Controllers\BaseController.
 
-                //You can also access this renderer from within your controller methods like so:
-                $this->container->get('new_view_renderer'); //keep in mind that accessing it like
-                                                            //this returns a new instance with 
-                                                            //each call.
+                // You can also access this renderer from within your controller methods like so:
+                $this->container->get('new_view_renderer'); // keep in mind that accessing it like
+                                                            // this returns a new instance with 
+                                                            // each call.
 
-                //There is also a helper method available in all your controllers that
-                //extend \Slim3MvcTools\Controllers\BaseController called renderView 
-                //via which you can interact with $this->view_renderer
+                // There is also a helper method available in all your controllers that
+                // extend \Slim3MvcTools\Controllers\BaseController called renderView 
+                // via which you can interact with $this->view_renderer
             ?>
             ```
 
