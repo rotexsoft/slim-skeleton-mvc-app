@@ -49,7 +49,7 @@ of this template application framework.
 **s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)**, etc. in the default global namespace and a few string helper functions in the **`Slim3MvcTools\Functions\Str`** namespace
 
 * Provides an automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of **`Slim3MvcTools\Controllers\BaseController`**. You don't need to define any routes for your application if you adhere to using Controllers that are compatible with the routing scheme
-	* Also supports operating using only pure Slim PHP3 functionality (i.e. disabling the automatic routing scheme described above and allowing you to manually / explicitly define routes and middle-wares for your application that may or may not make use of Controller classes as route handlers)
+	* Also supports operating using only pure Slim PHP3 functionality (i.e. you can manually / explicitly define all or some of the routes (each of which may or may not make use of Controller classes as route handlers) and middle-wares for your application. You can also disable the automatic routing scheme described above if you plan to manually define all your routes. Manually / explicitly defined routes will override automatic routes with the same path definition)
 
 * Ships whith a BaseController class (i.e. **`Slim3MvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight and easily extensible [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
 
