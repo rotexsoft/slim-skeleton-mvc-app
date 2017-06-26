@@ -16,7 +16,7 @@
 
 2. **`$ php -S 0.0.0.0:8888 -t public`**
 
-3. Browse to [http://localhost:8888](http://localhost:8888): You may need to set the **session.save_path** value via a call to **ini_set** in the **`config/ini-settings.php`** file, so that sessions would work properly
+3. Browse to [http://localhost:8888](http://localhost:8888) (You may need to set the **session.save_path** value via a call to **ini_set** in the **`config/ini-settings.php`** file, so that sessions would work properly)
 
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of Slim3MvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
