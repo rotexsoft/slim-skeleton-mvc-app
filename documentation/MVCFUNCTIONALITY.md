@@ -448,8 +448,7 @@ provided that the files are rendered via a call to `\Slim3MvcTools\Controllers\B
 or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $data = [] )`.
 
 ### **Creating Controller Classes via the Commnadline** 
-????????????
-????????????
+
 * Helper script for creating controller classes and a default index view:
 
     * On *nix-like Oses
