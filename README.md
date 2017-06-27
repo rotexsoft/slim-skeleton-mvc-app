@@ -1,5 +1,7 @@
 # SlimPHP 3 Skeleton MVC App
 
+[![Release](https://img.shields.io/github/release/rotexsoft/slim3-skeleton-mvc-app.png?style=flat-square)](https://github.com/rotexsoft/slim3-skeleton-mvc-app/releases/latest) &nbsp; 
+
 This is a template web-application (powered by [SlimPHP 3](https://www.slimframework.com/)), that can be extended to build more complex web applications.
 
 While it is not necessary to have expert understanding of the SlimPHP 3 framework (https://www.slimframework.com/docs/) in order
