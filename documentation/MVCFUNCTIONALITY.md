@@ -298,9 +298,13 @@ you can change this location by updating the **`new_view_renderer`** section in 
         From within any action method in your **PostComments** controller, calling:
         
             * **$this->renderView('new-comments.php')** will render **src/views/post-comments/new-comments.php**
+            
             * **$this->renderView('index.php', ['var1'=>"var 1's value"])** will render **src/views/post-comments/index.php** with a variable **$var1** (with a value of `var 1's value`) available in **src/views/post-comments/index.php**. Note that the **index.php** files in **src/views/my-app-base/** and **src/views/base/** are ignored, since **src/views/post-comments/index.php** is most specific to the **PostComments** controller (i.e. it exists in the view folder (**src/views/post-comments/**) for the **PostComments** controller) 
+            
             * **$this->renderView('list.php',  ['var2'=>"var 2's value"])** will render **src/views/my-app-base/list.php** with a variable **$var2** (with a value of `var 2's value`) available in **src/views/my-app-base/list.php**
+            
             * **$this->renderView('default.php')** will render **src/views/base/default.php**
+            
             * **$this->renderView('non-existent.php')** will throw an Exception stating that **non-existent.php** could not be found
     
 ### Escaping View Data
