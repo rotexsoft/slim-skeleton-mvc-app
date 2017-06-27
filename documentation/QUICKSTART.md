@@ -143,7 +143,7 @@
             ?>
             ```
 
-        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace (like the **`Hello`** controller that ships with this package), then you don't need to update **`namespaces_for_controllers`**. The default namespace that ships with this package is **`'\\Slim3MvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs).  
+        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ships with this package are **`'\\Slim3MvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\Slim3SkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
             
             * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your app's **./composer.json**.
 
