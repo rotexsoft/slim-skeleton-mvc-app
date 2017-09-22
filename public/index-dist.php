@@ -88,9 +88,10 @@ if( !file_exists($app_settings_file_path) ) {
     $app_settings_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings.php';
     $app_settings_dist_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
     
-    echo "<pre>ERROR: `$app_settings_file_path_rel` not found!" . PHP_EOL ,
-         "Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and configure `$app_settings_file_path_rel` to suit your application's current environment.</pre>" .PHP_EOL,
-         "Goodbye!!!"; 
+    echo "<h1>ERROR: <strong>`$app_settings_file_path_rel`</strong> not found!</h1> <br>"
+         . "<p>Please copy <strong>`$app_settings_dist_file_path_rel`</strong> to <strong>`$app_settings_file_path_rel`</strong>"
+         . " and configure <strong>`$app_settings_file_path_rel`</strong> to suit your application's current environment.</p>"
+         . "<br>Goodbye!!!"; 
     exit;
 }
 
