@@ -16,6 +16,7 @@ of this template application framework.
 ./path/to/newly/created/app
 |-- config/
 |   |-- app-settings.php
+|   |-- app-settings-dist.php
 |   |-- dependencies.php
 |   |-- env.php
 |   |-- ini-settings.php

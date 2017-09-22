@@ -20,15 +20,15 @@ class S3MVC_PostComposerCreateHandler {
         $raw_public_src_folder = $raw_root_folder.'public';
         $public_src_folder = realpath($raw_public_src_folder).DIRECTORY_SEPARATOR;
 
-        static::printInfo( "Moving `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php` ...." );
+        static::printInfo( "Copying `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php` ...." );
 
-        if( @rename("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
+        if( @copy("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
 
-            static::printInfo( "Successfully Moved!".PHP_EOL );
+            static::printInfo( "Successfully Copied!".PHP_EOL );
 
         } else {
 
-            static::printError( "Could not move `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php`!".PHP_EOL );
+            static::printError( "Could not copy `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php`!".PHP_EOL );
         }
         sleep(1);
 

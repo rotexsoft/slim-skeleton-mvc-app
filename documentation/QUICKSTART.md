@@ -105,7 +105,12 @@
 
 * **`README.md`:** Add documentation for your application here.
 
-* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` here. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information.
+* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` and also other environment specific settings needed by your application (like database credentials, etc.), here. These settings will be accessible via the **$container->get('settings')** entry in the container object for your application. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information on Slim related settings. 
+
+    * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/app-settings-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
+
+
+* **`config/app-settings-dist.php`:** A template file for creating **`config/app-settings.php`** in new environments your application will be deployed to. It should be version controlled. Store dummy values for sensitive settings, like database credentials for your application, in this file.
 
 * **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (i.e. Pimple) here.
 
@@ -113,7 +118,7 @@
 
         * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
 
-        * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
+        * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
         * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details. 
 
@@ -128,11 +133,11 @@
                 )
             ?>
             ```
-        * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
+        * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
         * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
 
-        * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your app that implements **preAction()** and / or **postAction(...)**
+        * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
         * **`logger:`** Any PSR-3 compliant logger (PSR-3 strongly recommended: HTTP 404, 405 & 500 error handlers in **\\Slim3MvcTools\\Controllers\\BaseController** rely on this), that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
 
@@ -145,7 +150,7 @@
 
         * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\Slim3MvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\Slim3SkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
             
-            * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your app's **./composer.json**.
+            * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your application's **./composer.json**.
 
         * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
@@ -196,7 +201,7 @@
             ?>
             ```
 
-* **`config/env.php`:** Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-app.
+* **`config/env.php`:** Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-application.
 
 * **`config/ini-settings.php`:** Modify ini settings via **`ini_set(..)`** here. Remember to update **`date.timezone`** in this file to match your timezone (see http://php.net/manual/en/timezones.php).
 
@@ -216,7 +221,7 @@
 
         * **`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** A string value. This is used to create a controller object to handle the default **`/`** route. Must be prefixed with the namespace if the controller class is in a namespace.
 
-        * **`s3MVC_GetCurrentAppEnvironment():`** This function detects which environment your web-app is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
+        * **`s3MVC_GetCurrentAppEnvironment():`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
 
             * **`S3MVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
 
@@ -228,7 +233,7 @@
 
         * **`S3MVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
 
-        * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your apps folders like **`src`**, **`config`**, etc).
+        * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your application's folders like **`src`**, **`config`**, etc).
 
         * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
 

@@ -19,7 +19,7 @@ $container['logger'] = function () {
 };
 
 // this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['errorHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpServerErrorController';
+$container['errorHandlerClass'] = \Slim3MvcTools\Controllers\HttpServerErrorController::class;
 
 //Override the default 500 System Error Handler
 $container['errorHandler'] = function ($c) {
@@ -43,7 +43,7 @@ $container['errorHandler'] = function ($c) {
 };
 
 // this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['notFoundHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpNotFoundController';
+$container['notFoundHandlerClass'] = \Slim3MvcTools\Controllers\HttpNotFoundController::class;
 
 //Override the default Not Found Handler
 $container['notFoundHandler'] = function ($c) {
@@ -68,7 +68,7 @@ $container['notFoundHandler'] = function ($c) {
 };
 
 // this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['notAllowedHandlerClass'] = '\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController';
+$container['notAllowedHandlerClass'] = \Slim3MvcTools\Controllers\HttpMethodNotAllowedController::class;
 
 //Override the default Not Allowed Handler
 $container['notAllowedHandler'] = function ($c) {
@@ -141,18 +141,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
         $max_idle = 1200;
         $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
 
-        /*
-         * `basedn`: The base dn to search through
-         * `binddn`: The dn used to bind to
-         * `bindpw`: A password used to bind to the server using the binddn
-         * `filter`: A filter used to search for the user. Eg. samaccountname=%s
-         */
-        $bind_options = [
-            'basedn' => 'OU=MyCompany,OU=Edmonton,OU=Alberta',
-            'bindn'  => 'cn=%s,OU=Users,OU=MyCompany,OU=Edmonton,OU=Alberta',
-            'bindpw' => 'Pa$$w0rd',
-            'filter' => 'samaccountname=%s',
-        ];
+        $bind_options = $c->get('settings')['bind_options'];
 
         $ldap_options = [
             LDAP_OPT_PROTOCOL_VERSION=>3
@@ -163,7 +152,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
             'givenname'
         ];
 
-        $uri = 'ldap.server.org.ca';
+        $uri = $c->get('settings')['ldap_server_addr'];
         $dn = null;
         
         $adapter = new \Vespula\Auth\Adapter\Ldap(

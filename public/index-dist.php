@@ -80,7 +80,21 @@ $s3mvc_root_dir = S3MVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
 // handle ini settings
 require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 
-$app_settings = require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
+
+$app_settings_file_path = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
+
+if( !file_exists($app_settings_file_path) ) {
+    
+    $app_settings_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings.php';
+    $app_settings_dist_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
+    
+    echo "<pre>ERROR: `$app_settings_file_path_rel` not found!" . PHP_EOL ,
+         "Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and configure `$app_settings_file_path_rel` to suit your application's current environment.</pre>" .PHP_EOL,
+         "Goodbye!!!"; 
+    exit;
+}
+
+$app_settings = require_once $app_settings_file_path;
 
 $app = new Slim\App($app_settings);
 $container = $app->getContainer();
