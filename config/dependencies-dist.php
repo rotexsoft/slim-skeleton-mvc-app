@@ -133,7 +133,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
     ////////////////////////////////////////////////////////////////////////////
     // Start Vespula.Auth LDAP Authentication setup
     ////////////////////////////////////////////////////////////////////////////    
-    $container['vespula_auth'] = function () {
+    $container['vespula_auth'] = function ($c) {
         
         //Optionally pass a maximum idle time and a time until the session 
         //expires (in seconds)

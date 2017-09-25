@@ -88,10 +88,68 @@ if( !file_exists($app_settings_file_path) ) {
     $app_settings_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings.php';
     $app_settings_dist_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
     
-    echo "<h1>ERROR: <strong>`$app_settings_file_path_rel`</strong> not found!</h1> <br>"
-         . "<p>Please copy <strong>`$app_settings_dist_file_path_rel`</strong> to <strong>`$app_settings_file_path_rel`</strong>"
-         . " and configure <strong>`$app_settings_file_path_rel`</strong> to suit your application's current environment.</p>"
-         . "<br>Goodbye!!!"; 
+    $app_settings_file_missing_error_page_content = <<<END
+        <h1>ERROR: <strong>`$app_settings_file_path_rel`</strong> not found!</h1>
+        <p>
+            Please copy <strong>`$app_settings_dist_file_path_rel`</strong> to 
+            <strong>`$app_settings_file_path_rel`</strong> and configure 
+            <strong>`$app_settings_file_path_rel`</strong> for your 
+            application's current environment.
+            <br>Goodbye!!!
+        </p>
+END;
+    
+    if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_DEV ) {
+        
+        // We are not in a dev environment.  
+
+        // 1. Make error message to be sent to the client less detailed
+        $app_settings_file_missing_error_page_content = <<<END
+        <h1>SlimPHP 3 Skeleton MVC App Configuration Error</h1>
+        <p>
+            Please check server log file for details.
+            <br>Goodbye!!!
+        </p>
+END;
+        
+        // 2. Write full message to log via error_log(...)
+        //    http://php.net/manual/en/function.error-log.php
+        $log_message = "ERROR:`$app_settings_file_path_rel`not found."
+                     . " Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and"
+                     . " configure `$app_settings_file_path_rel` for your application's current environment.";
+        
+        error_log ( $log_message , 0 ); // message is sent to PHP's system logger, 
+                                        // using the Operating System's system logging mechanism 
+                                        // or a file, depending on what the error_log configuration
+                                        // directive is set to.
+        
+        error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
+    }
+    
+    $app_settings_file_missing_error_page = <<<END
+<html>
+    <head>
+        <title>SlimPHP 3 Skeleton MVC App Error</title>
+        <style>
+            body{
+                margin:0;
+                padding:30px;
+                font:12px/1.5 Helvetica,Arial,Verdana,sans-serif;
+            }
+            h1{
+                margin:0;
+                font-size:48px;
+                font-weight:normal;
+                line-height:48px;
+            }
+        </style>
+    </head>
+    <body>
+        $app_settings_file_missing_error_page_content
+    </body>
+</html>
+END;
+    echo $app_settings_file_missing_error_page; 
     exit;
 }
 
