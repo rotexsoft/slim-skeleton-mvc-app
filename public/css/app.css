@@ -1,10 +1,15 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 13-Mar-2017, 7:31:50 PM
-    Author     : aadegbam
-*/
+/* Begin default SlimPHP 3 Skeleton MVC App styles */
+body{
+    margin:0;
+    padding:1em;
+    padding-top: 0;
+    font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;
+}
+h1{
+    margin:0;
+    font-size:48px;
+    font-weight:normal;
+    line-height:48px;
+}
+/* End default SlimPHP 3 Skeleton MVC App styles */
 
