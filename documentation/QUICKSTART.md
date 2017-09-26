@@ -18,7 +18,7 @@
 
 2. Specify where the web-server will save your application's php session files by adding the line below to **`./config/ini-settings.php`** file (NOTE that **'/path/to/a/writable/folder'** should be replaced with a path to a folder that is writable by your web-server):
 
-    > ` ini_set('session.save_path', '/path/to/a/writable/folder'); `
+    > **`ini_set('session.save_path', '/path/to/a/writable/folder');`**
 
 3. Now run this command to run the built-in php development server:
 
