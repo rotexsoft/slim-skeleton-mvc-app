@@ -143,12 +143,16 @@ END;
                  . " Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and"
                  . " configure `$app_settings_file_path_rel` for your application's current environment.";
 
-    error_log ( $log_message , 0 ); // message is sent to PHP's system logger, 
-                                    // using the Operating System's system logging mechanism 
-                                    // or a file, depending on what the error_log configuration
-                                    // directive is set to.
+    // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
+    // using the Operating System's system logging mechanism or a file, depending 
+    // on what the error_log configuration directive is set to.
+    if( @error_log ( $log_message , 0 ) === false ) {
+        
+        // last attempt to log
+        error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
+    } 
 
-    error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
+    
     exit;
 }
 
