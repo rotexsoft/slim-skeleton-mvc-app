@@ -14,9 +14,15 @@
 
 1. **`$ cd my-app`**
 
-2. **`$ php -S 0.0.0.0:8888 -t public`**
+2. Specify where the web-server will save your application's php session files by adding the line below to **`./config/ini-settings.php`** file (NOTE that **'/path/to/a/writable/folder'** should be replaced with a path to a folder that is writable by your web-server):
 
-3. Browse to [http://localhost:8888](http://localhost:8888) (You may need to set the **session.save_path** value via a call to **ini_set** in the **`config/ini-settings.php`** file, so that sessions would work properly)
+    > ` ini_set('session.save_path', '/path/to/a/writable/folder'); `
+
+3. Now run this command to run the built-in php development server:
+
+    > **`php -S 0.0.0.0:8888 -t public`**
+
+4. You can then go on to browse to [http://localhost:8888](http://localhost:8888) (your new application's default home-page)
 
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of Slim3MvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
@@ -71,7 +77,7 @@
     * The **`action-`** prefix can be omitted from the links above if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
         * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
 
-4. You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
+5. You may need to modify the **`RewriteBase`** directive in the **`public/.htaccess`** file, if you are using aliases in your apache web server and are getting 404 errors
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
