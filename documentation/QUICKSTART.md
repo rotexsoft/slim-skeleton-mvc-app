@@ -12,7 +12,9 @@
 
 ### Testing the Installation
 
-1. **`$ cd my-app`**
+1. Change directory to your new application's folder / directory by executing the command below:
+
+    > **`cd my-app`**
 
 2. Specify where the web-server will save your application's php session files by adding the line below to **`./config/ini-settings.php`** file (NOTE that **'/path/to/a/writable/folder'** should be replaced with a path to a folder that is writable by your web-server):
 
