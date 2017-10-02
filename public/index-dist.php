@@ -137,9 +137,11 @@ END;
 END;
     echo $app_settings_file_missing_error_page;
     
+    $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(s3MVC_GetSuperGlobal('server')))->getUri()->__toString();
+    
     // Write full message to log via error_log(...)
     // http://php.net/manual/en/function.error-log.php
-    $log_message = "ERROR: `$app_settings_file_path_rel` not found."
+    $log_message = "ERROR: [$current_uri] `$app_settings_file_path_rel` not found."
                  . " Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and"
                  . " configure `$app_settings_file_path_rel` for your application's current environment.";
 
