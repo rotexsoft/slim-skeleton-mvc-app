@@ -88,12 +88,15 @@ if( !file_exists($app_settings_file_path) ) {
     $app_settings_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings.php';
     $app_settings_dist_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
     
+    $app_settings_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
+    $app_settings_dist_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
+    
     $app_settings_file_missing_error_page_content = <<<END
         <p>
-            <strong>ERROR: `$app_settings_file_path_rel`</strong> not found!<br><br>
-            Please copy <strong>`$app_settings_dist_file_path_rel`</strong> to 
-            <strong>`$app_settings_file_path_rel`</strong> and configure 
-            <strong>`$app_settings_file_path_rel`</strong> for your 
+            <strong>ERROR: `$app_settings_file_path_abs`</strong> not found!<br><br>
+            Please copy <strong>`$app_settings_dist_file_path_abs`</strong> to 
+            <strong>`$app_settings_file_path_abs`</strong> and configure 
+            <strong>`$app_settings_file_path_abs`</strong> for your 
             application's current environment.
             <br>Goodbye!!!
         </p>
@@ -141,9 +144,9 @@ END;
     
     // Write full message to log via error_log(...)
     // http://php.net/manual/en/function.error-log.php
-    $log_message = "ERROR: [$current_uri] `$app_settings_file_path_rel` not found."
-                 . " Please copy `$app_settings_dist_file_path_rel` to `$app_settings_file_path_rel` and"
-                 . " configure `$app_settings_file_path_rel` for your application's current environment.";
+    $log_message = "ERROR: [$current_uri] `$app_settings_file_path_abs` not found."
+                 . " Please copy `$app_settings_dist_file_path_abs` to `$app_settings_file_path_abs` and"
+                 . " configure `$app_settings_file_path_abs` for your application's current environment.";
 
     // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
     // using the Operating System's system logging mechanism or a file, depending 
