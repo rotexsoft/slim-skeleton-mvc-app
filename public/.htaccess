@@ -1,57 +1,21 @@
 <IfModule mod_rewrite.c>
+  RewriteEngine On
 
-    # Make sure directory listing is disabled
-	Options +FollowSymLinks -Indexes
-	RewriteEngine on
+  # Some hosts may require you to use the `RewriteBase` directive.
+  # Determine the RewriteBase automatically and set it as environment variable.
+  # If you are using Apache aliases to do mass virtual hosting or installed the
+  # project in a subdirectory, the base path will be prepended to allow proper
+  # resolution of the index.php file and to redirect to the correct URI. It will
+  # work in environments without path prefix as well, providing a safe, one-size
+  # fits all solution. But as you do not need it in this case, you can comment
+  # the following 2 lines to eliminate the overhead.
+  RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+  RewriteRule ^(.*) - [E=BASE:%1]
+  
+  # If the above doesn't work you might need to set the `RewriteBase` directive manually, it should be the
+  # absolute physical path to the directory that contains this htaccess file.
+  # RewriteBase /
 
-	# NOTICE: If you get a 404 play with combinations of the following commented out lines
-	#AllowOverride All
-#	RewriteBase /public
-
-#    uncomment next 2 lines below to enable https
-#    RewriteCond %{HTTPS} !=on
-#    RewriteRule ".*" "https://%{SERVER_NAME}%{REQUEST_URI}" [R=301,L] 
-	
-	# Restrict your site to only one domain
-	# !important USE ONLY ONE OPTION
-
-	# Option 1: To rewrite "www.domain.com -> domain.com" uncomment the following lines.
-	#RewriteCond %{HTTPS} !=on
-	#RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-	#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
-
-	# Option 2: To rewrite "domain.com -> www.domain.com" uncomment the following lines.
-	#RewriteCond %{HTTPS} !=on
-	#RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
-	#RewriteCond %{HTTP_HOST} (.+)$ [NC]
-	#RewriteRule ^(.*)$ http://www.%1/$1 [R=301,L]
-
-	# Remove index.php from URL
-	#RewriteCond %{HTTP:X-Requested-With}	!^XMLHttpRequest$
-	#RewriteCond %{THE_REQUEST}				^[^/]*/index\.php [NC]
-	#RewriteRule ^index\.php(.*)$			$1 [R=301,NS,L]
-
-	# Send request via index.php (again, not if its a real file or folder)
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-
-	# deal with php5-cgi first
-	<IfModule mod_fcgid.c>
-		RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
-	</IfModule>
-
-	<IfModule !mod_fcgid.c>
-
-		# for normal Apache installations
-		<IfModule mod_php5.c>
-			RewriteRule ^(.*)$ index.php/$1 [L]
-		</IfModule>
-
-		# for Apache FGCI installations
-		<IfModule !mod_php5.c>
-			RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
-		</IfModule>
-
-	</IfModule>
-
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [QSA,L]
 </IfModule>
