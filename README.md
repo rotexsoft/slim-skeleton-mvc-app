@@ -19,6 +19,7 @@ of this template application framework.
 |   |-- app-settings-dist.php
 |   |-- dependencies.php
 |   |-- env.php
+|   |-- env-dist.php
 |   |-- ini-settings.php
 |   `-- routes-and-middlewares.php
 |

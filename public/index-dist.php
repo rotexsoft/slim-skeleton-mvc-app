@@ -46,7 +46,7 @@ s3MVC_GetSuperGlobal(); // this method is first called here to ensure that $_SER
  * This function detects which environment your web-app is running in 
  * (i.e. one of Production, Development, Staging or Testing).
  * 
- * NOTE: Make sure you edit /public/env.php to return one of S3MVC_APP_ENV_DEV, 
+ * NOTE: Make sure you edit ../config/env.php to return one of S3MVC_APP_ENV_DEV, 
  *       S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or S3MVC_APP_ENV_TESTING 
  *       relevant to the environment you are installing your web-app.
  * 
@@ -58,9 +58,71 @@ function s3MVC_GetCurrentAppEnvironment() {
 
     if( !$current_env ) {
 
-        $root_dir = dirname(dirname(__FILE__)). DIRECTORY_SEPARATOR;
-        $current_env = include $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
-    }
+        $root_dir = S3MVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
+        $env_file = $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
+        
+        if( !file_exists($env_file) ) {
+        
+            $env_file_path_abs = "{$root_dir}config". DIRECTORY_SEPARATOR.'env.php';
+            $env_dist_file_path_abs = "{$root_dir}config". DIRECTORY_SEPARATOR.'env-dist.php';
+
+            // We are not in a dev environment.
+            // Make error message to be sent to the client less detailed
+            $env_file_missing_error_page_content = <<<END
+        <p>
+            Please check server log file for details.
+            <br>Goodbye!!!
+        </p>
+END;
+    
+            $env_file_missing_error_page = <<<END
+<html>
+    <head>
+        <title>SlimPHP 3 Skeleton MVC App Error</title>
+        <style>
+            body{
+                margin:0;
+                padding:30px;
+                font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;
+            }
+            h1{
+                margin:0;
+                font-size:48px;
+                font-weight:normal;
+                line-height:48px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>SlimPHP 3 Skeleton MVC App Environment Configuration Error</h1>
+        $env_file_missing_error_page_content
+    </body>
+</html>
+END;
+            echo $env_file_missing_error_page;
+    
+            $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(s3MVC_GetSuperGlobal('server')))->getUri()->__toString();
+    
+            // Write full message to log via error_log(...)
+            // http://php.net/manual/en/function.error-log.php
+            $log_message = "ERROR: [$current_uri] `$env_file_path_abs` not found."
+                         . " Please copy `$env_dist_file_path_abs` to `$env_file_path_abs` and"
+                         . " configure `$env_file_path_abs` for your application's current environment.";
+
+            // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
+            // using the Operating System's system logging mechanism or a file, depending 
+            // on what the error_log configuration directive is set to.
+            if( @error_log ( $log_message , 0 ) === false ) {
+
+                // last attempt to log
+                error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
+            } 
+            exit;
+        } // if( !file_exists($env_file) )
+        
+        $current_env = include $env_file;
+        
+    } // if( !$current_env )
 
     return $current_env;
 }
@@ -84,10 +146,7 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 $app_settings_file_path = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
 
 if( !file_exists($app_settings_file_path) ) {
-    
-    $app_settings_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings.php';
-    $app_settings_dist_file_path_rel = '.'.DIRECTORY_SEPARATOR."config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
-    
+        
     $app_settings_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
     $app_settings_dist_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
     
@@ -133,7 +192,7 @@ END;
         </style>
     </head>
     <body>
-        <h1>SlimPHP 3 Skeleton MVC App Configuration Error</h1>
+        <h1>SlimPHP 3 Skeleton MVC App Settings Configuration Error</h1>
         $app_settings_file_missing_error_page_content
     </body>
 </html>
@@ -156,8 +215,6 @@ END;
         // last attempt to log
         error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
     } 
-
-    
     exit;
 }
 

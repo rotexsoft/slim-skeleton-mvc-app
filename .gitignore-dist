@@ -32,3 +32,4 @@ logs/*
 !public/js/*/vendor
 
 /config/app-settings.php
+/config/env.php

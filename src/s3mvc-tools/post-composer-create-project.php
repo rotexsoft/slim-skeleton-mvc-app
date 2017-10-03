@@ -44,15 +44,15 @@ class S3MVC_PostComposerCreateHandler {
         }
         sleep(1);
 
-        static::printInfo( "Moving `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ...." );
+        static::printInfo( "Copying `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ...." );
 
-        if( @rename("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
+        if( @copy("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
 
-            static::printInfo( "Successfully Moved!".PHP_EOL );
+            static::printInfo( "Successfully Copied!".PHP_EOL );
 
         } else {
 
-            static::printError( "Could not move `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php`!".PHP_EOL );
+            static::printError( "Could not copy `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php`!".PHP_EOL );
         }
         sleep(1);
 
