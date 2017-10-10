@@ -83,12 +83,12 @@
 
 6. Next steps:
 
-  - Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
+  	- Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
 
-  - Update the values of **S3MVC_APP_USE_MVC_ROUTES**, **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **S3MVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
+  	- Update the values of **S3MVC_APP_USE_MVC_ROUTES**, **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **S3MVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
 
-  - Start creating controllers for your application using **./vendor/bin/s3mvc-create-controller-wizard**
-  > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
+  	- Start creating controllers for your application using **./vendor/bin/s3mvc-create-controller-wizard**
+  		> It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
