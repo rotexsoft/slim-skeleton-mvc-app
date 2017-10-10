@@ -93,6 +93,12 @@ $container['notAllowedHandler'] = function ($c) {
 
 //Add the namespcace(s) for your web-app's controller classes or leave it
 //as is, if your controllers are in the default global namespace.
+//The namespaces are searched in the order which they are added 
+//to the array. It would make sense to add the namespaces for your
+//application in the front part of these arrays so that if a controller class 
+//exists in \Slim3MvcTools\Controllers\ and / or \Slim3SkeletonMvcApp\Controllers\  
+//and in your application's controller namespace(s) controllers
+//in your application's namespaces are 
 //Make sure you add the trailing slashes.
 $container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\', '\\Slim3SkeletonMvcApp\\Controllers\\'];
 
