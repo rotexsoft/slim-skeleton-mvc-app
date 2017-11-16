@@ -1157,7 +1157,7 @@ the code below:
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
-                    return $this->response->withHeader('Location', $rdr_path);
+                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -1392,7 +1392,7 @@ code below:
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
-                    return $this->response->withHeader('Location', $rdr_path);
+                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -1596,7 +1596,7 @@ Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
         }
         
         // Redirect to the default action of the current controller
-        return $this->response->withHeader('Location', $rdr_path);
+        return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
     }
 ```
 
@@ -1865,7 +1865,7 @@ with the code below:
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
-                    return $this->response->withHeader('Location', $rdr_path);
+                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -2155,7 +2155,7 @@ the code below:
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
-                    return $this->response->withHeader('Location', $rdr_path);
+                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
                     
                 } else {
 
