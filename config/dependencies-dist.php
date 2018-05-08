@@ -145,7 +145,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
         //expires (in seconds)
         $expire = 3600;
         $max_idle = 1200;
-        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+        $session = new \Vespula\Auth\Session\Session($max_idle, $expire, 'VESPULA_AUTH_DATA_'.S3MVC_APP_ROOT_PATH);
 
         $bind_options = $c->get('settings')['bind_options'];
 
