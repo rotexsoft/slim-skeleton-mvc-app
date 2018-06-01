@@ -1372,8 +1372,10 @@ code below:
 
             if ( !$has_field_errors ) {
                 
-                if( $posted_data['password'] !== '' && !password_verify(''.$posted_data['password'], $record->password) ) {
-                  
+                if( 
+                    $posted_data['password'] !== '' 
+                    && !password_verify(''.$posted_data['password'], $record->password) 
+                ) {
                     // only hash the password if it's different from the exisitng 
                     // hashed password
                     $record->password = password_hash(''.$posted_data['password'], PASSWORD_DEFAULT);
