@@ -1366,7 +1366,6 @@ code below:
                 }
             }
 
-
             //load posted data into record object
             $record->username = $posted_data['username'];
 
