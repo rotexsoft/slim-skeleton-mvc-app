@@ -90,6 +90,10 @@
   	- Start creating controllers for your application using **./vendor/bin/s3mvc-create-controller-wizard**
   		> It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
+        > Make sure you add the namespace for your apps controller classes to the array referenced by **$container['namespaces_for_controllers']** in **./config/dependencies.php** 
+        
+        > Always run **composer dump** after each time your create a new controller class with **./vendor/bin/s3mvc-create-controller** or **./vendor/bin/s3mvc-create-controller-wizard**.
+
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
 
