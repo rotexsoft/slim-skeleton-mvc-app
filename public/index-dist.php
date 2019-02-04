@@ -70,7 +70,7 @@ function s3MVC_GetCurrentAppEnvironment() {
             // Make error message to be sent to the client less detailed
             $env_file_missing_error_page_content = <<<END
         <p>
-            Please check server log file for details.
+            Please check the most recent server log file in (<strong>./logs</strong>) for details.
             <br>Goodbye!!!
         </p>
 END;
@@ -109,6 +109,21 @@ END;
                          . " Please copy `$env_dist_file_path_abs` to `$env_file_path_abs` and"
                          . " configure `$env_file_path_abs` for your application's current environment.";
 
+            $s3mvc_logger_for_startup_errors = function () {
+
+                $ds = DIRECTORY_SEPARATOR;
+                $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
+                $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
+
+                $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
+                $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
+                $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
+                $adapter->setDateFormat('Y-M-d g:i:s A');
+
+                return new \Vespula\Log\Log($adapter);
+            };
+            $s3mvc_logger_for_startup_errors()->error($log_message); // log to log file
+            
             // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
             // using the Operating System's system logging mechanism or a file, depending 
             // on what the error_log configuration directive is set to.
@@ -167,7 +182,7 @@ END;
         // Make error message to be sent to the client less detailed
         $app_settings_file_missing_error_page_content = <<<END
         <p>
-            Please check server log file for details.
+            Please check the most recent server log file in (<strong>./logs</strong>) for details.
             <br>Goodbye!!!
         </p>
 END;
@@ -207,6 +222,21 @@ END;
                  . " Please copy `$app_settings_dist_file_path_abs` to `$app_settings_file_path_abs` and"
                  . " configure `$app_settings_file_path_abs` for your application's current environment.";
 
+    $s3mvc_logger_for_startup_errors = function () {
+
+        $ds = DIRECTORY_SEPARATOR;
+        $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
+        $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
+
+        $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
+        $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
+        $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
+        $adapter->setDateFormat('Y-M-d g:i:s A');
+
+        return new \Vespula\Log\Log($adapter);
+    };
+    $s3mvc_logger_for_startup_errors()->error($log_message); // log to log file
+    
     // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
     // using the Operating System's system logging mechanism or a file, depending 
     // on what the error_log configuration directive is set to.

@@ -1365,23 +1365,19 @@ code below:
                     $has_field_errors = true;
                 }
             }
-            
-            if( mb_strlen( ''.$posted_data['password'], 'UTF-8') <= 0 ) {
-                
-                $error_msgs['password'][] = 'Password Cannot be blank!';
-                $has_field_errors = true;
-            }
-     
-            //load posted data into new record object
-            $record->loadData($posted_data);
+
+            //load posted data into record object
+            $record->username = $posted_data['username'];
 
             if ( !$has_field_errors ) {
                 
-                if( $record->isChanged('password') ) {
-                  
+                if( 
+                    $posted_data['password'] !== '' 
+                    && !password_verify(''.$posted_data['password'], $record->password) 
+                ) {
                     // only hash the password if it's different from the exisitng 
                     // hashed password
-                    $record->password = password_hash($record->password, PASSWORD_DEFAULT);
+                    $record->password = password_hash(''.$posted_data['password'], PASSWORD_DEFAULT);
                 }
                 
                 // try to save
@@ -1392,7 +1388,7 @@ code below:
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
-                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
+                    return $this->response->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -1458,7 +1454,7 @@ file in **./src/views/users/** and adding the code below to it:
         
         <div class="small-3 columns">
             <label for="password" class="middle text-right">
-                Password<span style="color: red;"> *</span>
+                Password
             </label>                
         </div>
          
@@ -1468,10 +1464,9 @@ file in **./src/views/users/** and adding the code below to it:
             <input type="password" 
                    name="password" 
                    id="password" 
-                   maxlength="255" 
-                   required="required"
+                   maxlength="255"
                    <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $user_record->password; ?>"
+                   value=""
             >
             <?php printErrorMsg('password', $error_msgs); //print error message(s) if any ?>
         </div>
