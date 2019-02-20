@@ -490,7 +490,6 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewa
 // Start: mvc routes
 /////////////////////////////
 
-
 if( S3MVC_APP_USE_MVC_ROUTES ) {
     
     // default route
