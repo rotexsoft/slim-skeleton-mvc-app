@@ -30,6 +30,7 @@ logs/*
 !logs/.htaccess
 
 !public/js/*/vendor
+public/.htaccess
 
 /config/app-settings.php
 /config/env.php
