@@ -42,40 +42,13 @@ s3MVC_GetSuperGlobal(); // this method is first called here to ensure that $_SER
                         // Subsequent calls to s3MVC_GetSuperGlobal(..) will return
                         // the stored values.
 /**
- * 
- * This function detects which environment your web-app is running in 
- * (i.e. one of Production, Development, Staging or Testing).
- * 
- * NOTE: Make sure you edit ../config/env.php to return one of S3MVC_APP_ENV_DEV, 
- *       S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or S3MVC_APP_ENV_TESTING 
- *       relevant to the environment you are installing your web-app.
- * 
- * @return string
+ * @param string $error_message A brief description of the message
+ * @param string $file_path path to the missing file
+ * @param string $dist_file_path path to the dist file that can be used to create the missing file
  */
-function s3MVC_GetCurrentAppEnvironment() {
+function s3MVC_DisplayAndLogFrameworkFileNotFoundError($error_message, $file_path, $dist_file_path) {
 
-    static $current_env;
-
-    if( !$current_env ) {
-
-        $root_dir = S3MVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
-        $env_file = $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
-        
-        if( !file_exists($env_file) ) {
-        
-            $env_file_path_abs = "{$root_dir}config". DIRECTORY_SEPARATOR.'env.php';
-            $env_dist_file_path_abs = "{$root_dir}config". DIRECTORY_SEPARATOR.'env-dist.php';
-
-            // We are not in a dev environment.
-            // Make error message to be sent to the client less detailed
-            $env_file_missing_error_page_content = <<<END
-        <p>
-            Please check the most recent server log file in (<strong>./logs</strong>) for details.
-            <br>Goodbye!!!
-        </p>
-END;
-    
-            $env_file_missing_error_page = <<<END
+    $file_missing_error_page = <<<END
 <html>
     <head>
         <title>SlimPHP 3 Skeleton MVC App Error</title>
@@ -94,48 +67,82 @@ END;
         </style>
     </head>
     <body>
-        <h1>SlimPHP 3 Skeleton MVC App Environment Configuration Error</h1>
-        $env_file_missing_error_page_content
+        <h1>SlimPHP 3 Skeleton MVC App Error</h1>
+        <p>
+            $error_message <br>
+            Please check the most recent server log file in (<strong>./logs</strong>) for details.
+            <br>Goodbye!!!
+        </p>
     </body>
 </html>
 END;
-            echo $env_file_missing_error_page;
-    
-            $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(s3MVC_GetSuperGlobal('server')))->getUri()->__toString();
-    
-            // Write full message to log via error_log(...)
-            // http://php.net/manual/en/function.error-log.php
-            $log_message = "ERROR: [$current_uri] `$env_file_path_abs` not found."
-                         . " Please copy `$env_dist_file_path_abs` to `$env_file_path_abs` and"
-                         . " configure `$env_file_path_abs` for your application's current environment.";
+    echo $file_missing_error_page;
 
-            $s3mvc_logger_for_startup_errors = function () {
+    $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(s3MVC_GetSuperGlobal('server')))->getUri()->__toString();
 
-                $ds = DIRECTORY_SEPARATOR;
-                $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
-                $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
+    // Write full message to log via error_log(...)
+    // http://php.net/manual/en/function.error-log.php
+    $log_message = "ERROR: [$current_uri] `$file_path` not found."
+        . " Please copy `$dist_file_path` to `$file_path` and"
+        . " configure `$file_path` for your application's current environment.";
 
-                $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
-                $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
-                $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
-                $adapter->setDateFormat('Y-M-d g:i:s A');
+    $s3mvc_logger_for_startup_errors = function () {
 
-                return new \Vespula\Log\Log($adapter);
-            };
-            $s3mvc_logger_for_startup_errors()->error($log_message); // log to log file
-            
-            // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
-            // using the Operating System's system logging mechanism or a file, depending 
-            // on what the error_log configuration directive is set to.
-            if( @error_log ( $log_message , 0 ) === false ) {
+        $ds = DIRECTORY_SEPARATOR;
+        $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
+        $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
 
-                // last attempt to log
-                error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
-            } 
+        $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
+        $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
+        $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
+        $adapter->setDateFormat('Y-M-d g:i:s A');
+
+        return new \Vespula\Log\Log($adapter);
+    };
+    $s3mvc_logger_for_startup_errors()->error($log_message); // log to log file
+
+    // error_log ( $log_message , 0 ) means message is sent to PHP's system logger,
+    // using the Operating System's system logging mechanism or a file, depending
+    // on what the error_log configuration directive is set to.
+    if( @error_log ( $log_message , 0 ) === false ) {
+
+        // last attempt to log
+        error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
+    }
+}
+
+/**
+ * 
+ * This function detects which environment your web-app is running in 
+ * (i.e. one of Production, Development, Staging or Testing).
+ * 
+ * NOTE: Make sure you edit ../config/env.php to return one of S3MVC_APP_ENV_DEV, 
+ *       S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or S3MVC_APP_ENV_TESTING 
+ *       relevant to the environment you are installing your web-app.
+ * 
+ * @return string
+ */
+function s3MVC_GetCurrentAppEnvironment() {
+
+    static $current_env;
+
+    if( !$current_env ) {
+
+        $root_dir = S3MVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
+        $env_file_path = $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
+        
+        if( !file_exists($env_file_path) ) {
+
+            $env_dist_file_path = "{$root_dir}config". DIRECTORY_SEPARATOR.'env-dist.php';
+            s3MVC_DisplayAndLogFrameworkFileNotFoundError(
+                'Missing Environment Configuration File Error',
+                $env_file_path,
+                $env_dist_file_path
+            );
             exit;
         } // if( !file_exists($env_file) )
         
-        $current_env = include $env_file;
+        $current_env = include $env_file_path;
         
     } // if( !$current_env )
 
@@ -161,90 +168,13 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 $app_settings_file_path = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
 
 if( !file_exists($app_settings_file_path) ) {
-        
-    $app_settings_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
-    $app_settings_dist_file_path_abs = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
-    
-    $app_settings_file_missing_error_page_content = <<<END
-        <p>
-            <strong>ERROR: `$app_settings_file_path_abs`</strong> not found!<br><br>
-            Please copy <strong>`$app_settings_dist_file_path_abs`</strong> to 
-            <strong>`$app_settings_file_path_abs`</strong> and configure 
-            <strong>`$app_settings_file_path_abs`</strong> for your 
-            application's current environment.
-            <br>Goodbye!!!
-        </p>
-END;
-    
-    if( s3MVC_GetCurrentAppEnvironment() !== S3MVC_APP_ENV_DEV ) {
-        
-        // We are not in a dev environment.
-        // Make error message to be sent to the client less detailed
-        $app_settings_file_missing_error_page_content = <<<END
-        <p>
-            Please check the most recent server log file in (<strong>./logs</strong>) for details.
-            <br>Goodbye!!!
-        </p>
-END;
-    }
-    
-    $app_settings_file_missing_error_page = <<<END
-<html>
-    <head>
-        <title>SlimPHP 3 Skeleton MVC App Error</title>
-        <style>
-            body{
-                margin:0;
-                padding:30px;
-                font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;
-            }
-            h1{
-                margin:0;
-                font-size:48px;
-                font-weight:normal;
-                line-height:48px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>SlimPHP 3 Skeleton MVC App Settings Configuration Error</h1>
-        $app_settings_file_missing_error_page_content
-    </body>
-</html>
-END;
-    echo $app_settings_file_missing_error_page;
-    
-    $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(s3MVC_GetSuperGlobal('server')))->getUri()->__toString();
-    
-    // Write full message to log via error_log(...)
-    // http://php.net/manual/en/function.error-log.php
-    $log_message = "ERROR: [$current_uri] `$app_settings_file_path_abs` not found."
-                 . " Please copy `$app_settings_dist_file_path_abs` to `$app_settings_file_path_abs` and"
-                 . " configure `$app_settings_file_path_abs` for your application's current environment.";
 
-    $s3mvc_logger_for_startup_errors = function () {
-
-        $ds = DIRECTORY_SEPARATOR;
-        $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
-        $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
-
-        $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
-        $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
-        $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
-        $adapter->setDateFormat('Y-M-d g:i:s A');
-
-        return new \Vespula\Log\Log($adapter);
-    };
-    $s3mvc_logger_for_startup_errors()->error($log_message); // log to log file
-    
-    // error_log ( $log_message , 0 ) means message is sent to PHP's system logger, 
-    // using the Operating System's system logging mechanism or a file, depending 
-    // on what the error_log configuration directive is set to.
-    if( @error_log ( $log_message , 0 ) === false ) {
-        
-        // last attempt to log
-        error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
-    } 
+    $app_settings_dist_file_path = "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
+    s3MVC_DisplayAndLogFrameworkFileNotFoundError(
+        'Missing App Settings Configuration File Error',
+        $app_settings_file_path,
+        $app_settings_dist_file_path
+    );
     exit;
 }
 
