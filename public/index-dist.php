@@ -253,11 +253,6 @@ function(
     //       It is automatically bound to this closure by Slim 3 when any of
     //       $app->map or $app->get or $app->post, etc is called.
     $container = $this;
-
-    // Further enhancements:
-    // Add an assoc array that contains allowed actions for a controller
-    // $map = array('hello'=>'someothercontroller');
-
     $action_method = \Slim3MvcTools\Functions\Str\dashesToCamel($args['action']);
 
     if( S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES ) {
