@@ -4,7 +4,7 @@ namespace Slim3SkeletonMvcApp\Controllers;
 /**
  * Description of Hello
  *
- * @author aadegbam
+ * @author Rotimi Ade
  */
 class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
