@@ -38,3 +38,4 @@ class Hello extends \Slim3MvcTools\Controllers\BaseController
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
 }
+
