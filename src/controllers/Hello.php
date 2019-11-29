@@ -9,7 +9,7 @@ namespace Slim3SkeletonMvcApp\Controllers;
 class Hello extends \Slim3MvcTools\Controllers\BaseController
 {
     public function __construct(
-        \Interop\Container\ContainerInterface $container, $controller_name_from_uri, $action_name_from_uri, 
+        \Psr\Container\ContainerInterface $container, $controller_name_from_uri, $action_name_from_uri, 
         \Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
