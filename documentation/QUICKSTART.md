@@ -126,7 +126,7 @@
 
 * **`README.md`:** Add documentation for your application here.
 
-* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` and also other environment specific settings needed by your application (like database credentials, etc.), here. These settings will be accessible via the **$container->get('settings')** entry in the container object for your application. See https://www.slimframework.com/docs/objects/application.html#application-configuration for more information on Slim related settings.
+* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` and also other environment specific settings needed by your application (like database credentials, etc.), here. These settings will be accessible via the **$container->get('settings')** entry in the container object for your application. See https://www.slimframework.com/docs/v3/objects/application.html#application-configuration for more information on Slim related settings.
 
     * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/app-settings-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
 
@@ -137,11 +137,11 @@
 
     * Below are the objects that are registered in the container:
 
-        * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See http://www.slimframework.com/docs/handlers/error.html for more details.
+        * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See https://www.slimframework.com/docs/v3/handlers/error.html for more details.
 
         * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
-        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-found.html for more details.
+        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-found.html for more details.
 
             * The handler for this framework is slightly different from the pure Slim 3 one in that it adds two additional optional parameters in addition to the request and response parameters specified in the Slim 3 framework's default handler:
             ```php
@@ -156,7 +156,7 @@
             ```
         * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
-        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See http://www.slimframework.com/docs/handlers/not-allowed.html for more details.
+        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-allowed.html for more details.
 
         * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
@@ -230,7 +230,7 @@
 
 * **`config/ini-settings.php`:** Modify ini settings via **`ini_set(..)`** here. Remember to update **`date.timezone`** in this file to match your timezone (see http://php.net/manual/en/timezones.php).
 
-* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in **`public/index.php`** to false). A default **`/`** route is defined in this file and will be active if **S3MVC_APP_USE_MVC_ROUTES** has a value of **`false`**.
+* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v3/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in **`public/index.php`** to false). A default **`/`** route is defined in this file and will be active if **S3MVC_APP_USE_MVC_ROUTES** has a value of **`false`**.
 
 * **`public/.htaccess`:** Apache web-server settings.
 

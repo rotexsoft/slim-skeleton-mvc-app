@@ -477,7 +477,7 @@ or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $da
 * When configuring your webserver, make sure you set the document root to your site to the **`./public`** folder so that attackers won't be able to browse directly to sensitive folders like the **`config`** or **`src`** folders of your application. For apache HTTP webservers, **`.htaccess`** files (each with a directive to prevent browsing directly to folders) are provided in the **`config`**, **`logs`**, **`src`**, **`tests`** and **`tmp`** folders out of the box. For NGINX users, you should look into configuring something similar to prevent direct browsing to sensitive folders of your application.
 
 ## Documentation for Components Used
-* SlimPHP 3 http://www.slimframework.com/docs/
+* SlimPHP 3 https://www.slimframework.com/docs/v3/
 * Slim3 Skeleton MVC Tools https://github.com/rotexsoft/slim3-skeleton-mvc-tools contains BaseController.php and other Slim3 Skeleton MVC specific classes and functions 
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
 * Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
