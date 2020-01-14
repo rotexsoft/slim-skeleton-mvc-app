@@ -10,6 +10,7 @@ desktop.ini
 *.tmproj
 build
 .idea
+.phpunit.result.cache
 
 ignore/
 /ignore/
