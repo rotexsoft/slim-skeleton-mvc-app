@@ -41,6 +41,35 @@
     </li>
     <li>
         <p>
+            <a href="<?php echo $uri_obj->withPath(s3MVC_MakeLink('/base-controller/action-routes/1'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath(s3MVC_MakeLink('/base-controller/action-routes/1'))->__toString(); ?>
+            </a> displays all the potential routes in your application in a simple HTML table.
+        </p>
+        <ul>
+            <li>
+                This link is mapped to 
+                <strong>
+                    <code>
+                        \Slim3MvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)
+                    </code>
+                </strong> 
+                under the hood
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        You can append <strong>/0</strong> instead of the <strong>/1</strong> 
+                        at the end of the link above to display all public methods in each of 
+                        the controllers in your application instead of just only public methods 
+                        prefixed with <strong>action</strong>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <br>
+    </li>
+    <li>
+        <p>
             <a href="<?php echo $uri_obj->withPath(s3MVC_MakeLink('/base-controller/action-logout/1'))->__toString(); ?>">
                 <?php echo $uri_obj->withPath(s3MVC_MakeLink('/base-controller/action-logout/1'))->__toString(); ?>
             </a>
