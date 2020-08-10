@@ -12,5 +12,17 @@
     },
     "autoload": {
         "classmap": [ "src/", "tests/", "vendor/slim/" ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@php -r \"file_exists('./public/.htaccess') || copy('./public/.htaccess.dist', './public/.htaccess');\"",
+            "@php -r \"file_exists('./config/env.php') || copy('./config/env-dist.php', './config/env.php');\"",
+            "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"file_exists('./public/.htaccess') || copy('./public/.htaccess.dist', './public/.htaccess');\"",
+            "@php -r \"file_exists('./config/env.php') || copy('./config/env-dist.php', './config/env.php');\"",
+            "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\""
+        ]
     }
 }
