@@ -43,6 +43,10 @@
 
         * [http://localhost:8888/base-controller/action-login/](http://localhost:8888/base-controller/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
             * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`** under the hood
+        
+        * [http://localhost:8888/base-controller/action-routes/1](http://localhost:8888/base-controller/action-routes/1)  displays all the potential routes in your application in a simple HTML table.
+            * This link is mapped to **\Slim3MvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)** under the hood
+            * You can append **/0** instead of the **/1** at the end of the link above to display all public methods in each of the controllers in your application instead of just only public methods prefixed with **action**
 
         * [http://localhost:8888/base-controller/action-logout/0](http://localhost:8888/base-controller/action-logout/0)
             * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
