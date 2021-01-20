@@ -1,5 +1,5 @@
 <?php
-require '../vendor/autoload.php';
+require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 define('S3MVC_APP_ENV_DEV', 'development');
 define('S3MVC_APP_ENV_PRODUCTION', 'production');
