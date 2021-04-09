@@ -8,18 +8,18 @@ $container['logger'] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
-    $file = S3MVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
+    $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
     
     $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
     $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
     $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
     $adapter->setDateFormat('Y-M-d g:i:s A');
     
-    return new \Vespula\Log\Log($adapter);
+    return new \Vespula\Log\Log('error-log', $adapter);
 };
 
-// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['errorHandlerClass'] = \Slim3MvcTools\Controllers\HttpServerErrorController::class;
+// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
+$container['errorHandlerClass'] = \SlimMvcTools\Controllers\HttpServerErrorController::class;
 
 //Override the default 500 System Error Handler
 $container['errorHandler'] = function ($c) {
@@ -42,8 +42,8 @@ $container['errorHandler'] = function ($c) {
     };
 };
 
-// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['notFoundHandlerClass'] = \Slim3MvcTools\Controllers\HttpNotFoundController::class;
+// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
+$container['notFoundHandlerClass'] = \SlimMvcTools\Controllers\HttpNotFoundController::class;
 
 //Override the default Not Found Handler
 $container['notFoundHandler'] = function ($c) {
@@ -67,8 +67,8 @@ $container['notFoundHandler'] = function ($c) {
     };
 };
 
-// this MUST be replaced with any subclass of \\Slim3MvcTools\\Controllers\\BaseController
-$container['notAllowedHandlerClass'] = \Slim3MvcTools\Controllers\HttpMethodNotAllowedController::class;
+// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
+$container['notAllowedHandlerClass'] = \SlimMvcTools\Controllers\HttpMethodNotAllowedController::class;
 
 //Override the default Not Allowed Handler
 $container['notAllowedHandler'] = function ($c) {
@@ -96,18 +96,18 @@ $container['notAllowedHandler'] = function ($c) {
 //The namespaces are searched in the order which they are added 
 //to the array. It would make sense to add the namespaces for your
 //application in the front part of these arrays so that if a controller class 
-//exists in \Slim3MvcTools\Controllers\ and / or \Slim3SkeletonMvcApp\Controllers\  
+//exists in \SlimMvcTools\Controllers\ and / or \Slim3SkeletonMvcApp\Controllers\  
 //and in your application's controller namespace(s) controllers
 //in your application's namespaces are 
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\Slim3MvcTools\\Controllers\\', '\\Slim3SkeletonMvcApp\\Controllers\\'];
+$container['namespaces_for_controllers'] = ['\\SlimMvcTools\\Controllers\\', '\\Slim3SkeletonMvcApp\\Controllers\\'];
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_layout_renderer']
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_layout_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
+    $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
     
     return $layout_renderer;
@@ -118,7 +118,7 @@ $container['new_view_renderer'] = $container->factory(function () {
     
     //return a new instance on each access to $container['new_view_renderer']
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_view_files = S3MVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
+    $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
 
     return $view_renderer;
@@ -132,7 +132,7 @@ $container['new_view_renderer'] = $container->factory(function () {
 // Start Vespula.Auth Authentication setup
 ////////////////////////////////////////////////////////////////////////////   
 
-if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
+if( sMVC_GetCurrentAppEnvironment() === SMVC_APP_ENV_PRODUCTION ) {
     
     //configuration specific to the production environment
     
@@ -145,7 +145,7 @@ if( s3MVC_GetCurrentAppEnvironment() === S3MVC_APP_ENV_PRODUCTION ) {
         //expires (in seconds)
         $expire = 3600;
         $max_idle = 1200;
-        $session = new \Vespula\Auth\Session\Session($max_idle, $expire, 'VESPULA_AUTH_DATA_'.S3MVC_APP_ROOT_PATH);
+        $session = new \Vespula\Auth\Session\Session($max_idle, $expire, 'VESPULA_AUTH_DATA_'.SMVC_APP_ROOT_PATH);
 
         $bind_options = $c->get('settings')['bind_options'];
 
