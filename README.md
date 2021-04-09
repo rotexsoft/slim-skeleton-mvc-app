@@ -4,7 +4,7 @@
 
 This is a template web-application (powered by [SlimPHP 4](https://www.slimframework.com/)), that can be extended to build more complex web applications.
 
-While it is not necessary to have expert understanding of the SlimPHP 4 framework (https://www.slimframework.com/docs/v3/) in order
+While it is not necessary to have expert understanding of the SlimPHP 4 framework (https://www.slimframework.com/docs/v4/) in order
 to build web-applications with this template application framework, such understanding would help in maximizing the capabilities
 of this template application framework.
 
@@ -49,19 +49,19 @@ of this template application framework.
 `-- README.md
 ```
 
-* Provides some helper functions like **s3MVC_UriToString(\Psr\Http\Message\UriInterface $uri)**,
-**s3MVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)**, etc. in the default global namespace and a few string helper functions in the **`Slim3MvcTools\Functions\Str`** namespace
+* Provides some helper functions like **sMVC_UriToString(\Psr\Http\Message\UriInterface $uri)**,
+**sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)**, etc. in the default global namespace and a few string helper functions in the **`SlimMvcTools\Functions\Str`** namespace
 
-* Provides an automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of **`Slim3MvcTools\Controllers\BaseController`**. You don't need to define any routes for your application if you adhere to using Controllers that are compatible with the routing scheme
+* Provides an automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of **`SlimMvcTools\Controllers\BaseController`**. You don't need to define any routes for your application if you adhere to using Controllers that are compatible with the routing scheme
 	* Also supports operating using only pure Slim PHP3 functionality (i.e. you can manually / explicitly define all or some of the routes (each of which may or may not make use of Controller classes as route handlers) and middle-wares for your application. You can also disable the automatic routing scheme described above if you plan to manually define all your routes. Manually / explicitly defined routes will override automatic routes with the same path definition)
 
-* Ships whith a BaseController class (i.e. **`Slim3MvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight and easily extensible [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
+* Ships whith a BaseController class (i.e. **`SlimMvcTools\Controllers\BaseController`**) that provides methods for authentication, generating HTTP 404, 405 and 500 response objects and methods for rendering **php** view and layout files using the light-weight and easily extensible [Rotexsoft\FileRenderer\Renderer](https://github.com/rotexsoft/file-renderer) class
 
-* Provides a command-line script for creating Controller classes (that extend **`Slim3MvcTools\Controllers\BaseController`** or any of its descendants). 
+* Provides a command-line script for creating Controller classes (that extend **`SlimMvcTools\Controllers\BaseController`** or any of its descendants). 
 	* **`./vendor/bin/smvc-create-controller`** on **`*nix-like`** Oses and **`.\vendor\bin\smvc-create-controller.bat`** on **`Windows`**
         * NOTE: **`./vendor/bin/smvc-create-controller-wizard`** is the interactive version of **`./vendor/bin/smvc-create-controller`**
 
-* Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`Slim3MvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
+* Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`SlimMvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
 
 * Optionally ships with the Zurb Foundation front-end framework (http://foundation.zurb.com/) and jQuery or no front-end framework
 
@@ -69,7 +69,7 @@ of this template application framework.
 
 ## Requirements
 
-* PHP 5.5+ (for version 1.X) or PHP 5.6+ (for version 2.X) or PHP 7.2+ (for version 3.X)
+* PHP 5.5+ (for version 1.X) or PHP 5.6+ (for version 2.X) or PHP 7.2+ (for version 3.X) or PHP 7.4+ (for version 4.X)
 * Pdo sqlite (3) extension for Authentication in non-production environments
 * Composer (https://getcomposer.org)
 
