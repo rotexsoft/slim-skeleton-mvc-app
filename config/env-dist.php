@@ -1,8 +1,8 @@
 <?php
 /**
  * 
- * Return one of S3MVC_APP_ENV_DEV, S3MVC_APP_ENV_PRODUCTION, S3MVC_APP_ENV_STAGING or S3MVC_APP_ENV_TESTING
+ * Return one of SMVC_APP_ENV_DEV, SMVC_APP_ENV_PRODUCTION, SMVC_APP_ENV_STAGING or SMVC_APP_ENV_TESTING
  * relevant to the environment you are installing your web-app.
  * 
  */
-return S3MVC_APP_ENV_DEV;
+return SMVC_APP_ENV_DEV;
