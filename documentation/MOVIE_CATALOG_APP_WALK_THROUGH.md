@@ -62,7 +62,7 @@ the first file from **./movie-catalog/config** that gets loaded in
 cause php session files to be written to the **./movie-catalog/tmp/session** folder 
 (which you should create and ensure is writable by the php webserver process):
 
->`ini_set('session.save_path', S3MVC_APP_ROOT_PATH.'/tmp/session');`
+>`ini_set('session.save_path', SMVC_APP_ROOT_PATH.'/tmp/session');`
 
 Once we've verified that the welcome page is being displayed, we are sure that 
 our app was successfully installed. Now we can stop the php development server
@@ -108,7 +108,7 @@ Next we are going to create some controller classes for our app by running
 the commands below:
 
 ```
-./vendor/bin/smvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\Slim3MvcTools\Controllers\BaseController"
+./vendor/bin/smvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\SlimMvcTools\Controllers\BaseController"
 ./vendor/bin/smvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
 ./vendor/bin/smvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
 ./vendor/bin/smvc-create-controller -c http-not-allowed-not-found-server-error-handler -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
@@ -119,7 +119,7 @@ We should now have the following files and folders in our app:
 
 * **./src/controllers/MovieCatalogBase.php:** containing the
 **`\MovieCatalog\Controllers\MovieCatalogBase`** class which is a direct sub-class
-of **`\Slim3MvcTools\Controllers\BaseController`**. This class will serve as the 
+of **`\SlimMvcTools\Controllers\BaseController`**. This class will serve as the 
 base controller class in our app which all other controllers will extend.
 All logic common to all other controllers in our app should be implemented here.
 
@@ -168,13 +168,13 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
 
     * The default handlers for HTTP 404, 405 and 500 errors are the 
 
-        * `\Slim3MvcTools\Controllers\HttpServerErrorController`, 
+        * `\SlimMvcTools\Controllers\HttpServerErrorController`, 
 
-        * `\Slim3MvcTools\Controllers\HttpNotFoundController` and
+        * `\SlimMvcTools\Controllers\HttpNotFoundController` and
 
-        * `\Slim3MvcTools\Controllers\HttpMethodNotAllowedController`
+        * `\SlimMvcTools\Controllers\HttpMethodNotAllowedController`
 
-        classes which are direct sub-classes of `\Slim3MvcTools\Controllers\BaseController`. 
+        classes which are direct sub-classes of `\SlimMvcTools\Controllers\BaseController`. 
         These default handlers will not be able to take advantage of the `preAction()` and 
         `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
         that's why we will be later making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
@@ -184,13 +184,13 @@ be used for handling HTTP `404`, `405` and `500` errors in our app.
     `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
     order to change the how 404, 405 and 500 errors are actually handled:
 
-        * `\Slim3MvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
+        * `\SlimMvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
 
-        * `\Slim3MvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
+        * `\SlimMvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
 
-        * `\Slim3MvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
+        * `\SlimMvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
         
-        The `\Slim3MvcTools\Controllers\BaseController` implementations of these
+        The `\SlimMvcTools\Controllers\BaseController` implementations of these
         methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
         if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
 
@@ -227,15 +227,15 @@ This would be used by the MVC routing mechanism when trying to create an instanc
 of the controller class (whose name was extracted from the request url).
 
 We then go on to edit **`./public/index.php`** by assigning the value of **`true`** 
-to `S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` and the value of 
+to `SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` and the value of 
 **`'\\MovieCatalog\\Controllers\\MovieListings'`** to 
-`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME`. 
+`SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME`. 
 
 The first edit eliminates the need to prepend `action-` to action method names 
 in the request url and the second edit makes 
 **`\MovieCatalog\Controllers\MovieListings'`** the default controller for our app. 
 
-Since `S3MVC_APP_DEFAULT_ACTION_NAME` has a default value of **`'actionIndex'`**, 
+Since `SMVC_APP_DEFAULT_ACTION_NAME` has a default value of **`'actionIndex'`**, 
 this means that the **`'actionIndex'`** method in 
 **`\MovieCatalog\Controllers\MovieListings'`** would be used to handle the 
 **`/`** route in our app.
@@ -592,9 +592,9 @@ $app->get(
 ```
 
 Below are the login urls currently available in our app (they are all calling 
-**`\Slim3MvcTools\Controllers\BaseController::actionLogin()`**):
+**`\SlimMvcTools\Controllers\BaseController::actionLogin()`**):
 
-- **http://localhost:8888/base-controller/login :** logging in via `\Slim3MvcTools\Controllers\BaseController` 
+- **http://localhost:8888/base-controller/login :** logging in via `\SlimMvcTools\Controllers\BaseController` 
 - **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 4 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) app) 
 - **http://localhost:8888/http-not-allowed-not-found-server-error-handler/login :** logging in via `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` 
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase` 
@@ -632,8 +632,8 @@ to contain navigation links to some of the features we will be implementing.
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Da Numba 1 Movie Catalog App</title>
-        <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
+        <link rel="stylesheet" href="<?php echo sMVC_MakeLink('/css/foundation/foundation.css'); ?>" />
+        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
         
         <style>
             /* style for menu items */
@@ -653,16 +653,16 @@ to contain navigation links to some of the features we will be implementing.
                     <ul class="dropdown menu" data-dropdown-menu>
                         <li class="menu-text">Da Numba 1 Movie Catalog App</li>
                         <li <?php isset($controller_name_from_uri) && makeMenuItemActive('movie-listings', $controller_name_from_uri); ?> >
-                            <a href="<?php echo s3MVC_MakeLink("movie-listings"); ?>">
+                            <a href="<?php echo sMVC_MakeLink("movie-listings"); ?>">
                                 Home
                             </a>
                         </li>
                         <li <?php isset($controller_name_from_uri) && makeMenuItemActive('users', $controller_name_from_uri); ?> >
-                            <a href="<?php echo s3MVC_MakeLink("users"); ?>">Manage Users</a>
+                            <a href="<?php echo sMVC_MakeLink("users"); ?>">Manage Users</a>
                             
                             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
                                 <ul class="menu vertical">
-                                    <li><a href="<?php echo s3MVC_MakeLink("users/add"); ?>">Add New User</a></li>
+                                    <li><a href="<?php echo sMVC_MakeLink("users/add"); ?>">Add New User</a></li>
                                 </ul>
                             <?php endif; // if( isset($is_logged_in) && $is_logged_in ) ?>
                             
@@ -682,8 +682,8 @@ to contain navigation links to some of the features we will be implementing.
                                     $controller_name_from_uri = 'movie-listings';
                                 }
 
-                                $login_action_path = s3MVC_MakeLink("/{$controller_name_from_uri}/login");
-                                $logout_action_path = s3MVC_MakeLink("/{$controller_name_from_uri}/logout");
+                                $login_action_path = sMVC_MakeLink("/{$controller_name_from_uri}/login");
+                                $logout_action_path = sMVC_MakeLink("/{$controller_name_from_uri}/logout");
                             ?>
                             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
@@ -759,8 +759,8 @@ to contain navigation links to some of the features we will be implementing.
             </div>
         </footer>
 
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
-        <script src="<?php echo s3MVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
+        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
+        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
         <script> $(document).foundation(); </script>
     </body>
 </html>
@@ -935,12 +935,12 @@ to **./src/views/users/index.php**:
 
             <li>
                 <?php echo $user_record->username; ?> | 
-                <a href="<?php echo s3MVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
+                <a href="<?php echo sMVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
 
                 <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-                    | <a href="<?php echo s3MVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-                    <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
+                    | <a href="<?php echo sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+                    <a href="<?php echo sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
                        onclick="return confirm('Are you sure?');"
                     >
                         Delete
@@ -978,7 +978,7 @@ to **./src/views/users/index.php**:
                 }
 
                 window.location.href = 
-                    '<?php echo s3MVC_MakeLink("/users/init-users"); ?>' 
+                    '<?php echo sMVC_MakeLink("/users/init-users"); ?>' 
                     + '/' + entered_password;
             }
         );
@@ -1046,11 +1046,11 @@ file in **./src/views/users/** and adding the code below to it:
     </li>
 </dl>
 <p>
-    <a href="<?php echo s3MVC_MakeLink( "users/index" ); ?>">View all Users</a>
+    <a href="<?php echo sMVC_MakeLink( "users/index" ); ?>">View all Users</a>
     <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-        | <a href="<?php echo s3MVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-        <a href="<?php echo s3MVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+        | <a href="<?php echo sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+        <a href="<?php echo sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
 
     <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
 </p>
@@ -1110,7 +1110,7 @@ the code below:
             $has_field_errors = false;
             
             // Read the post data
-            $posted_data = s3MVC_GetSuperGlobal('post');
+            $posted_data = sMVC_GetSuperGlobal('post');
             
             if( mb_strlen( ''.$posted_data['username'], 'UTF-8') <= 0 ) {
                 
@@ -1153,7 +1153,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = s3MVC_MakeLink("users/index");
+                    $rdr_path = sMVC_MakeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
@@ -1190,7 +1190,7 @@ file in **./src/views/users/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Add New User</h4>
 
 <form method="POST" 
-      action="<?php echo s3MVC_MakeLink("users/add"); ?>" 
+      action="<?php echo sMVC_MakeLink("users/add"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1268,7 +1268,7 @@ file in **./src/views/users/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo s3MVC_MakeLink("/users/index"); ?>';
+            window.location.href = '<?php echo sMVC_MakeLink("/users/index"); ?>';
         }
     );
 </script>
@@ -1338,7 +1338,7 @@ code below:
             $has_field_errors = false;
             
             // Read the post data
-            $posted_data = s3MVC_GetSuperGlobal('post');
+            $posted_data = sMVC_GetSuperGlobal('post');
             
             if( mb_strlen( ''.$posted_data['username'], 'UTF-8') <= 0 ) {
                 
@@ -1384,7 +1384,7 @@ code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = s3MVC_MakeLink("users/index");
+                    $rdr_path = sMVC_MakeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
@@ -1421,7 +1421,7 @@ file in **./src/views/users/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Edit User</h4>
 
 <form method="POST" 
-      action="<?php echo s3MVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
+      action="<?php echo sMVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1498,7 +1498,7 @@ file in **./src/views/users/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo s3MVC_MakeLink("/users/index"); ?>';
+            window.location.href = '<?php echo sMVC_MakeLink("/users/index"); ?>';
         }
     );
 </script>
@@ -1577,7 +1577,7 @@ Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
         
         // We will be redirecting to the default action of the current 
         // controller
-        $rdr_path = s3MVC_MakeLink("{$this->controller_name_from_uri}");
+        $rdr_path = sMVC_MakeLink("{$this->controller_name_from_uri}");
         
         if ( $record->delete() === false ) {
             
@@ -1648,7 +1648,7 @@ to **./src/views/movie-listings/index.php**:
             <h4>All Movies</h4>
         </div>
         <div class="small-6 columns text-right">
-            <a class="button" href="<?php echo s3MVC_MakeLink( "movie-listings/add" ); ?>">
+            <a class="button" href="<?php echo sMVC_MakeLink( "movie-listings/add" ); ?>">
                 <strong>+ Add new Movie Listing</strong>
             </a>
         </div>
@@ -1663,12 +1663,12 @@ to **./src/views/movie-listings/index.php**:
 
         <li>
             <?php echo $movie_record->title; ?> | 
-            <a href="<?php echo s3MVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
+            <a href="<?php echo sMVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
 
             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-                | <a href="<?php echo s3MVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-                <a href="<?php echo s3MVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
+                | <a href="<?php echo sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+                <a href="<?php echo sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
                    onclick="return confirm('Are you sure?');"
                 >
                     Delete
@@ -1683,7 +1683,7 @@ to **./src/views/movie-listings/index.php**:
 <?php else: ?>
 
 <p>
-    No Movies yet. Please <a href="<?php echo s3MVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
+    No Movies yet. Please <a href="<?php echo sMVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
     one or more movie listing(s).
 </p>
 
@@ -1765,11 +1765,11 @@ file in **./src/views/movie-listings/** and adding the code below to it:
     </li>
 </dl>
 <p>
-    <a href="<?php echo s3MVC_MakeLink( "movie-listings/index" ); ?>">View all Movies</a>
+    <a href="<?php echo sMVC_MakeLink( "movie-listings/index" ); ?>">View all Movies</a>
     <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-        | <a href="<?php echo s3MVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-        <a href="<?php echo s3MVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
+        | <a href="<?php echo sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+        <a href="<?php echo sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
 
     <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
 </p>
@@ -1833,7 +1833,7 @@ with the code below:
             $has_field_errors = false;
             
             // Read the post data
-            $posted_data = s3MVC_GetSuperGlobal('post');
+            $posted_data = sMVC_GetSuperGlobal('post');
             
             if( mb_strlen( ''.$posted_data['title'], 'UTF-8') <= 0 ) {
                 
@@ -1856,7 +1856,7 @@ with the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = s3MVC_MakeLink("movie-listings/index");
+                    $rdr_path = sMVC_MakeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
@@ -1893,7 +1893,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Add New Movie</h4>
 
 <form method="POST" 
-      action="<?php echo s3MVC_MakeLink("movie-listings/add"); ?>" 
+      action="<?php echo sMVC_MakeLink("movie-listings/add"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -2053,7 +2053,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo s3MVC_MakeLink("/movie-listings/index"); ?>';
+            window.location.href = '<?php echo sMVC_MakeLink("/movie-listings/index"); ?>';
         }
     );
 </script>
@@ -2123,7 +2123,7 @@ the code below:
             $has_field_errors = false;
             
             // Read the post data
-            $posted_data = s3MVC_GetSuperGlobal('post');
+            $posted_data = sMVC_GetSuperGlobal('post');
             
             if( mb_strlen( ''.$posted_data['title'], 'UTF-8') <= 0 ) {
                 
@@ -2146,7 +2146,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = s3MVC_MakeLink("movie-listings/index");
+                    $rdr_path = sMVC_MakeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
@@ -2183,7 +2183,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Edit Movie</h4>
 
 <form method="POST" 
-      action="<?php echo s3MVC_MakeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
+      action="<?php echo sMVC_MakeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -2343,7 +2343,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo s3MVC_MakeLink("/movie-listings/index"); ?>';
+            window.location.href = '<?php echo sMVC_MakeLink("/movie-listings/index"); ?>';
         }
     );
 </script>
@@ -2400,7 +2400,7 @@ parameter with the value of **json** to the url like so
         // when $this->renderView('index.php', $view_data) is called.
         $view_data['collection_of_movie_records'] = $model_obj->fetchRecordsIntoCollection();
         
-        $response_format = s3MVC_GetSuperGlobal('get', 'format', null);
+        $response_format = sMVC_GetSuperGlobal('get', 'format', null);
         
         if( 
             !is_null($response_format) 
