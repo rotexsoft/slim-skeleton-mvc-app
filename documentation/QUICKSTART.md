@@ -26,10 +26,10 @@
 
 4. You can then go on to browse to [http://localhost:8888](http://localhost:8888) (your new application's default home-page)
 
-    * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of Slim3MvcTools\Controllers\BaseController:** urls in the form of
+    * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of SlimMvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
 
-        can be automatically mapped to be responded to by a specific method in a Controller class, if **`S3MVC_APP_USE_MVC_ROUTES`** is set to **`true`** in **`./public/index.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
+        can be automatically mapped to be responded to by a specific method in a Controller class, if **`SMVC_APP_USE_MVC_ROUTES`** is set to **`true`** in **`./public/index.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
 
         * **`<base-path>`:** this is usually the alias setup in your webserver's configuration file that points to your site's document root folder  (in this case **`./public`**). For example in an apache web-server's configuration file you could have an alias definition like so:
             > Alias /my-app /path/to/my-app/public
@@ -39,23 +39,23 @@
     * Below are the default links that are available upon installation:
 
         * [http://localhost:8888/base-controller/action-index/](http://localhost:8888/base-controller/action-index/) same as [http://localhost:8888/base-controller/](http://localhost:8888/base-controller/)
-            * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionIndex()`** under the hood
+            * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionIndex()`** under the hood
 
         * [http://localhost:8888/base-controller/action-login/](http://localhost:8888/base-controller/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
-            * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`** under the hood
+            * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionLogin()`** under the hood
         
         * [http://localhost:8888/base-controller/action-routes/1](http://localhost:8888/base-controller/action-routes/1)  displays all the potential routes in your application in a simple HTML table.
-            * This link is mapped to **\Slim3MvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)** under the hood
+            * This link is mapped to **\SlimMvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)** under the hood
             * You can append **/0** instead of the **/1** at the end of the link above to display all public methods in each of the controllers in your application instead of just only public methods prefixed with **action**
 
         * [http://localhost:8888/base-controller/action-logout/0](http://localhost:8888/base-controller/action-logout/0)
-            * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
+            * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
 
         * [http://localhost:8888/base-controller/action-logout/1](http://localhost:8888/base-controller/action-logout/1)
-            * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
+            * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)`** under the hood
 
         * [http://localhost:8888/base-controller/action-login-status/](http://localhost:8888/base-controller/action-login-status/)
-            * This link is mapped to **`\Slim3MvcTools\Controllers\BaseController::actionLoginStatus()`** under the hood
+            * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionLoginStatus()`** under the hood
 
         * [http://localhost:8888/hello/action-index/](http://localhost:8888/hello/action-index/) same as [http://localhost:8888/hello/](http://localhost:8888/hello/)
             * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionIndex()`** under the hood
@@ -80,7 +80,7 @@
             * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
             * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
-    * The **`action-`** prefix can be omitted from the links above if **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
+    * The **`action-`** prefix can be omitted from the links above if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
         * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
 
 5. If you are getting 404 errors, make sure that url-rewriting is enabled on your web-server.
@@ -89,7 +89,7 @@
 
   	- Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
 
-  	- Update the values of **S3MVC_APP_USE_MVC_ROUTES**, **S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **S3MVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
+  	- Update the values of **SMVC_APP_USE_MVC_ROUTES**, **SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **SMVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
 
   	- Start creating controllers for your application using **./vendor/bin/smvc-create-controller-wizard**
   		> It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
@@ -143,7 +143,7 @@
 
         * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See https://www.slimframework.com/docs/v3/handlers/error.html for more details.
 
-        * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
+        * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
         * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-found.html for more details.
 
@@ -158,13 +158,13 @@
                 )
             ?>
             ```
-        * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
+        * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
         * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-allowed.html for more details.
 
-        * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\Slim3MvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\Slim3MvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
+        * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
 
-        * **`logger:`** Any PSR-3 compliant logger (PSR-3 strongly recommended: HTTP 404, 405 & 500 error handlers in **\\Slim3MvcTools\\Controllers\\BaseController** rely on this), that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
+        * **`logger:`** Any PSR-3 compliant logger (PSR-3 strongly recommended: HTTP 404, 405 & 500 error handlers in **\\SlimMvcTools\\Controllers\\BaseController** rely on this), that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
 
             ```php
             <?php
@@ -173,7 +173,7 @@
             ?>
             ```
 
-        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\Slim3MvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\Slim3SkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
+        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\Slim3SkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
 
             * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your application's **./composer.json**.
 
@@ -184,7 +184,7 @@
                 // You can access this renderer from within your controller methods like so:
                 $this->layout_renderer; // it is automatically set as a property of the controller
                                         // object, as long as your controller object extends
-                                        // \Slim3MvcTools\Controllers\BaseController.
+                                        // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
                 $this->container->get('new_layout_renderer'); // keep in mind that accessing it like
@@ -192,7 +192,7 @@
                                                               // each call.
 
                 // There is also a helper method available in all your controllers that
-                // extend \Slim3MvcTools\Controllers\BaseController called renderLayout
+                // extend \SlimMvcTools\Controllers\BaseController called renderLayout
                 // via which you can interact with $this->layout_renderer
             ?>
             ```
@@ -204,7 +204,7 @@
                 // You can access this renderer from within your controller methods like so:
                 $this->view_renderer; // it is automatically set as a property of the controller
                                       // object, as long as your controller object extends
-                                      // \Slim3MvcTools\Controllers\BaseController.
+                                      // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
                 $this->container->get('new_view_renderer'); // keep in mind that accessing it like
@@ -212,7 +212,7 @@
                                                             // each call.
 
                 // There is also a helper method available in all your controllers that
-                // extend \Slim3MvcTools\Controllers\BaseController called renderView
+                // extend \SlimMvcTools\Controllers\BaseController called renderView
                 // via which you can interact with $this->view_renderer
             ?>
             ```
@@ -226,7 +226,7 @@
             ?>
             ```
 
-* **`config/env.php`:** Edit it to define your application's environment. It should return one of **S3MVC_APP_ENV_DEV**, **S3MVC_APP_ENV_PRODUCTION**, **S3MVC_APP_ENV_STAGING** or **S3MVC_APP_ENV_TESTING** relevant to the environment you are installing your web-application.
+* **`config/env.php`:** Edit it to define your application's environment. It should return one of **SMVC_APP_ENV_DEV**, **SMVC_APP_ENV_PRODUCTION**, **SMVC_APP_ENV_STAGING** or **SMVC_APP_ENV_TESTING** relevant to the environment you are installing your web-application.
 
     * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/env-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
 
@@ -234,7 +234,7 @@
 
 * **`config/ini-settings.php`:** Modify ini settings via **`ini_set(..)`** here. Remember to update **`date.timezone`** in this file to match your timezone (see http://php.net/manual/en/timezones.php).
 
-* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v3/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **S3MVC_APP_USE_MVC_ROUTES** constant in **`public/index.php`** to false). A default **`/`** route is defined in this file and will be active if **S3MVC_APP_USE_MVC_ROUTES** has a value of **`false`**.
+* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v3/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **SMVC_APP_USE_MVC_ROUTES** constant in **`public/index.php`** to false). A default **`/`** route is defined in this file and will be active if **SMVC_APP_USE_MVC_ROUTES** has a value of **`false`**.
 
 * **`public/.htaccess`:** Apache web-server settings.
 
@@ -244,27 +244,27 @@
 
     * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file (i.e. **`public/index.php`**):
 
-        * **`S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`S3MVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**.
+        * **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`SMVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**.
 
-        * **`S3MVC_APP_DEFAULT_ACTION_NAME:`** A string value. This is the name of the action or method to be called on the default controller to handle the default **`/`** route. This method should return a response string (i.e. valid html) or a PSR 7 response object containing valid html in its body. This default action or method should accept no arguments or parameters.
+        * **`SMVC_APP_DEFAULT_ACTION_NAME:`** A string value. This is the name of the action or method to be called on the default controller to handle the default **`/`** route. This method should return a response string (i.e. valid html) or a PSR 7 response object containing valid html in its body. This default action or method should accept no arguments or parameters.
 
-        * **`S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** A string value. This is used to create a controller object to handle the default **`/`** route. Must be prefixed with the namespace if the controller class is in a namespace.
+        * **`SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** A string value. This is used to create a controller object to handle the default **`/`** route. Must be prefixed with the namespace if the controller class is in a namespace.
 
-        * **`s3MVC_GetCurrentAppEnvironment():`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
+        * **`sMVC_GetCurrentAppEnvironment():`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
 
-            * **`S3MVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
+            * **`SMVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
 
-            * **`S3MVC_APP_ENV_PRODUCTION:`** A string value representing that your application is running in production / live mode.
+            * **`SMVC_APP_ENV_PRODUCTION:`** A string value representing that your application is running in production / live mode.
 
-            * **`S3MVC_APP_ENV_STAGING:`** A string value representing that your application is running in staging mode.
+            * **`SMVC_APP_ENV_STAGING:`** A string value representing that your application is running in staging mode.
 
-            * **`S3MVC_APP_ENV_TESTING:`** A string value representing that your application is running in testing mode.
+            * **`SMVC_APP_ENV_TESTING:`** A string value representing that your application is running in testing mode.
 
-        * **`S3MVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
+        * **`SMVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
 
-        * **`S3MVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your application's folders like **`src`**, **`config`**, etc).
+        * **`SMVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your application's folders like **`src`**, **`config`**, etc).
 
-        * **`S3MVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
+        * **`SMVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
 
 * **`src/controllers/Hello.php`:** Example Controller class.
 
