@@ -28,9 +28,9 @@
     "scripts": {
         "post-create-project-cmd": [
             "SMVC_PostComposerCreateHandler::exec",
-            "php -r \" unlink('./src/s3mvc-tools/post-composer-create-project.php'); \" ",
-            "php -r \" unlink('./src/s3mvc-tools/.gitkeep'); \" ",
-            "php -r \" rmdir('./src/s3mvc-tools'); \" ",
+            "php -r \" unlink('./src/smvc-tools/post-composer-create-project.php'); \" ",
+            "php -r \" unlink('./src/smvc-tools/.gitkeep'); \" ",
+            "php -r \" rmdir('./src/smvc-tools'); \" ",
             "@composer update -o --no-dev"
         ]
     },
