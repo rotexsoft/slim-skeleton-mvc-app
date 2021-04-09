@@ -1,10 +1,10 @@
 <?php
-require_once __DIR__. DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR 
-            . "vendor" . DIRECTORY_SEPARATOR . "rotexsoft" . DIRECTORY_SEPARATOR 
-            . "slim3-skeleton-mvc-tools" . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR 
+require_once __DIR__. DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
+            . "vendor" . DIRECTORY_SEPARATOR . "rotexsoft" . DIRECTORY_SEPARATOR
+            . "slim3-skeleton-mvc-tools" . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR
             . "functions" . DIRECTORY_SEPARATOR . "str-helpers.php";
 
-class S3MVC_PostComposerCreateHandler {
+class SMVC_PostComposerCreateHandler {
 
     public static function exec(){
 
@@ -252,7 +252,7 @@ class S3MVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////////////////////////
         //Interactive Part: Ask if user wants foundation template
         ////////////////////////////////////////////////////////////////////////////////
-        $response = static::readFromLine("Do you want to use the Zurb Foundation front-end framework (which includes jQuery) that ships with SlimPHP 3 Skeleton MVC package? (Y/N)");
+        $response = static::readFromLine("Do you want to use the Zurb Foundation front-end framework (which includes jQuery) that ships with SlimPHP 4 Skeleton MVC package? (Y/N)");
 
         if ( strtoupper(trim($response)) === 'N' ) {
 
@@ -445,7 +445,7 @@ class S3MVC_PostComposerCreateHandler {
             echo PHP_EOL;
         }
     }
-    
+
     public static function printInfo($str, $append_new_line = true) {
 
         echo \Slim3MvcTools\Functions\Str\color_4_console( $str, "green",  "black");
@@ -455,41 +455,41 @@ class S3MVC_PostComposerCreateHandler {
             echo PHP_EOL;
         }
     }
-    
+
     public static function readFromLine( $prompt = '' ) {
-        
+
         echo $prompt;
         return trim(rtrim( fgets( STDIN ), PHP_EOL ));
     }
-    
+
     public static function rrmdir($src) {
-        
-        if( strlen($src) <=0 || !is_dir($src) ) { 
-            
+
+        if( strlen($src) <=0 || !is_dir($src) ) {
+
             return false;
         }
-        
+
         $dir = opendir($src);
-        
+
         while(false !== ( $file = readdir($dir)) ) {
-            
+
             if (( $file != '.' ) && ( $file != '..' )) {
-                
+
                 $full = $src . '/' . $file;
-                
+
                 if ( is_dir($full) ) {
-                    
+
                     static::rrmdir($full);
-                    
+
                 } else {
-                    
+
                     unlink($full);
                 }
             }
         }
-        
+
         closedir($dir);
-        
+
         return @rmdir($src);
     }
 }

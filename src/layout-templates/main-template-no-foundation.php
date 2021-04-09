@@ -14,17 +14,17 @@
                 <li style="display: inline;"><a href="#">Section 3</a></li>
             </ul>
         </div>
-        
+
         <div>
             <h1>Welcome to Your New Site</h1>
-            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App.</a></p>
+            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 4 Skeleton MVC App.</a></p>
         </div>
-        
+
         <br>
-        
-        <div>    
+
+        <div>
             <div>
-                <?php echo $content; ?>                
+                <?php echo $content; ?>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             <div>
                 <hr/>
                 <p>© Copyright no one at all. Go to town.</p>
-            </div> 
+            </div>
         </footer>
 
         <script src="<?php echo s3MVC_MakeLink('/js/app.js'); ?>"></script>

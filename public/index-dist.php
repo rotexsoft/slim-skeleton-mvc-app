@@ -14,30 +14,30 @@ define('S3MVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 define('S3MVC_APP_USE_MVC_ROUTES', true);
 
 // If true, the string `action` will be prepended to action method names (if the
-// method name does not already start with the string `action`). The resulting 
-// method name will be converted to camel case before being executed. 
-// If false, then action method names will only be converted to camel 
-// case before being executed. 
+// method name does not already start with the string `action`). The resulting
+// method name will be converted to camel case before being executed.
+// If false, then action method names will only be converted to camel
+// case before being executed.
 // NOTE: This setting does not apply to S3MVC_APP_DEFAULT_ACTION_NAME.
 //       It only applies to the routes below:
 //          '/{controller}/{action}[/{parameters:.+}]'
 //          '/{controller}/{action}/'
 define('S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', false);
 
-// This is used to create a controller object to handle the default / route. 
+// This is used to create a controller object to handle the default / route.
 // Must be prefixed with the namespace if the controller class is in a namespace.
 define('S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', \Slim3MvcTools\Controllers\BaseController::class);
 
-// This is the name of the action / method to be called on the default controller 
-// to handle the default / route. This method should return a response string (ie. 
+// This is the name of the action / method to be called on the default controller
+// to handle the default / route. This method should return a response string (ie.
 // valid html) or a PSR 7 response object containing valid html in its body.
 // This default action / method should accept no arguments / parameters.
 define('S3MVC_APP_DEFAULT_ACTION_NAME', 'actionIndex');
 
-s3MVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERVER, 
-                        // $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are 
+s3MVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERVER,
+                        // $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are
                         // captured in their original state by the static $super_globals
-                        // variable inside s3MVC_GetSuperGlobal(), before any other 
+                        // variable inside s3MVC_GetSuperGlobal(), before any other
                         // library, framework, etc. accesses or modifies any of them.
                         // Subsequent calls to s3MVC_GetSuperGlobal(..) will return
                         // the stored values.
@@ -51,7 +51,7 @@ function s3MVC_DisplayAndLogFrameworkFileNotFoundError($error_message, $file_pat
     $file_missing_error_page = <<<END
 <html>
     <head>
-        <title>SlimPHP 3 Skeleton MVC App Error</title>
+        <title>SlimPHP 4 Skeleton MVC App Error</title>
         <style>
             body{
                 margin:0;
@@ -67,7 +67,7 @@ function s3MVC_DisplayAndLogFrameworkFileNotFoundError($error_message, $file_pat
         </style>
     </head>
     <body>
-        <h1>SlimPHP 3 Skeleton MVC App Error</h1>
+        <h1>SlimPHP 4 Skeleton MVC App Error</h1>
         <p>
             $error_message <br>
             Please check the most recent server log file in (<strong>./logs</strong>) for details.
@@ -194,26 +194,26 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php';
 // End Dependency Injection Configuration
 ////////////////////////////////////////////////////////////////////////////////
 
-$s3mvc_default_route_handler = 
+$s3mvc_default_route_handler =
 function (
-    \Psr\Http\Message\ServerRequestInterface $request, 
-    \Psr\Http\Message\ResponseInterface $response, 
+    \Psr\Http\Message\ServerRequestInterface $request,
+    \Psr\Http\Message\ResponseInterface $response,
     $args
-) 
-//use ($app) 
+)
+//use ($app)
 {
-    // NOTE: inside this function $this refers to the Slim app's container. 
+    // NOTE: inside this function $this refers to the Slim app's container.
     //       It is automatically bound to this closure by Slim 3 when any of
     //       $app->map or $app->get or $app->post, etc is called.
-    
-    // No controller or action was specified, so use default controller and 
+
+    // No controller or action was specified, so use default controller and
     // invoke the default action on it.
     $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
     $default_controller = S3MVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
-    
+
     $default_controller_parts = explode('\\', $default_controller);
     $default_controller_from_uri = \Slim3MvcTools\Functions\Str\toDashes(array_pop($default_controller_parts));
-    
+
     // create default controller
     $default_controller_obj = new $default_controller(
                                         $this,
@@ -221,35 +221,35 @@ function (
                                         \Slim3MvcTools\Functions\Str\toDashes($default_action),
                                         $request, $response
                                     );
-    
+
     $pre_action_response = $default_controller_obj->preAction();
     $default_controller_obj->setResponse( $pre_action_response );
-    
+
     // invoke default action
     $action_result = $default_controller_obj->$default_action();
-    
+
     if( is_string($action_result) ) {
-        
+
         $response = $pre_action_response;
         $response->getBody()->write($action_result); // write the string in the response object as the response body
-        
+
     } elseif ( $action_result instanceof \Psr\Http\Message\ResponseInterface ) {
 
         $response = $action_result; // the action returned a Response object
     }
-    
+
     return $default_controller_obj->postAction($response);
 };
 
-$s3mvc_route_handler = 
+$s3mvc_route_handler =
 function(
-    \Psr\Http\Message\ServerRequestInterface $req, 
-    \Psr\Http\Message\ResponseInterface $resp, 
+    \Psr\Http\Message\ServerRequestInterface $req,
+    \Psr\Http\Message\ResponseInterface $resp,
     $args
-) 
-//use ($app) 
+)
+//use ($app)
 {
-    // NOTE: inside this function $this refers to the Slim app's container. 
+    // NOTE: inside this function $this refers to the Slim app's container.
     //       It is automatically bound to this closure by Slim 3 when any of
     //       $app->map or $app->get or $app->post, etc is called.
     $container = $this;
@@ -270,7 +270,7 @@ function(
 
     if( ! preg_match( $regex_4_valid_method_name, preg_quote($action_method, '/') ) ) {
 
-        // A valid php class' method name starts with a letter or underscore, 
+        // A valid php class' method name starts with a letter or underscore,
         // followed by any number of letters, numbers, or underscores.
 
         // Make sure the controller name is a valid string usable as a class name
@@ -278,16 +278,16 @@ function(
         // trigger 404 not found
         $notFoundHandler = $container->get('notFoundHandler');
         $log_message = "`".__FILE__."` on line ".__LINE__.": Bad action name `{$action_method}`.";
-        
+
         // invoke the not found handler
         return $notFoundHandler($req, $resp, null, $log_message);
     }
 
     $controller_obj = s3MVC_CreateController($this, $args['controller'], $args['action'], $req, $resp);
-    
-    if( 
+
+    if(
         $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
-        && !method_exists($controller_obj, $action_method) 
+        && !method_exists($controller_obj, $action_method)
     ) {
         $controller_class_name = get_class($controller_obj);
 
@@ -295,12 +295,12 @@ function(
         $notFoundHandler = $container->get('notFoundHandler');
         $log_message = "`".__FILE__."` on line ".__LINE__
             .": The action method `{$action_method}` does not exist in class `{$controller_class_name}`.";
-        
+
         // invoke the not found handler
         return $notFoundHandler($req, $resp, null, $log_message);
 
-    } else if ( 
-        $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController 
+    } else if (
+        $controller_obj instanceof \Slim3MvcTools\Controllers\BaseController
     ) {
         $pre_action_response = $controller_obj->preAction();
         $controller_obj->setResponse( $pre_action_response );
@@ -308,7 +308,7 @@ function(
         // execute the controller's action
         $actn_res = call_user_func_array([$controller_obj, $action_method], $params);
 
-        // If we got this far, that means that the action method was successfully 
+        // If we got this far, that means that the action method was successfully
         // executed on the controller object.
         if( is_string($actn_res) ) {
 
@@ -319,7 +319,7 @@ function(
 
             $resp = $actn_res; // the action returned a Response object
         }
-        
+
         $resp = $controller_obj->postAction($resp);
 
     } else {
@@ -332,32 +332,32 @@ function(
     return $resp;
 };
 
-$s3mvc_controller_only_route_handler =             
+$s3mvc_controller_only_route_handler =
 function (
-    \Psr\Http\Message\ServerRequestInterface $req, 
-    \Psr\Http\Message\ResponseInterface $resp, 
+    \Psr\Http\Message\ServerRequestInterface $req,
+    \Psr\Http\Message\ResponseInterface $resp,
     $args
-) 
-//use ($app) 
+)
+//use ($app)
 {
-    // NOTE: inside this function $this refers to the Slim app's container. 
+    // NOTE: inside this function $this refers to the Slim app's container.
     //       It is automatically bound to this closure by Slim 3 when any of
     //       $app->map or $app->get or $app->post, etc is called.
 
-    // No action was specified, so invoke the default action on specified 
+    // No action was specified, so invoke the default action on specified
     // controller.
     $default_action = S3MVC_APP_DEFAULT_ACTION_NAME;
 
     // s3MVC_CreateController could return a Response object if $args['controller']
     // doesn't match any existing controller class.
-    $controller_object = 
+    $controller_object =
         s3MVC_CreateController(
             $this, $args['controller'], \Slim3MvcTools\Functions\Str\toDashes($default_action), $req, $resp
         );
-        
-    if( 
+
+    if(
         $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
-        && !method_exists($controller_object, $default_action) 
+        && !method_exists($controller_object, $default_action)
     ) {
         $controller_class_name = get_class($controller_object);
 
@@ -368,16 +368,16 @@ function (
 
         // invoke the not found handler
         return $notFoundHandler($req, $resp, null, $log_message);
-        
-    }  else if ( 
-        $controller_object instanceof \Slim3MvcTools\Controllers\BaseController 
+
+    }  else if (
+        $controller_object instanceof \Slim3MvcTools\Controllers\BaseController
     ) {
         $pre_action_response = $controller_object->preAction();
         $controller_object->setResponse( $pre_action_response );
 
         // invoke default action
         $actn_res = $controller_object->$default_action();
-        
+
         if( is_string($actn_res) ) {
 
             $resp = $pre_action_response;
@@ -390,14 +390,14 @@ function (
         }
 
         $resp = $controller_object->postAction($resp);
-        
+
     } else {
-        
+
         // s3MVC_CreateController(..) returned a Response object containing a
         // not found page.
         $resp = $controller_object;
     }
-    
+
     return $resp;
 };
 
@@ -416,7 +416,7 @@ require_once "{$s3mvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewa
 /////////////////////////////
 
 if( S3MVC_APP_USE_MVC_ROUTES ) {
-    
+
     // default route
     $app->map( ['GET', 'POST'], '/', $s3mvc_default_route_handler );
 

@@ -2,7 +2,7 @@
 
 In this tutorial, we will be creating a simple application for managing a list of movies. 
 This app will be built from scratch using the 
-[SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) 
+[SlimPHP 4 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) 
 framework. This tutorial assumes you are working in a Linux environment (you may 
 have to tweak some of the commands if you are using Windows).
 
@@ -35,7 +35,7 @@ the skeleton app.
 
 ```
 Do you want to use the Zurb Foundation front-end framework (which includes jQuery) 
-that ships with SlimPHP 3 Skeleton MVC package? (Y/N)
+that ships with SlimPHP 4 Skeleton MVC package? (Y/N)
 ```
 
 At this point, the new app will be in a folder / directory named 
@@ -595,7 +595,7 @@ Below are the login urls currently available in our app (they are all calling
 **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`**):
 
 - **http://localhost:8888/base-controller/login :** logging in via `\Slim3MvcTools\Controllers\BaseController` 
-- **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) app) 
+- **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 4 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) app) 
 - **http://localhost:8888/http-not-allowed-not-found-server-error-handler/login :** logging in via `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` 
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase` 
 - **http://localhost:8888/movie-listings/login :** logging in via `\MovieCatalog\Controllers\MovieListings` 
@@ -606,19 +606,19 @@ Below is a list of all the features we will be implementing
 * **\MovieCatalog\Controllers\Users** controller
 
     - List all users via **`actionIndex()`** (will be located at http://localhost:8888/users/ or http://localhost:8888/users/index)
-    - View a single user via **`actionView($id)`** (will be located at http://localhost:8888/users/view/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Add the first user (i.e. the **`admin`** user) via **`actionInitUsers($password)`** **[Already Implemented]** (located at `http://localhost:8888/users/init-users/<entered_password>` [a SlimPHP 3 Skeleton mvc route] or `http://localhost:8888/init-users/<entered_password>` [a manually defined route])
+    - View a single user via **`actionView($id)`** (will be located at http://localhost:8888/users/view/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
+    - Add the first user (i.e. the **`admin`** user) via **`actionInitUsers($password)`** **[Already Implemented]** (located at `http://localhost:8888/users/init-users/<entered_password>` [a SlimPHP 4 Skeleton mvc route] or `http://localhost:8888/init-users/<entered_password>` [a manually defined route])
     - Add a new user via **`actionAdd()`** (will be located at http://localhost:8888/users/add)
-    - Edit an existing user via **`actionEdit($id)`** (will be located at http://localhost:8888/users/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Delete a specific user via **`actionDelete($id)`** (will be located at http://localhost:8888/users/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Edit an existing user via **`actionEdit($id)`** (will be located at http://localhost:8888/users/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
+    - Delete a specific user via **`actionDelete($id)`** (will be located at http://localhost:8888/users/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
 
 * **\MovieCatalog\Controllers\MovieListings** controller
 
     - List all movies via **`actionIndex()`**  (will be located at http://localhost:8888/movie-listings/ or http://localhost:8888/movie-listings/index)
-    - View a single movie via **`actionView($id)`** (will be located at http://localhost:8888/movie-listings/view/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - View a single movie via **`actionView($id)`** (will be located at http://localhost:8888/movie-listings/view/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
     - Add a new movie via **`actionAdd()`** (will be located at http://localhost:8888/movie-listings/add)
-    - Edit an existing movie via **`actionEdit($id)`** (will be located at http://localhost:8888/movie-listings/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
-    - Delete a specific movie via **`actionDelete($id)`** (will be located at http://localhost:8888/movie-listings/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 3 Skeleton mvc routing mechanism)
+    - Edit an existing movie via **`actionEdit($id)`** (will be located at http://localhost:8888/movie-listings/edit/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
+    - Delete a specific movie via **`actionDelete($id)`** (will be located at http://localhost:8888/movie-listings/delete/21 , where `21` could be any number and will be populated into the variable **$id** by the SlimPHP 4 Skeleton mvc routing mechanism)
 
 Next we edit our site's layout template (**`./src/layout-templates/main-template.php`**) 
 to contain navigation links to some of the features we will be implementing.

@@ -235,7 +235,7 @@ layout template file as variable(s).
                     <p>
                         This site is powered by the 
                         <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">
-                            SlimPHP 3 Skeleton MVC App.
+                            SlimPHP 4 Skeleton MVC App.
                         </a>
                     </p>
                 </div> 
@@ -477,12 +477,12 @@ or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $da
 * When configuring your webserver, make sure you set the document root to your site to the **`./public`** folder so that attackers won't be able to browse directly to sensitive folders like the **`config`** or **`src`** folders of your application. For apache HTTP webservers, **`.htaccess`** files (each with a directive to prevent browsing directly to folders) are provided in the **`config`**, **`logs`**, **`src`**, **`tests`** and **`tmp`** folders out of the box. For NGINX users, you should look into configuring something similar to prevent direct browsing to sensitive folders of your application.
 
 ## Documentation for Components Used
-* SlimPHP 3 https://www.slimframework.com/docs/v3/
+* SlimPHP 4 https://www.slimframework.com/docs/v4/
 * Slim3 Skeleton MVC Tools https://github.com/rotexsoft/slim3-skeleton-mvc-tools contains BaseController.php and other Slim3 Skeleton MVC specific classes and functions 
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
 * Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
 * File-Renderer https://github.com/rotexsoft/file-renderer for rendering the template and view files
-* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by *SlimPHP 3* works
+* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by this skeleton app works
 
 
 ## References
@@ -490,7 +490,3 @@ or `\Slim3MvcTools\Controllers\BaseController::renderView( $file_name, array $da
 * https://devedge.wordpress.com/2014/11/05/building-better-project-skeletons-with-composer-2/
 * http://www.binpress.com/tutorial/better-project-skeletons-with-composer/157
 
-
-## SlimPHP 3's Implementation of PSR-7
-
-![Class Diagram of SlimPHP 3's Implementation of PSR-7](../slim3-psr7.png)

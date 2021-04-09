@@ -1,9 +1,9 @@
 {
     "name": "rotexsoft/slim-skeleton-mvc-app",
-    "description": "This is a template mvc web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.",
+    "description": "This is a template mvc web-application (powered by SlimPHP 4), that can be extended to build more complex web applications.",
     "license": "BSD-2-Clause",
     "type": "project",
-    "keywords": [ "mvc", "framework", "slim 3", "slimphp 3",  "slim3", "slimphp3", "slim-3", "slimphp-3"],
+    "keywords": [ "mvc", "framework", "slim 4", "slimphp 4",  "slim4", "slimphp4", "slim-4", "slimphp-4"],
     "homepage": "https://github.com/rotexsoft/slim-skeleton-mvc-app",
     "authors": [
         {
@@ -27,7 +27,7 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "S3MVC_PostComposerCreateHandler::exec",
+            "SMVC_PostComposerCreateHandler::exec",
             "php -r \" unlink('./src/s3mvc-tools/post-composer-create-project.php'); \" ",
             "php -r \" unlink('./src/s3mvc-tools/.gitkeep'); \" ",
             "php -r \" rmdir('./src/s3mvc-tools'); \" ",
