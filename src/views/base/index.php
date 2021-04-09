@@ -229,7 +229,7 @@
         <ul>
             <li>
                 <strong>NOTE:</strong> there is a helper script available for creating Controller Classes and some default view files.
-                <br>See <strong><code>./vendor/bin/s3mvc-create-controller</code></strong> or <strong><code>./vendor/bin/s3mvc-create-controller-wizard</code></strong><br><br>
+                <br>See <strong><code>./vendor/bin/smvc-create-controller</code></strong> or <strong><code>./vendor/bin/smvc-create-controller-wizard</code></strong><br><br>
             </li>
             
         </ul>

@@ -108,10 +108,10 @@ Next we are going to create some controller classes for our app by running
 the commands below:
 
 ```
-./vendor/bin/s3mvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\Slim3MvcTools\Controllers\BaseController"
-./vendor/bin/s3mvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
-./vendor/bin/s3mvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
-./vendor/bin/s3mvc-create-controller -c http-not-allowed-not-found-server-error-handler -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
+./vendor/bin/smvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\Slim3MvcTools\Controllers\BaseController"
+./vendor/bin/smvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
+./vendor/bin/smvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
+./vendor/bin/smvc-create-controller -c http-not-allowed-not-found-server-error-handler -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
 composer dumpautoload -o
 ``` 
 
