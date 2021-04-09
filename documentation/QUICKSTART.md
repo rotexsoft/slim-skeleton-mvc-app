@@ -4,11 +4,11 @@
 
 * Get the most recent development version (creates the project from the master branch in the repo)
 
-  **`$ composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app my-app`**
+  **`$ composer create-project -n -s dev rotexsoft/slim-skeleton-mvc-app my-app`**
 
 * Get the most stable version (creates the project from the most recent tagged release in the repo)
 
-  **`$ composer create-project -n rotexsoft/slim3-skeleton-mvc-app my-app`**
+  **`$ composer create-project -n rotexsoft/slim-skeleton-mvc-app my-app`**
 
 ### Testing the Installation
 

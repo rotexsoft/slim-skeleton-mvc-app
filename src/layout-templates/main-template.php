@@ -22,7 +22,7 @@
             <div class="grid-x grid-padding-x">
                 <div class="small-12 cell">
                     <h1>Welcome to Your New Site</h1>
-                    <p>This site is powered by the <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App Micro-Framework</a> based on SlimPHP 3. It also ships with the <a href="http://foundation.zurb.com/">Foundation</a> UI framework. Everything you need to know about using the Foundation UI framework can be found <a href="http://foundation.zurb.com/docs">here</a>.</p>
+                    <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App Micro-Framework</a> based on SlimPHP 3. It also ships with the <a href="http://foundation.zurb.com/">Foundation</a> UI framework. Everything you need to know about using the Foundation UI framework can be found <a href="http://foundation.zurb.com/docs">here</a>.</p>
                 </div>
             </div>
             <div class="grid-x grid-padding-x">    

@@ -234,7 +234,7 @@ layout template file as variable(s).
                     <hr/>
                     <p>
                         This site is powered by the 
-                        <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app">
+                        <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">
                             SlimPHP 3 Skeleton MVC App.
                         </a>
                     </p>

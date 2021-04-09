@@ -17,7 +17,7 @@
         
         <div>
             <h1>Welcome to Your New Site</h1>
-            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App.</a></p>
+            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 3 Skeleton MVC App.</a></p>
         </div>
         
         <br>

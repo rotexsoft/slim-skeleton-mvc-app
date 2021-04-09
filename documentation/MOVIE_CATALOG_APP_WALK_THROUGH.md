@@ -2,7 +2,7 @@
 
 In this tutorial, we will be creating a simple application for managing a list of movies. 
 This app will be built from scratch using the 
-[SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim3-skeleton-mvc-app/) 
+[SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) 
 framework. This tutorial assumes you are working in a Linux environment (you may 
 have to tweak some of the commands if you are using Windows).
 
@@ -26,7 +26,7 @@ clone the repository to follow along if you wish.
 First, we create the new app by running the command below:
 
 ```
-composer create-project -n -s dev rotexsoft/slim3-skeleton-mvc-app movie-catalog
+composer create-project -n -s dev rotexsoft/slim-skeleton-mvc-app movie-catalog
 ```
 
 I entered **`Y`** when the prompt below appeared during the creation of the project
@@ -595,7 +595,7 @@ Below are the login urls currently available in our app (they are all calling
 **`\Slim3MvcTools\Controllers\BaseController::actionLogin()`**):
 
 - **http://localhost:8888/base-controller/login :** logging in via `\Slim3MvcTools\Controllers\BaseController` 
-- **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim3-skeleton-mvc-app/) app) 
+- **http://localhost:8888/hello/login :** logging in via `\Slim3SkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 3 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) app) 
 - **http://localhost:8888/http-not-allowed-not-found-server-error-handler/login :** logging in via `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` 
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase` 
 - **http://localhost:8888/movie-listings/login :** logging in via `\MovieCatalog\Controllers\MovieListings` 

@@ -256,7 +256,7 @@
     <li>
         <p>
             For more information on Controllers and MVC visit
-            <a href="https://github.com/rotexsoft/slim3-skeleton-mvc-app/blob/master/documentation/MVCFUNCTIONALITY.md">
+            <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app/blob/master/documentation/MVCFUNCTIONALITY.md">
                 here
             </a>.
         </p>

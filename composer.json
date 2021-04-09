@@ -1,10 +1,10 @@
 {
-    "name": "rotexsoft/slim3-skeleton-mvc-app",
+    "name": "rotexsoft/slim-skeleton-mvc-app",
     "description": "This is a template mvc web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.",
     "license": "BSD-2-Clause",
     "type": "project",
     "keywords": [ "mvc", "framework", "slim 3", "slimphp 3",  "slim3", "slimphp3", "slim-3", "slimphp-3"],
-    "homepage": "https://github.com/rotexsoft/slim3-skeleton-mvc-app",
+    "homepage": "https://github.com/rotexsoft/slim-skeleton-mvc-app",
     "authors": [
         {
             "name": "Rotimi Adegbamigbe",
