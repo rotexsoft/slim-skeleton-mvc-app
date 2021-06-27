@@ -2,6 +2,10 @@
 
 [![Release](https://img.shields.io/github/release/rotexsoft/slim-skeleton-mvc-app.png?style=flat-square)](https://github.com/rotexsoft/slim-skeleton-mvc-app/releases/latest) &nbsp; 
 
+
+> CURRENTLY UPDATING THIS FRAMEWORK TO USE SLIMPHP 4. THE CURRENTLY STABLE VERSION IS BASED ON SLIMPHP 3. BROWSE THE DOCUMENTATION HERE: https://github.com/rotexsoft/slim-skeleton-mvc-app/tree/slim-3-edition . WILL LET YOU ALL KNOW WHEN THE SLIMPHP 4 VERSION IS GOOD TO GO.
+
+
 This is a template web-application (powered by [SlimPHP 4](https://www.slimframework.com/)), that can be extended to build more complex web applications.
 
 While it is not necessary to have expert understanding of the SlimPHP 4 framework (https://www.slimframework.com/docs/v4/) in order
