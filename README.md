@@ -2,7 +2,18 @@
 
 [![Run PHP Tests and Code Quality Tools](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml/badge.svg)](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml) &nbsp; 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
-
+![GitHub](https://img.shields.io/github/license/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
+[![Coverage Status](https://coveralls.io/repos/github/rotexsoft/slim3-skeleton-mvc-app/badge.svg?branch=master)](https://coveralls.io/github/rotexsoft/slim3-skeleton-mvc-app?branch=master) &nbsp; 
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/rotexsoft/slim3-skeleton-mvc-app/latest) &nbsp; 
+![GitHub last commit](https://img.shields.io/github/last-commit/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
+<a href="https://libraries.io/github/rotexsoft/slim3-skeleton-mvc-app">
+    <img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/slim3-skeleton-mvc-app">
+</a>
 
 
 > CURRENTLY UPDATING THIS FRAMEWORK TO USE SLIMPHP 4. THE CURRENTLY STABLE VERSION IS BASED ON SLIMPHP 3. BROWSE THE DOCUMENTATION HERE: https://github.com/rotexsoft/slim-skeleton-mvc-app/tree/slim-3-edition . WILL LET YOU ALL KNOW WHEN THE SLIMPHP 4 VERSION IS GOOD TO GO.
