@@ -26,7 +26,7 @@ clone the repository to follow along if you wish.
 First, we create the new app by running the command below:
 
 ```
-composer create-project -n -s dev rotexsoft/slim-skeleton-mvc-app movie-catalog
+composer create-project -n rotexsoft/slim3-skeleton-mvc-app=3.* movie-catalog
 ```
 
 I entered **`Y`** when the prompt below appeared during the creation of the project
