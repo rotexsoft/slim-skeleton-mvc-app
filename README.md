@@ -1,6 +1,8 @@
 # SlimPHP 4 Skeleton MVC App
 
-[![Release](https://img.shields.io/github/release/rotexsoft/slim-skeleton-mvc-app.png?style=flat-square)](https://github.com/rotexsoft/slim-skeleton-mvc-app/releases/latest) &nbsp; 
+[![Run PHP Tests and Code Quality Tools](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml/badge.svg)](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml) &nbsp; 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
+
 
 
 > CURRENTLY UPDATING THIS FRAMEWORK TO USE SLIMPHP 4. THE CURRENTLY STABLE VERSION IS BASED ON SLIMPHP 3. BROWSE THE DOCUMENTATION HERE: https://github.com/rotexsoft/slim-skeleton-mvc-app/tree/slim-3-edition . WILL LET YOU ALL KNOW WHEN THE SLIMPHP 4 VERSION IS GOOD TO GO.
