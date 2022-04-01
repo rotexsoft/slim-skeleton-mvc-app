@@ -1,5 +1,5 @@
 {
-    "name": "rotexsoft/slim-skeleton-mvc-app",
+    "name": "rotexsoft/slim3-skeleton-mvc-app",
     "description": "This is a template mvc web-application (powered by SlimPHP 3), that can be extended to build more complex web applications.",
     "license": "BSD-2-Clause",
     "type": "project",
