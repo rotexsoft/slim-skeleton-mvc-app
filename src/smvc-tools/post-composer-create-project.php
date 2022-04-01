@@ -438,7 +438,7 @@ class SMVC_PostComposerCreateHandler {
 
     public static function printError($str, $append_new_line = true) {
 
-        echo \Slim3MvcTools\Functions\Str\color_4_console( "ERROR: $str", "red",  "black");
+        echo \SlimMvcTools\Functions\Str\color_4_console( "ERROR: $str", "red",  "black");
 
         if( $append_new_line ) {
 
@@ -448,7 +448,7 @@ class SMVC_PostComposerCreateHandler {
 
     public static function printInfo($str, $append_new_line = true) {
 
-        echo \Slim3MvcTools\Functions\Str\color_4_console( $str, "green",  "black");
+        echo \SlimMvcTools\Functions\Str\color_4_console( $str, "green",  "black");
 
         if( $append_new_line ) {
 

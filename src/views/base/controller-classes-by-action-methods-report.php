@@ -1,5 +1,5 @@
 <?php
-use function \Slim3MvcTools\Functions\Str\camelToDashes;
+use function \SlimMvcTools\Functions\Str\camelToDashes;
 
 // Function to check string starting 
 // with given substring 
@@ -29,10 +29,10 @@ $declared_classes = get_declared_classes();
 $controller_classes = array_filter(
     $declared_classes,
     function($currentClassName) {
-        return is_subclass_of($currentClassName, \Slim3MvcTools\Controllers\BaseController::class)
-               || is_a($currentClassName, \Slim3MvcTools\Controllers\BaseController::class, true);
+        return is_subclass_of($currentClassName, \SlimMvcTools\Controllers\BaseController::class)
+               || is_a($currentClassName, \SlimMvcTools\Controllers\BaseController::class, true);
     }   
-); // get an array of the name of the classes that are instances of \Slim3MvcTools\Controllers\BaseController
+); // get an array of the name of the classes that are instances of \SlimMvcTools\Controllers\BaseController
 
 $action_methods_by_controller_class_name = [];
 

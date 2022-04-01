@@ -6,7 +6,7 @@ namespace Slim3SkeletonMvcApp\Controllers;
  *
  * @author Rotimi Ade
  */
-class Hello extends \Slim3MvcTools\Controllers\BaseController
+class Hello extends \SlimMvcTools\Controllers\BaseController
 {
     public function __construct(
         \Psr\Container\ContainerInterface $container, $controller_name_from_uri, $action_name_from_uri, 

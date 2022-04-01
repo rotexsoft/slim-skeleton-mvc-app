@@ -15,7 +15,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3MvcTools\Controllers\BaseController::actionIndex()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionIndex()</code></strong> under the hood</li>
         </ul>
          <br>
     </li>
@@ -24,7 +24,7 @@
             <?php echo $uri_obj->withPath(s3MVC_MakeLink('/base-controller/action-login'))->__toString(); ?>
             </a> comes with 2 default accounts <strong>admin:admin</strong> and <strong>root:root</strong></p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3MvcTools\Controllers\BaseController::actionLogin()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionLogin()</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -35,7 +35,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -50,7 +50,7 @@
                 This link is mapped to 
                 <strong>
                     <code>
-                        \Slim3MvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)
+                        \SlimMvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)
                     </code>
                 </strong> 
                 under the hood
@@ -75,7 +75,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3MvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -86,7 +86,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3MvcTools\Controllers\BaseController::actionLoginStatus()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionLoginStatus()</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -201,7 +201,7 @@
 <ul>
     <li>
         <p>
-            Controller classes must extend <code>\Slim3MvcTools\Controllers\BaseController</code>. 
+            Controller classes must extend <code>\SlimMvcTools\Controllers\BaseController</code>. 
             These classes must be named using studly case / caps e.g. <strong>StaticPages</strong>, 
             <strong>MobileDataProviders</strong> and must be referenced in the controller segment of 
             the url in all lowercases with dashes preceding capital case characters (except for the 
