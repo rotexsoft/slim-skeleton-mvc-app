@@ -11,8 +11,8 @@
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/rotexsoft/slim3-skeleton-mvc-app/latest) &nbsp; 
 ![GitHub last commit](https://img.shields.io/github/last-commit/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
 ![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
-<a href="https://libraries.io/github/rotexsoft/slim3-skeleton-mvc-app">
-    <img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/slim3-skeleton-mvc-app">
+<a href="https://libraries.io/github/rotexsoft/slim-skeleton-mvc-app">
+    <img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/slim-skeleton-mvc-app">
 </a>
 
 
