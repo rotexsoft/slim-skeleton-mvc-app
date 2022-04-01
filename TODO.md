@@ -1,3 +1,5 @@
+Add them to https://github.com/rotexsoft/slim-skeleton-mvc-app/issues moving forward. 
+
 * Look into adding documentation about using $request->getQueryParams() to get at GET parameters as opposed to $_GET
 
 * Look into adding documentation about using $request->getParsedBody() to get at POST parameters as opposed to $_POST
