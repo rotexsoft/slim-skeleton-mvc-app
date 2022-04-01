@@ -22,7 +22,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Copying `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php` ...." );
 
-        if( @copy("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
+        if( copy("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
 
             static::printInfo( "Successfully Copied!".PHP_EOL );
 
@@ -34,7 +34,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Moving `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php` ...." );
 
-        if( @rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}dependencies.php") ) {
+        if( rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}dependencies.php") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -46,7 +46,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Copying `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ...." );
 
-        if( @copy("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
+        if( copy("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
 
             static::printInfo( "Successfully Copied!".PHP_EOL );
 
@@ -58,7 +58,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Moving `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php` ...." );
 
-        if( @rename("{$config_src_folder}ini-settings-dist.php", "{$config_src_folder}ini-settings.php") ) {
+        if( rename("{$config_src_folder}ini-settings-dist.php", "{$config_src_folder}ini-settings.php") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -70,7 +70,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Moving `{$config_src_folder}routes-and-middlewares-dist.php` to `{$config_src_folder}routes-and-middlewares.php` ...." );
 
-        if( @rename("{$config_src_folder}routes-and-middlewares-dist.php", "{$config_src_folder}routes-and-middlewares.php") ) {
+        if( rename("{$config_src_folder}routes-and-middlewares-dist.php", "{$config_src_folder}routes-and-middlewares.php") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -82,7 +82,7 @@ class SMVC_PostComposerCreateHandler {
 
         static::printInfo( "Moving `{$public_src_folder}index-dist.php` to `{$public_src_folder}index.php` ...." );
 
-        if( @rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php") ) {
+        if( rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php") ) {
 
             static::printInfo("Successfully Moved!".PHP_EOL);
 
@@ -96,7 +96,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Moving `{$root_folder}.gitignore-dist` to `{$root_folder}.gitignore` ...." );
 
-        if( @rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
+        if( rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -110,7 +110,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Moving `{$root_folder}README-dist.md` to `{$root_folder}README.md` ...." );
 
-        if( @rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
+        if( rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -124,7 +124,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Moving `{$root_folder}composer-dist.json` to `{$root_folder}composer.json` ...." );
 
-        if( @rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
+        if( rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
 
             static::printInfo( "Successfully Moved!".PHP_EOL );
 
@@ -155,7 +155,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}slim3-psr7.png` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}slim3-psr7.png") ) {
+        if( unlink("{$root_folder}slim3-psr7.png") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL );
 
@@ -169,7 +169,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}TODO.md` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}TODO.md") ) {
+        if( unlink("{$root_folder}TODO.md") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL );
 
@@ -183,7 +183,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}slim3-psr7.pub` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}slim3-psr7.pub") ) {
+        if( unlink("{$root_folder}slim3-psr7.pub") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL );
 
@@ -197,7 +197,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}index.php-overview.docx` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}index.php-overview.docx") ) {
+        if( unlink("{$root_folder}index.php-overview.docx") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL );
 
@@ -211,7 +211,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}index.php-overview.png` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}index.php-overview.png") ) {
+        if( unlink("{$root_folder}index.php-overview.png") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL );
 
@@ -225,7 +225,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////
         static::printInfo( "Deleting `{$root_folder}phpunit.xml.dist` ....".PHP_EOL );
 
-        if( @unlink("{$root_folder}phpunit.xml.dist") ) {
+        if( unlink("{$root_folder}phpunit.xml.dist") ) {
 
             static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -262,7 +262,7 @@ class SMVC_PostComposerCreateHandler {
 
             $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
 
-            if( @unlink("{$main_template_folder}main-template.php") ) {
+            if( unlink("{$main_template_folder}main-template.php") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -277,7 +277,7 @@ class SMVC_PostComposerCreateHandler {
             // move main-template-no-foundation.php into main-template.php in src/layout-templates
             static::printInfo( "Moving `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
 
-            if( @rename("{$main_template_folder}main-template-no-foundation.php", "{$main_template_folder}main-template.php") ) {
+            if( rename("{$main_template_folder}main-template-no-foundation.php", "{$main_template_folder}main-template.php") ) {
 
                 static::printInfo( "Successfully Moved!".PHP_EOL  );
 
@@ -296,7 +296,7 @@ class SMVC_PostComposerCreateHandler {
 
             $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
 
-            if( @unlink("{$base_view_folder}login.php") ) {
+            if( unlink("{$base_view_folder}login.php") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -311,7 +311,7 @@ class SMVC_PostComposerCreateHandler {
             // move login-no-foundation.php into login.php  in src/views/base
             static::printInfo( "Moving `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
 
-            if( @rename("{$base_view_folder}login-no-foundation.php", "{$base_view_folder}login.php") ) {
+            if( rename("{$base_view_folder}login-no-foundation.php", "{$base_view_folder}login.php") ) {
 
                 static::printInfo( "Successfully Moved!".PHP_EOL  );
 
@@ -369,7 +369,7 @@ class SMVC_PostComposerCreateHandler {
 
             $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
 
-            if( @unlink("{$main_template_folder}main-template-no-foundation.php") ) {
+            if( unlink("{$main_template_folder}main-template-no-foundation.php") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -386,7 +386,7 @@ class SMVC_PostComposerCreateHandler {
 
             $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
 
-            if( @unlink("{$base_view_folder}login-no-foundation.php") ) {
+            if( unlink("{$base_view_folder}login-no-foundation.php") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -403,7 +403,7 @@ class SMVC_PostComposerCreateHandler {
 
             $base_public_css_folder = "{$root_folder}public{$ds}css{$ds}";
 
-            if( @unlink("{$base_public_css_folder}app.css") ) {
+            if( unlink("{$base_public_css_folder}app.css") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -420,7 +420,7 @@ class SMVC_PostComposerCreateHandler {
 
             $base_public_js_folder = "{$root_folder}public{$ds}js{$ds}";
 
-            if( @unlink("{$base_public_js_folder}app.js") ) {
+            if( unlink("{$base_public_js_folder}app.js") ) {
 
                 static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
@@ -490,6 +490,6 @@ class SMVC_PostComposerCreateHandler {
 
         closedir($dir);
 
-        return @rmdir($src);
+        return rmdir($src);
     }
 }
