@@ -35,6 +35,8 @@
         ]
     },
     "suggest": {
-        "rotexsoft/leanorm": "An efficient light-weight ORM for database access. See http://rotexsoft.github.io/leanorm/"
+        "rotexsoft/leanorm": "An efficient light-weight ORM for database access. See http://rotexsoft.github.io/leanorm/",
+        "rotexsoft/versatile-acl": "A simple, highly flexible and customizable access control package for PHP applications. See https://github.com/rotexsoft/versatile-acl",
+        "rotexsoft/versatile-collections": "A collections package for various use cases (supports strict typing). See https://github.com/rotexsoft/versatile-collections"
     }
 }
