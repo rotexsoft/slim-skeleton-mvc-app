@@ -1,17 +1,13 @@
 # SlimPHP 3 Skeleton MVC App
 
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
-[![Coverage Status](https://coveralls.io/repos/github/rotexsoft/slim-skeleton-mvc-app/badge.svg?branch=master)](https://coveralls.io/github/rotexsoft/slim-skeleton-mvc-app?branch=master) &nbsp; 
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/slim-skeleton-mvc-app?label=latest%20release) &nbsp;
+[![Coverage Status](https://coveralls.io/repos/github/rotexsoft/slim-skeleton-mvc-app/badge.svg?branch=slim-3-edition)](https://coveralls.io/github/rotexsoft/slim-skeleton-mvc-app?branch=slim-3-edition) &nbsp; 
 ![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
 ![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/rotexsoft/slim3-skeleton-mvc-app) &nbsp; 
-![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/rotexsoft/slim-skeleton-mvc-app/latest) &nbsp; 
-![GitHub last commit](https://img.shields.io/github/last-commit/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/rotexsoft/slim3-skeleton-mvc-app) &nbsp;
+![GitHub commits since latest release (by date) for a branch](https://img.shields.io/github/commits-since/rotexsoft/slim-skeleton-mvc-app/latest/slim-3-edition) &nbsp;
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/rotexsoft/slim-skeleton-mvc-app/slim-3-edition) &nbsp; 
 ![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
-<a href="https://libraries.io/github/rotexsoft/slim-skeleton-mvc-app">
-    <img alt="Libraries.io dependency status for GitHub repo" src="https://img.shields.io/librariesio/github/rotexsoft/slim-skeleton-mvc-app">
-</a>
 
 This is a template web-application (powered by [SlimPHP 3](https://www.slimframework.com/)), that can be extended to build more complex web applications.
 
