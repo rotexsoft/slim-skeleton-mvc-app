@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__. DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR
             . "vendor" . DIRECTORY_SEPARATOR . "rotexsoft" . DIRECTORY_SEPARATOR
-            . "slim3-skeleton-mvc-tools" . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR
+            . "slim-skeleton-mvc-tools" . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR
             . "functions" . DIRECTORY_SEPARATOR . "str-helpers.php";
 
 class SMVC_PostComposerCreateHandler {
@@ -9,7 +9,7 @@ class SMVC_PostComposerCreateHandler {
     public static function exec(){
 
         $ds = DIRECTORY_SEPARATOR;
-        static::printInfo( "Running post composer create-project tasks for Slim3Mvc ........".PHP_EOL );
+        static::printInfo( "Running post composer create-project tasks for SlimMvc ........".PHP_EOL );
 
         $raw_root_folder = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
         $root_folder = realpath($raw_root_folder).DIRECTORY_SEPARATOR;

@@ -58,26 +58,26 @@
             * This link is mapped to **`\SlimMvcTools\Controllers\BaseController::actionLoginStatus()`** under the hood
 
         * [http://localhost:8888/hello/action-index/](http://localhost:8888/hello/action-index/) same as [http://localhost:8888/hello/](http://localhost:8888/hello/)
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionIndex()`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionIndex()`** under the hood
 
         * [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) comes with 2 default accounts **admin:admin** and **root:root**
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogin()`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionLogin()`** under the hood
 
         * [http://localhost:8888/hello/action-logout/0](http://localhost:8888/hello/action-logout/0)
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
 
         * [http://localhost:8888/hello/action-logout/1](http://localhost:8888/hello/action-logout/1)
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)`** under the hood
 
         * [http://localhost:8888/hello/action-login-status/](http://localhost:8888/hello/action-login-status/)
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionLoginStatus()`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionLoginStatus()`** under the hood
 
         * `http://localhost:8888/hello/action-there/{first_name}/{last_name}`
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)`** under the hood
             * you can do stuff like [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe)
 
         * `http://localhost:8888/hello/action-world/{name}/{another_parameter}`
-            * This link is mapped to **`\Slim3SkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
+            * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
             * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
     * The **`action-`** prefix can be omitted from the links above if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
@@ -173,11 +173,11 @@
             ?>
             ```
 
-        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\Slim3SkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
+        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\SlimSkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
 
             * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your application's **./composer.json**.
 
-        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -197,7 +197,7 @@
             ?>
             ```
 
-        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -217,7 +217,7 @@
             ?>
             ```
 
-        * **`vespula_auth:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
+        * **`vespula_auth:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
             ```php
             <?php
@@ -270,10 +270,10 @@
 
 * **`src/layout-templates/main-template.php`:** Default site template you can use as a starting point for your application's layout.
 
-* **`src/views/base/index.php`:** View file associated with the **`actionIndex`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
+* **`src/views/base/index.php`:** View file associated with the **`actionIndex`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
-* **`src/views/base/login.php`:** View file associated with the **`actionLogin`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
+* **`src/views/base/login.php`:** View file associated with the **`actionLogin`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
-* **`src/views/base/login-status.php`:** View file associated with the **`actionLoginStatus`** method in **`vendor/rotexsoft/slim3-skeleton-mvc-tools/src/BaseController.php`**.
+* **`src/views/base/login-status.php`:** View file associated with the **`actionLoginStatus`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
 * **`src/views/hello/world.php`:** View file associated with the **`actionWorld`** method in **`src/controllers/Hello.php`**.

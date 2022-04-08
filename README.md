@@ -3,7 +3,7 @@
 [![Run PHP Tests and Code Quality Tools](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml/badge.svg)](https://github.com/rotexsoft/slim-skeleton-mvc-app/actions/workflows/php.yml) &nbsp; 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![GitHub](https://img.shields.io/github/license/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
-[![Coverage Status](https://coveralls.io/repos/github/rotexsoft/slim3-skeleton-mvc-app/badge.svg?branch=master)](https://coveralls.io/github/rotexsoft/slim3-skeleton-mvc-app?branch=master) &nbsp; 
+[![Coverage Status](https://coveralls.io/repos/github/rotexsoft/slim-skeleton-mvc-app/badge.svg?branch=master)](https://coveralls.io/github/rotexsoft/slim-skeleton-mvc-app?branch=master) &nbsp; 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/slim-skeleton-mvc-app) &nbsp;

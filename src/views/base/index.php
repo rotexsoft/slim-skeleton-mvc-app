@@ -100,7 +100,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionIndex()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionIndex()</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -110,7 +110,7 @@
                 <?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-login/'))->__toString(); ?>
             </a> comes with 2 default accounts <strong>admin:admin</strong> and <strong>root:root</strong></p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionLogin()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionLogin()</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -121,7 +121,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -132,7 +132,7 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionLogout($show_status_on_completion = false)</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
@@ -143,14 +143,14 @@
             </a>
         </p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionLoginStatus()</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionLoginStatus()</code></strong> under the hood</li>
         </ul>
         <br>
     </li>
     <li>
         <p><code><?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-there/'))->__toString(); ?>{first_name}/{last_name}</code></p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)</code></strong> under the hood</li>
             <li>you can do stuff like 
                 <a href="<?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-there/'))->__toString(); ?>john/doe">
                     <?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-there/'))->__toString(); ?>john/doe
@@ -162,7 +162,7 @@
     <li>
         <p><code><?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-world/'))->__toString(); ?>{name}/{another_parameter}</code></p>
         <ul>
-            <li>This link is mapped to <strong><code>\Slim3SkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)</code></strong> under the hood</li>
+            <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)</code></strong> under the hood</li>
             <li>you can do stuff like 
                 <a href="<?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-world/'))->__toString(); ?>john/doe">
                     <?php echo $uri_obj->withPath(s3MVC_MakeLink('/hello/action-world/'))->__toString(); ?>john/doe

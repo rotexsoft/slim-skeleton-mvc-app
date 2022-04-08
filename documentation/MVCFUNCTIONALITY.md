@@ -2,7 +2,7 @@
 
 ```php
 <?php
-namespace Slim3SkeletonMvcApp\Controllers;
+namespace SlimSkeletonMvcApp\Controllers;
 
 class Hello extends \SlimMvcTools\Controllers\BaseController
 {
@@ -33,13 +33,13 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
 * These four routes will be enabled, if and only if **SMVC_APP_USE_MVC_ROUTES** is set to **`true`**
 * Below are the four routes:
     * **`/`**: the **default route**. It creates an instance of the default controller (configurable via **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME**) and executes the default action method (configurable via **SMVC_APP_DEFAULT_ACTION_NAME**) on the default controller. This route should be used for the home-page of your app.
-        * For example, given **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** with a value of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello'`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **default route** will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
+        * For example, given **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** with a value of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello'`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **default route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
     * **`/{controller}[/]`**: the **controller only route**. It creates an instance of the controller specified in the url and executes the default action method (configurable via **SMVC_APP_DEFAULT_ACTION_NAME**) on the specified controller.
-        * For example, given a route with a value of **`/hello`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **controller only route** will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
+        * For example, given a route with a value of **`/hello`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **controller only route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
     * **`/{controller}/{action}/`**: the **controller and action only route**. It creates an instance of the controller specified in the url and executes the action method specified in the url on the specified controller. The specified method in the specified controller should not accept any parameters / arguments.
-        * For example, given a route with a value of **`/hello/index/`**, the **controller and action only route** will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
+        * For example, given a route with a value of **`/hello/index/`**, the **controller and action only route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
     * **`/{controller}/{action}[/{parameters:.+}]`**: the **controller, action and optional parameters route**. It creates an instance of the controller specified in the url and executes the action method specified in the url (with the parameters specified in the url, if any) on the specified controller.
-        * For example, given a route with a value of **`/hello/there/john/Doe`**, the **controller, action and optional parameters route** will lead to the execution of **`'\\Slim3SkeletonMvcApp\\Controllers\\Hello::actionThere('john', 'Doe')'`**
+        * For example, given a route with a value of **`/hello/there/john/Doe`**, the **controller, action and optional parameters route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionThere('john', 'Doe')'`**
         * This route also responds to **`/{controller}/{action}`** (without a trailing slash). In this case the controller method specified via **`{action}`** part of the url must not accept any arguments or parameters.
 
 ### **More on Controllers and MVC Routes** 
@@ -100,7 +100,7 @@ in Middleware after current route handler
 
 ```php
 <?php
-namespace Slim3SkeletonMvcApp\Controllers;
+namespace SlimSkeletonMvcApp\Controllers;
 
 class Hello extends \SlimMvcTools\Controllers\BaseController
 {
@@ -478,7 +478,7 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 ## Documentation for Components Used
 * SlimPHP 4 https://www.slimframework.com/docs/v4/
-* Slim3 Skeleton MVC Tools https://github.com/rotexsoft/slim3-skeleton-mvc-tools contains BaseController.php and other Slim3 Skeleton MVC specific classes and functions 
+* Slim Skeleton MVC Tools https://github.com/rotexsoft/slim-skeleton-mvc-tools contains BaseController.php and other Slim Skeleton MVC specific classes and functions 
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
 * Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
 * File-Renderer https://github.com/rotexsoft/file-renderer for rendering the template and view files

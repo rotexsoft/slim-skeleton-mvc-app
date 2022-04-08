@@ -96,11 +96,11 @@ $container['notAllowedHandler'] = function ($c) {
 //The namespaces are searched in the order which they are added 
 //to the array. It would make sense to add the namespaces for your
 //application in the front part of these arrays so that if a controller class 
-//exists in \SlimMvcTools\Controllers\ and / or \Slim3SkeletonMvcApp\Controllers\  
+//exists in \SlimMvcTools\Controllers\ and / or \SlimSkeletonMvcApp\Controllers\  
 //and in your application's controller namespace(s) controllers
 //in your application's namespaces are 
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\SlimMvcTools\\Controllers\\', '\\Slim3SkeletonMvcApp\\Controllers\\'];
+$container['namespaces_for_controllers'] = ['\\SlimMvcTools\\Controllers\\', '\\SlimSkeletonMvcApp\\Controllers\\'];
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function () {
