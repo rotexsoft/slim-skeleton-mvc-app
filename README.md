@@ -7,7 +7,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![Packagist Downloads](https://img.shields.io/packagist/dt/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![GitHub top language](https://img.shields.io/github/languages/top/rotexsoft/slim-skeleton-mvc-app) &nbsp;
-![Packagist PHP Version Support (specify version)](https://img.shields.io/packagist/php-v/rotexsoft/slim-skeleton-mvc-app/4.0.0) &nbsp; 
+![Packagist PHP Version Support (specify version)](https://img.shields.io/packagist/php-v/rotexsoft/slim-skeleton-mvc-app/dev-master) &nbsp; 
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/rotexsoft/slim-skeleton-mvc-app/latest) &nbsp; 
 ![GitHub last commit](https://img.shields.io/github/last-commit/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
 ![GitHub Release Date](https://img.shields.io/github/release-date/rotexsoft/slim-skeleton-mvc-app) &nbsp; 
