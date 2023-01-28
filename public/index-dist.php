@@ -41,75 +41,6 @@ sMVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERV
                         // library, framework, etc. accesses or modifies any of them.
                         // Subsequent calls to sMVC_GetSuperGlobal(..) will return
                         // the stored values.
-/**
- * @param string $error_message A brief description of the message
- * @param string $file_path path to the missing file
- * @param string $dist_file_path path to the dist file that can be used to create the missing file
- */
-function sMVC_DisplayAndLogFrameworkFileNotFoundError($error_message, $file_path, $dist_file_path) {
-
-    $file_missing_error_page = <<<END
-<html>
-    <head>
-        <title>SlimPHP 4 Skeleton MVC App Error</title>
-        <style>
-            body{
-                margin:0;
-                padding:30px;
-                font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;
-            }
-            h1{
-                margin:0;
-                font-size:48px;
-                font-weight:normal;
-                line-height:48px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>SlimPHP 4 Skeleton MVC App Error</h1>
-        <p>
-            $error_message <br>
-            Please check the most recent server log file in (<strong>./logs</strong>) for details.
-            <br>Goodbye!!!
-        </p>
-    </body>
-</html>
-END;
-    echo $file_missing_error_page;
-
-    $current_uri = \Slim\Http\Request::createFromEnvironment(new \Slim\Http\Environment(sMVC_GetSuperGlobal('server')))->getUri()->__toString();
-
-    // Write full message to log via error_log(...)
-    // http://php.net/manual/en/function.error-log.php
-    $log_message = "ERROR: [$current_uri] `$file_path` not found."
-        . " Please copy `$dist_file_path` to `$file_path` and"
-        . " configure `$file_path` for your application's current environment.";
-
-    $smvc_logger_for_startup_errors = function () {
-
-        $ds = DIRECTORY_SEPARATOR;
-        $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
-        $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
-
-        $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
-        $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
-        $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
-        $adapter->setDateFormat('Y-M-d g:i:s A');
-
-        return new \Vespula\Log\Log($adapter);
-    };
-    $smvc_logger_for_startup_errors()->error($log_message); // log to log file
-
-    // error_log ( $log_message , 0 ) means message is sent to PHP's system logger,
-    // using the Operating System's system logging mechanism or a file, depending
-    // on what the error_log configuration directive is set to.
-    if( @error_log ( $log_message , 0 ) === false ) {
-
-        // last attempt to log
-        error_log ( $log_message , 4 ); // message is sent directly to the SAPI logging handler.
-    }
-}
 
 /**
  *
@@ -137,7 +68,8 @@ function sMVC_GetCurrentAppEnvironment() {
             sMVC_DisplayAndLogFrameworkFileNotFoundError(
                 'Missing Environment Configuration File Error',
                 $env_file_path,
-                $env_dist_file_path
+                $env_dist_file_path,
+                SMVC_APP_ROOT_PATH
             );
             exit;
         } // if( !file_exists($env_file) )
@@ -161,6 +93,18 @@ function sMVC_PrependAction2ActionMethodName($action_method_name) {
 
 $smvc_root_dir = SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
 
+if( !file_exists("{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php') ) {
+
+    $ini_settings_dist_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings-dist.php';
+    sMVC_DisplayAndLogFrameworkFileNotFoundError(
+        'Missing Ini Settings Configuration File Error',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php',
+        $ini_settings_dist_file_path,
+        SMVC_APP_ROOT_PATH
+    );
+    exit;
+}
+
 // handle ini settings
 require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 
@@ -173,7 +117,8 @@ if( !file_exists($app_settings_file_path) ) {
     sMVC_DisplayAndLogFrameworkFileNotFoundError(
         'Missing App Settings Configuration File Error',
         $app_settings_file_path,
-        $app_settings_dist_file_path
+        $app_settings_dist_file_path,
+        SMVC_APP_ROOT_PATH
     );
     exit;
 }
