@@ -55,41 +55,9 @@ sMVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERV
  */
 function sMVC_GetCurrentAppEnvironment() {
 
-    static $current_env;
-
-    if( !$current_env ) {
-
-        $root_dir = SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
-        $env_file_path = $root_dir.'config'. DIRECTORY_SEPARATOR.'env.php';
-
-        if( !file_exists($env_file_path) ) {
-
-            $env_dist_file_path = "{$root_dir}config". DIRECTORY_SEPARATOR.'env-dist.php';
-            sMVC_DisplayAndLogFrameworkFileNotFoundError(
-                'Missing Environment Configuration File Error',
-                $env_file_path,
-                $env_dist_file_path,
-                SMVC_APP_ROOT_PATH
-            );
-            exit;
-        } // if( !file_exists($env_file) )
-
-        $current_env = include $env_file_path;
-
-    } // if( !$current_env )
-
-    return $current_env;
+    return sMVC_DoGetCurrentAppEnvironment(SMVC_APP_ROOT_PATH);
 }
 
-function sMVC_PrependAction2ActionMethodName($action_method_name) {
-
-    if( strtolower( substr($action_method_name, 0, 6) ) !== "action"){
-
-        $action_method_name = 'action'.  ucfirst($action_method_name);
-    }
-
-    return $action_method_name;
-}
 
 $smvc_root_dir = SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR;
 
