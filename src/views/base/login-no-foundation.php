@@ -1,11 +1,11 @@
 <?php
-    $prepend_action = !S3MVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
+    $prepend_action = !SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
 
     $action = ($prepend_action) ? 'action-login' : 'login';
-    $login_path = s3MVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
+    $login_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
     
     $action1 = ($prepend_action) ? 'action-logout' : 'logout';
-    $logout_action_path = s3MVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/0");
+    $logout_action_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/0");
 ?>
 
 <?php if( !empty($error_message) ): ?>

@@ -1,5 +1,19 @@
-<?php  //Dependencies
+<?php  
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// Configure all the dependencies you'll need in your application in this file.
+//
+// Also call all the needed Setters on \Slim\Factory\AppFactory at the very end
+// of this file right before the return statement in this file.
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
+// $container must be an instance of \Psr\Container\ContainerInterface
+// It must be returned at the end of this file.
+$container = new \SlimMvcTools\Container();
+
+$container['settings'] = $app_settings;
+        
 ////////////////////////////////////////////////////////////////////////////////
 // Start configuration specific to all environments
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,79 +30,6 @@ $container['logger'] = function () {
     $adapter->setDateFormat('Y-M-d g:i:s A');
     
     return new \Vespula\Log\Log('error-log', $adapter);
-};
-
-// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
-$container['errorHandlerClass'] = \SlimMvcTools\Controllers\HttpServerErrorController::class;
-
-//Override the default 500 System Error Handler
-$container['errorHandler'] = function ($c) {
-    
-    return function (
-            \Psr\Http\Message\ServerRequestInterface $request, 
-            \Psr\Http\Message\ResponseInterface $response, 
-            \Exception $exception
-          ) use ($c) {
-        
-        $errorHandlerClass = $c['errorHandlerClass'];
-        $errorHandler = new $errorHandlerClass( $c, '', '', $request, $response);
-
-        $response_from_pre_action = $errorHandler->preAction();
-        
-        // invoke the server error handler
-        $action_response = $errorHandler->generateServerErrorResponse($exception, $request, $response_from_pre_action);
-        
-        return $errorHandler->postAction($action_response);
-    };
-};
-
-// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
-$container['notFoundHandlerClass'] = \SlimMvcTools\Controllers\HttpNotFoundController::class;
-
-//Override the default Not Found Handler
-$container['notFoundHandler'] = function ($c) {
-    
-    return function (
-                \Psr\Http\Message\ServerRequestInterface $request, 
-                \Psr\Http\Message\ResponseInterface $response,
-                $_404_page_contents_str = null,
-                $_404_page_additional_log_msg = null
-            ) use ($c) {
- 
-        $notFoundHandlerClass = $c['notFoundHandlerClass'];
-        $notFoundHandler = new $notFoundHandlerClass( $c, '', '', $request, $response);
-        
-        $notFoundHandler->setResponse( $notFoundHandler->preAction() );
-        
-        //invoke the not found handler
-        $action_response = $notFoundHandler->actionHttpNotFound($_404_page_contents_str, $_404_page_additional_log_msg);
-        
-        return $notFoundHandler->postAction($action_response);
-    };
-};
-
-// this MUST be replaced with any subclass of \\SlimMvcTools\\Controllers\\BaseController
-$container['notAllowedHandlerClass'] = \SlimMvcTools\Controllers\HttpMethodNotAllowedController::class;
-
-//Override the default Not Allowed Handler
-$container['notAllowedHandler'] = function ($c) {
-    
-    return function (
-                \Psr\Http\Message\ServerRequestInterface $request, 
-                \Psr\Http\Message\ResponseInterface $response, 
-                $methods
-            ) use ($c) {
-        
-        $notAllowedHandlerClass = $c['notAllowedHandlerClass'];
-        $notAllowedHandler = new $notAllowedHandlerClass( $c, '', '', $request, $response);
-
-        $response_from_pre_action = $notAllowedHandler->preAction();
-        
-        // invoke the notAllowed handler
-        $action_response = $notAllowedHandler->generateNotAllowedResponse($methods, $request, $response_from_pre_action);
-        
-        return $notAllowedHandler->postAction($action_response);
-    };
 };
 
 //Add the namespcace(s) for your web-app's controller classes or leave it
@@ -223,4 +164,12 @@ SQL;
 }
 ////////////////////////////////////////////////////////////////////////////
 // End Vespula.Auth Authentication setup
-////////////////////////////////////////////////////////////////////////////  
+////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////
+// Call all the needed Setters on \Slim\Factory\AppFactory below here before
+// AppFactory::create() is called in index.php
+////////////////////////////////////////////////////////////////////////////
+\Slim\Factory\AppFactory::setContainer($container);
+
+return $container;

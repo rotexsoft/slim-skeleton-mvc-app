@@ -11,7 +11,7 @@ $functionStrStartsWith = function (string $string, string $startString) {
 };
 
 // first traverse the src directory and include all *.php files and then get declared classes
-$src_path  = S3MVC_APP_ROOT_PATH.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR;
+$src_path  = SMVC_APP_ROOT_PATH.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR;
 $Directory = new RecursiveDirectoryIterator($src_path);
 $Iterator = new RecursiveIteratorIterator($Directory);
 $Regex = new RegexIterator($Iterator, '/^.+\.php$/i', RecursiveRegexIterator::GET_MATCH);

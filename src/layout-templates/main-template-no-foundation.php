@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Site Title Goes Here</title>
-        <link rel="stylesheet" href="<?php echo s3MVC_MakeLink('/css/app.css'); ?>" />
+        <link rel="stylesheet" href="<?php echo sMVC_MakeLink('/css/app.css'); ?>" />
     </head>
     <body>
         <div>
@@ -35,6 +35,6 @@
             </div>
         </footer>
 
-        <script src="<?php echo s3MVC_MakeLink('/js/app.js'); ?>"></script>
+        <script src="<?php echo sMVC_MakeLink('/js/app.js'); ?>"></script>
     </body>
 </html>
