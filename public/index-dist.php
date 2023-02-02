@@ -219,6 +219,7 @@ $container = require_once $dependencies_file_path;
 ////////////////////////////////////////////////////////////////////////////////
 
 $app = AppFactory::create();
+$app->setBasePath($app_settings['app_base_path']);
  
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -248,77 +249,5 @@ require_once $routes_and_middlewares_file_path;
 ////////////////////////////////////////////////////////////////////////////////
 // End: Load app specific routes
 ////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////
-/////////////////////////////
-// Start: Register mvc routes
-/////////////////////////////
-/////////////////////////////
-
-if( SMVC_APP_USE_MVC_ROUTES ) {
-    
-    // default route
-    $app->map(
-        $app_settings['mvc_routes_http_methods'], 
-        '/', 
-        $smvc_default_route_handler
-    );
-
-    // controller with no action and params route handler
-    $app->map(
-        $app_settings['mvc_routes_http_methods'], 
-        '/{controller}[/]', 
-        $smvc_controller_only_route_handler
-    );
-
-    // controller with action and optional params route handler
-    $app->map(
-        $app_settings['mvc_routes_http_methods'], 
-        '/{controller}/{action}[/{parameters:.+}]', 
-        $smvc_route_handler
-    );
-    
-    $app->map(
-        $app_settings['mvc_routes_http_methods'], 
-        '/{controller}/{action}/', 
-        $smvc_route_handler
-    ); //handle trailing slash
-}
-/////////////////////////////
-// End: Register mvc routes
-/////////////////////////////
-
-/**
- * Add Error Middleware
- *
- * @param bool                  $displayErrorDetails -> Should be set to false in production
- * @param bool                  $logErrors -> Parameter is passed to the default ErrorHandler
- * @param bool                  $logErrorDetails -> Display error details in error log
- * @param LoggerInterface|null  $logger -> Optional PSR-3 Logger  
- *
- * Note: This middleware should be added last. It will not handle any exceptions/errors
- * for middleware added after it.
- */
-$error_middleware = $app->addErrorMiddleware(
-    $app_settings['displayErrorDetails'],
-    $app_settings['logErrors'], 
-    $app_settings['logErrorDetails'],
-    $container->get('logger')
-);
-$error_middleware->setDefaultErrorHandler(
-    new $app_settings['error_handler_class'](
-        $app->getCallableResolver(),
-        $app->getResponseFactory(),
-        $container->get('logger')
-    )
-);
-$error_handler = $error_middleware->getDefaultErrorHandler();
-$error_handler->registerErrorRenderer(
-    'text/html', 
-    new $app_settings['html_renderer_class']($app_settings['error_template_file'])
-);
-$error_handler->setLogErrorRenderer(
-    new $app_settings['log_renderer_class']()
-);
 
 $app->run();

@@ -306,3 +306,9 @@ $error_handler->registerErrorRenderer(
 $error_handler->setLogErrorRenderer(
     new $app_settings['log_renderer_class']()
 );
+
+if($app_settings['addContentLengthHeader']) {
+    
+    // Add any middleware which may modify the response body before adding the ContentLengthMiddleware
+    $app->add(new \Slim\Middleware\ContentLengthMiddleware());
+}

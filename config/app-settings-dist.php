@@ -13,7 +13,7 @@ return [
     'displayErrorDetails' => false,
     'logErrors' => false,
     'logErrorDetails' => false,
-    //'addContentLengthHeader' => true, // no longer needed in slim 4
+    'addContentLengthHeader' => true,
     //'routerCacheFile' => false, // no longer needed in slim 4
 
     /////////////////////////////////////
@@ -23,6 +23,7 @@ return [
     /////////////////////////////////////////////
     // Your App's Environment Specific Settings
     /////////////////////////////////////////////
+    'app_base_path' => '',
     'error_template_file'=> SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
                             . 'src' . DIRECTORY_SEPARATOR 
                             . 'layout-templates' . DIRECTORY_SEPARATOR 
