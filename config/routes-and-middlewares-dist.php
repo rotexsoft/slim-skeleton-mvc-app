@@ -67,9 +67,8 @@ use ($app, $smvc_validate_method_name, $smvc_validate_method_exists_on_controlle
     // No controller or action was specified, so use default controller and
     // invoke the default action on it.
     $default_action = SMVC_APP_DEFAULT_ACTION_NAME;
-    $default_controller = SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME;
 
-    $default_controller_parts = explode('\\', $default_controller);
+    $default_controller_parts = explode('\\', SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME);
     $default_controller_from_uri = \SlimMvcTools\Functions\Str\toDashes(array_pop($default_controller_parts));
     
     $smvc_validate_method_name($request, $default_action);
