@@ -1,6 +1,10 @@
 <?php
 namespace SlimSkeletonMvcApp\Controllers;
 
+use \Psr\Container\ContainerInterface,
+    \Psr\Http\Message\ServerRequestInterface,
+    \Psr\Http\Message\ResponseInterface;
+
 /**
  * Description of Hello
  *
@@ -9,12 +13,18 @@ namespace SlimSkeletonMvcApp\Controllers;
 class Hello extends \SlimMvcTools\Controllers\BaseController
 {
     public function __construct(
-        \Psr\Container\ContainerInterface $container, $controller_name_from_uri, $action_name_from_uri, 
-        \Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res     
+        ContainerInterface $container, 
+        string $controller_name_from_uri, 
+        string $action_name_from_uri, 
+        ServerRequestInterface $req, 
+        ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
     
+   /**
+     * @return \Psr\Http\Message\ResponseInterface|string
+     */
     public function actionIndex() {
 
         //using a string here directly instead of a view
@@ -23,6 +33,9 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
     
+   /**
+     * @return \Psr\Http\Message\ResponseInterface|string
+     */
     public function actionWorld($name, $another_param) {
         
         //get the contents of the view first
@@ -31,6 +44,9 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
     
+   /**
+     * @return \Psr\Http\Message\ResponseInterface|string
+     */
     public function actionThere($first_name, $last_name) {
 
         $view_str = "Hello There $first_name, $last_name<br>";
@@ -38,4 +54,3 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
     }
 }
-
