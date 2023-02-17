@@ -6,6 +6,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Manually add the Slim\Middleware\OutputBufferingMiddleware to the $app object
+// wherever you feel is necessary in this file. If you don't need it, don't add it.
+
 /**
   * The routing middleware should be added earlier than the ErrorMiddleware
   * Otherwise exceptions thrown from it will not be handled by the middleware

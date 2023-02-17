@@ -75,7 +75,6 @@ require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARA
 // 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 use Slim\Factory\AppFactory;
 
@@ -86,6 +85,14 @@ define('SMVC_APP_ENV_TESTING', 'testing');
 
 define('SMVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('SMVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
+
+sMVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERVER,
+                        // $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are
+                        // captured in their original state by the static $super_globals
+                        // variable inside sMVC_GetSuperGlobal(), before any other
+                        // library, framework, etc. accesses or modifies any of them.
+                        // Subsequent calls to sMVC_GetSuperGlobal(..) will return
+                        // the stored values.
 
 /**
  * This function detects which environment your web-app is running in
@@ -147,13 +154,15 @@ $app_settings = require_once $app_settings_file_path;
 // define all the routes for your application inside config/routes-and-middlewares.php
 define('SMVC_APP_USE_MVC_ROUTES', $app_settings['use_mvc_routes']);
 
-// If true, the string `action` will be prepended to action method names (if the
+// If true, the string `action` will be prepended to action method name (if the
 // method name does not already start with the string `action`). The resulting
 // method name will be converted to camel case before being executed.
 // If false, then action method names will only be converted to camel
 // case before being executed.
-// NOTE: This setting does not apply to SMVC_APP_DEFAULT_ACTION_NAME.
-//       It only applies to the routes below:
+// NOTE: This setting only applies to the MVC routes below if 
+//       $app_settings['use_mvc_routes'] === true:
+//          '/'
+//          '/{controller}[/]'
 //          '/{controller}/{action}[/{parameters:.+}]'
 //          '/{controller}/{action}/'
 define(
@@ -176,14 +185,6 @@ define(
     'SMVC_APP_DEFAULT_ACTION_NAME', 
     $app_settings['default_action_name']
 );
-
-sMVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERVER,
-                        // $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are
-                        // captured in their original state by the static $super_globals
-                        // variable inside sMVC_GetSuperGlobal(), before any other
-                        // library, framework, etc. accesses or modifies any of them.
-                        // Subsequent calls to sMVC_GetSuperGlobal(..) will return
-                        // the stored values.
 
 ////////////////////////////////////////////////////////////////////////////////
 // Start: Dependency Injection Configuration
@@ -220,7 +221,7 @@ $container = require_once $dependencies_file_path;
 
 $app = AppFactory::create();
 $app->setBasePath($app_settings['app_base_path']);
- 
+
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Start: Load app specific and slim mvc route definitions.

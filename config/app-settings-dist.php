@@ -6,15 +6,10 @@ return [
     ///////////////////////////////
     // Slim PHP Related Settings
     //////////////////////////////
-    //'httpVersion' => '1.1', // no longer needed in slim 4
-    //'responseChunkSize' => 4096, // no longer needed in slim 4
-    'outputBuffering' => 'append',
-    'determineRouteBeforeAppMiddleware' => false,
     'displayErrorDetails' => false,
     'logErrors' => false,
     'logErrorDetails' => false,
     'addContentLengthHeader' => true,
-    //'routerCacheFile' => false, // no longer needed in slim 4
 
     /////////////////////////////////////
     // End of Slim PHP Related Settings
