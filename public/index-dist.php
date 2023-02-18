@@ -86,7 +86,7 @@ define('SMVC_APP_ENV_TESTING', 'testing');
 define('SMVC_APP_PUBLIC_PATH', dirname(__FILE__));
 define('SMVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
 
-sMVC_GetSuperGlobal(); // this method is first called here to ensure that $_SERVER,
+sMVC_GetSuperGlobal();  // this method is first called here to ensure that $_SERVER,
                         // $_GET, $_POST, $_FILES, $_COOKIE, $_SESSION & $_ENV are
                         // captured in their original state by the static $super_globals
                         // variable inside sMVC_GetSuperGlobal(), before any other
