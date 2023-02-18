@@ -31,8 +31,6 @@
             "php -r \" unlink('./src/smvc-tools/post-composer-create-project.php'); \" ",
             "php -r \" unlink('./src/smvc-tools/.gitkeep'); \" ",
             "php -r \" rmdir('./src/smvc-tools'); \" ",
-            "php -r \" unlink('./.github/workflows/php.yml'); \" ",
-            "php -r \" rmdir('./.github'); \" ",
             "php -r \" unlink('./LICENSE'); \" ",
             "@composer update -o --no-dev"
         ]

@@ -72,6 +72,7 @@ class SMVC_PostComposerCreateHandler {
         ////////////////////////////////////////////////////////////////////////
         $folders_to_delete = [
             "{$root_folder}documentation",
+            "{$root_folder}.github",
         ];
 
         foreach ($folders_to_delete as $folder_to_delete) {
