@@ -71,32 +71,27 @@ if( !SMVC_APP_USE_MVC_ROUTES ) {
 }
 
 /////////////////////////////
-/////////////////////////////
 // Start: Register mvc routes
-/////////////////////////////
 /////////////////////////////
 if( SMVC_APP_USE_MVC_ROUTES ) {
     
-    // default route
     $app->map(
         $app_settings['mvc_routes_http_methods'], 
         '/', 
         $smvc_route_handler
-    );
-
-    // controller with no action and params route handler
+    ); // default route
+    
     $app->map(
         $app_settings['mvc_routes_http_methods'], 
         '/{controller}[/]', 
         $smvc_route_handler
-    );
-
-    // controller with action and optional params route handler
+    ); // controller with no action and params route handler
+    
     $app->map(
         $app_settings['mvc_routes_http_methods'], 
         '/{controller}/{action}[/{parameters:.+}]', 
         $smvc_route_handler
-    );
+    ); // controller with action and optional params route handler
     
     $app->map(
         $app_settings['mvc_routes_http_methods'], 
@@ -138,7 +133,6 @@ $error_handler->registerErrorRenderer(
     'text/html', 
     new $app_settings['html_renderer_class']($app_settings['error_template_file'])
 );
-
 $error_handler->setLogErrorRenderer(
     new $app_settings['log_renderer_class']()
 );
