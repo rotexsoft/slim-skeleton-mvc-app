@@ -11,14 +11,14 @@ class SMVC_PostComposerCreateHandler {
         $ds = DIRECTORY_SEPARATOR;
         static::printInfo( "Running post composer create-project tasks for SlimMvc ........".PHP_EOL );
 
-        $raw_root_folder = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
-        $root_folder = realpath($raw_root_folder).DIRECTORY_SEPARATOR;
+        $raw_root_folder = __DIR__ . $ds . '..' . $ds . '..' . $ds;
+        $root_folder = realpath($raw_root_folder).$ds;
 
         $raw_config_src_folder = $raw_root_folder.'config';
-        $config_src_folder = realpath($raw_config_src_folder).DIRECTORY_SEPARATOR;
+        $config_src_folder = realpath($raw_config_src_folder).$ds;
 
         $raw_public_src_folder = $raw_root_folder.'public';
-        $public_src_folder = realpath($raw_public_src_folder).DIRECTORY_SEPARATOR;
+        $public_src_folder = realpath($raw_public_src_folder).$ds;
         
         $files_to_copy = [
             "{$config_src_folder}app-settings-dist.php" => "{$config_src_folder}app-settings.php",
