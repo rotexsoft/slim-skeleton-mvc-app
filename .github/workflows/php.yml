@@ -16,23 +16,23 @@ jobs:
 
     strategy:
         matrix:
-            php: [8.1, 8.0, 7.4]
+            php: [8.2, 8.1, 8.0, 7.4]
 # prefer-lowest is causing unit tests to fail when php 7.2 is run against PHPunit 7.x, 
 # PHPUnit 8.x is the latest stable release that supports PHP 7.2 and that runs fine
 #            dependency-version: [prefer-lowest, prefer-stable]
             dependency-version: [prefer-stable]
-            os: [ubuntu-18.04, ubuntu-20.04]
+            os: [ubuntu-20.04, ubuntu-22.04]
             include:
-                - os: ubuntu-18.04
-                  php: 7.4
-                - os: ubuntu-18.04
-                  php: 8.0
                 - os: ubuntu-20.04
                   php: 7.4
                 - os: ubuntu-20.04
                   php: 8.0
                 - os: ubuntu-20.04
                   php: 8.1
+                - os: ubuntu-20.04
+                  php: 8.2
+                - os: ubuntu-22.04
+                  php: 8.2
             #exclude:
                 #- os: ubuntu-20.04
                   #php: 7.3
@@ -41,7 +41,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -62,24 +62,23 @@ jobs:
     - name: Install Dependencies
       run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
-# Uncomment sections below when phpunit, rector, psalm & selenium have been properly integrated
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
-#    - name: Run PHPUnit Test Suite
-#      run: vendor/bin/phpunit
-#
-#    - name: Upload coverage results to Coveralls
-#      env: 
-#        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      run: |
-#        vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
-#
-#    - name: Run Rector
-#      # Run rector for PHP 7.X but not 8.0, rector is currently blowing up with PHP 8.0
-#      if: matrix.php == '7.4'
-#      run: vendor/bin/rector process src --dry-run
-#
-#    - name: Run Psalm
-#      # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3
-#      #if: matrix.php != '7.2' && matrix.php != '7.3'
-#      run: vendor/bin/psalm
+    - name: Run PHPUnit Test Suite
+      run: vendor/bin/phpunit
+
+    - name: Upload coverage results to Coveralls
+      env: 
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
+
+    #- name: Run Rector
+      # Run rector for PHP 7.X but not 8.0, rector is currently blowing up with PHP 8.0
+    #  if: matrix.php == '7.4'
+    #  run: vendor/bin/rector process src --dry-run
+
+    #- name: Run Psalm
+      # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3
+      #if: matrix.php != '7.2' && matrix.php != '7.3'
+    #  run: vendor/bin/psalm
