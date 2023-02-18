@@ -16,15 +16,11 @@
 
     > **`cd my-app`**
 
-2. Specify where the web-server will save your application's php session files by adding the line below to **`./config/ini-settings.php`** file (NOTE that **'/path/to/a/writable/folder'** should be replaced with a path to a folder that is writable by your web-server):
-
-    > **`ini_set('session.save_path', '/path/to/a/writable/folder');`**
-
-3. Now run this command to run the built-in php development server:
+2. Now run this command to run the built-in php development server:
 
     > **`php -S 0.0.0.0:8888 -t public`**
 
-4. You can then go on to browse to [http://localhost:8888](http://localhost:8888) (your new application's default home-page)
+3. You can then go on to browse to [http://localhost:8888](http://localhost:8888) (your new application's default home-page)
 
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of SlimMvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
@@ -83,20 +79,20 @@
     * The **`action-`** prefix can be omitted from the links above if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
         * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
 
-5. If you are getting 404 errors, make sure that url-rewriting is enabled on your web-server.
+4. If you are getting 404 errors, make sure that url-rewriting is enabled on your web-server.
 
-6. Next steps:
+5. Next steps:
 
-  	- Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
+    - Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
 
-  	- Update the values of **SMVC_APP_USE_MVC_ROUTES**, **SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **SMVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
+    - Update the values of **SMVC_APP_USE_MVC_ROUTES**, **SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **SMVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
 
-  	- Start creating controllers for your application using **./vendor/bin/smvc-create-controller-wizard**
-  		> It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
+    - Start creating controllers for your application using **./vendor/bin/smvc-create-controller-wizard**
+            > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
-        > Make sure you add the namespace for your apps controller classes to the array referenced by **$container['namespaces_for_controllers']** in **./config/dependencies.php** 
-        
-        > Always run **composer dump** after each time your create a new controller class with **./vendor/bin/smvc-create-controller** or **./vendor/bin/smvc-create-controller-wizard**.
+    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container['namespaces_for_controllers']** in **./config/dependencies.php** 
+
+    > Always run **composer dump** after each time your create a new controller class with **./vendor/bin/smvc-create-controller** or **./vendor/bin/smvc-create-controller-wizard**.
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
