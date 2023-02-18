@@ -4,13 +4,13 @@
     $prepend_action = !SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
 
     $action = ($prepend_action) ? 'action-login' : 'login' ;
-    $login_action_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
+    $login_action_path = $sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
                         
     $action1 = ($prepend_action) ? 'action-logout' : 'logout' ;
-    $logout_action_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/1");
+    $logout_action_path = $sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/1");
 
     $action2 = ($prepend_action) ? 'action-login-status' : 'login-status' ;
-    $login_status_action_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action2");
+    $login_status_action_path = $sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action2");
 ?>
 
 <?php if( $is_logged_in ): ?>

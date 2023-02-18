@@ -1,49 +1,40 @@
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<html class="no-js" lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Site Title Goes Here</title>
-        <link rel="stylesheet" href="<?php echo sMVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
+        <link rel="stylesheet" href="<?php echo $sMVC_MakeLink('/css/app.css'); ?>" />
     </head>
     <body>
-        <div class="grid-container">
-            <div class="grid-x  grid-padding-x">
-                <div class="small-12 cell">
-                    <ul class="menu" style="padding-left: 0;">
-                        <li><a href="#">Section 1</a></li>
-                        <li><a href="#">Section 2</a></li>
-                        <li><a href="#">Section 3</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="grid-x grid-padding-x">
-                <div class="small-12 cell">
-                    <h1>Welcome to Your New Site</h1>
-                    <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 4 Skeleton MVC App Micro-Framework</a> based on SlimPHP 4. It also ships with the <a href="http://foundation.zurb.com/">Foundation</a> UI framework. Everything you need to know about using the Foundation UI framework can be found <a href="http://foundation.zurb.com/docs">here</a>.</p>
-                </div>
-            </div>
-            <div class="grid-x grid-padding-x">
-                <div class="small-12 cell">
-                    <?php echo $content; ?>
-                </div>
-            </div>
-            <footer class="grid-x grid-padding-x">
-                <div class="small-12 cell">
-                    <hr/>
-                    <div class="grid-x">
-                        <div class="small-6 cell">
-                            <p>© Copyright no one at all. Go to town.</p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div><!-- <div class="grid-container"> -->
+        <div>
+            <ul style="padding-left: 0;">
+                <li style="display: inline;"><a href="#">Section 1</a></li>
+                <li style="display: inline;"><a href="#">Section 2</a></li>
+                <li style="display: inline;"><a href="#">Section 3</a></li>
+            </ul>
+        </div>
 
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
-        <script> $(document).foundation(); </script>
+        <div>
+            <h1>Welcome to Your New Site</h1>
+            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 4 Skeleton MVC App.</a></p>
+        </div>
+
+        <br>
+
+        <div>
+            <div>
+                <?php echo $content; ?>
+            </div>
+        </div>
+
+        <footer>
+            <div>
+                <hr/>
+                <p>© Copyright no one at all. Go to town.</p>
+            </div>
+        </footer>
+
+        <script src="<?php echo $sMVC_MakeLink('/js/app.js'); ?>"></script>
     </body>
 </html>

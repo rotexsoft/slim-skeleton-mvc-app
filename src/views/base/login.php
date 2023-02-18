@@ -2,10 +2,10 @@
     $prepend_action = !SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
 
     $action = ($prepend_action) ? 'action-login' : 'login';
-    $login_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
+    $login_path = $sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action");
     
     $action1 = ($prepend_action) ? 'action-logout' : 'logout';
-    $logout_action_path = sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/0");
+    $logout_action_path = $sMVC_MakeLink("/{$controller_object->controller_name_from_uri}/$action1/0");
 ?>
 
 <?php if( !empty($error_message) ): ?>
@@ -18,36 +18,18 @@
     
     <form action="<?php echo $login_path; ?>" method="post">
         
-        <div class="row">
-            <div class="large-6 columns">
-                <div class="row collapse prefix-radius">
-                    <div class="small-3 columns">
-                        <span class="prefix">User Name: </span>
-                    </div>
-                    <div class="small-9 columns">
-                        <input type="text" name="username" placeholder="User Name" value="<?php echo $username; ?>">
-                    </div>
-                </div>
-            </div>
+        <div>
+            <span>User Name: </span>
+            <input type="text" name="username" placeholder="User Name" value="<?php echo $username; ?>">
         </div>
-
-        <div class="row">
-            <div class="large-6 columns">
-                <div class="row collapse prefix-radius">
-                    <div class="small-3 columns">
-                        <span class="prefix">Password: </span>
-                    </div>
-                    <div class="small-9 columns">
-                        <input type="password" name="password" autocomplete="off" placeholder="Password" value="<?php echo $password; ?>">
-                    </div>
-                </div>
-            </div>
+        <br>
+        <div>
+            <span>Password: </span>
+            <input type="password" name="password" autocomplete="off" placeholder="Password" value="<?php echo $password; ?>">
         </div>
-        
-        <div class="row">
-            <div class="large-6 columns push-4">
-                <input type="submit" value="Login" class="button radius">
-            </div>
+        <br>
+        <div>
+            <input type="submit" value="Login">
         </div>
 
     </form>

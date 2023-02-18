@@ -464,7 +464,7 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 * **`sMVC_CreateController(\Interop\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
 * **`sMVC_DumpVar($v)`:** for dumping variables during development for debugging purposes.
 * **`sMVC_GetBaseUrlPath()`:** performs the same function as \Slim\Http\Uri::getBasePath()
-* **`sMVC_MakeLink($path)`:** prepends **sMVC_GetBaseUrlPath()** followed by **/** to $path and returns the prepended string. Use this for generating links in your application.
+* **`$sMVC_MakeLink($path)`:** prepends **sMVC_GetBaseUrlPath()** followed by **/** to $path and returns the prepended string. Use this for generating links in your application.
 * **`sMVC_GetSuperGlobal($global_name='', $key='', $default_val='')`:** a helper function for accessing super globals.
 * **`sMVC_UriToString(\Psr\Http\Message\UriInterface $uri)`:** a helper function for converting PSR-7 uri objects to a string.
 * **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)`:** a helper function for adding query string parameters to PSR-7 uri objects.

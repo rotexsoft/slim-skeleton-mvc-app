@@ -19,222 +19,104 @@ class SMVC_PostComposerCreateHandler {
 
         $raw_public_src_folder = $raw_root_folder.'public';
         $public_src_folder = realpath($raw_public_src_folder).DIRECTORY_SEPARATOR;
+        
+        $files_to_copy = [
+            "{$config_src_folder}app-settings-dist.php" => "{$config_src_folder}app-settings.php",
+            "{$config_src_folder}env-dist.php" => "{$config_src_folder}env.php",
+        ];
+        
+        foreach($files_to_copy as $from => $to) {
+            
+            static::printInfo( "Trying to copy `{$from}` to `{$to}` ...." );
 
-        static::printInfo( "Copying `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php` ...." );
+            if( copy($from, $to) ) {
 
-        if( copy("{$config_src_folder}app-settings-dist.php", "{$config_src_folder}app-settings.php") ) {
+                static::printInfo( "Successfully Copied!".PHP_EOL );
 
-            static::printInfo( "Successfully Copied!".PHP_EOL );
+            } else {
 
-        } else {
-
-            static::printError( "Could not copy `{$config_src_folder}app-settings-dist.php` to `{$config_src_folder}app-settings.php`!".PHP_EOL );
+                static::printError( "Could not copy `{$from}` to `{$to}`!".PHP_EOL );
+            }
+            
+            sleep(1);
         }
-        sleep(1);
+        
+        $files_to_rename = [
+            "{$config_src_folder}dependencies-dist.php" => "{$config_src_folder}dependencies.php",
+            "{$config_src_folder}ini-settings-dist.php" => "{$config_src_folder}ini-settings.php",
+            "{$config_src_folder}routes-and-middlewares-dist.php" => "{$config_src_folder}routes-and-middlewares.php",
+            "{$public_src_folder}index-dist.php" => "{$public_src_folder}index.php",
+            "{$root_folder}.gitignore-dist" => "{$root_folder}.gitignore",
+            "{$root_folder}README-dist.md" => "{$root_folder}README.md",
+            "{$root_folder}composer-dist.json" => "{$root_folder}composer.json", 
+        ];
+        
+        foreach($files_to_rename as $from => $to) {
+            
+            static::printInfo( "Trying to move `{$from}` to `{$to}` ...." );
 
-        static::printInfo( "Moving `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php` ...." );
+            if( rename($from, $to) ) {
 
-        if( rename("{$config_src_folder}dependencies-dist.php", "{$config_src_folder}dependencies.php") ) {
+                static::printInfo( "Successfully Moved!".PHP_EOL );
 
-            static::printInfo( "Successfully Moved!".PHP_EOL );
+            } else {
 
-        } else {
-
-            static::printError( "Could not move `{$config_src_folder}dependencies-dist.php` to `{$config_src_folder}dependencies.php`!".PHP_EOL );
+                static::printError( "Could not move `{$from}` to `{$to}`!".PHP_EOL );
+            }
+            
+            sleep(1);
         }
-        sleep(1);
+        
+        ////////////////////////////////////////////////////////////////////////
+        // delete folders not needed in skeleton app
+        ////////////////////////////////////////////////////////////////////////
+        $folders_to_delete = [
+            "{$root_folder}documentation",
+        ];
 
-        static::printInfo( "Copying `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php` ...." );
+        foreach ($folders_to_delete as $folder_to_delete) {
+            
+            static::printInfo( "Deleting `{$folder_to_delete}` ....".PHP_EOL );
+            
+            if( static::rrmdir("{$folder_to_delete}") ) {
 
-        if( copy("{$config_src_folder}env-dist.php", "{$config_src_folder}env.php") ) {
+                static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
-            static::printInfo( "Successfully Copied!".PHP_EOL );
+            } else {
 
-        } else {
-
-            static::printError( "Could not copy `{$config_src_folder}env-dist.php` to `{$config_src_folder}env.php`!".PHP_EOL );
-        }
-        sleep(1);
-
-        static::printInfo( "Moving `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php` ...." );
-
-        if( rename("{$config_src_folder}ini-settings-dist.php", "{$config_src_folder}ini-settings.php") ) {
-
-            static::printInfo( "Successfully Moved!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not move `{$config_src_folder}ini-settings-dist.php` to `{$config_src_folder}ini-settings.php`!".PHP_EOL );
-        }
-        sleep(1);
-
-        static::printInfo( "Moving `{$config_src_folder}routes-and-middlewares-dist.php` to `{$config_src_folder}routes-and-middlewares.php` ...." );
-
-        if( rename("{$config_src_folder}routes-and-middlewares-dist.php", "{$config_src_folder}routes-and-middlewares.php") ) {
-
-            static::printInfo( "Successfully Moved!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not move `{$config_src_folder}routes-and-middlewares-dist.php` to `{$config_src_folder}routes-and-middlewares.php`!".PHP_EOL );
-        }
-        sleep(1);
-
-        static::printInfo( "Moving `{$public_src_folder}index-dist.php` to `{$public_src_folder}index.php` ...." );
-
-        if( rename("{$public_src_folder}index-dist.php", "{$public_src_folder}index.php") ) {
-
-            static::printInfo("Successfully Moved!".PHP_EOL);
-
-        } else {
-
-            static::printError( "Could not move `{$public_src_folder}{$ds}index-dist.php` to `{$public_src_folder}{$ds}index.php`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$root_folder}.gitignore-dist` to `{$root_folder}.gitignore` ...." );
-
-        if( rename("{$root_folder}.gitignore-dist", "{$root_folder}.gitignore") ) {
-
-            static::printInfo( "Successfully Moved!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not move `{$root_folder}.gitignore-dist` to `{$root_folder}.gitignore`!".PHP_EOL );
+                static::printError("Could not delete `{$folder_to_delete}`!".PHP_EOL);
+            }
+            
+            sleep(1);
         }
 
-        sleep(1);
+        ////////////////////////////////////////////////////////////////////////
+        // delete files not needed in skeleton app
+        ////////////////////////////////////////////////////////////////////////        
+        $files_to_delete = [
+            "{$root_folder}slim3-psr7.png",
+            "{$root_folder}TODO.md",
+            "{$root_folder}slim3-psr7.pub",
+            "{$root_folder}index.php-overview.docx",
+            "{$root_folder}index.php-overview.png",
+            "{$root_folder}phpunit.xml.dist",
+        ];
+        
+        foreach ($files_to_delete as $file_to_delete) {
+            
+            static::printInfo( "Trying to delete `{$file_to_delete}` ....".PHP_EOL );
 
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$root_folder}README-dist.md` to `{$root_folder}README.md` ...." );
+            if( !file_exists($file_to_delete) || unlink($file_to_delete) ) {
 
-        if( rename("{$root_folder}README-dist.md", "{$root_folder}README.md") ) {
+                static::printInfo( "Successfully Deleted!".PHP_EOL  );
 
-            static::printInfo( "Successfully Moved!".PHP_EOL );
+            } else {
 
-        } else {
+                static::printError("Could not delete `{$file_to_delete}`!".PHP_EOL);
+            }
 
-            static::printError( "Could not move `{$root_folder}README-dist.md` to `{$root_folder}README.md`!".PHP_EOL );
+            sleep(1);
         }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Moving `{$root_folder}composer-dist.json` to `{$root_folder}composer.json` ...." );
-
-        if( rename("{$root_folder}composer-dist.json", "{$root_folder}composer.json") ) {
-
-            static::printInfo( "Successfully Moved!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not move `{$root_folder}composer-dist.json` to `{$root_folder}composer.json`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        // delete documentation folder
-        static::printInfo( "Deleting `{$root_folder}documentation` ....".PHP_EOL );
-
-        $base_documentation_folder = "{$root_folder}documentation";
-
-        if( static::rrmdir("{$base_documentation_folder}") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-        } else {
-
-            static::printError("Could not delete `{$root_folder}documentation`!".PHP_EOL);
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}slim3-psr7.png` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}slim3-psr7.png") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not delete `{$root_folder}slim3-psr7.png`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}TODO.md` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}TODO.md") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not delete `{$root_folder}TODO.md`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}slim3-psr7.pub` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}slim3-psr7.pub") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not delete `{$root_folder}slim3-psr7.pub`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}index.php-overview.docx` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}index.php-overview.docx") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not delete `{$root_folder}index.php-overview.docx`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}index.php-overview.png` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}index.php-overview.png") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL );
-
-        } else {
-
-            static::printError( "Could not delete `{$root_folder}index.php-overview.png`!".PHP_EOL );
-        }
-
-        sleep(1);
-
-        ////////////////////////////////////////////////////////////
-        static::printInfo( "Deleting `{$root_folder}phpunit.xml.dist` ....".PHP_EOL );
-
-        if( unlink("{$root_folder}phpunit.xml.dist") ) {
-
-            static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-        } else {
-
-            static::printError("Could not delete `{$root_folder}phpunit.xml.dist`!".PHP_EOL);
-        }
-
-        sleep(1);
 
         ////////////////////////////////////////////////////////////////////////////////
         $logs_folder = $root_folder."logs";
@@ -250,190 +132,10 @@ class SMVC_PostComposerCreateHandler {
         }
 
         ////////////////////////////////////////////////////////////////////////////////
-        //Interactive Part: Ask if user wants foundation template
+        //Interactive Part: Ask for user input
         ////////////////////////////////////////////////////////////////////////////////
-        $response = static::readFromLine("Do you want to use the Zurb Foundation front-end framework (which includes jQuery) that ships with SlimPHP 4 Skeleton MVC package? (Y/N)");
-
-        if ( strtoupper(trim($response)) === 'N' ) {
-
-            ////////////////////////////////////////////////////////////
-            // delete src/layout-templates/main-template.php
-            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
-
-            $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
-
-            if( unlink("{$main_template_folder}main-template.php") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // move main-template-no-foundation.php into main-template.php in src/layout-templates
-            static::printInfo( "Moving `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$root_folder}src{$ds}layout-templates{$ds}main-template.php` ....".PHP_EOL );
-
-            if( rename("{$main_template_folder}main-template-no-foundation.php", "{$main_template_folder}main-template.php") ) {
-
-                static::printInfo( "Successfully Moved!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not move `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` to `{$root_folder}src{$ds}layout-templates{$ds}main-template.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-
-            ////////////////////////////////////////////////////////////
-            // delete src/views/base/login.php
-            static::printInfo( "Deleting `{$root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
-
-            $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
-
-            if( unlink("{$base_view_folder}login.php") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ///////////////////////////////////////////////////////////////////////////////////////
-            // move login-no-foundation.php into login.php  in src/views/base
-            static::printInfo( "Moving `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$root_folder}src{$ds}views{$ds}base{$ds}login.php` ....".PHP_EOL );
-
-            if( rename("{$base_view_folder}login-no-foundation.php", "{$base_view_folder}login.php") ) {
-
-                static::printInfo( "Successfully Moved!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not move `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` to `{$root_folder}src{$ds}views{$ds}base{$ds}login.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////////////////////////////////////////////////////////////////
-
-            ////////////////////////////////////////////////////////////
-            // delete public/css/foundation
-            static::printInfo( "Deleting `{$root_folder}public{$ds}css{$ds}foundation` ....".PHP_EOL );
-
-            $base_foundation_css_folder = "{$root_folder}public{$ds}css{$ds}foundation";
-
-            if( static::rrmdir("{$base_foundation_css_folder}") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}public{$ds}css{$ds}foundation`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ////////////////////////////////////////////////////////////
-            // delete public/js/foundation
-            static::printInfo( "Deleting `{$root_folder}public{$ds}js{$ds}foundation` ....".PHP_EOL );
-
-            $base_foundation_js_folder = "{$root_folder}public{$ds}js{$ds}foundation";
-
-            if( static::rrmdir("{$base_foundation_js_folder}") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}public{$ds}js{$ds}foundation`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            static::printInfo( PHP_EOL . "Successfully Disabled Zurb Foundation CSS/JS framework!" . PHP_EOL );
-            sleep(1);
-
-        } else {
-
-            ///////////////////////////////////////////////////////////////
-            // delete src/layout-templates/main-template-no-foundation.php
-            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php` ....".PHP_EOL );
-
-            $main_template_folder = "{$root_folder}src{$ds}layout-templates{$ds}";
-
-            if( unlink("{$main_template_folder}main-template-no-foundation.php") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}src{$ds}layout-templates{$ds}main-template-no-foundation.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ///////////////////////////////////////////////////////////////
-            // delete src/views/base/login-no-foundation.php
-            static::printInfo( PHP_EOL."Deleting `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php` ....".PHP_EOL );
-
-            $base_view_folder = "{$root_folder}src{$ds}views{$ds}base{$ds}";
-
-            if( unlink("{$base_view_folder}login-no-foundation.php") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}src{$ds}views{$ds}base{$ds}login-no-foundation.php`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ///////////////////////////////////////////////////////////////
-            // delete public/css/app.css
-            static::printInfo( PHP_EOL."Deleting `{$root_folder}public{$ds}css{$ds}app.css` ....".PHP_EOL );
-
-            $base_public_css_folder = "{$root_folder}public{$ds}css{$ds}";
-
-            if( unlink("{$base_public_css_folder}app.css") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}public{$ds}css{$ds}app.css`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            ///////////////////////////////////////////////////////////////
-            // delete public/js/app.js
-            static::printInfo( PHP_EOL."Deleting `{$root_folder}public{$ds}js{$ds}app.js` ....".PHP_EOL );
-
-            $base_public_js_folder = "{$root_folder}public{$ds}js{$ds}";
-
-            if( unlink("{$base_public_js_folder}app.js") ) {
-
-                static::printInfo( "Successfully Deleted!".PHP_EOL  );
-
-            } else {
-
-                static::printError("Could not delete `{$root_folder}public{$ds}js{$ds}app.js`!".PHP_EOL);
-            }
-
-            sleep(1);
-
-            static::printInfo( PHP_EOL . "Successfully Enabled Zurb Foundation CSS/JS framework!" . PHP_EOL );
-            sleep(1);
-        }
+        
+        // $response = static::readFromLine("Do you want to use the Zurb Foundation front-end framework (which includes jQuery) that ships with SlimPHP 4 Skeleton MVC package? (Y/N)");
     }
 
     public static function printError($str, $append_new_line = true) {

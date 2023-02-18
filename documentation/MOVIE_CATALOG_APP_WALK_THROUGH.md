@@ -632,8 +632,8 @@ to contain navigation links to some of the features we will be implementing.
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Da Numba 1 Movie Catalog App</title>
-        <link rel="stylesheet" href="<?php echo sMVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
+        <link rel="stylesheet" href="<?php echo $sMVC_MakeLink('/css/foundation/foundation.css'); ?>" />
+        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
         
         <style>
             /* style for menu items */
@@ -653,16 +653,16 @@ to contain navigation links to some of the features we will be implementing.
                     <ul class="dropdown menu" data-dropdown-menu>
                         <li class="menu-text">Da Numba 1 Movie Catalog App</li>
                         <li <?php isset($controller_name_from_uri) && makeMenuItemActive('movie-listings', $controller_name_from_uri); ?> >
-                            <a href="<?php echo sMVC_MakeLink("movie-listings"); ?>">
+                            <a href="<?php echo $sMVC_MakeLink("movie-listings"); ?>">
                                 Home
                             </a>
                         </li>
                         <li <?php isset($controller_name_from_uri) && makeMenuItemActive('users', $controller_name_from_uri); ?> >
-                            <a href="<?php echo sMVC_MakeLink("users"); ?>">Manage Users</a>
+                            <a href="<?php echo $sMVC_MakeLink("users"); ?>">Manage Users</a>
                             
                             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
                                 <ul class="menu vertical">
-                                    <li><a href="<?php echo sMVC_MakeLink("users/add"); ?>">Add New User</a></li>
+                                    <li><a href="<?php echo $sMVC_MakeLink("users/add"); ?>">Add New User</a></li>
                                 </ul>
                             <?php endif; // if( isset($is_logged_in) && $is_logged_in ) ?>
                             
@@ -682,8 +682,8 @@ to contain navigation links to some of the features we will be implementing.
                                     $controller_name_from_uri = 'movie-listings';
                                 }
 
-                                $login_action_path = sMVC_MakeLink("/{$controller_name_from_uri}/login");
-                                $logout_action_path = sMVC_MakeLink("/{$controller_name_from_uri}/logout");
+                                $login_action_path = $sMVC_MakeLink("/{$controller_name_from_uri}/login");
+                                $logout_action_path = $sMVC_MakeLink("/{$controller_name_from_uri}/logout");
                             ?>
                             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
@@ -759,8 +759,8 @@ to contain navigation links to some of the features we will be implementing.
             </div>
         </footer>
 
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
-        <script src="<?php echo sMVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
+        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
+        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
         <script> $(document).foundation(); </script>
     </body>
 </html>
@@ -935,12 +935,12 @@ to **./src/views/users/index.php**:
 
             <li>
                 <?php echo $user_record->username; ?> | 
-                <a href="<?php echo sMVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
+                <a href="<?php echo $sMVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
 
                 <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-                    | <a href="<?php echo sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-                    <a href="<?php echo sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
+                    | <a href="<?php echo $sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+                    <a href="<?php echo $sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
                        onclick="return confirm('Are you sure?');"
                     >
                         Delete
@@ -978,7 +978,7 @@ to **./src/views/users/index.php**:
                 }
 
                 window.location.href = 
-                    '<?php echo sMVC_MakeLink("/users/init-users"); ?>' 
+                    '<?php echo $sMVC_MakeLink("/users/init-users"); ?>' 
                     + '/' + entered_password;
             }
         );
@@ -1046,11 +1046,11 @@ file in **./src/views/users/** and adding the code below to it:
     </li>
 </dl>
 <p>
-    <a href="<?php echo sMVC_MakeLink( "users/index" ); ?>">View all Users</a>
+    <a href="<?php echo $sMVC_MakeLink( "users/index" ); ?>">View all Users</a>
     <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-        | <a href="<?php echo sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-        <a href="<?php echo sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+        | <a href="<?php echo $sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+        <a href="<?php echo $sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
 
     <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
 </p>
@@ -1153,7 +1153,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = sMVC_MakeLink("users/index");
+                    $rdr_path = $sMVC_MakeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
@@ -1190,7 +1190,7 @@ file in **./src/views/users/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Add New User</h4>
 
 <form method="POST" 
-      action="<?php echo sMVC_MakeLink("users/add"); ?>" 
+      action="<?php echo $sMVC_MakeLink("users/add"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1268,7 +1268,7 @@ file in **./src/views/users/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo sMVC_MakeLink("/users/index"); ?>';
+            window.location.href = '<?php echo $sMVC_MakeLink("/users/index"); ?>';
         }
     );
 </script>
@@ -1384,7 +1384,7 @@ code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = sMVC_MakeLink("users/index");
+                    $rdr_path = $sMVC_MakeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
@@ -1421,7 +1421,7 @@ file in **./src/views/users/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Edit User</h4>
 
 <form method="POST" 
-      action="<?php echo sMVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
+      action="<?php echo $sMVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1498,7 +1498,7 @@ file in **./src/views/users/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo sMVC_MakeLink("/users/index"); ?>';
+            window.location.href = '<?php echo $sMVC_MakeLink("/users/index"); ?>';
         }
     );
 </script>
@@ -1577,7 +1577,7 @@ Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
         
         // We will be redirecting to the default action of the current 
         // controller
-        $rdr_path = sMVC_MakeLink("{$this->controller_name_from_uri}");
+        $rdr_path = $sMVC_MakeLink("{$this->controller_name_from_uri}");
         
         if ( $record->delete() === false ) {
             
@@ -1648,7 +1648,7 @@ to **./src/views/movie-listings/index.php**:
             <h4>All Movies</h4>
         </div>
         <div class="small-6 columns text-right">
-            <a class="button" href="<?php echo sMVC_MakeLink( "movie-listings/add" ); ?>">
+            <a class="button" href="<?php echo $sMVC_MakeLink( "movie-listings/add" ); ?>">
                 <strong>+ Add new Movie Listing</strong>
             </a>
         </div>
@@ -1663,12 +1663,12 @@ to **./src/views/movie-listings/index.php**:
 
         <li>
             <?php echo $movie_record->title; ?> | 
-            <a href="<?php echo sMVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
+            <a href="<?php echo $sMVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
 
             <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-                | <a href="<?php echo sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-                <a href="<?php echo sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
+                | <a href="<?php echo $sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+                <a href="<?php echo $sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
                    onclick="return confirm('Are you sure?');"
                 >
                     Delete
@@ -1683,7 +1683,7 @@ to **./src/views/movie-listings/index.php**:
 <?php else: ?>
 
 <p>
-    No Movies yet. Please <a href="<?php echo sMVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
+    No Movies yet. Please <a href="<?php echo $sMVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
     one or more movie listing(s).
 </p>
 
@@ -1765,11 +1765,11 @@ file in **./src/views/movie-listings/** and adding the code below to it:
     </li>
 </dl>
 <p>
-    <a href="<?php echo sMVC_MakeLink( "movie-listings/index" ); ?>">View all Movies</a>
+    <a href="<?php echo $sMVC_MakeLink( "movie-listings/index" ); ?>">View all Movies</a>
     <?php if( isset($is_logged_in) && $is_logged_in ): ?>
 
-        | <a href="<?php echo sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-        <a href="<?php echo sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
+        | <a href="<?php echo $sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+        <a href="<?php echo $sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
 
     <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
 </p>
@@ -1856,7 +1856,7 @@ with the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = sMVC_MakeLink("movie-listings/index");
+                    $rdr_path = $sMVC_MakeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
@@ -1893,7 +1893,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Add New Movie</h4>
 
 <form method="POST" 
-      action="<?php echo sMVC_MakeLink("movie-listings/add"); ?>" 
+      action="<?php echo $sMVC_MakeLink("movie-listings/add"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -2053,7 +2053,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo sMVC_MakeLink("/movie-listings/index"); ?>';
+            window.location.href = '<?php echo $sMVC_MakeLink("/movie-listings/index"); ?>';
         }
     );
 </script>
@@ -2146,7 +2146,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = sMVC_MakeLink("movie-listings/index");
+                    $rdr_path = $sMVC_MakeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
@@ -2183,7 +2183,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 <h4 style="margin-bottom: 20px;">Edit Movie</h4>
 
 <form method="POST" 
-      action="<?php echo sMVC_MakeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
+      action="<?php echo $sMVC_MakeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -2343,7 +2343,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
             // Do this so that when the Cancel button is clicked 
             // the browser does not try to submit the form
             event.preventDefault(); 
-            window.location.href = '<?php echo sMVC_MakeLink("/movie-listings/index"); ?>';
+            window.location.href = '<?php echo $sMVC_MakeLink("/movie-listings/index"); ?>';
         }
     );
 </script>
