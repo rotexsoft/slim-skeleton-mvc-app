@@ -13,11 +13,7 @@
 $container = new \SlimMvcTools\Container();
 
 $container['settings'] = $app_settings;
-        
-////////////////////////////////////////////////////////////////////////////////
-// Start configuration specific to all environments
-////////////////////////////////////////////////////////////////////////////////
-                                      
+                                    
 $container['logger'] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
@@ -41,7 +37,10 @@ $container['logger'] = function () {
 //and in your application's controller namespace(s) controllers
 //in your application's namespaces are 
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = ['\\SlimMvcTools\\Controllers\\', '\\SlimSkeletonMvcApp\\Controllers\\'];
+$container['namespaces_for_controllers'] = [
+    '\\SlimMvcTools\\Controllers\\', 
+    '\\SlimSkeletonMvcApp\\Controllers\\'
+];
 
 //Object for rendering layout files
 $container['new_layout_renderer'] = $container->factory(function () {
@@ -65,76 +64,31 @@ $container['new_view_renderer'] = $container->factory(function () {
     return $view_renderer;
 });
 
-////////////////////////////////////////////////////////////////////////////////
-// End configuration specific to all environments
-////////////////////////////////////////////////////////////////////////////////
-
 ////////////////////////////////////////////////////////////////////////////
-// Start Vespula.Auth Authentication setup
-////////////////////////////////////////////////////////////////////////////   
+// Start Vespula.Auth PDO Authentication setup
+// 
+// You should use a proper database like mysql or postgres or other
+// adapters like LDAP for performing authentication in your applications.
+// 
+// \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
+// the box with any properly configured \Vespula\Auth\Adapter\* instance.
+////////////////////////////////////////////////////////////////////////////
+$container['vespula_auth'] = function () {
 
-if( sMVC_GetCurrentAppEnvironment() === SMVC_APP_ENV_PRODUCTION ) {
-    
-    //configuration specific to the production environment
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Start Vespula.Auth LDAP Authentication setup
-    ////////////////////////////////////////////////////////////////////////////    
-    $container['vespula_auth'] = function ($c) {
-        
-        //Optionally pass a maximum idle time and a time until the session 
-        //expires (in seconds)
-        $expire = 3600;
-        $max_idle = 1200;
-        $session = new \Vespula\Auth\Session\Session($max_idle, $expire, 'VESPULA_AUTH_DATA_'.SMVC_APP_ROOT_PATH);
+    $pdo = new \PDO(
+                'sqlite::memory:', 
+                null, 
+                null, 
+                [
+                    PDO::ATTR_PERSISTENT => true, 
+                    PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
+                ]
+            ); 
 
-        $bind_options = $c->get('settings')['bind_options'];
+    $pass1 = password_hash('admin' , PASSWORD_DEFAULT);
+    $pass2 = password_hash('root' , PASSWORD_DEFAULT);
 
-        $ldap_options = [
-            LDAP_OPT_PROTOCOL_VERSION=>3
-        ];
-        
-        $attributes = [
-            'email',
-            'givenname'
-        ];
-
-        $uri = $c->get('settings')['ldap_server_addr'];
-        $dn = null;
-        
-        $adapter = new \Vespula\Auth\Adapter\Ldap(
-                        $uri, $dn, $bind_options, $ldap_options, $attributes
-                    );
-        
-        return new \Vespula\Auth\Auth($adapter, $session);
-    };
-    ////////////////////////////////////////////////////////////////////////////
-    // End Vespula.Auth LDAP Authentication setup
-    ////////////////////////////////////////////////////////////////////////////
-    
-} else {
-    
-    //configuration specific to non-production environments
-    
-    ////////////////////////////////////////////////////////////////////////////
-    // Start Vespula.Auth PDO Authentication setup
-    ////////////////////////////////////////////////////////////////////////////
-    $container['vespula_auth'] = function () {
-        
-        $pdo = new \PDO(
-                    'sqlite::memory:', 
-                    null, 
-                    null, 
-                    [
-                        PDO::ATTR_PERSISTENT => true, 
-                        PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION
-                    ]
-                ); 
-        
-        $pass1 = password_hash('admin' , PASSWORD_DEFAULT);
-        $pass2 = password_hash('root' , PASSWORD_DEFAULT);
-
-        $sql = <<<SQL
+    $sql = <<<SQL
 DROP TABLE IF EXISTS "user_authentication_accounts";
 CREATE TABLE user_authentication_accounts (
     username VARCHAR(255), password VARCHAR(255)
@@ -142,28 +96,23 @@ CREATE TABLE user_authentication_accounts (
 INSERT INTO "user_authentication_accounts" VALUES( 'admin', '$pass1' );
 INSERT INTO "user_authentication_accounts" VALUES( 'root', '$pass2' );
 SQL;
-        $pdo->exec($sql); //add two default user accounts
-        
-        //Optionally pass a maximum idle time and a time until the session 
-        //expires (in seconds)
-        $expire = 3600;
-        $max_idle = 1200;
-        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
-        
-        $cols = ['username', 'password'];
-        $from = 'user_authentication_accounts';
-        $where = ''; //optional
+    $pdo->exec($sql); //add two default user accounts
 
-        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
-        
-        return new \Vespula\Auth\Auth($adapter, $session);
-    };
-    ////////////////////////////////////////////////////////////////////////////
-    // End Vespula.Auth PDO Authentication setup
-    ////////////////////////////////////////////////////////////////////////////
-}
+    //Optionally pass a maximum idle time and a time until the session 
+    //expires (in seconds)
+    $expire = 3600;
+    $max_idle = 1200;
+    $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+
+    $cols = ['username', 'password'];
+    $from = 'user_authentication_accounts';
+    $where = ''; //optional
+    $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
+
+    return new \Vespula\Auth\Auth($adapter, $session);
+};
 ////////////////////////////////////////////////////////////////////////////
-// End Vespula.Auth Authentication setup
+// End Vespula.Auth PDO Authentication setup
 ////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////
