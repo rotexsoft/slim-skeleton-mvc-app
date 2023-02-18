@@ -5,7 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.4.0",
-        "rotexsoft/slim-skeleton-mvc-tools": "4.0.*"
+        "rotexsoft/slim-skeleton-mvc-tools": "^4.0.0"
     },
     "require-dev": {
         
