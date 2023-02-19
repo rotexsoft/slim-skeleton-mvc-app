@@ -2,9 +2,6 @@
 require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// 
 // This is the bootstrap file for rotexsoft/slim-skeleton-mvc-app
 // 
 // You SHOULD NOT be modifying the contents of this file (index.php).
@@ -72,10 +69,7 @@ require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARA
 //                               
 //                               You can safely & should commit routes-and-middlewares.php 
 //                               to your source control repo (e.g. Git).
-// 
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
 use Slim\Factory\AppFactory;
 
 define('SMVC_APP_ENV_DEV', 'development');
@@ -101,54 +95,56 @@ sMVC_GetSuperGlobal();  // this method is first called here to ensure that $_SER
  * NOTE: Make sure you edit ../config/env.php to return one of SMVC_APP_ENV_DEV,
  *       SMVC_APP_ENV_PRODUCTION, SMVC_APP_ENV_STAGING or SMVC_APP_ENV_TESTING
  *       relevant to the environment you are installing your web-app.
- *
- * @return string
  */
-function sMVC_GetCurrentAppEnvironment() {
+function sMVC_GetCurrentAppEnvironment(): string {
 
     return sMVC_DoGetCurrentAppEnvironment(SMVC_APP_ROOT_PATH);
 }
 
 $smvc_root_dir = SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR;
-
-if( !file_exists("{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php') ) {
-
-    sMVC_DisplayAndLogFrameworkFileNotFoundError(
+$smvc_files_to_check = [
+    [
         'Missing Ini Settings Configuration File Error',
         "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php',
         "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings-dist.php',
+        SMVC_APP_ROOT_PATH,
+    ],
+    [
+        'Missing App Settings Configuration File Error',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php',
+        SMVC_APP_ROOT_PATH,
+    ],
+    [
+        'Missing Dependencies File Error',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies-dist.php',
+        SMVC_APP_ROOT_PATH, 
+    ],
+    [
+        'Missing Routes and Middlewares File Error',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares.php',
+        "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares-dist.php',
         SMVC_APP_ROOT_PATH
-    );
-    exit;
-}
+    ],
+];
 
-////////////////////////////////////////////////////////
+foreach ($smvc_files_to_check as $smvc_file_to_check) {
+    
+    if( !file_exists($smvc_file_to_check[1]) ) {
+
+        sMVC_DisplayAndLogFrameworkFileNotFoundError(...$smvc_file_to_check);
+        exit;
+    } // if( !file_exists($smvc_file_to_check[1]) )
+} // foreach ($smvc_files_to_check as $smvc_file_to_check) 
+
 ////////////////////////////////////////////////////////
 // load ini settings for your app from ini-settings.php
-////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////
 require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'ini-settings.php';
 
-$app_settings_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
-
-if( !file_exists($app_settings_file_path) ) {
-
-    $app_settings_dist_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings-dist.php';
-    sMVC_DisplayAndLogFrameworkFileNotFoundError(
-        'Missing App Settings Configuration File Error',
-        $app_settings_file_path,
-        $app_settings_dist_file_path,
-        SMVC_APP_ROOT_PATH
-    );
-    exit;
-}
-
-///////////////////////////////////////////////
 ///////////////////////////////////////////////
 // load app settings from app-settings.php
-///////////////////////////////////////////////
-///////////////////////////////////////////////
-$app_settings = require_once $app_settings_file_path;
+$app_settings = require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
 
 // If true, the mvc routes will be enabled. If false, then you must explicitly
 // define all the routes for your application inside config/routes-and-middlewares.php
@@ -165,90 +161,29 @@ define('SMVC_APP_USE_MVC_ROUTES', $app_settings['use_mvc_routes']);
 //          '/{controller}[/]'
 //          '/{controller}/{action}[/{parameters:.+}]'
 //          '/{controller}/{action}/'
-define(
-    'SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES',  
-    $app_settings['auto_prepend_action_to_action_method_names']
-);
+define('SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES',  $app_settings['auto_prepend_action_to_action_method_names']);
 
 // This is used to create a controller object to handle the default / route.
 // Must be prefixed with the namespace if the controller class is in a namespace.
-define(
-    'SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', 
-    $app_settings['default_controller_class_name']
-);
+define('SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', $app_settings['default_controller_class_name']);
 
 // This is the name of the action / method to be called on the default controller
 // to handle the default / route. This method should return a response string (ie.
 // valid html) or a PSR 7 response object containing valid html in its body.
 // This default action / method should accept no arguments / parameters.
-define(
-    'SMVC_APP_DEFAULT_ACTION_NAME', 
-    $app_settings['default_action_name']
-);
+define('SMVC_APP_DEFAULT_ACTION_NAME', $app_settings['default_action_name']);
 
 ////////////////////////////////////////////////////////////////////////////////
-// Start: Dependency Injection Configuration
-//        Add objects to the dependency injection container
-////////////////////////////////////////////////////////////////////////////////
-$dependencies_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php';
-
-if( !file_exists($dependencies_file_path) ) {
-
-    $dependencies_dist_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies-dist.php';
-    sMVC_DisplayAndLogFrameworkFileNotFoundError(
-        'Missing Dependencies File Error',
-        $dependencies_file_path,
-        $dependencies_dist_file_path,
-        SMVC_APP_ROOT_PATH
-    );
-    exit;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// Load dependencies into the container and call some setters on AppFactory 
-// (if needed) and get back the container object (with all the required 
-// depndencies need by your application already added to it).
-// 
-// This should be all done inside dependencies.php
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-$container = require_once $dependencies_file_path;
-
-////////////////////////////////////////////////////////////////////////////////
-// End Dependency Injection Configuration
-////////////////////////////////////////////////////////////////////////////////
+// Load Dependency Injection Container
+$container = require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php';
 
 $app = AppFactory::create();
 $app->setBasePath($app_settings['app_base_path']);
 
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-// Start: Load app specific and slim mvc route definitions.
-// 
-//        It is recommended that you modify the $app object inside 
-//        routes-and-middlewares.php if you need to do so for your application.
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
+// Load app specific and slim mvc route definitions.
+// It is recommended that you modify the $app object inside 
+// routes-and-middlewares.php if you need to do so for your application.
+require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares.php';
 
-$routes_and_middlewares_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares.php';
-
-if( !file_exists($routes_and_middlewares_file_path) ) {
-
-    $routes_and_middlewares_dist_file_path = "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'routes-and-middlewares-dist.php';
-    sMVC_DisplayAndLogFrameworkFileNotFoundError(
-        'Missing Routes and Middlewares File Error',
-        $routes_and_middlewares_file_path,
-        $routes_and_middlewares_dist_file_path,
-        SMVC_APP_ROOT_PATH
-    );
-    exit;
-}
-
-require_once $routes_and_middlewares_file_path;
-
-////////////////////////////////////////////////////////////////////////////////
-// End: Load app specific routes
-////////////////////////////////////////////////////////////////////////////////
-
-$app->run();
+$app->run(); // Finally run the app

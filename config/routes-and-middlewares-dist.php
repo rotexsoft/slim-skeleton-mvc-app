@@ -1,9 +1,7 @@
 <?php
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 // This file contains all route & middleware definitions & every other 
 // modfication(s) you need to make to the $app object
-////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 // Manually add the Slim\Middleware\OutputBufferingMiddleware to the $app object
@@ -44,29 +42,9 @@ if( !SMVC_APP_USE_MVC_ROUTES ) {
     
     //Not using mvc routes. So at least define the default / route. 
     //You can change it for your app if desired
-    $app->get('/', function($request, $response, $args)use ($app) {
-        
-        $prepend_action = !SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES;
-        $action = ($prepend_action) ? 'action-index' : 'index';
-        $controller = new \SlimSkeletonMvcApp\Controllers\Hello($app->getContainer(), 'hello', $action, $request, $response);
-        
-        $pre_action_response = $controller->preAction();
-        $controller->setResponse( $pre_action_response );
-
-        //invoke default action
-        $action_result = $controller->actionIndex();
-
-        if( is_string($action_result) ) {
-
-            $response = $pre_action_response;
-            $response->getBody()->write($action_result); //write the string in the response object as the response body
-
-        } elseif ( $action_result instanceof \Psr\Http\Message\ResponseInterface ) {
-
-            $response = $action_result; //the action returned a Response object
-        }
-
-        return $controller->postAction($response);
+    $app->get('/', function($request, $response, $args) {
+        $response->getBody()->write("Hello World!");
+        return $response;
     });
 }
 
@@ -75,11 +53,7 @@ if( !SMVC_APP_USE_MVC_ROUTES ) {
 /////////////////////////////
 if( SMVC_APP_USE_MVC_ROUTES ) {
     
-    $app->map(
-        $app_settings['mvc_routes_http_methods'], 
-        '/', 
-        $smvc_route_handler
-    ); // default route
+    $app->map($app_settings['mvc_routes_http_methods'], '/', $smvc_route_handler); // default route
     
     $app->map(
         $app_settings['mvc_routes_http_methods'], 

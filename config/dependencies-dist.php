@@ -1,17 +1,14 @@
 <?php  
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 // Configure all the dependencies you'll need in your application in this file.
 //
 // Also call all the needed Setters on \Slim\Factory\AppFactory at the very end
 // of this file right before the return statement in this file.
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 
 // $container must be an instance of \Psr\Container\ContainerInterface
 // It must be returned at the end of this file.
 $container = new \SlimMvcTools\Container();
-
 $container['settings'] = $app_settings;
                                     
 $container['logger'] = function () {
@@ -19,7 +16,6 @@ $container['logger'] = function () {
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
     $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
-    
     $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
     $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
     $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
@@ -72,7 +68,6 @@ $container['new_view_renderer'] = $container->factory(function () {
 // 
 // \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
-////////////////////////////////////////////////////////////////////////////
 $container['vespula_auth'] = function () {
 
     $pdo = new \PDO(
