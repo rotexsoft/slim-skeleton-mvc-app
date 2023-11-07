@@ -30,7 +30,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         //using a string here directly instead of a view
         $view_str = 'Hello@actionIndex: Controller Action Method Content Goes Here!';
         
-        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
+        return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
     
    /**
@@ -41,7 +41,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         //get the contents of the view first
         $view_str = $this->renderView('world.php', ['name'=>$name, 'params'=>$another_param]);
         
-        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
+        return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
     
    /**
@@ -51,6 +51,6 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
 
         $view_str = "Hello There $first_name, $last_name<br>";
         
-        return $this->renderLayout( 'main-template.php', ['content'=>$view_str] );
+        return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
 }
