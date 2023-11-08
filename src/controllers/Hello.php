@@ -22,10 +22,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
     
-   /**
-     * @return \Psr\Http\Message\ResponseInterface|string
-     */
-    public function actionIndex() {
+    public function actionIndex(): string {
 
         //using a string here directly instead of a view
         $view_str = 'Hello@actionIndex: Controller Action Method Content Goes Here!';
