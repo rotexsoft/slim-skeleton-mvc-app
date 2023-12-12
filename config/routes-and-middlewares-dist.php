@@ -92,13 +92,13 @@ $error_middleware = $app->addErrorMiddleware(
     $app_settings['displayErrorDetails'],
     $app_settings['logErrors'], 
     $app_settings['logErrorDetails'],
-    $container->get('logger')
+    $container->get(\SlimMvcTools\ContainerKeys::LOGGER)
 );
 $error_middleware->setDefaultErrorHandler(
     new $app_settings['error_handler_class'](
         $app->getCallableResolver(),
         $app->getResponseFactory(),
-        $container->get('logger')
+        $container->get(\SlimMvcTools\ContainerKeys::LOGGER)
     )
 );
 $error_handler = $error_middleware->getDefaultErrorHandler();

@@ -9,9 +9,9 @@
 // $container must be an instance of \Psr\Container\ContainerInterface
 // It must be returned at the end of this file.
 $container = new \SlimMvcTools\Container();
-$container['settings'] = $app_settings;
-                                    
-$container['logger'] = function () {
+$container[\SlimMvcTools\ContainerKeys::APP_SETTINGS] = $app_settings;
+
+$container[\SlimMvcTools\ContainerKeys::LOGGER] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
@@ -39,9 +39,11 @@ $container['namespaces_for_controllers'] = [
 ];
 
 //Object for rendering layout files
-$container['new_layout_renderer'] = $container->factory(function () {
+$container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER] 
+    = $container->factory(function () {
     
-    //return a new instance on each access to $container['new_layout_renderer']
+    // Return a new instance on each access to 
+    // $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
@@ -50,9 +52,11 @@ $container['new_layout_renderer'] = $container->factory(function () {
 });
 
 //Object for rendering view files
-$container['new_view_renderer'] = $container->factory(function () {
+$container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER] 
+    = $container->factory(function () {
     
-    //return a new instance on each access to $container['new_view_renderer']
+    // Return a new instance on each access to 
+    // $container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
@@ -68,7 +72,7 @@ $container['new_view_renderer'] = $container->factory(function () {
 // 
 // \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
-$container['vespula_auth'] = function () {
+$container[\SlimMvcTools\ContainerKeys::VESPULA_AUTH] = function () {
 
     $pdo = new \PDO(
                 'sqlite::memory:', 
