@@ -1,4 +1,6 @@
-<?php  
+<?php
+use \SlimMvcTools\ContainerKeys;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Configure all the dependencies you'll need in your application in this file.
 //
@@ -9,9 +11,9 @@
 // $container must be an instance of \Psr\Container\ContainerInterface
 // It must be returned at the end of this file.
 $container = new \SlimMvcTools\Container();
-$container[\SlimMvcTools\ContainerKeys::APP_SETTINGS] = $app_settings;
+$container[ContainerKeys::APP_SETTINGS] = $app_settings;
 
-$container[\SlimMvcTools\ContainerKeys::LOGGER] = function () {
+$container[ContainerKeys::LOGGER] = function () {
 
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
@@ -33,17 +35,17 @@ $container[\SlimMvcTools\ContainerKeys::LOGGER] = function () {
 //and in your application's controller namespace(s) controllers
 //in your application's namespaces are 
 //Make sure you add the trailing slashes.
-$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
+$container[ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
     '\\SlimMvcTools\\Controllers\\', 
     '\\SlimSkeletonMvcApp\\Controllers\\'
 ];
 
 //Object for rendering layout files
-$container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER] 
+$container[ContainerKeys::LAYOUT_RENDERER] 
     = $container->factory(function () {
     
     // Return a new instance on each access to 
-    // $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER]
+    // $container[ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
@@ -52,11 +54,11 @@ $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER]
 });
 
 //Object for rendering view files
-$container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER] 
+$container[ContainerKeys::VIEW_RENDERER] 
     = $container->factory(function () {
     
     // Return a new instance on each access to 
-    // $container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER]
+    // $container[ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
@@ -72,7 +74,7 @@ $container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER]
 // 
 // \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
-$container[\SlimMvcTools\ContainerKeys::VESPULA_AUTH] = function () {
+$container[ContainerKeys::VESPULA_AUTH] = function () {
 
     $pdo = new \PDO(
                 'sqlite::memory:', 
