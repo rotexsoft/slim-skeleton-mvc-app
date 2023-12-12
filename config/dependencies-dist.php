@@ -33,7 +33,7 @@ $container[\SlimMvcTools\ContainerKeys::LOGGER] = function () {
 //and in your application's controller namespace(s) controllers
 //in your application's namespaces are 
 //Make sure you add the trailing slashes.
-$container['namespaces_for_controllers'] = [
+$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
     '\\SlimMvcTools\\Controllers\\', 
     '\\SlimSkeletonMvcApp\\Controllers\\'
 ];
