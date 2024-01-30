@@ -9,36 +9,42 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Site Title Goes Here</title>
-        <link rel="stylesheet" href="<?php echo $sMVC_MakeLink('/css/app.css'); ?>" />
+        <link rel="stylesheet" href="<?php echo $controller_object->makeLink('/css/app.css'); ?>" />
     </head>
     <body>
         <div>
             <ul style="padding-left: 0;">
                 <li style="display: inline;">
-                    <a href="<?= sMVC_UriToString( 
-                                    sMVC_AddQueryStrParamToUri(
-                                        $controller_object->getRequest()->getUri(), 
-                                        SlimMvcTools\Controllers\BaseController::GET_QUERY_PARAM_SELECTED_LANG, 
-                                        'en_US'
-                                    ) 
-                                ); 
-                            ?>">
+                    <a href="<?= $controller_object->makeLink('/');?>">
+                        <?= $__localeObj->gettext('main_template_text_home'); ?>
+                    </a>&nbsp;
+                </li>
+                
+                <li style="display: inline;">
+                    <a href="<?= sMVC_AddLangSelectionParamToUri($controller_object->getRequest()->getUri(), 'en_US') ;?>">
                         <?= $__localeObj->gettext('base_controller_text_english'); ?>
                     </a>&nbsp;
                 </li>
                 
                 <li style="display: inline;">
-                    <a href="<?= sMVC_UriToString( 
-                                    sMVC_AddQueryStrParamToUri(
-                                        $controller_object->getRequest()->getUri(), 
-                                        SlimMvcTools\Controllers\BaseController::GET_QUERY_PARAM_SELECTED_LANG, 
-                                        'fr_CA'
-                                    )
-                                ); 
-                            ?>">
+                    <a href="<?= sMVC_AddLangSelectionParamToUri($controller_object->getRequest()->getUri(), 'fr_CA') ;?>">
                         <?= $__localeObj->gettext('base_controller_text_french'); ?>
-                    </a>
+                    </a>&nbsp;
                 </li>
+                
+                <?php if($controller_object->isLoggedIn()): ?>
+                    <li style="display: inline;">
+                        <a href="<?= $controller_object->getRequest()->getUri()->withPath($controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/action-logout"))->__toString(); ?>">
+                            <?= $__localeObj->gettext('base_controller_text_logout'); ?>
+                        </a>&nbsp;
+                    </li>
+                <?php else: ?>
+                    <li style="display: inline;">
+                        <a href="<?= $controller_object->getRequest()->getUri()->withPath($controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/action-login"))->__toString(); ?>">
+                            <?= $__localeObj->gettext('base_controller_text_login'); ?>
+                        </a>&nbsp;
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
 
@@ -66,6 +72,6 @@
             </div>
         </footer>
 
-        <script src="<?php echo $sMVC_MakeLink('/js/app.js'); ?>"></script>
+        <script src="<?php echo $controller_object->makeLink('/js/app.js'); ?>"></script>
     </body>
 </html>

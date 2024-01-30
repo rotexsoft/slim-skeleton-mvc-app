@@ -71,6 +71,10 @@ require dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARA
 //                               
 //                               You can safely & should commit routes-and-middlewares.php 
 //                               to your source control repo (e.g. Git).
+//                               
+// 6. languages/[en_US.php...fr_CA.php] Each locale file in the languages folder is meant
+//                                      to contain language specific translations for text
+//                                      to be displayed in specific languages in an application
 ////////////////////////////////////////////////////////////////////////////////
 use Slim\Factory\AppFactory;
 

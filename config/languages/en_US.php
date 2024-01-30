@@ -23,6 +23,7 @@ return [
     'base_controller_text_english' => 'English',
     'base_controller_text_french' => 'French',
     
+    'main_template_text_home' => "Home",
     'main_template_text_copyright_footer' => "Copyright no one at all. Go to town.",
     'main_template_text_header_1' => "Welcome to Your New Site",
     'main_template_text_tagline_p_start' => "This site is powered by the",

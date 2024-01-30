@@ -5,7 +5,7 @@ ini_set('error_reporting', E_ALL);
 ini_set('display_errors', true);
 ini_set('html_errors', true);
 ini_set('date.timezone', 'America/Edmonton');
-ini_set('session.save_path', SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'tmp');
+ini_set('session.save_path', SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'session');
 
 if( sMVC_GetCurrentAppEnvironment() !== SMVC_APP_ENV_DEV ) {
     

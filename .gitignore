@@ -44,4 +44,6 @@ logs/*
 /config/ini-settings.php
 
 !public/js/*/vendor
-tmp/session
+
+tmp/session/*
+!tmp/session/.gitkeep

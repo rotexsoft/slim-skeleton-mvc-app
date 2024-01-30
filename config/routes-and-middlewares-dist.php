@@ -77,6 +77,12 @@ if( SMVC_APP_USE_MVC_ROUTES ) {
 // End: Register mvc routes
 /////////////////////////////
 
+if($app_settings['addContentLengthHeader']) {
+    
+    // Add any middleware which may modify the response body before adding the ContentLengthMiddleware
+    $app->add(new \Slim\Middleware\ContentLengthMiddleware());
+}
+
 /**
  * Add Error Middleware
  *
@@ -110,9 +116,3 @@ $error_handler->registerErrorRenderer(
 $error_handler->setLogErrorRenderer(
     new $app_settings['log_renderer_class']()
 );
-
-if($app_settings['addContentLengthHeader']) {
-    
-    // Add any middleware which may modify the response body before adding the ContentLengthMiddleware
-    $app->add(new \Slim\Middleware\ContentLengthMiddleware());
-}

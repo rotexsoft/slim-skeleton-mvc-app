@@ -35,3 +35,6 @@ public/.htaccess
 
 /config/app-settings.php
 /config/env.php
+
+tmp/session/*
+!tmp/session/.gitkeep
