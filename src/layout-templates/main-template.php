@@ -1,4 +1,9 @@
 <!doctype html>
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8" />
@@ -9,15 +14,41 @@
     <body>
         <div>
             <ul style="padding-left: 0;">
-                <li style="display: inline;"><a href="#">Section 1</a></li>
-                <li style="display: inline;"><a href="#">Section 2</a></li>
-                <li style="display: inline;"><a href="#">Section 3</a></li>
+                <li style="display: inline;">
+                    <a href="<?= sMVC_UriToString( 
+                                    sMVC_AddQueryStrParamToUri(
+                                        $controller_object->getRequest()->getUri(), 
+                                        SlimMvcTools\Controllers\BaseController::GET_QUERY_PARAM_SELECTED_LANG, 
+                                        'en_US'
+                                    ) 
+                                ); 
+                            ?>">
+                        <?= $__localeObj->gettext('base_controller_text_english'); ?>
+                    </a>&nbsp;
+                </li>
+                
+                <li style="display: inline;">
+                    <a href="<?= sMVC_UriToString( 
+                                    sMVC_AddQueryStrParamToUri(
+                                        $controller_object->getRequest()->getUri(), 
+                                        SlimMvcTools\Controllers\BaseController::GET_QUERY_PARAM_SELECTED_LANG, 
+                                        'fr_CA'
+                                    )
+                                ); 
+                            ?>">
+                        <?= $__localeObj->gettext('base_controller_text_french'); ?>
+                    </a>
+                </li>
             </ul>
         </div>
 
         <div>
-            <h1>Welcome to Your New Site</h1>
-            <p>This site is powered by the <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">SlimPHP 4 Skeleton MVC App.</a></p>
+            <h1><?= $__localeObj->gettext('main_template_text_header_1'); ?></h1>
+            <p><?= $__localeObj->gettext('main_template_text_tagline_p_start'); ?> 
+                <a href="https://github.com/rotexsoft/slim-skeleton-mvc-app">
+                    <?= $__localeObj->gettext('main_template_text_tagline_p_end'); ?>.
+                </a>
+            </p>
         </div>
 
         <br>
@@ -31,7 +62,7 @@
         <footer>
             <div>
                 <hr/>
-                <p>© Copyright no one at all. Go to town.</p>
+                <p>&copy; <?= $__localeObj->gettext('main_template_text_copyright_footer'); ?> </p>
             </div>
         </footer>
 

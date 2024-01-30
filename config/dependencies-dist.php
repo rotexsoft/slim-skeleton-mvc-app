@@ -1,5 +1,6 @@
 <?php
-use \SlimMvcTools\ContainerKeys;
+use \SlimMvcTools\ContainerKeys,
+    \SlimMvcTools\Controllers\BaseController;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configure all the dependencies you'll need in your application in this file.
@@ -12,6 +13,28 @@ use \SlimMvcTools\ContainerKeys;
 // It must be returned at the end of this file.
 $container = new \SlimMvcTools\Container();
 $container[ContainerKeys::APP_SETTINGS] = $app_settings;
+
+// See https://learn.microsoft.com/en-us/cpp/c-runtime-library/language-strings?view=msvc-170
+$container[ContainerKeys::DEFAULT_LOCALE] = 'en_US';
+$container[ContainerKeys::VALID_LOCALES] = ['en_US', 'fr_CA']; // add more values for languages you will be supporting in your application
+$container[ContainerKeys::LOCALE_OBJ] = function ($c) {
+
+    // See https://packagist.org/packages/vespula/locale
+    $ds = DIRECTORY_SEPARATOR;
+    $locale_obj = new \Vespula\Locale\Locale($c[ContainerKeys::DEFAULT_LOCALE]);
+    $path_2_locale_language_files = SMVC_APP_ROOT_PATH.$ds.'config'.$ds.'languages';        
+    $locale_obj->load($path_2_locale_language_files); //load local entries for base controller
+    
+    // Try to update to previously selected language if stored in session
+    if (
+        session_status() === PHP_SESSION_ACTIVE
+        && array_key_exists(BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG, $_SESSION)
+    ) {
+        $locale_obj->setCode($_SESSION[BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG]);
+    }
+    
+    return $locale_obj;
+};
 
 $container[ContainerKeys::LOGGER] = function () {
 
@@ -42,26 +65,28 @@ $container[ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
 
 //Object for rendering layout files
 $container[ContainerKeys::LAYOUT_RENDERER] 
-    = $container->factory(function () {
+    = $container->factory(function ($c) {
     
     // Return a new instance on each access to 
     // $container[ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
+    $layout_renderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
     
     return $layout_renderer;
 });
 
 //Object for rendering view files
 $container[ContainerKeys::VIEW_RENDERER] 
-    = $container->factory(function () {
+    = $container->factory(function ($c) {
     
     // Return a new instance on each access to 
     // $container[ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
+    $view_renderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
 
     return $view_renderer;
 });
