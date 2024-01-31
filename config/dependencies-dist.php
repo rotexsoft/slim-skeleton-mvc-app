@@ -17,7 +17,7 @@ $container[ContainerKeys::APP_SETTINGS] = $app_settings;
 // See https://learn.microsoft.com/en-us/cpp/c-runtime-library/language-strings?view=msvc-170
 $container[ContainerKeys::DEFAULT_LOCALE] = 'en_US';
 $container[ContainerKeys::VALID_LOCALES] = ['en_US', 'fr_CA']; // add more values for languages you will be supporting in your application
-$container[ContainerKeys::LOCALE_OBJ] = function ($c) {
+$container[ContainerKeys::LOCALE_OBJ] = function ($c) { // An object managing localized strings
 
     // See https://packagist.org/packages/vespula/locale
     $ds = DIRECTORY_SEPARATOR;
@@ -36,8 +36,10 @@ $container[ContainerKeys::LOCALE_OBJ] = function ($c) {
     return $locale_obj;
 };
 
+// A PSR 3 / PSR Log Compliant logger
 $container[ContainerKeys::LOGGER] = function () {
-
+    
+    // See https://packagist.org/packages/vespula/log
     $ds = DIRECTORY_SEPARATOR;
     $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
     $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
@@ -63,10 +65,10 @@ $container[ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
     '\\SlimSkeletonMvcApp\\Controllers\\'
 ];
 
-//Object for rendering layout files
-$container[ContainerKeys::LAYOUT_RENDERER] 
-    = $container->factory(function ($c) {
+// Object for rendering layout files
+$container[ContainerKeys::LAYOUT_RENDERER]  = $container->factory(function ($c) {
     
+    // See https://github.com/rotexsoft/file-renderer
     // Return a new instance on each access to 
     // $container[ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
@@ -77,10 +79,10 @@ $container[ContainerKeys::LAYOUT_RENDERER]
     return $layout_renderer;
 });
 
-//Object for rendering view files
-$container[ContainerKeys::VIEW_RENDERER] 
-    = $container->factory(function ($c) {
+// Object for rendering view files
+$container[ContainerKeys::VIEW_RENDERER] = $container->factory(function ($c) {
     
+    // See https://github.com/rotexsoft/file-renderer
     // Return a new instance on each access to 
     // $container[ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
@@ -101,6 +103,8 @@ $container[ContainerKeys::VIEW_RENDERER]
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
 $container[ContainerKeys::VESPULA_AUTH] = function () {
 
+    // See https://packagist.org/packages/vespula/auth
+    
     $pdo = new \PDO(
                 'sqlite::memory:', 
                 null, 

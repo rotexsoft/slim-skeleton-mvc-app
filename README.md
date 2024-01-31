@@ -32,6 +32,9 @@ of this template application framework.
 ```
 ./path/to/newly/created/app
 |-- config/
+    |-- languages/
+|       |-- en_US.php
+|       `-- fr_CA.php
 |   |-- app-settings.php
 |   |-- app-settings-dist.php
 |   |-- dependencies.php
@@ -80,9 +83,7 @@ of this template application framework.
 
 * Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`SlimMvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
 
-* Optionally ships with the Zurb Foundation front-end framework (http://foundation.zurb.com/) and jQuery or no front-end framework
-
-* Strives to adhere strictly to the **PSR-7 HTTP messages** and **container-interop/container-interop** interfaces, in order to make it easy to use different implementations of the PSR-7 request and response objects and **container-interop/container-interop** compliant containers
+* Strives to adhere strictly to the **PSR-7 HTTP messages** and **psr/container** interfaces, in order to make it easy to use different implementations of the PSR-7 request and response objects and **psr/container** compliant containers
 
 ## Requirements
 

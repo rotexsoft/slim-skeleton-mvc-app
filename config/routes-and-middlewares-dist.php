@@ -109,10 +109,96 @@ $error_middleware->setDefaultErrorHandler(
 );
 $error_handler = $error_middleware->getDefaultErrorHandler();
 
-$error_handler->registerErrorRenderer(
-    'text/html', 
-    new $app_settings['html_renderer_class']($app_settings['error_template_file'])
-);
-$error_handler->setLogErrorRenderer(
-    new $app_settings['log_renderer_class']()
-);
+/** @var \SlimMvcTools\HtmlErrorRenderer $html_error_renderer */
+$html_error_renderer = new $app_settings['html_renderer_class']($app_settings['error_template_file']);
+$html_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$html_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+
+/** @var \SlimMvcTools\LogErrorRenderer $log_error_renderer */
+$log_error_renderer = new $app_settings['log_renderer_class']();
+$log_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$log_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+
+/** @var \SlimMvcTools\JsonErrorRenderer $json_error_renderer */
+$json_error_renderer = new $app_settings['json_renderer_class']();
+$json_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$json_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+
+/** @var \SlimMvcTools\XmlErrorRenderer $xml_error_renderer */
+$xml_error_renderer = new $app_settings['xml_renderer_class']();
+$xml_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$xml_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+
+if($app_settings['displayErrorDetails']) {
+    
+    $html_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $log_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $json_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $xml_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+} 
+
+$error_handler->registerErrorRenderer('text/html', $html_error_renderer);
+$error_handler->registerErrorRenderer('text/plain', $log_error_renderer);
+$error_handler->registerErrorRenderer('application/json', $json_error_renderer);
+$error_handler->registerErrorRenderer('application/xml', $xml_error_renderer);
+$error_handler->registerErrorRenderer('text/xml', $xml_error_renderer);
+
+$error_handler->setLogErrorRenderer($log_error_renderer);
+$error_handler->setDefaultErrorRenderer('text/html', $html_error_renderer);
+
+// https://www.slimframework.com/docs/v4/objects/application.html#advanced-notices-and-warnings-handling
+// Warnings and Notices are not caught by default. The code below causes your 
+// application to display an error page when they happen.
+$serverRequestCreator = \Slim\Factory\ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
+$displayErrorDetails = $app_settings['displayErrorDetails'];
+$logErrors = $app_settings['logErrors'];
+$logErrorDetails = $app_settings['logErrorDetails'];
+
+$shutdownHandler = function() use ($request, $error_handler, $displayErrorDetails, $logErrors, $logErrorDetails) {
+    
+    $error = error_get_last();
+    
+    if (is_array($error)) {
+        
+        $errorFile = $error['file'];
+        $errorLine = $error['line'];
+        $errorMessage = $error['message'];
+        $errorType = $error['type'];
+        $message = 'An error while processing your request. Please try again later.';
+
+        if ($displayErrorDetails) {
+            
+            switch ($errorType) {
+                case E_USER_ERROR:
+                    $message = "FATAL ERROR: {$errorMessage} on line {$errorLine} in file {$errorFile}.";
+                    break;
+
+                case E_USER_WARNING:
+                    $message = "WARNING: {$errorMessage}";
+                    break;
+
+                case E_USER_NOTICE:
+                    $message = "NOTICE: {$errorMessage}";
+                    break;
+
+                default:
+                    $message = "ERROR: {$errorMessage} on line {$errorLine} in file {$errorFile}.";
+                    break;
+            }
+        } // if ($displayErrorDetails)
+
+        $exception = new \Slim\Exception\HttpInternalServerErrorException($request, $message);
+        $response = $error_handler->__invoke($request, $exception, $displayErrorDetails, $logErrors, $logErrorDetails);
+
+        if (ob_get_length()) {
+          ob_clean();
+        }
+
+        $responseEmitter = new \Slim\ResponseEmitter();
+        $responseEmitter->emit($response);
+        
+    } // if (is_array($error))
+};
+
+register_shutdown_function($shutdownHandler);

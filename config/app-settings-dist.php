@@ -30,9 +30,9 @@ return [
     ///////////////////////////////
     // Slim PHP Related Settings
     //////////////////////////////
-    'displayErrorDetails' => false,
-    'logErrors' => false,
-    'logErrorDetails' => false,
+    'displayErrorDetails' => true, // set to false in production
+    'logErrors' => true,
+    'logErrorDetails' => true,
     'addContentLengthHeader' => true,
     /////////////////////////////////////
     // End of Slim PHP Related Settings
@@ -41,7 +41,7 @@ return [
     /////////////////////////////////////////////
     // Your App's Environment Specific Settings
     /////////////////////////////////////////////
-    'app_base_path' => '',
+    'app_base_path' => '', // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
     'error_template_file'=> SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
                             . 'src' . DIRECTORY_SEPARATOR 
                             . 'layout-templates' . DIRECTORY_SEPARATOR 
@@ -53,8 +53,12 @@ return [
     'default_action_name' => 'actionIndex',
     
     'error_handler_class' => \SlimMvcTools\ErrorHandler::class,
+    
     'html_renderer_class' => \SlimMvcTools\HtmlErrorRenderer::class,
+    'json_renderer_class' => \SlimMvcTools\JsonErrorRenderer::class,
     'log_renderer_class'  => \SlimMvcTools\LogErrorRenderer::class,
+    'xml_renderer_class' => \SlimMvcTools\XmlErrorRenderer::class,
+    
     
     // add other stuff like DB credentials, api keys, etc below
     

@@ -28,4 +28,8 @@ return [
     'main_template_text_header_1' => "Bienvenue sur votre nouveau site",
     'main_template_text_tagline_p_start' => "Ce site est alimenté par",
     'main_template_text_tagline_p_end' => "l'application SlimPHP 4 Skeleton MVC",
+    
+    'default_application_error_title_text' => "Erreur de l'application SlimPHP 4 Skeleton MVC",
+    'default_application_error_title_description' => "Une erreur du site Web s'est produite. Désolé pour le désagrément temporaire.",
+    'default_application_error_title_detailed_description' => "L'application n'a pas pu s'exécuter en raison de l'erreur suivante",
 ];

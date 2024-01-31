@@ -28,4 +28,8 @@ return [
     'main_template_text_header_1' => "Welcome to Your New Site",
     'main_template_text_tagline_p_start' => "This site is powered by the",
     'main_template_text_tagline_p_end' => "SlimPHP 4 Skeleton MVC App",
+    
+    'default_application_error_title_text' => "SlimPHP 4 Skeleton MVC App Error",
+    'default_application_error_title_description' => "A website error has occurred. Sorry for the temporary inconvenience.",
+    'default_application_error_title_detailed_description' => "The application could not run because of the following error",
 ];

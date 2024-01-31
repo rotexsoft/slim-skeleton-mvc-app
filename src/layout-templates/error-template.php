@@ -1,4 +1,9 @@
 <!doctype html>
+<!-- 
+Please DO NOT add php code to this file, just pure html, css & js 
+since it will be used to display error messages and should always
+display correctly.
+-->
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -12,7 +17,9 @@
     </head>
     <body>
         <h1>%s</h1>     <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <br>
         <div>%s</div>   <!-- error message body injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <br>
         <a href="#" onclick="window.history.go(-1)">Go Back</a>
     </body>
 </html>
