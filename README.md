@@ -81,9 +81,19 @@ of this template application framework.
 	* **`./vendor/bin/smvc-create-controller`** on **`*nix-like`** Oses and **`.\vendor\bin\smvc-create-controller.bat`** on **`Windows`**
         * NOTE: **`./vendor/bin/smvc-create-controller-wizard`** is the interactive version of **`./vendor/bin/smvc-create-controller`**
 
-* Ships with a very minimal amount of composer / packagists dependencies (all of which are used by **`SlimMvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
+* Ships with a very minimal amount of composer / packagist dependencies (all of which are used by **`SlimMvcTools\Controllers\BaseController`**) in order to allow you to include only additional dependencies that suit the specific needs of your application. Thereby reducing the possibility of having unused / unneeded dependencies in your application
 
 * Strives to adhere strictly to the **PSR-7 HTTP messages** and **psr/container** interfaces, in order to make it easy to use different implementations of the PSR-7 request and response objects and **psr/container** compliant containers
+
+* The following packages are used in this framework:
+    * [Slim Framework Version 4](https://github.com/slimphp/Slim/tree/4.x): for routing http requests to action methods in Controller classes (or other callables acceptable by Slim for responding to requests that match defined routes) and sending back http responses to clients
+    * [File Renderer](https://github.com/rotexsoft/file-renderer): for rendering php layout and view files (which basically contain a mix of php, html, css & Javascript) which will be sent back as html in http response bodies to clients. Plain Text, Json, Xml & other non-html responses can be emitted directly from Controller Action methods (they don't need this renderer)
+    * [Vespula Auth](https://packagist.org/packages/vespula/auth): a lightweight authentication package that is used by the default login & logout actions in the BaseController to authenticate users. An in-memory sqlite db is used for authentication by default, you should switch to a proper relational db like Mysql (which this package can also autheticate against)
+    * [Vespula Locale](https://packagist.org/packages/vespula/locale): another light-weight package for managing localized strings in this framework. Things like error messages during login are managed using an instance of this package to display those messages in the desired language selected by the user. US English & Canadian French are the two languages this framework supports out of the box. Other locale files can be added to the **./config/languages** folder and their locale code(s) should be added to the container (**$container[ContainerKeys::VALID_LOCALES]**) and a link for that language should be added to the layout template with the appropriate query string so that users that click on it can set that language as their desired language when interacting with an application built with this framework
+    * [Vespula Log](https://packagist.org/packages/vespula/log): a PSR-3 Logger that is used throughout this framework for logging various events (like  successful login & logout events, etc.). It's lighter than other packages like Monolog and pretty decent.
+    * [Pimple](https://packagist.org/packages/pimple/pimple): a simple Dependency Injection Container that is used to power [\SlimMvcTools\Container](https://github.com/rotexsoft/slim-skeleton-mvc-tools/blob/master/src/Container.php) (the [PSR-11](https://packagist.org/packages/psr/container) compliant container that ships with this framework)
+    * [Nyholm PSR7](https://packagist.org/packages/nyholm/psr7): A fast PHP7 implementation of PSR-7 injected into SlimPHP by this framework
+    * [Nyholm PSR7 Server](https://packagist.org/packages/nyholm/psr7-server): Helper classes to handle PSR-7 server requests, also used by SlimPHP within this framework
 
 ## Requirements
 
