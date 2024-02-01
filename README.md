@@ -16,7 +16,7 @@
 </a>
 
 
-> CURRENTLY UPDATING THIS FRAMEWORK TO USE SLIMPHP 4. THE CURRENTLY STABLE VERSION IS BASED ON SLIMPHP 3. BROWSE THE DOCUMENTATION HERE: https://github.com/rotexsoft/slim-skeleton-mvc-app/tree/slim-3-edition . WILL LET YOU ALL KNOW WHEN THE SLIMPHP 4 VERSION IS GOOD TO GO.
+> The documentation for the version of this framework based on SlimPHP 3 can be found [here](https://github.com/rotexsoft/slim-skeleton-mvc-app/tree/slim-3-edition).
 
 
 This is a template web-application (powered by [SlimPHP 4](https://www.slimframework.com/)), that can be extended to build more complex web applications.
