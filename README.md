@@ -55,7 +55,8 @@ of this template application framework.
 |   |-- controllers/
 |   |-- layout-templates/
 |   |-- models/
-|   `-- views/
+|   |-- views/
+|   `-- AppErrorHandler.php
 |
 |-- tests/
 |

@@ -30,7 +30,7 @@ return [
     ///////////////////////////////
     // Slim PHP Related Settings
     //////////////////////////////
-    'displayErrorDetails' => true, // set to false in production
+    'displayErrorDetails' => (sMVC_GetCurrentAppEnvironment() !== SMVC_APP_ENV_PRODUCTION), // should be always false in production
     'logErrors' => true,
     'logErrorDetails' => true,
     'addContentLengthHeader' => true,
@@ -52,7 +52,7 @@ return [
     'default_controller_class_name' => \SlimMvcTools\Controllers\BaseController::class,
     'default_action_name' => 'actionIndex',
     
-    'error_handler_class' => \SlimMvcTools\ErrorHandler::class,
+    'error_handler_class' => \SlimSkeletonMvcApp\AppErrorHandler::class,
     
     'html_renderer_class' => \SlimMvcTools\HtmlErrorRenderer::class,
     'json_renderer_class' => \SlimMvcTools\JsonErrorRenderer::class,

@@ -77,7 +77,10 @@ try {
     //                               
     // 6. languages/[en_US.php...fr_CA.php] Each locale file in the languages folder is meant
     //                                      to contain language specific translations for text
-    //                                      to be displayed in specific languages in an application
+    //                                      to be displayed in specific languages in an application.
+    //                                      
+    //                                      You can safely & should commit these locale files
+    //                                      to your source control repo (e.g. Git).
     ////////////////////////////////////////////////////////////////////////////////
     define('SMVC_APP_ENV_DEV', 'development');
     define('SMVC_APP_ENV_PRODUCTION', 'production');
@@ -218,9 +221,10 @@ try {
     
 } catch (\Throwable $exception) {
     
-    // If we get here, that means Slim's Exception Handling Stack could not handle this Exception
-    // We don't know if the environment detection code was properly loaded, so we 
-    // display a non descriptive message by default and only site admins
+    // If we got here, that means Slim's Exception Handling Stack could not 
+    // handle this Exception.
+    // We don't know if the environment detection code was properly loaded, 
+    // so we display a non descriptive message by default and only site admins
     // will know to add a show_full_error=1 query param to the url that 
     // caused the exception to be able to see the full exception.
     
@@ -243,6 +247,28 @@ try {
         $html .= '<h2>Trace</h2>';
         $html .= sprintf('<pre>%s</pre>', htmlentities($exception->getTraceAsString()));
     }
+    
+    if(isset($container) && $container instanceof \Psr\Container\ContainerInterface) {
+        
+        try {
+            
+            $logger = $container->get(\SlimMvcTools\ContainerKeys::LOGGER);
+            
+            if($logger instanceof \Psr\Log\LoggerInterface) {
+                
+                $logger->error(
+                    'Uncaught Exception Occurred' . PHP_EOL 
+                    . \SlimMvcTools\Utils::getThrowableAsStr($exception, PHP_EOL)
+                );
+            }
+            
+        } catch (\Throwable $ex) {
+            
+            // If another exception was thrown while logging, 
+            // there ain't nothing we can do about it
+            
+        } // try ... catch
+    } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
     echo sprintf($error_template, $title, $title, $html);
 }

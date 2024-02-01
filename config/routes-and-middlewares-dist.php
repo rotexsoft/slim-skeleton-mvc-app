@@ -1,18 +1,60 @@
 <?php
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 // This file contains all route & middleware definitions & every other 
-// modfication(s) you need to make to the $app object
-////////////////////////////////////////////////////////////////////////////////
-
+// modfication(s) you need to make to the $app object.
+// 
 // Manually add the Slim\Middleware\OutputBufferingMiddleware to the $app object
 // wherever you feel is necessary in this file. If you don't need it, don't add it.
+// https://www.slimframework.com/docs/v4/middleware/output-buffering.html
+// https://www.slimframework.com/docs/v4/start/upgrade.html#new-output-buffering-middleware
+///////////////////////////////////////////////////////////////////////////////////
 
 /**
   * The routing middleware should be added earlier than the ErrorMiddleware
   * Otherwise exceptions thrown from it will not be handled by the middleware
-  * Do something with $routing_middleware below if needed by your application
+  * Do something with $routing_middleware below if needed by your application.
+  * If you were using determineRouteBeforeAppMiddleware in Slim 3, you need 
+  * to add the Middleware\RoutingMiddleware middleware to your application 
+  * just before your call run() to maintain the previous behaviour (in this
+  * case, at the end of this file before or after the addErrorMiddleware call).
+  * https://www.slimframework.com/docs/v4/middleware/routing.html
   */
-$routing_middleware = $app->addRoutingMiddleware(); 
+$routing_middleware = $app->addRoutingMiddleware();
+
+////////////////////////////////////////////////////////////////////////////////
+// Start: Register your own routes for your application here if needded.
+//        They will override the mvc routes defined later on in this
+//        file in situations where there have the same pattern.
+//        SMVC_APP_USE_MVC_ROUTES being true or false will not have any
+//        impact on the routes you define here.
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Below is a good example of a route you can define which will override the 
+ * '/{controller}[/]' mvc route which would normally map to executing the
+ * default action on the \SlimSkeletonMvcApp\Controllers\Hello controller.
+
+$app->get('/hello/', function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $resp, $args) {
+    
+    $resp->getBody()->write("Hello!");
+    return $resp;
+});
+
+*/
+
+if( !SMVC_APP_USE_MVC_ROUTES ) {
+    
+    //Not using mvc routes. So at least define the default / route. 
+    //You can change it for your app if desired
+    $app->get('/', function($request, $response, $args) {
+        $response->getBody()->write("Hello World!");
+        return $response;
+    });
+}
+ 
+////////////////////////////////////////////////////////////////////////////////
+// End:  Register your own routes for your application here if needded.
+////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////
 // START: DEFINITION OF MVC ROUTE HANDLER
@@ -37,16 +79,6 @@ use ($route_handler_obj) {
 ///////////////////////////////////////////
 // END: DEFINITION OF MVC ROUTE HANDLER
 ///////////////////////////////////////////
-
-if( !SMVC_APP_USE_MVC_ROUTES ) {
-    
-    //Not using mvc routes. So at least define the default / route. 
-    //You can change it for your app if desired
-    $app->get('/', function($request, $response, $args) {
-        $response->getBody()->write("Hello World!");
-        return $response;
-    });
-}
 
 /////////////////////////////
 // Start: Register mvc routes
@@ -77,12 +109,6 @@ if( SMVC_APP_USE_MVC_ROUTES ) {
 // End: Register mvc routes
 /////////////////////////////
 
-if($app_settings['addContentLengthHeader']) {
-    
-    // Add any middleware which may modify the response body before adding the ContentLengthMiddleware
-    $app->add(new \Slim\Middleware\ContentLengthMiddleware());
-}
-
 /**
  * Add Error Middleware
  *
@@ -108,6 +134,13 @@ $error_middleware->setDefaultErrorHandler(
     )
 );
 $error_handler = $error_middleware->getDefaultErrorHandler();
+
+if($error_handler instanceof \SlimMvcTools\ErrorHandler) {
+    
+    // Inject the container into the error handler so you can pull stuff 
+    // out of it that may be needed when handling errors
+    $error_handler->setContainer($container);
+}
 
 /** @var \SlimMvcTools\HtmlErrorRenderer $html_error_renderer */
 $html_error_renderer = new $app_settings['html_renderer_class']($app_settings['error_template_file']);
@@ -200,5 +233,11 @@ $shutdownHandler = function() use ($request, $error_handler, $displayErrorDetail
         
     } // if (is_array($error))
 };
-
 register_shutdown_function($shutdownHandler);
+
+if($app_settings['addContentLengthHeader']) {
+    
+    // You may need to move this code up if the ContentLength calculation doesn't look right to you.
+    // https://www.slimframework.com/docs/v4/start/upgrade.html#new-content-length-middleware
+    $app->add(new \Slim\Middleware\ContentLengthMiddleware());
+}

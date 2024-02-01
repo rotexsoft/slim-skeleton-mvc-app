@@ -145,6 +145,20 @@ SQL;
 // End Vespula.Auth PDO Authentication setup
 ////////////////////////////////////////////////////////////////////////////
 
+// New PSR 7 Request Object
+$container[ContainerKeys::NEW_REQUEST_OBJECT]  = $container->factory(function ($c) {
+    
+    $serverRequestCreator = \Slim\Factory\ServerRequestCreatorFactory::create();
+    return $serverRequestCreator->createServerRequestFromGlobals();
+});
+
+// New PSR 7 Response Object
+$container[ContainerKeys::NEW_RESPONSE_OBJECT]  = $container->factory(function ($c) {
+    
+    $responseFactory = \Slim\Factory\AppFactory::determineResponseFactory();
+    return $responseFactory->createResponse();
+});
+
 ////////////////////////////////////////////////////////////////////////////
 // Call all the needed Setters on \Slim\Factory\AppFactory below here before
 // AppFactory::create() is called in index.php
