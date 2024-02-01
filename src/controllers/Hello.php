@@ -32,10 +32,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
     
-   /**
-     * @return \Psr\Http\Message\ResponseInterface|string
-     */
-    public function actionWorld($name, $another_param) {
+    public function actionWorld($name, $another_param): string {
         
         //get the contents of the view first
         $view_str = $this->renderView('world.php', ['name'=>$name, 'params'=>$another_param]);
@@ -43,10 +40,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
     
-   /**
-     * @return \Psr\Http\Message\ResponseInterface|string
-     */
-    public function actionThere($first_name, $last_name) {
+    public function actionThere($first_name, $last_name): string {
 
         $view_str = "Hello There $first_name, $last_name<br>";
         
