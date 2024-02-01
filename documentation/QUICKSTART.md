@@ -25,12 +25,14 @@
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of SlimMvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
 
-        can be automatically mapped to be responded to by a specific method in a Controller class, if **`SMVC_APP_USE_MVC_ROUTES`** is set to **`true`** in **`./public/index.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
+        can be automatically mapped to be responded to by a specific method in a Controller class, if **use_mvc_routes** is set to **`true`** in **`./config/app-settings.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
 
         * **`<base-path>`:** this is usually the alias setup in your webserver's configuration file that points to your site's document root folder  (in this case **`./public`**). For example in an apache web-server's configuration file you could have an alias definition like so:
             > Alias /my-app /path/to/my-app/public
 
             making your application accessible via `http://server/my-app/` or `https://server/my-app/` (if using SSL), where **my-app** is the value of **`<base-path>`** in this example. The **`<base-path>`** section of the url is optional since your web-server's main document root could be directly set to your site's document root folder (i.e. **`./public`**), as seen in step **2** above where the **php** development server is used.
+
+            See also https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
 
     * Below are the default links that are available upon installation:
 
@@ -76,7 +78,7 @@
             * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
             * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
-    * The **`action-`** prefix can be omitted from the links above if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`true`**
+    * The **`action-`** prefix can be omitted from the links above if **auto_prepend_action_to_action_method_names** is set to **`true`** in **`./config/app-settings.php`**
         * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
 
 4. If you are getting 404 errors, make sure that url-rewriting is enabled on your web-server.
@@ -85,17 +87,17 @@
 
     - Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
 
-    - Update the values of **SMVC_APP_USE_MVC_ROUTES**, **SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES**, **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** and **SMVC_APP_DEFAULT_ACTION_NAME** in **./public/index.php** to suit your needs.
-
     - Start creating controllers for your application using **./vendor/bin/smvc-create-controller-wizard**
             > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
-    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container['namespaces_for_controllers']** in **./config/dependencies.php** 
+    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** in **./config/dependencies.php** 
 
     > Always run **composer dump** after each time your create a new controller class with **./vendor/bin/smvc-create-controller** or **./vendor/bin/smvc-create-controller-wizard**.
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
+
+* **`config/languages`:** Contains localization files for language specific pieces of text used by **$container[\SlimMvcTools\ContainerKeys::LOCALE_OBJ]** in **./config/dependencies.php** 
 
 * **`logs`:** Log files
 
@@ -126,54 +128,52 @@
 
 * **`README.md`:** Add documentation for your application here.
 
-* **`config/app-settings.php`:** Add settings that should be passed to the constructor of the `Slim\App` object instantiated in `public/index.php` and also other environment specific settings needed by your application (like database credentials, etc.), here. These settings will be accessible via the **$container->get('settings')** entry in the container object for your application. See https://www.slimframework.com/docs/v3/objects/application.html#application-configuration for more information on Slim related settings.
+* **`config/app-settings.php`:** Application settings and other environment specific settings needed by your application (like database credentials, etc.) should be stored here. These settings will be stored in **$container[\SlimMvcTools\ContainerKeys::APP_SETTINGS]** in **./config/dependencies.php**.
 
     * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/app-settings-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
 
 
 * **`config/app-settings-dist.php`:** A template file for creating **`config/app-settings.php`** in new environments your application will be deployed to. It should be version controlled. Store dummy values for sensitive settings, like database credentials for your application, in this file.
 
-* **`config/dependencies.php`:** Add dependencies to SlimPHP3's dependency injection container (i.e. Pimple) here.
+* **`config/dependencies.php`:** This is where you register dependencies needed by your application in a **psr/container** compliant container object. **\SlimMvcTools\Container** is the **psr/container** compliant container object that ships with this framework.
 
-    * Below are the objects that are registered in the container:
+    * Below are the items that are registered in the container:
 
-        * **`errorHandler:`** An anonymous function that handles all uncaught PHP exceptions in your application. See https://www.slimframework.com/docs/v3/handlers/error.html for more details.
+        * **`\SlimMvcTools\ContainerKeys::APP_SETTINGS:`** The array returned by **`config/app-settings.php`**
 
-        * **`errorHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **errorHandler** anonymous function to handle http 500 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpServerErrorController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
+        * **`\SlimMvcTools\ContainerKeys::DEFAULT_LOCALE:`** the default locale language code for localized strings of text in your application
 
-        * **`notFoundHandler:`** An anonymous function that handles all request urls that do not match any of the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-found.html for more details.
+        * **`\SlimMvcTools\ContainerKeys::VALID_LOCALES:`** an array of allowable locale language codes for localized strings of text in your application
 
-            * The handler for this framework is slightly different from the pure Slim 3 one in that it adds two additional optional parameters in addition to the request and response parameters specified in the Slim 3 framework's default handler:
-            ```php
-            <?php
-                function (
-                    \Psr\Http\Message\ServerRequestInterface $request,
-                    \Psr\Http\Message\ResponseInterface $response,
-                    $_404_page_contents_str = null,
-                    $_404_page_additional_log_msg = null
-                )
-            ?>
-            ```
-        * **`notFoundHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **notFoundHandler** anonymous function to handle http 404 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpNotFoundController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
-
-        * **`notAllowedHandler:`** An anonymous function that handles all requests whose **HTTP Request Method** does not match any of the **HTTP Request Methods** associated with the routes defined in your application (i.e. in **`public/index.php`** or **`config/routes-and-middlewares.php`**). See https://www.slimframework.com/docs/v3/handlers/not-allowed.html for more details.
-
-        * **`notAllowedHandlerClass:`** Name of controller class (must be a sub-class of **\\SlimMvcTools\\Controllers\\BaseController**) that will be used by the **notAllowedHandler** anonymous function to handle http 405 errors. Has a default value of **'\\SlimMvcTools\\Controllers\\HttpMethodNotAllowedController'**. MUST be set if you have a base controller for your application that implements **preAction()** and / or **postAction(...)**
-
-        * **`logger:`** Any PSR-3 compliant logger (PSR-3 strongly recommended: HTTP 404, 405 & 500 error handlers in **\\SlimMvcTools\\Controllers\\BaseController** rely on this), that can be used for logging in your application. See https://bitbucket.org/jelofson/vespula.log for more details on how to configure this logger to suit your application's needs.
+        * **`\SlimMvcTools\ContainerKeys::LOCALE_OBJ:`** an object that is used to retrieve the appropriate localized strings of text in your application
 
             ```php
             <?php
-                //You can access the logger from within your controller like so:
-                $this->container->get('logger');
+                //You can access the locale object from within your controllers like so:
+                $this->vespula_locale;
+
+                //or
+                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LOCALE_OBJ);
             ?>
             ```
 
-        * **`namespaces_for_controllers:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update **`namespaces_for_controllers`**. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\SlimSkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
+        * **`\SlimMvcTools\ContainerKeys::LOGGER:`** Any PSR-3 compliant logger that can be used for logging in your application.
+
+            ```php
+            <?php
+                //You can access the logger from within your controllers like so:
+                $this->logger;
+
+                //or
+                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LOGGER);
+            ?>
+            ```
+
+        * **`\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update this array. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\SlimSkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
 
             * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your application's **./composer.json**.
 
-        * **`new_layout_renderer:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -183,7 +183,7 @@
                                         // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
-                $this->container->get('new_layout_renderer'); // keep in mind that accessing it like
+                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER); // keep in mind that accessing it like
                                                               // this returns a new instance with
                                                               // each call.
 
@@ -193,7 +193,7 @@
             ?>
             ```
 
-        * **`new_view_renderer:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -203,7 +203,7 @@
                                       // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
-                $this->container->get('new_view_renderer'); // keep in mind that accessing it like
+                $this->getContainerItem(\SlimMvcTools\ContainerKeys::VIEW_RENDERER); // keep in mind that accessing it like
                                                             // this returns a new instance with
                                                             // each call.
 
@@ -213,14 +213,21 @@
             ?>
             ```
 
-        * **`vespula_auth:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
+        * **`\SlimMvcTools\ContainerKeys::VESPULA_AUTH:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
             ```php
             <?php
                 //You can access the auth object from within your controller like so:
-                $this->container->get('vespula_auth');
+                $this->vespula_auth;
+
+                // or
+                $this->getContainerItem(\SlimMvcTools\ContainerKeys::VESPULA_AUTH);
             ?>
             ```
+
+        * **`\SlimMvcTools\ContainerKeys::NEW_REQUEST_OBJECT:`** Returns a new PSR 7 Request object on each access 
+
+        * **`\SlimMvcTools\ContainerKeys::NEW_RESPONSE_OBJECT:`** Returns a new PSR 7 Response object on each access 
 
 * **`config/env.php`:** Edit it to define your application's environment. It should return one of **SMVC_APP_ENV_DEV**, **SMVC_APP_ENV_PRODUCTION**, **SMVC_APP_ENV_STAGING** or **SMVC_APP_ENV_TESTING** relevant to the environment you are installing your web-application.
 
@@ -230,15 +237,13 @@
 
 * **`config/ini-settings.php`:** Modify ini settings via **`ini_set(..)`** here. Remember to update **`date.timezone`** in this file to match your timezone (see http://php.net/manual/en/timezones.php).
 
-* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v3/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **SMVC_APP_USE_MVC_ROUTES** constant in **`public/index.php`** to false). A default **`/`** route is defined in this file and will be active if **SMVC_APP_USE_MVC_ROUTES** has a value of **`false`**.
+* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v4/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **use_mvc_routes** entry in **`config/app-settings.php`** to false). A default **`/`** route is defined in this file and will be active if  **use_mvc_routes** has a value of **`false`**.
 
 * **`public/.htaccess`:** Apache web-server settings.
 
 * **`public/index.php`:** Entry point to application.
 
-	* **Figure 1: Overview of the index.php file** ![Overview of the index.php file](../index.php-overview.png)
-
-    * Below are some constants (some of which you may edit to suit your needs) and functions defined in this file (i.e. **`public/index.php`**):
+    * Below are some constants and functions defined in this file (i.e. **`public/index.php`**) that will be accessible in your application classes like the controllers and files like the layout and view files:
 
         * **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES:`** A boolean value. If true, the string **`'action'`** will be prepended to action method names (if the method name does not already start with the string **`'action'`**). The resulting method name will be converted to camel case before being executed. If false, then action method names will only be converted to camel case before being executed. This setting does not apply to **`SMVC_APP_DEFAULT_ACTION_NAME`**. It only applies to the following routes **`'/{controller}/{action}[/{parameters:.+}]'`** and **`'/{controller}/{action}/'`**.
 
@@ -246,7 +251,7 @@
 
         * **`SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME:`** A string value. This is used to create a controller object to handle the default **`/`** route. Must be prefixed with the namespace if the controller class is in a namespace.
 
-        * **`sMVC_GetCurrentAppEnvironment():`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
+        * **`sMVC_GetCurrentAppEnvironment(): string:`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
 
             * **`SMVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
 
@@ -260,11 +265,15 @@
 
         * **`SMVC_APP_ROOT_PATH:`** A string value. The absolute path the topmost level folder in your application (i.e. the folder containing all your application's folders like **`src`**, **`config`**, etc).
 
-        * **`SMVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`** (like working with pure Slim 3).
+        * **`SMVC_APP_USE_MVC_ROUTES:`** A boolean value. If true, the mvc routes will be enabled. If false, then you must explicitly define all the routes for your application inside **`config/routes-and-middlewares.php`**.
 
 * **`src/controllers/Hello.php`:** Example Controller class.
 
+* **`src/layout-templates/error-template.php`:** Default template used by this framework to display all your application's error pages like **404 - Not Found**, etc. Tweak it to match your site's look and feel while leaving the three **%s** tokens inside it (they are substituted with error title & description info when this template is rendered at run-time).
+
 * **`src/layout-templates/main-template.php`:** Default site template you can use as a starting point for your application's layout.
+
+* **`src/views/base/controller-classes-by-action-methods-report.php`:** View file associated with the **`actionRoutes`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
 * **`src/views/base/index.php`:** View file associated with the **`actionIndex`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
@@ -273,3 +282,5 @@
 * **`src/views/base/login-status.php`:** View file associated with the **`actionLoginStatus`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**.
 
 * **`src/views/hello/world.php`:** View file associated with the **`actionWorld`** method in **`src/controllers/Hello.php`**.
+
+* **`src/AppErrorHandler.php`:** The ErrorHandler class registered with SlimPHP's ErrorMiddleware for handling all your application's errors. You can add extra logic like sending notification emails when errors occur and etc. in your application. See the **error_handler_class** entry in **./config/app-settings.php** and references to **error_handler_class** in **./config/routes-and-middlewares.php** for how this Handler is setup in this framework.
