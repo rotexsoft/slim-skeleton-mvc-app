@@ -16,7 +16,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
     
-    public function actionIndex(): string {
+    public function actionIndex() {
 
         return 'in Hello::actionIndex()<br>';
     }
@@ -120,7 +120,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         $this->response->getBody()->write('in Hello::__construct(...)<br>'); 
     }
     
-    public function actionIndex(): string {
+    public function actionIndex() {
 
         return 'in Hello::actionIndex()<br>';
     }
@@ -209,7 +209,7 @@ layout template file as variable(s).
             parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
         }
 
-        public function actionIndex(): string {
+        public function actionIndex() {
 
             return $this->renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] );
         }
