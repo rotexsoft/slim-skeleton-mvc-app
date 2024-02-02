@@ -7,20 +7,21 @@ namespace SlimSkeletonMvcApp\Controllers;
 class Hello extends \SlimMvcTools\Controllers\BaseController
 {
     public function __construct(
-        \Interop\Container\ContainerInterface $container, 
-        $controller_name_from_uri, $action_name_from_uri, 
+        \Psr\Container\ContainerInterface $container, 
+        string $controller_name_from_uri, 
+        string $action_name_from_uri, 
         \Psr\Http\Message\ServerRequestInterface $req, 
         \Psr\Http\Message\ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
     
-    public function actionIndex() {
+    public function actionIndex(): string {
 
         return 'in Hello::actionIndex()<br>';
     }
     
-    public function actionThere($first_name, $last_name) {
+    public function actionThere($first_name, $last_name): string {
 
         return "Hello There $first_name, $last_name";
     }
@@ -29,32 +30,34 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
 ```
 **Figure 1: an Hello Controller class**
 
-* There are four routes that are defined in the **`./public/index.php`** file to handle MVC requests
-* These four routes will be enabled, if and only if **SMVC_APP_USE_MVC_ROUTES** is set to **`true`**
+* There are four routes that are defined in the **`./config/routes-and-middlewares.php`** file to handle MVC requests
+* These four routes will be enabled, if and only if **use_mvc_routes** is set to **`true`** in **./config/app-settings.php**
 * Below are the four routes:
-    * **`/`**: the **default route**. It creates an instance of the default controller (configurable via **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME**) and executes the default action method (configurable via **SMVC_APP_DEFAULT_ACTION_NAME**) on the default controller. This route should be used for the home-page of your app.
-        * For example, given **SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME** with a value of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello'`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **default route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
-    * **`/{controller}[/]`**: the **controller only route**. It creates an instance of the controller specified in the url and executes the default action method (configurable via **SMVC_APP_DEFAULT_ACTION_NAME**) on the specified controller.
-        * For example, given a route with a value of **`/hello`** and **SMVC_APP_DEFAULT_ACTION_NAME** with a value of **`'actionIndex()'`**, the **controller only route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
+    * **`/`**: the **default route**. It creates an instance of the default controller (configurable via **default_controller_class_name** in **./config/app-settings.php**) and executes the default action method (configurable via **default_action_name** in **./config/app-settings.php**) on the default controller. This route should be used for the home-page of your app.
+        * For example, given **default_controller_class_name** with a value of **`\SlimSkeletonMvcApp\Controllers\Hello::class`** and **default_action_name** with a value of **`'actionIndex()'`**, the **default route** will lead to the execution of **`'\SlimSkeletonMvcApp\Controllers\Hello->actionIndex()'`**
+    * **`/{controller}[/]`**: the **controller only route**. It creates an instance of the controller specified in the url and executes the default action method (configurable via **default_action_name**) on the specified controller.
+        * For example, given a route with a value of **`/hello`** and **default_action_name** with a value of **`'actionIndex()'`**, the **controller only route** will lead to the execution of **`'\SlimSkeletonMvcApp\Controllers\Hello->actionIndex()'`**
     * **`/{controller}/{action}/`**: the **controller and action only route**. It creates an instance of the controller specified in the url and executes the action method specified in the url on the specified controller. The specified method in the specified controller should not accept any parameters / arguments.
-        * For example, given a route with a value of **`/hello/index/`**, the **controller and action only route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionIndex()'`**
+        * For example, given a route with a value of **`/hello/index/`**, the **controller and action only route** will lead to the execution of **`'\SlimSkeletonMvcApp\Controllers\Hello->actionIndex()'`**
     * **`/{controller}/{action}[/{parameters:.+}]`**: the **controller, action and optional parameters route**. It creates an instance of the controller specified in the url and executes the action method specified in the url (with the parameters specified in the url, if any) on the specified controller.
-        * For example, given a route with a value of **`/hello/there/john/Doe`**, the **controller, action and optional parameters route** will lead to the execution of **`'\\SlimSkeletonMvcApp\\Controllers\\Hello::actionThere('john', 'Doe')'`**
+        * For example, given a route with a value of **`/hello/there/john/Doe`**, the **controller, action and optional parameters route** will lead to the execution of **`'\SlimSkeletonMvcApp\Controllers\Hello->actionThere('john', 'Doe')'`**
         * This route also responds to **`/{controller}/{action}`** (without a trailing slash). In this case the controller method specified via **`{action}`** part of the url must not accept any arguments or parameters.
 
 ### **More on Controllers and MVC Routes** 
-* Controller classes must extend `\SlimMvcTools\Controllers\BaseController`. These classes must be named using studly case / caps e.g. **StaticPages**, **MobileDataProviders** and must be referenced in the controller segment of the url in all lowercases with dashes preceding capital case characters (except for the first capital case character). For example, `http://localhost:8888/mobile-data-providers/` will be responded to by the default action (defined via **`SMVC_APP_DEFAULT_ACTION_NAME`**; default value is **`actionIndex`** ) method in the controller named **MobileDataProviders**, `http://localhost:8888/mobile-data-providers/list-providers` or `http://localhost:8888/mobile-data-providers/action-list-providers` (if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to **`false`**) will be responded to by the **`actionListProviders()`** method in the controller named **`MobileDataProviders`**, etc.
+* Controller classes must extend `\SlimMvcTools\Controllers\BaseController`. These classes must be named using studly case / caps e.g. **StaticPages**, **MobileDataProviders** and must be referenced in the controller segment of the url in all lowercases with dashes preceding capital case characters (except for the first capital case character). For example, `http://localhost:8888/mobile-data-providers/` will be responded to by the default action (defined via **`default_action_name`**; default value is **`actionIndex`** ) method in the controller named **MobileDataProviders**, `http://localhost:8888/mobile-data-providers/list-providers` or `http://localhost:8888/mobile-data-providers/action-list-providers` (if **`auto_prepend_action_to_action_method_names`** is set to **`false`** in **./config/app-settings.php**) will be responded to by the **`actionListProviders()`** method in the controller named **`MobileDataProviders`**, etc.
     * NOTE: there is a helper script available for creating Controller Classes and some default view files (see **`./vendor/bin/smvc-create-controller`** or **`./vendor/bin/smvc-create-controller-wizard`**)
-    * Controller action methods should be named using camel case (e.g. **`listProviders()`** ). In addition, they must be prefixed with the word **`action`** if **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true`; in this case **`actionListProviders()`**
+    * Controller action methods should be named using camel case (e.g. **`listProviders()`** ). In addition, they must be prefixed with the word **`action`** if **`auto_prepend_action_to_action_method_names`** is set to `true`; in this case **`actionListProviders()`**
 
 * Action methods in Controller classes MUST either return a string (i.e. containing the output to display to the client) or an instance of **Psr\Http\Message\ResponseInterface** (e.g. $response, that has the output to be displayed to the client, injected into it via `$response->getBody()->write($data)` );
 
-* **`The default route with default controller and default action route handler:`** The default route handler responds to the **`/`** route by creating an instance of the default controller (defined via **`SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME`**) and calling the default action method (defined via **`SMVC_APP_DEFAULT_ACTION_NAME`**) on the controller object and returning the result as a response object (if the method returns a string the default route handler will write the string into a response object and return that object). 
+* The **$smvc_route_handler** defined in **./config/routes-and-middlewares.php**, handles the MVC route scenarios below:
 
-* **`The controller with action and optional params route handler:`** The mvc route handler responds to the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes by going through the steps below:
-    * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's avalid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. If it's a valid class name, it then goes on to check if the class exists in the gloabal namespace first, and if not, then it continues checking in the namespaces registered in the container (**`namespaces_for_controllers`**). If the class does not exist, it will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the class exists, an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will invoke the **`notFoundHandler`** which will lead to a 404 not found response. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (i.e. **$instance_of_hello_controller->actionWorld('john', 'doe')** ) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter (i.e. **$instance_of_hello_controller->actionWorld()** ) this happens when the **`/{controller}/{action}/`** route is matched. 
-    
-* **`The controller with no action and no params route handler:`** `/{controller}[/]`: works in a similar manner to the handler that handles the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes. Except that the value of **`SMVC_APP_DEFAULT_ACTION_NAME`** is used for the method name and the method will always be invoked with no parameters.
+    * **`The default route with default controller and default action route:`** responds to the **`/`** route by creating an instance of the default controller (defined via **`default_controller_class_name`**) and calling the default action method (defined via **`default_action_name`**) on the controller object and returning the result as a response object (if the method returns a string the default route handler will write the string into a response object and return that object). 
+
+    * **`The controller with action and optional params route:`** The mvc route handler responds to the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes by going through the steps below:
+        * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`auto_prepend_action_to_action_method_names`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid class name, it then goes on to check if the class exists in the global namespace first, and if not, then it continues checking in the namespaces registered in the container (**\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS**). If the class does not exist, it will throw a **\Slim\Exception\HttpNotFoundException**. If the class exists and is not an instance / sub-class of **\SlimMvcTools\Controllers\BaseController**, a **\Slim\Exception\HttpBadRequestException** will be thrown. Else an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will throw a **\Slim\Exception\HttpNotFoundException**. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (i.e. **$instance_of_hello_controller->actionWorld('john', 'doe')** ) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter (i.e. **$instance_of_hello_controller->actionWorld()** ) this happens when the **`/{controller}/{action}/`** route is matched. 
+        
+    * **`The controller with no action and no params route:`** `/{controller}[/]`: works in a similar manner to how the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes are handled. Except that the value of **`default_action_name`** is used for the method name and the method will always be invoked with no parameters.
 
 ### **Controller Execution Flow** 
 Middlewares added to your app, like the one in **Figure 5** below, will be executed for all routes (MVC ones above included) in your app.
@@ -69,17 +72,16 @@ can then be used to implement common logic which you want to be executed before 
 action method is run in any of your controllers.
 
 In a nutshell; for each request, middleware code is first executed 
-(in Slim 3 the handler associated with the route matched for the current request
+(in Slim PHP the handler associated with the route matched for the current request
 is also executed as a middleware). When the route handler for any of the MVC routes mentioned above is executed,
 the **`preAction()`** method for the current controller is executed first, followed by the current action method
 and then followed by the **`postAction(\Psr\Http\Message\ResponseInterface $response)`** method for the current 
 controller. Finally, other middleware code (if any) is executed after the route handler for the current request 
 has been executed. 
 
-Given the code in **figures 4** and **5** below, executing **`http://localhost:8888/hello/`** will generate the output in **Figure 2** below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`**) will generate the output in **Figure 3** below:
+Given the code in **figures 4** and **5** below, executing **`http://localhost:8888/hello/`** will generate the output in **Figure 2** below and executing **`http://localhost:8888/hello/action-there/john/Doe`** (or **`http://localhost:8888/hello/there/john/Doe`** if **auto_prepend_action_to_action_method_names** is set to **`true`**) will generate the output in **Figure 3** below:
 
 ```
-in Middleware before current route handler
 in Hello::__construct(...)
 in Hello::preAction()
 in Hello::actionIndex()
@@ -89,10 +91,9 @@ in Middleware after current route handler
 **Figure 2: Output of executing** `http://localhost:8888/hello/`
 
 ```
-in Middleware before current route handler
 in Hello::__construct(...)
 in Hello::preAction()
-Hello There john, Doe
+Hello There john, doe
 in Hello::postAction(\Psr\Http\Message\ResponseInterface $response)
 in Middleware after current route handler
 ```
@@ -102,19 +103,24 @@ in Middleware after current route handler
 <?php
 namespace SlimSkeletonMvcApp\Controllers;
 
+use \Psr\Container\ContainerInterface,
+    \Psr\Http\Message\ServerRequestInterface,
+    \Psr\Http\Message\ResponseInterface;
+
 class Hello extends \SlimMvcTools\Controllers\BaseController
 {
     public function __construct(
-        \Interop\Container\ContainerInterface $container, 
-        $controller_name_from_uri, $action_name_from_uri, 
-        \Psr\Http\Message\ServerRequestInterface $req, 
-        \Psr\Http\Message\ResponseInterface $res     
+        ContainerInterface $container, 
+        string $controller_name_from_uri, 
+        string $action_name_from_uri, 
+        ServerRequestInterface $req, 
+        ResponseInterface $res     
     ) {
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
         $this->response->getBody()->write('in Hello::__construct(...)<br>'); 
     }
     
-    public function actionIndex() {
+    public function actionIndex(): string {
 
         return 'in Hello::actionIndex()<br>';
     }
@@ -124,7 +130,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return "Hello There $first_name, $last_name<br>";
     }
     
-    public function preAction() {
+    public function preAction(): ResponseInterface {
         
         // add code that you need to be executed before each controller action method is executed
         $response = parent::preAction();
@@ -133,7 +139,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $response;
     }
     
-    public function postAction(\Psr\Http\Message\ResponseInterface $response) {
+    public function postAction(\Psr\Http\Message\ResponseInterface $response): ResponseInterface {
         
         // add code that you need to be executed after each controller action method is executed
         $response = parent::postAction($response);
@@ -142,16 +148,15 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $response;
     }
 }
+
 ```
 **Figure 4: Example Hello Controller Class**
 
 ```php
 <?php
-$app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Message\ResponseInterface $res, $next) {
-
-    $res->getBody()->write('in Middleware before current route handler<br>');
+$app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Server\RequestHandlerInterface $next) {
     
-    $new_response = $next($req, $res); // this will eventually execute the route handler
+    $new_response = $next->handle($req); // this will eventually execute the route handler
                                        // for the matched route for the current request.
                                        // This is where the controller is instantiated 
                                        // and the appropriate controller method is 
@@ -169,18 +174,18 @@ $app->add(function (\Psr\Http\Message\ServerRequestInterface $req, \Psr\Http\Mes
 
 There is an optional built-in template file rendering system available to all controllers that extend 
 **`\SlimMvcTools\Controllers\BaseController`** via two methods in **`\SlimMvcTools\Controllers\BaseController`**:
-1. **renderLayout($file_name, array $data=['content'=>''])** 
-2. and **renderView($file_name, array $data=[])** ). 
+1. **renderLayout( string $file_name, array $data = ['content'=>'Content should be placed here!'] ): string** 
+2. and **renderView( string $file_name, array $data = [] ): string** 
 
 The layout and view files for your application only need be written in php (i.e. only html, css, js 
 and php code expected), no need to learn any new templating language or syntax. 
  
-* **`renderLayout($file_name, array $data=['content'=>'Content should be placed here!']):`** for rendering 
+* **`renderLayout( string $file_name, array $data = ['content'=>'Content should be placed here!'] ): string:`** for rendering 
 the layout file for your application. This file should contain the overall html structure for all your website's 
 pages. Layout files should be located in **`./src/layout-templates`**, you can change this location or add extra 
-location(s) by updating the **`new_layout_renderer`** section in **`./config/dependencies.php`**. Just call 
+location(s) by updating the **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER`** section in **`./config/dependencies.php`**. Just call 
 **renderLayout** with the name of the php layout file you want to render (e.g. `some-page.php` which will be 
-searched for in **`./src/layout-templates`** or whatever location(s) were registered in the **`new_layout_renderer`** 
+searched for in **`./src/layout-templates`** or whatever location(s) were registered in the **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER`** 
 section in **`./config/dependencies.php`**) and an optional associative array whose key(s) will be injected into the 
 layout template file as variable(s). 
 
@@ -196,15 +201,15 @@ layout template file as variable(s).
     class Hello extends \SlimMvcTools\Controllers\BaseController
     {
         public function __construct(
-            \Interop\Container\ContainerInterface $container, 
-            $controller_name_from_uri, $action_name_from_uri, 
+            \Psr\Container\ContainerInterface $container, 
+            string $controller_name_from_uri, string $action_name_from_uri, 
             \Psr\Http\Message\ServerRequestInterface $req, 
             \Psr\Http\Message\ResponseInterface $res     
         ) {
             parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
         }
 
-        public function actionIndex() {
+        public function actionIndex(): string {
 
             return $this->renderLayout( 'site-layout.php', ['description'=>'You are viewing page one'] );
         }
@@ -252,13 +257,13 @@ words separated with dashes. For example, view files for a controller named **Po
 **src/views/post-comments**. If a view file cannot be located in  **`src/views/<controller_name_from_uri>`**, 
 **renderView($file_name, array $data=[])** will search the view folder(s) of the parent classes of the specified 
 controller (NOTE: the view folder associated with **\SlimMvcTools\Controllers\BaseController** is **src/views/base**, 
-you can change this location by updating the **`new_view_renderer`** section in **`./config/dependencies.php`**). 
+you can change this location by updating the **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER`** section in **`./config/dependencies.php`**). 
 
     * For example, if the **PostComments** controller extends a controller named **MyAppBase** which in turn extends 
     **\SlimMvcTools\Controllers\BaseController**, then view files for the **PostComments** controller which cannot 
     be found in **src/views/post-comments** will be searched for first in **src/views/my-app-base** and if not 
     found in **src/views/my-app-base** will be finally searched for in **src/views/base** (or whatever location
-    you set for the view folder of **\SlimMvcTools\Controllers\BaseController** in the **`new_view_renderer`** 
+    you set for the view folder of **\SlimMvcTools\Controllers\BaseController** in the **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER`** 
     section in **`./config/dependencies.php`**). If the specified view file cannot be found in any of the paths 
     then an exception would be thrown letting you know that the file could not be found in the expected paths.
     
@@ -406,15 +411,15 @@ methods.
 
 To accomplish this, you need to first create a sub-class of **\Rotexsoft\FileRenderer\Renderer** and swap out 
 instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **new_layout_renderer** 
-and **new_view_renderer** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
+and **\SlimMvcTools\ContainerKeys::VIEW_RENDERER** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
 **\MyApp\Utils\MyCustomFileRenderer**, your updated dependencies entries would look like below:
 
 ```php
 <?php
 //Object for rendering layout files
-$container['new_layout_renderer'] = $container->factory(function () {
+$container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER] = $container->factory(function () {
     
-    //return a new instance on each access to $container['new_layout_renderer']
+    //return a new instance on each access to $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_layout_files]);
@@ -423,9 +428,9 @@ $container['new_layout_renderer'] = $container->factory(function () {
 });
 
 //Object for rendering view files
-$container['new_view_renderer'] = $container->factory(function () {
+$container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER] = $container->factory(function () {
     
-    //return a new instance on each access to $container['new_view_renderer']
+    //return a new instance on each access to $container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_view_files]);
@@ -461,7 +466,7 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 
 ### SMVC Helper Functions
-* **`sMVC_CreateController(\Interop\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
+* **`sMVC_CreateController(\Psr\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
 * **`sMVC_DumpVar($v)`:** for dumping variables during development for debugging purposes.
 * **`sMVC_GetBaseUrlPath()`:** performs the same function as \Slim\Http\Uri::getBasePath()
 * **`$sMVC_MakeLink($path)`:** prepends **sMVC_GetBaseUrlPath()** followed by **/** to $path and returns the prepended string. Use this for generating links in your application.
