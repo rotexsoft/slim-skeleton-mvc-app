@@ -46,8 +46,8 @@ php -S 0.0.0.0:8888 -t public
 php sessions is not writable by the php webserver started in the command above.
 This can be fixed by setting the value of the php configuration option **session.save_path**
 to a path to a folder that the built-in php webserver can write to. This configuration
-option should be set inside **./movie-catalog/config/ini-settings.php**.
-> By default, **'session.save_path'** has the value of **'./movie-catalog/tmp/session'** in **./movie-catalog/config/ini-settings.php**
+option should be set inside **./config/ini-settings.php**.
+> By default, **'session.save_path'** has the value of **'./tmp/session'** in **./config/ini-settings.php**
 
 Once we've verified that the welcome page is being displayed, we are sure that 
 our app was successfully installed. Now we can stop the php development server
