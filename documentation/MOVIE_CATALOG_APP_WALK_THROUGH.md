@@ -29,15 +29,6 @@ First, we create the new app by running the command below:
 composer create-project -n -s dev rotexsoft/slim-skeleton-mvc-app movie-catalog
 ```
 
-I entered **`Y`** when the prompt below appeared during the creation of the project
-signifying that I want to use the Zurb Foundation CSS/JS framework that comes with
-the skeleton app.
-
-```
-Do you want to use the Zurb Foundation front-end framework (which includes jQuery) 
-that ships with SlimPHP 4 Skeleton MVC package? (Y/N)
-```
-
 At this point, the new app will be in a folder / directory named 
 `movie-catalog`. You should change into the folder by running the command below:
 
@@ -55,14 +46,8 @@ php -S 0.0.0.0:8888 -t public
 php sessions is not writable by the php webserver started in the command above.
 This can be fixed by setting the value of the php configuration option **session.save_path**
 to a path to a folder that the built-in php webserver can write to. This configuration
-option should be set inside **./movie-catalog/config/ini-settings.php**, since it's 
-the first file from **./movie-catalog/config** that gets loaded in 
-**./movie-catalog/public/index.php** (your application's bootstrap file).
-> Adding the line of code below to **./movie-catalog/config/ini-settings.php** will
-cause php session files to be written to the **./movie-catalog/tmp/session** folder 
-(which you should create and ensure is writable by the php webserver process):
-
->`ini_set('session.save_path', SMVC_APP_ROOT_PATH.'/tmp/session');`
+option should be set inside **./movie-catalog/config/ini-settings.php**.
+> By default, **'session.save_path'** has the value of **'./movie-catalog/tmp/session'** in **./movie-catalog/config/ini-settings.php**
 
 Once we've verified that the welcome page is being displayed, we are sure that 
 our app was successfully installed. Now we can stop the php development server
@@ -111,8 +96,6 @@ the commands below:
 ./vendor/bin/smvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\SlimMvcTools\Controllers\BaseController"
 ./vendor/bin/smvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
 ./vendor/bin/smvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
-./vendor/bin/smvc-create-controller -c http-not-allowed-not-found-server-error-handler -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
-composer dumpautoload -o
 ``` 
 
 We should now have the following files and folders in our app:
@@ -152,49 +135,6 @@ listings in our app.
     **\MovieCatalog\Controllers\MovieListings**.
 
 
-* **./src/controllers/HttpNotAllowedNotFoundServerErrorHandler.php:** containing the
-**`\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`** class which is a sub-class of
-**`\MovieCatalog\Controllers\MovieCatalogBase`**. This controller class will 
-be used for handling HTTP `404`, `405` and `500` errors in our app. 
-
-    * **./src/views/http-not-allowed-not-found-server-error-handler/:** is the 
-    folder where view files for **\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler** 
-    should be placed. A default **index.php** will be in this folder and is used 
-    in the default **actionIndex()** in **\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler**. 
-    The default **actionIndex()** in 
-    **\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler** is
-    really not needed, since this controller is only meant to handle the 
-    earlier mentioned HTTP errors.
-
-    * The default handlers for HTTP 404, 405 and 500 errors are the 
-
-        * `\SlimMvcTools\Controllers\HttpServerErrorController`, 
-
-        * `\SlimMvcTools\Controllers\HttpNotFoundController` and
-
-        * `\SlimMvcTools\Controllers\HttpMethodNotAllowedController`
-
-        classes which are direct sub-classes of `\SlimMvcTools\Controllers\BaseController`. 
-        These default handlers will not be able to take advantage of the `preAction()` and 
-        `postAction(..)` implementations in `\MovieCatalog\Controllers\MovieCatalogBase`,
-        that's why we will be later making `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-        our HTTP 404, 405 and 500 error handler.
-
-    * Also note that the methods below can be overridden in 
-    `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` in
-    order to change the how 404, 405 and 500 errors are actually handled:
-
-        * `\SlimMvcTools\Controllers\BaseController::generateNotAllowedResponse(array $methods, ServerRequestInterface $req=null, ResponseInterface $res=null)`
-
-        * `\SlimMvcTools\Controllers\BaseController::generateNotFoundResponse(ServerRequestInterface $req=null, ResponseInterface $res=null, $_404_page_content=null, $_404_additional_log_message=null)` 
-
-        * `\SlimMvcTools\Controllers\BaseController::generateServerErrorResponse(\Exception $exception, ServerRequestInterface $req=null, ResponseInterface $res=null)`
-        
-        The `\SlimMvcTools\Controllers\BaseController` implementations of these
-        methods would be used by `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`
-        if they are not overridden inside `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler`.
-
-
 * **./src/controllers/Users.php:** containing the
 **`\MovieCatalog\Controllers\Users`** class which is a sub-class of
 **`\MovieCatalog\Controllers\MovieCatalogBase`**. This controller class will 
@@ -214,28 +154,21 @@ and delete) that can login to our app.
     would be used when the **renderView('index.php')** method is called from 
     within **\MovieCatalog\Controllers\Users**.
 
-Now we edit the dependencies file (i.e. **`./config/dependencies.php`**) by 
-assigning a value of **`'\\MovieCatalog\\Controllers\\HttpNotAllowedNotFoundServerErrorHandler'`** 
-to **$container['errorHandlerClass']**, **$container['notFoundHandlerClass']** and
-**$container['notAllowedHandlerClass']** in order to make the 
-`\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` class the 
-handler for HTTP 404, 405 and 500 errors in our app. 
-
 Next, we add the value (**`'\\MovieCatalog\\Controllers\\'`**) to the 
-**$container['namespaces_for_controllers']** array in the dependencies file.
+**$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** array in the dependencies file.
 This would be used by the MVC routing mechanism when trying to create an instance
 of the controller class (whose name was extracted from the request url).
 
-We then go on to edit **`./public/index.php`** by assigning the value of **`true`** 
-to `SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` and the value of 
-**`'\\MovieCatalog\\Controllers\\MovieListings'`** to 
-`SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME`. 
+We then go on to edit **`./config/app-settings.php`** by assigning the value of **`true`** 
+to `auto_prepend_action_to_action_method_names ` and the value of 
+**`\MovieCatalog\Controllers\MovieListings::class`** to 
+`default_controller_class_name`. 
 
 The first edit eliminates the need to prepend `action-` to action method names 
 in the request url and the second edit makes 
 **`\MovieCatalog\Controllers\MovieListings'`** the default controller for our app. 
 
-Since `SMVC_APP_DEFAULT_ACTION_NAME` has a default value of **`'actionIndex'`**, 
+Since `default_action_name` has a default value of **`'actionIndex'`**, 
 this means that the **`'actionIndex'`** method in 
 **`\MovieCatalog\Controllers\MovieListings'`** would be used to handle the 
 **`/`** route in our app.
@@ -270,15 +203,6 @@ You have successfully executed MovieCatalog\Controllers\Users::actionIndex()
 This is the default view for MovieCatalog\Controllers\Users::actionIndex().
 ```
 
-Then, browse to http://localhost:8888/http-not-allowed-not-found-server-error-handler 
-or http://localhost:8888/http-not-allowed-not-found-server-error-handler/index 
-and you should see the output below:
-
-```
-You have successfully executed MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler::actionIndex()
-This is the default view for MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler::actionIndex(). 
-```
-
 If browsing to all the links above resulted in the corresponding output, then all
 our controllers have been correctly setup and we are now ready to start implementing
 methods in our controllers. You can stop the php development server for now.
@@ -291,12 +215,13 @@ commands below to install these packages:
 ```
 composer require slim/flash
 composer require rotexsoft/leanorm
+composer require --dev rotexsoft/leanorm-cli
 ```
 
 We then go on to register a `Slim Flash` object in the container in our dependencies
 file by adding the code below to **`./config/dependencies.php`**:
 ```php
-$container['slim_flash'] = function () {
+$container[\Slim\Flash\Messages::class] = function () {
 
     if ( session_status() !== PHP_SESSION_ACTIVE ) { 
         
@@ -314,6 +239,7 @@ Next, add the classes below to the **`./src/models/`** folder:
 
 ```php
 <?php
+namespace MovieCatalog\Models\Collections;
 
 class BaseCollection extends \LeanOrm\Model\Collection {
     //put your code here
@@ -324,29 +250,21 @@ class BaseCollection extends \LeanOrm\Model\Collection {
 
 ```php
 <?php
+namespace MovieCatalog\Models;
+
+namespace MovieCatalog\Models;
 
 class BaseModel extends \LeanOrm\Model {
 
     public function __construct(
-        $dsn='', $uname='', $paswd='', array $pdo_driver_opts=[], array $ext_opts=[]
+        string $dsn = '', 
+        string $username = '', 
+        string $passwd = '', 
+         array $pdo_driver_opts = [], 
+        string $primary_col_name = '', 
+        string $table_name = ''
     ) {
-        parent::__construct($dsn, $uname, $paswd, $pdo_driver_opts, $ext_opts);
-        
-        $col_names = $this->getTableColNames();
-        
-        if( in_array('record_creation_date', $col_names) ) {
-            
-            // this column will be automatically updated 
-            // when a new record is saved to the database
-            $this->_created_timestamp_column_name = 'record_creation_date';
-        }
-        
-        if( in_array('record_last_modification_date', $col_names) ) {
-        
-            // this column will be automatically updated 
-            // when a record (new or existent) is saved to the database
-            $this->_updated_timestamp_column_name = 'record_last_modification_date';
-        }
+        parent::__construct($dsn, $username, $passwd, $pdo_driver_opts, $primary_col_name, $table_name);
     }
 }
 ```
@@ -354,10 +272,11 @@ class BaseModel extends \LeanOrm\Model {
 
 ```php
 <?php
+namespace MovieCatalog\Models\Records;
 
 class BaseRecord extends \LeanOrm\Model\Record {
 
-    public function getDateCreated() {
+    public function getDateCreated(): string {
         
         $col = $this->getModel()->getCreatedTimestampColumnName();
         
@@ -369,7 +288,7 @@ class BaseRecord extends \LeanOrm\Model\Record {
         return '';
     }
     
-    public function getLastModfiedDate() {
+    public function getLastModfiedDate(): string {
         
         $col = $this->getModel()->getUpdatedTimestampColumnName();
         
@@ -383,61 +302,67 @@ class BaseRecord extends \LeanOrm\Model\Record {
 }
 ```
 
-We then go on to register a Model objects (for the `movie_listings` and 
-`user_authentication_accounts` database tables) in the container in our 
-dependencies file by adding the code below to **`./config/dependencies.php`**
-(**NOTE:** you should update `$container['db_dsn']`, `$container['db_uname']`, 
-`$container['db_passwd']` to suit your database server):
+Now we use the leanorm-cli tool to generate model classes for our application. We need to create a config file for that by running the command below
+
+```
+cp ./vendor/rotexsoft/leanorm-cli/sample-config.php ./leanorm-cli-config.php
+```
+
+Edit **./leanorm-cli-config.php** to contain the db connection info and these other values:
+
+* **directory:** `./src/models`
+* **namespace:** `MovieCatalog\\Models`
+* **collection_class_to_extend:** `'\\' . \MovieCatalog\Models\Collections\BaseCollection::class`
+* **model_class_to_extend:** `'\\' . \MovieCatalog\Models\BaseModel::class`
+* **record_class_to_extend:** `'\\' . \MovieCatalog\Models\Records\BaseRecord::class`
+* **created_timestamp_column_name:** `record_creation_date`
+* **updated_timestamp_column_name:** `record_last_modification_date`
+* **store_table_col_metadata_array_in_file:** `true`
+
+Now run the command below to generate the model classes for your db tables:
+
+```
+php ./vendor/bin/generate-leanorm-classes.php ./leanorm-cli-config.php
+```
+
+Next, add the database connection info to **./config/app-settings.php** like so:
 
 ```php
-$container['db_dsn'] = 'mysql:host=server-name;dbname=movie_catalog';
-$container['db_uname'] = 'user_name';
-$container['db_passwd'] = 'pass';
+    'db_dsn'        => 'dsnval goes here',
+    'db_user_name'  => 'username goes here',
+    'db_password'   => 'password goes here',
+```
 
-$container['movie_listings_model'] = function ($c) {
+We then go on to register Model objects (for the `movie_listings` and 
+`user_authentication_accounts` database tables) in the container in our 
+dependencies file by adding the code below to **`./config/dependencies.php`**:
 
-    $model = new \BaseModel (
-        $c['db_dsn'], $c['db_uname'], $c['db_passwd'],
-        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'],
-        [
-            'primary_col' => 'id',
-            'table_name' => 'movie_listings',
+```php
+$container[\MovieCatalog\Models\MoviesListings\MoviesListingsModel::class] = 
+function ($c) {
 
-            //If not set, \LeanOrm\Model\Collection will be used by default
-            'collection_class_name' => 'BaseCollection',
-
-            //If not set, \LeanOrm\Model\Record will be used by default 
-            'record_class_name' => 'BaseRecord',
-        ]
+    return new \MovieCatalog\Models\MoviesListings\MoviesListingsModel(
+        $c[ContainerKeys::APP_SETTINGS]['db_dsn'],
+        $c[ContainerKeys::APP_SETTINGS]['db_user_name'],
+        $c[ContainerKeys::APP_SETTINGS]['db_password'],
+        [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']
     );
-
-    return $model;
 };
 
-$container['users_model'] = function ($c) {
+$container[\MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class] = 
+function ($c) {
 
-    $model = new \BaseModel (
-        $c['db_dsn'], $c['db_uname'], $c['db_passwd'],
-        [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'],
-        [
-            'primary_col' => 'id',
-            'table_name' => 'user_authentication_accounts',
-
-            //If not set, \LeanOrm\Model\Collection will be used by default
-            'collection_class_name' => 'BaseCollection',
-
-            //If not set, \LeanOrm\Model\Record will be used by default 
-            'record_class_name' => 'BaseRecord',
-        ]
+    return new \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel(
+        $c[ContainerKeys::APP_SETTINGS]['db_dsn'],
+        $c[ContainerKeys::APP_SETTINGS]['db_user_name'],
+        $c[ContainerKeys::APP_SETTINGS]['db_password'],
+        [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']
     );
-
-    return $model;
 };
 ```
 
-Now, we run the command below to allow composer's autoloader to be able to find
-the `BaseCollection`, `BaseModel` and `BaseRecord` classes we just added to our
-app:
+Now, we run the command below to allow composer's autoloader to be able to find all
+the Model classes we just added to our app:
 
 ```
 composer dumpautoload -o
@@ -451,39 +376,33 @@ dependencies file (**`./config/dependencies.php`**) to authenticate against the
 with the code below:
 
 ```php
-    ////////////////////////////////////////////////////////////////////////////
-    // Start Vespula.Auth PDO Authentication setup
-    ////////////////////////////////////////////////////////////////////////////
-    $container['vespula_auth'] = function ($c) {
+$container[ContainerKeys::VESPULA_AUTH] = function () {
 
-        $pdo = new \PDO(
-            $c['db_dsn'], 
-            $c['db_uname'], 
-            $c['db_passwd'], 
-            [
-                PDO::ATTR_PERSISTENT => true,
-                PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
-            ]
-        );
-        
-        //Optionally pass a maximum idle time and a time until the session 
-        //expires (in seconds)
-        $expire = 3600;
-        $max_idle = 1200;
-        $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
-        
-        $cols = ['username', 'password'];
-        $from = 'user_authentication_accounts';
-        $where = ''; //optional
+    $pdo = new \PDO(
+        $c[ContainerKeys::APP_SETTINGS]['db_dsn'],
+        $c[ContainerKeys::APP_SETTINGS]['db_user_name'],
+        $c[ContainerKeys::APP_SETTINGS]['db_password'], 
+        [
+            \PDO::ATTR_PERSISTENT => true,
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+        ]
+    );
 
-        $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
-        
-        return new \Vespula\Auth\Auth($adapter, $session);
-    };
-    ////////////////////////////////////////////////////////////////////////////
-    // End Vespula.Auth PDO Authentication setup
-    ////////////////////////////////////////////////////////////////////////////
+    //Optionally pass a maximum idle time and a time until the session 
+    //expires (in seconds)
+    $expire = 3600;
+    $max_idle = 1200;
+    $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+
+    $cols = ['username', 'password'];
+    $from = 'user_authentication_accounts';
+    $where = ''; //optional
+
+    $adapter = new \Vespula\Auth\Adapter\Sql($pdo, $from, $cols, $where);
+
+    return new \Vespula\Auth\Auth($adapter, $session);
+};
 ```
 
 Next we create an action method named `actionInitUsers` in the 
@@ -499,15 +418,20 @@ Below is the method:
 ```php
     public function actionInitUsers($password) {
         
-        $view_str = ''; // will hold output to be injected into 
-                        // the site layout file (i.e. 
-                        // `./src/layout-templates/main-template.php`)
+        $view_str = ''; // will hold output to be injected into the site layout 
+                        // file (i.e. `./src/layout-templates/main-template.php`)
                         // when $this->renderLayout(...) is called
         
-        $model_obj = $this->container->get('users_model');
-        $num_existing_users = $model_obj->fetchValue(['cols'=>['count(*)']]);
-        
-        if( !is_numeric($num_existing_users) ) {
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class
+        );
+        $num_existing_users = 
+            $model_obj->fetchValue(
+                $model_obj->getSelect()
+                          ->cols(['count(*)'])
+            );
+
+        if( $num_existing_users === null) {
             
             // no need to add entries for the `record_creation_date`
             // and `record_last_modification_date` fields in the 
@@ -543,8 +467,7 @@ Below is the method:
         // The 'content' key in the array below will be available in
         // `./src/layout-templates/main-template.php` as $content
         // 
-        // Note: $this->layout_template_file_name has a value of
-        //       'main-template.php'
+        // Note: $this->layout_template_file_name has a value of 'main-template.php'
         return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
     }
 ```
@@ -596,7 +519,6 @@ Below are the login urls currently available in our app (they are all calling
 
 - **http://localhost:8888/base-controller/login :** logging in via `\SlimMvcTools\Controllers\BaseController` 
 - **http://localhost:8888/hello/login :** logging in via `\SlimSkeletonMvcApp\Controllers\Hello` (a sample controller that ships with each new [SlimPHP 4 Skeleton MVC App](https://github.com/rotexsoft/slim-skeleton-mvc-app/) app) 
-- **http://localhost:8888/http-not-allowed-not-found-server-error-handler/login :** logging in via `\MovieCatalog\Controllers\HttpNotAllowedNotFoundServerErrorHandler` 
 - **http://localhost:8888/movie-catalog-base/login :** logging in via `\MovieCatalog\Controllers\MovieCatalogBase` 
 - **http://localhost:8888/movie-listings/login :** logging in via `\MovieCatalog\Controllers\MovieListings` 
 - **http://localhost:8888/users/login :** logging in via `\MovieCatalog\Controllers\Users` 
@@ -626,210 +548,415 @@ to contain navigation links to some of the features we will be implementing.
 **`./src/layout-templates/main-template.php`** after edit:
 ```php
 <!doctype html>
-<html class="no-js" lang="en" dir="ltr">
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+    
+    function makeMenuItemActive($links_controller_name, $controller_name_from_uri): string {
+
+        return ( trim($controller_name_from_uri) === trim($links_controller_name) ) ? 'active' : '';
+    }
+?>
+
+<html class="no-js" lang="<?= $__localeObj->getLanguageCode(); ?>" dir="ltr">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Import materialize.css-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
         <title>Da Numba 1 Movie Catalog App</title>
-        <link rel="stylesheet" href="<?php echo $sMVC_MakeLink('/css/foundation/foundation.css'); ?>" />
-        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/jquery.js'); ?>"></script>
         
         <style>
-            /* style for menu items */
-            ul.menu li.active-link,
-            ul.menu li.active-link a{
-                color: #2e8acd;
+            .container {
+                width: 98%;
             }
-            ul.menu li.active-link{
-                background-color: orange;
+            
+            @media only screen and (min-width : 601px) and (max-width : 1260px) {
+                .toast {
+                    width: 100%;
+                    border-radius: 0;
+                }
+            }
+
+            @media only screen and (min-width : 1261px) {
+                .toast {
+                    width: 100%;
+                    border-radius: 0; 
+                }
+            }
+
+            @media only screen and (min-width : 601px) and (max-width : 1260px) {
+                #toast-container {
+                    min-width: 100%;
+                    bottom: 0%;
+                    top: 90%;
+                    right: 0%;
+                    left: 0%;
+                } 
+            }
+
+            @media only screen and (min-width : 1261px) {
+                #toast-container {
+                    min-width: 100%;
+                    bottom: 0%;
+                    top: 90%;
+                    right: 0%;
+                    left: 0%; 
+                } 
             }
         </style>
     </head>
+    
     <body>
-        <div class="row">
-            <div class="top-bar">
-                <div class="top-bar-left">
-                    <ul class="dropdown menu" data-dropdown-menu>
-                        <li class="menu-text">Da Numba 1 Movie Catalog App</li>
-                        <li <?php isset($controller_name_from_uri) && makeMenuItemActive('movie-listings', $controller_name_from_uri); ?> >
-                            <a href="<?php echo $sMVC_MakeLink("movie-listings"); ?>">
-                                Home
+        
+        <div class="navbar-fixed">
+            
+            <!-- Dropdown Structure -->
+            <ul id="dropdown1" class="dropdown-content">
+                            
+                <li><a href="<?= $controller_object->makeLink("/users"); ?>">Manage Users</a></li>
+                            
+                <li class="divider"></li>
+                
+                <?php if( $controller_object->isLoggedIn() ): ?>
+                        
+                    <li><a href="<?= $controller_object->makeLink("/users/add"); ?>">Add New User</a></li>
+                    
+                <?php endif; // if( $controller_object->isLoggedIn() ) ?>
+            </ul>
+            
+            <nav>
+                <div class="nav-wrapper">
+                    
+                    <a href="<?= $controller_object->makeLink('/movie-listings'); ?>"
+                       class="brand-logo">
+                        Da Numba 1 Movie Catalog App
+                    </a>
+                    
+                    <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        
+                        <li class="<?= makeMenuItemActive('movie-listings', $controller_object->getControllerNameFromUri()); ?>">
+                            <a href="<?= $controller_object->makeLink('/movie-listings'); ?>">
+                                <?= $__localeObj->gettext('main_template_text_home'); ?>
                             </a>
                         </li>
-                        <li <?php isset($controller_name_from_uri) && makeMenuItemActive('users', $controller_name_from_uri); ?> >
-                            <a href="<?php echo $sMVC_MakeLink("users"); ?>">Manage Users</a>
-                            
-                            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
-                                <ul class="menu vertical">
-                                    <li><a href="<?php echo $sMVC_MakeLink("users/add"); ?>">Add New User</a></li>
-                                </ul>
-                            <?php endif; // if( isset($is_logged_in) && $is_logged_in ) ?>
-                            
+                        
+                        <!-- Dropdown Trigger -->
+                        <li class="<?= makeMenuItemActive('users', $controller_object->getControllerNameFromUri()); ?>">
+                            <a class="dropdown-trigger" 
+                               href="#!" data-target="dropdown1">
+                                Users<i class="material-icons right">arrow_drop_down</i>
+                            </a>
                         </li>
-                    </ul> <!-- <ul class="dropdown menu" data-dropdown-menu> -->
-                </div> <!-- <div class="top-bar-left"> -->
+                        
+                        <?php if($controller_object->isLoggedIn()): ?>
+                            <li>
+                                <a href="<?= $controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/logout"); ?>">
+                                    <?= $__localeObj->gettext('base_controller_text_logout'); ?>
+                                </a>&nbsp;
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <a href="<?= $controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/login"); ?>">
+                                    <?= $__localeObj->gettext('base_controller_text_login'); ?>
+                                </a>&nbsp;
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </nav>
+            
+        </div> <!-- <div class="navbar-fixed"> -->
+        
+        <ul class="sidenav" id="mobile-demo">
+            <li>
+                <a href="<?= $controller_object->makeLink('/movie-listings'); ?>">
+                    <?= $__localeObj->gettext('main_template_text_home'); ?>
+                </a>
+            </li>
 
-                <div class="top-bar-right">
-                    <ul class="menu">
-                        <li><input type="search" placeholder="Search"></li>
-                        <li><button type="button" class="button">Search</button></li>
-                        <li>&nbsp;</li>
-                        <li>
-                            <?php
-                                if( !isset($controller_name_from_uri) ) {
+            <li><a href="<?= $controller_object->makeLink("/users"); ?>">Manage Users</a></li>
 
-                                    $controller_name_from_uri = 'movie-listings';
-                                }
+            <?php if( $controller_object->isLoggedIn() ): ?>
 
-                                $login_action_path = $sMVC_MakeLink("/{$controller_name_from_uri}/login");
-                                $logout_action_path = $sMVC_MakeLink("/{$controller_name_from_uri}/logout");
-                            ?>
-                            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+                <li><a href="<?= $controller_object->makeLink("/users/add"); ?>">Add New User</a></li>
 
-                                <a class="button" href="<?php echo $logout_action_path; ?>">
-                                    <strong>Log Out</strong>
-                                </a>
+            <?php endif; // if( $controller_object->isLoggedIn() ) ?>
 
-                            <?php else: ?>
-
-                                <a class="button" href="<?php echo $login_action_path; ?>">
-                                    <strong>Log in</strong>
-                                </a>
-
-                            <?php endif; ?>
-                        </li>
-                    </ul> <!-- <ul class="menu"> -->
-                </div> <!-- <div class="top-bar-right"> -->
-            </div> <!-- <div class="top-bar"> -->
-        </div> <!-- <div class="row"> -->
-
-        <?php if( isset($last_flash_message) && $last_flash_message !== null  ): ?>
-
-            <?php $last_flash_message_css_class = isset($last_flash_message_css_class)? $last_flash_message_css_class : ''; ?>
+            <?php if($controller_object->isLoggedIn()): ?>
+                <li>
+                    <a href="<?= $controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/logout"); ?>">
+                        <?= $__localeObj->gettext('base_controller_text_logout'); ?>
+                    </a>&nbsp;
+                </li>
+            <?php else: ?>
+                <li>
+                    <a href="<?= $controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/login"); ?>">
+                        <?= $__localeObj->gettext('base_controller_text_login'); ?>
+                    </a>&nbsp;
+                </li>
+            <?php endif; ?>
+                
+        </ul> <!-- <ul class="sidenav" id="mobile-demo"> -->
+        
+        <div class="container">
 
             <div class="row" style="margin-top: 1em;">
-                <div class="callout <?php echo $last_flash_message_css_class; echo is_array($last_flash_message)? '' : ' text-center'; ?>"  data-closable>
-                    <button class="close-button" data-close>&times;</button>
-                    <p>
-                        <?php if( is_array($last_flash_message) ): ?>
-                            
-                            <ul>
-                            <?php foreach($last_flash_message as $curr_flash_msg): ?>
-                        
-                                <li><?php echo $curr_flash_msg; ?></li>
-                        
-                            <?php endforeach; // foreach($last_flash_message as $curr_flash_msg): ?>
-                            </ul>
-                        <?php else: ?>
-                            <?php echo $last_flash_message; ?>
-                        <?php endif; // if( is_array($last_flash_message) ): ?>
-                    </p>
-                </div> <!-- <div class="callout <?php echo $last_flash_message_css_class; echo is_array($last_flash_message)? '' : ' text-center'; ?>"  data-closable> -->
-            </div> <!-- <div class="row" style="margin-top: 1em;"> -->
+                <div class="s12">
+                    <?php if( $controller_object->isLoggedIn() ): ?>
 
-        <?php endif; //if( $last_flash_message !== null )?>
+                        <strong style="color: #7f8fa4;">
+                            Logged in as <?= $controller_object->getVespulaAuthObject()->getUsername(); ?>
+                        </strong>
 
-        <div class="row" style="margin-top: 1em;">
-            <div class="small-12 columns">
-                <?php if( isset($is_logged_in) && $is_logged_in ): ?>
-
-                    <strong style="color: #7f8fa4;">
-                        Logged in as <?php echo isset($logged_in_users_username) ? $logged_in_users_username : ''; ?>
-                    </strong>
-
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top: 1em;">
-            <div class="small-12 columns">
-                <?php echo $content; ?>
-            </div>
-        </div>
-
-        <footer class="row">
-            <div class="small-12 columns">
-                <hr/>
-                <div class="row">
-                    <div class="small-6 columns">
-                        <p>Copyright &copy; <?php echo date('Y'); ?>. Da Numba 1 Movie Catalog App.</p>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
-        </footer>
 
-        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/what-input.js'); ?>"></script>
-        <script src="<?php echo $sMVC_MakeLink('/js/foundation/vendor/foundation.min.js'); ?>"></script>
-        <script> $(document).foundation(); </script>
+            <div class="row" style="margin-top: 1em;">
+                <div class="s12">
+                    <?php echo $content; ?>
+                </div>
+            </div>
+
+            <div class="s12">
+                <footer>
+                    <hr/>
+                    <p>Copyright &copy; <?php echo date('Y'); ?>. Da Numba 1 Movie Catalog App.</p>
+                </footer>
+            </div>
+            
+        </div>
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                
+                var elems = document.querySelectorAll('.dropdown-trigger');
+                var instances = M.Dropdown.init(elems, { hover: false });
+
+                var sideNavElems = document.querySelectorAll('.sidenav');
+                var sideNavInstances = M.Sidenav.init(sideNavElems, {});
+                
+                // Flash Message display logic
+                <?php if( isset($last_flash_message) && $last_flash_message !== null  ): ?>
+
+                    var flash_toast_css = '<?= $this->escapeJs($last_flash_message_css_class ?? ''); ?>';
+                    var flash_toast_messages = '';
+
+                    <?php if( is_array($last_flash_message) ): ?>
+
+                        <?php foreach($last_flash_message as $curr_flash_msg): ?>
+
+                            flash_toast_messages += '<?= $this->escapeJs($curr_flash_msg); ?><br>';
+
+                        <?php endforeach; // foreach($last_flash_message as $curr_flash_msg): ?>
+
+                    <?php else: ?>
+
+                        flash_toast_messages += '<?= $this->escapeJs($last_flash_message); ?><br>';
+
+                    <?php endif; // if( is_array($last_flash_message) ): ?>
+                        
+                    M.toast({html: flash_toast_messages, displayLength: 15000, classes: flash_toast_css });
+
+                <?php endif; //if( $last_flash_message !== null )?>
+            });
+        </script>
+        
     </body>
 </html>
-
-<?php
-function makeMenuItemActive($links_controller_name, $controller_name_from_uri) {
-
-    if( trim($controller_name_from_uri) === trim($links_controller_name) ) {
-
-        echo 'class="active-link"';
-
-    } else { echo ''; }
-}
 ```
 
 Our layout template (**`./src/layout-templates/main-template.php`**) is now fully
 configured. If you look closely at the edited template file, you will notice the
 following **php** variables:
 
-- **$controller_name_from_uri**
-- **$action_name_from_uri** (this variable is not actually present in the template but we will be setting it for consistency sake)
-- **$is_logged_in**
-- **$logged_in_users_username**
+- **$__localeObj**
+    - It is injected in the dependencies files in the **\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER** & **\SlimMvcTools\ContainerKeys::VIEW_RENDERER** which are responsible for rendering view and layout files
+- **$controller_object**
+    - this variable is the instance of the controller class that was used to render the layout file and gets automatically injected into layout files in **\SlimMvcTools\Controllers\BaseController->renderLayout(...)**
 - **$last_flash_message**
+    - will be injected in the renderLayout & renderView methods of **`\MovieCatalog\Controllers\MovieCatalogBase`**
 - **$last_flash_message_css_class**
+    - will be injected in the renderLayout & renderView methods of **`\MovieCatalog\Controllers\MovieCatalogBase`**
 - **$content**
+    - this variable gets automatically injected into layout files in **\SlimMvcTools\Controllers\BaseController->renderLayout(...)**, it is the output from the view for the current controller action method being executed
 
-We need to inject these variables into our layout template via the **renderLayout**
+We need to inject some variables into our layout template via the **renderLayout**
 method in our controller. We will override the **renderLayout** method in 
 **`\MovieCatalog\Controllers\MovieCatalogBase`** (since it's the base controller
 for our app) like so:
 
 ```php
-    public function renderLayout($file_name, array $data=[]) {
+    public function renderLayout(string $file_name, array $data=[]): string {
         
         // define common layout variables
         $common_layout_data = [];
-        $common_layout_data['content'] = 'Content Goes Here!';
-        $common_layout_data['is_logged_in'] = $this->isLoggedIn();
         $common_layout_data['last_flash_message'] = $this->getLastFlashMessage();
-        $common_layout_data['action_name_from_uri'] = $this->action_name_from_uri;
-        $common_layout_data['controller_name_from_uri'] = $this->controller_name_from_uri;
         $common_layout_data['last_flash_message_css_class'] = $this->getLastFlashMessageCssClass();
-        $common_layout_data['logged_in_users_username'] = 
-                    $this->isLoggedIn() ? $this->container->get('vespula_auth')->getUsername() : '';
         
-        return parent::renderLayout($file_name, array_merge( $common_layout_data, $data ) );
+        return parent::renderLayout(
+            $file_name, array_merge( $common_layout_data, $data ) 
+        );
     }
 ```
 
-We should also make some of these variables available to all our views via the 
+We should also make these variables available to all our views via the 
 **renderView** method in our controller. We will override the **renderView** method in 
 **`\MovieCatalog\Controllers\MovieCatalogBase`** (since it's the base controller
 for our app) like so:
 
 ```php
-    public function renderView($file_name, array $data=[]) {
+    public function renderView(string $file_name, array $data=[]): string {
         
-        // define common view variables
+        // define common variables
         $common_layout_data = [];
-        $common_layout_data['is_logged_in'] = $this->isLoggedIn();
-        $common_layout_data['action_name_from_uri'] = $this->action_name_from_uri;
-        $common_layout_data['controller_name_from_uri'] = $this->controller_name_from_uri;
-        $common_layout_data['logged_in_users_username'] = 
-            $this->isLoggedIn() ? $this->container->get('vespula_auth')->getUsername() : '';
+        $common_layout_data['last_flash_message'] = $this->getLastFlashMessage();
+        $common_layout_data['last_flash_message_css_class'] = $this->getLastFlashMessageCssClass();
         
-        return parent::renderView($file_name, array_merge( $common_layout_data, $data ) );
+        return parent::renderView(
+            $file_name, array_merge( $common_layout_data, $data ) 
+        );
     }
 ```
+
+Next we edit our site's error layout template (**`./src/layout-templates/error-template.php`**) which will be used by the framework to display errors like HTTP 404 Not Found, 500 Internal Server Error, etc. We want this template to have the same look and feel as **./src/layout-templates/main-template.php**
+
+```php
+<!doctype html>
+
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Import materialize.css-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <title>Da Numba 1 Movie Catalog App &ndash; {{{TITLE}}}</title>
+        
+        <style>
+            .container {
+                width: 98%;
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <div class="navbar-fixed">
+                        
+            <nav>
+                <div class="nav-wrapper">
+                    
+                    <a href="#" class="brand-logo">
+                        Da Numba 1 Movie Catalog App
+                    </a>
+                    
+                </div>
+            </na<!doctype html>
+
+<html class="no-js" lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        
+        <!--Import materialize.css-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+        <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <title>Da Numba 1 Movie Catalog App &ndash; {{{TITLE}}}</title>
+        
+        <style>
+            .container {
+                width: 98%;
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+        <div class="navbar-fixed">
+                        
+            <nav>
+                <div class="nav-wrapper">
+                    
+                    <a href="#" class="brand-logo">
+                        Da Numba 1 Movie Catalog App
+                    </a>
+                    
+                </div>
+            </nav>
+            
+        </div> <!-- <div class="navbar-fixed"> -->
+        
+        <div class="container">
+
+            <div class="row" style="margin-top: 1em;">
+                <div class="s12">
+                    <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+                    <h1>{{{ERROR_HEADING}}}</h1>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 1em;">
+                <div class="s12">
+                    <a href="#" onclick="window.history.go(-1)">Go Back</a>
+                    <br>
+                    <!-- error message body injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+                    <div>{{{ERROR_DETAILS}}}</div>
+                </div>
+            </div>
+
+            <div class="s12">
+                <footer>
+                    <hr/>
+                    <p>Copyright &copy; <span id="year"></span>. Da Numba 1 Movie Catalog App.</p>
+                </footer>
+            </div>
+            
+        </div>
+
+        <!--JavaScript at end of body for optimized loading-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <script>
+            document.getElementById("year").innerHTML = new Date().getFullYear();
+        </script>
+        
+    </body>
+</html>
+```
+
 
 We are going to add the following methods to **`\MovieCatalog\Controllers\MovieCatalogBase`** 
 for managing flash messages: 
@@ -837,31 +964,31 @@ for managing flash messages:
     protected function setErrorFlashMessage($msg) {
         
         $this->setFlashMessage($msg);
-        $this->setFlashMessageCssClass('alert');
+        $this->setFlashMessageCssClass('red darken-4');
     }
 
     protected function setSuccessFlashMessage($msg) {
         
         $this->setFlashMessage($msg);
-        $this->setFlashMessageCssClass('success');
+        $this->setFlashMessageCssClass('teal lighten-2');
     }
 
     protected function setWarningFlashMessage($msg) {
         
         $this->setFlashMessage($msg);
-        $this->setFlashMessageCssClass('warning');
+        $this->setFlashMessageCssClass('deep-orange darken-1');
     }
     
     protected function setFlashMessage($msg) {
 
         $msg_key = 'curr_msg';
-        $this->container->get('slim_flash')->addMessage($msg_key, $msg);
+        $this->getContainerItem(\Slim\Flash\Messages::class)->addMessage($msg_key, $msg);
     }
 
     protected function getLastFlashMessage() {
 
         $msg_key = 'curr_msg';
-        $messages = $this->container->get('slim_flash')->getMessage($msg_key);
+        $messages = $this->getContainerItem(\Slim\Flash\Messages::class)->getMessage($msg_key);
 
         if( is_array($messages) && count($messages) === 1 ) {
             
@@ -873,13 +1000,13 @@ for managing flash messages:
     protected function setFlashMessageCssClass($css_class) {
 
         $msg_key = 'curr_msg_css_class';
-        $this->container->get('slim_flash')->addMessage($msg_key, $css_class);
+        $this->getContainerItem(\Slim\Flash\Messages::class)->addMessage($msg_key, 'card-panel pulse ' . $css_class);
     }
 
     protected function getLastFlashMessageCssClass() {
 
         $msg_key = 'curr_msg_css_class';
-        $messages = $this->container->get('slim_flash')->getMessage($msg_key);
+        $messages = $this->getContainerItem(\Slim\Flash\Messages::class)->getMessage($msg_key);
         
         if( is_array($messages) && count($messages) > 0 ) {
             
@@ -905,14 +1032,14 @@ the action method to list all users; i.e. **actionIndex()**. To do this, update
     public function actionIndex() {
         
         $view_data = [];
-        $model_obj = $this->container->get('users_model');
+        $model_class = \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
+        $model_obj = $this->getContainerItem($model_class);
         
         // Grab all existing user records.
         // Note that the variable $collection_of_user_records will be available
         // in your index.php view (in this case ./src/views/users/index.php)
         // when $this->renderView('index.php', $view_data) is called.
-        $view_data['collection_of_user_records'] = 
-                    $model_obj->fetchRecordsIntoCollection();
+        $view_data['collection_of_user_records'] = $model_obj->fetchRecordsIntoCollection();
         
         //render the view first and capture the output
         $view_str = $this->renderView('index.php', $view_data);
@@ -926,27 +1053,32 @@ Now let's implement the view portion of the feature by adding the code below
 to **./src/views/users/index.php**:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4>All Users</h4>
 
-<?php if( $collection_of_user_records instanceof \BaseCollection && count($collection_of_user_records) > 0 ): ?>
+<?php if( $collection_of_user_records instanceof \MovieCatalog\Models\Collections\BaseCollection && count($collection_of_user_records) > 0 ): ?>
 
     <ul>
         <?php foreach ($collection_of_user_records as $user_record): ?>
 
             <li>
                 <?php echo $user_record->username; ?> | 
-                <a href="<?php echo $sMVC_MakeLink( "users/view/" . $user_record->id ); ?>">View</a> 
+                <a href="<?= $controller_object->makeLink( "users/view/" . $user_record->id ); ?>">View</a> 
 
-                <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+                <?php if( $controller_object->isLoggedIn() ): ?>
 
-                    | <a href="<?php echo $sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-                    <a href="<?php echo $sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>"
+                    | <a href="<?= $controller_object->makeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+                    <a href="<?= $controller_object->makeLink( "users/delete/" . $user_record->id ); ?>"
                        onclick="return confirm('Are you sure?');"
                     >
                         Delete
                     </a>
 
-                <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
+                <?php endif; //if( $controller_object->isLoggedIn() )  ?>
             </li>
 
         <?php endforeach; ?>
@@ -965,23 +1097,18 @@ to **./src/views/users/index.php**:
         // When the Initialize button is clicked, redirect to 
         // /users/init-users/<entered_password>, where <entered_password> 
         // is the value entered into the password text-box
-        $('#initialize-button').on(
-            'click',
-            function( event ) {
+        document.getElementById('initialize-button').addEventListener('click', function(event) {
+            
+            var entered_password = document.getElementById('initialize-password').value;
 
-                var entered_password = $('#initialize-password').val();
-
-                if( entered_password === '' ) {
-
-                    alert('Password cannot be empty!');
-                    return false;
-                }
-
-                window.location.href = 
-                    '<?php echo $sMVC_MakeLink("/users/init-users"); ?>' 
-                    + '/' + entered_password;
+            if( entered_password === '' ) {
+                alert('Password cannot be empty!');
+                return false;
             }
-        );
+
+            window.location.href = 
+                '<?= $controller_object->makeLink("/users/init-users"); ?>' + '/' + entered_password;
+        });
     </script>
 
 <?php endif; ?>
@@ -997,25 +1124,22 @@ code below:
 ```php
     public function actionView($id) {
         
-        $model_obj = $this->container->get('users_model');
         $view_data = [];
+        $model_class = 
+            \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
+        $model_obj = $this->getContainerItem($model_class);
         
         // Grab record for the user whose id was specified.
         // Note that the variable $user_record will be available
         // in your view.php view (in this case ./src/views/users/view.php)
         // when $this->renderView('view.php', $view_data) is called.
-        $view_data['user_record'] = $model_obj->fetch($id);
+        $view_data['user_record'] = $model_obj->fetchOneByPkey($id);
         
-        if( !($view_data['user_record'] instanceof \BaseRecord) ) {
+        if( !($view_data['user_record'] instanceof \MovieCatalog\Models\Records\BaseRecord) ) {
             
             // We could not find any user with the specified id in the database.
             // Generate and return an http 404 resposne.
-            return $this->generateNotFoundResponse(
-                            $this->request, 
-                            $this->response,
-                            'Requested user does not exist.',
-                            'Requested user does not exist.'
-                        );
+            $this->forceHttp404('Requested user does not exist.');
         }
         
         //get the contents of the view first
@@ -1030,27 +1154,32 @@ Now let's implement the view portion of the feature by creating a **view.php**
 file in **./src/views/users/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4>View User</h4>
 <ul style="list-style: none;">
     <li>
         <strong>Username:</strong> 
-        <?php echo $user_record->username; ?>
+        <?= $user_record->username; ?>
     </li>
     <li>
         <strong>Date Created:</strong> 
-        <?php echo $user_record->getDateCreated(); ?>
+        <?= $user_record->getDateCreated(); ?>
     </li>
     <li>
         <strong>Date Last Modified:</strong> 
-        <?php echo $user_record->getLastModfiedDate(); ?>
+        <?= $user_record->getLastModfiedDate(); ?>
     </li>
 </dl>
 <p>
-    <a href="<?php echo $sMVC_MakeLink( "users/index" ); ?>">View all Users</a>
-    <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+    <a href="<?= $controller_object->makeLink( "users/index" ); ?>">View all Users</a>
+    <?php if( $controller_object->isLoggedIn() ): ?>
 
-        | <a href="<?php echo $sMVC_MakeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
-        <a href="<?php echo $sMVC_MakeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
+        | <a href="<?= $controller_object->makeLink( "users/edit/" . $user_record->id ); ?>">Edit</a> |
+        <a href="<?= $controller_object->makeLink( "users/delete/" . $user_record->id ); ?>">Delete</a>
 
     <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
 </p>
@@ -1083,19 +1212,17 @@ the code below:
             return $login_response;
         }
         
-        $model_obj = $this->container->get('users_model');
+        $model_class = 
+            \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
+        $model_obj = $this->getContainerItem($model_class);
         $error_msgs = [];
         $error_msgs['form-errors'] = [];
         $error_msgs['username'] = [];
         $error_msgs['password'] = [];
         
-        // create an associative array with keys being the names of the columns in the 
-        // db table associated with the model and a default value of '' for each item 
-        // in the array
-        $default_data = array_combine( 
-            $model_obj->getTableColNames(), 
-            array_fill(0, count($model_obj->getTableColNames()), '') 
-        );
+        // An associative array with keys being the names of the columns in the db table 
+        // associated with the model and a default value of '' for each item in the array
+        $default_data = $model_obj->getDefaultColVals();
         
         // remove item whose key is primary key column name
         // since primary key values are auto-generated
@@ -1121,13 +1248,15 @@ the code below:
                 
                 // check that posted username is not already assigned to an
                 // existing user
-                $params = [
-                    'where' => [['col'=>'username', 'op'=>'=', 'val'=>$posted_data['username']]]
-                ];
-
-                $existing_user_with_same_username = $model_obj->fetchOneRecord($params);
+                $existing_user_with_same_username = 
+                    $model_obj->fetchOneRecord(
+                        $model_obj->getSelect()
+                                  ->where(
+                                    ' username = ? ', [$posted_data['username']]
+                                  )
+                    );
                 
-                if( $existing_user_with_same_username instanceof \BaseRecord ) {
+                if( $existing_user_with_same_username instanceof \MovieCatalog\Models\Records\BaseRecord ) {
                     
                     // username is already assigned to an existing user
                     $error_msgs['username'][] = 'Username already taken!';
@@ -1153,7 +1282,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = $sMVC_MakeLink("users/index");
+                    $rdr_path = $this->makeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
@@ -1178,7 +1307,7 @@ the code below:
         
         $view_str = $this->renderView('add.php', $view_data);
         
-        return $this->renderLayout('main-template.php', ['content'=>$view_str]);
+        return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str]);
     }
 ```
 
@@ -1187,10 +1316,15 @@ Now let's implement the view portion of the feature by creating an **add.php**
 file in **./src/views/users/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4 style="margin-bottom: 20px;">Add New User</h4>
 
 <form method="POST" 
-      action="<?php echo $sMVC_MakeLink("users/add"); ?>" 
+      action="<?= $controller_object->makeLink("users/add"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1198,22 +1332,22 @@ file in **./src/views/users/** and adding the code below to it:
 
     <div class="row" id="row-username">
         
-        <div class="small-3 columns">
-            <label for="username" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="username" class="">
                 Username<span style="color: red;"> *</span>
             </label>                
         </div>
          
         <?php $input_elems_error_css_class = (count($error_msgs['username']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text" 
                    name="username" 
                    id="username" 
                    maxlength="255" 
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $user_record->username; ?>"
+                   <?= $input_elems_error_css_class; ?>
+                   value="<?= $user_record->username; ?>"
             >
             <?php printErrorMsg('username', $error_msgs); //print error message(s) if any ?>
         </div>
@@ -1221,29 +1355,26 @@ file in **./src/views/users/** and adding the code below to it:
     
     <div class="row" id="row-password">
         
-        <div class="small-3 columns">
-            <label for="password" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="password" class="">
                 Password<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['password']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="password" 
                    name="password" 
                    id="password" 
                    maxlength="255" 
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $user_record->password; ?>"
+                   value="<?= $user_record->password; ?>"
             >
             <?php printErrorMsg('password', $error_msgs); //print error message(s) if any ?>
         </div>
     </div>
 
     <div class="row">
-        <div class="small-3 small-centered columns">
+        <div class="col s3">
             <input type="submit" 
                    name="save-button" 
                    id="save-button" 
@@ -1262,15 +1393,13 @@ file in **./src/views/users/** and adding the code below to it:
 
 <script>
     // When Cancel button is clicked, redirect to list all users page
-    $('#cancel-button').on(
-        'click',
-        function( event ) {
-            // Do this so that when the Cancel button is clicked 
-            // the browser does not try to submit the form
-            event.preventDefault(); 
-            window.location.href = '<?php echo $sMVC_MakeLink("/users/index"); ?>';
-        }
-    );
+    document.getElementById('cancel-button').addEventListener('click', function(event) {
+
+        // Do this so that when the Cancel button is clicked 
+        // the browser does not try to submit the form
+        event.preventDefault(); 
+        window.location.href = '<?= $controller_object->makeLink("/users/index"); ?>';
+    });
 </script>
 
 <?php
@@ -1281,7 +1410,7 @@ function printErrorMsg($element_name, array $error_msgs) {
         foreach($error_msgs[$element_name] as $err_msg) {
 
             //spit out error message for $element_name
-            echo "<div class=\"alert callout\">{$err_msg}</div>";
+            echo "<div style=\"padding: 0.5em;\" class=\"card red\">{$err_msg}</div>";
 
         } //foreach($error_msgs[$element_name] as $err_msg)
     } //if( array_key_exists($element_name, $error_msgs) )
@@ -1313,23 +1442,22 @@ code below:
             return $login_response;
         }
         
-        $model_obj = $this->container->get('users_model');
+        $model_class = 
+            \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
+        /** @var \MovieCatalog\Models\BaseModel $model_obj */
+        $model_obj = $this->getContainerItem($model_class);
         $error_msgs = [];
         $error_msgs['form-errors'] = [];
         $error_msgs['username'] = [];
         $error_msgs['password'] = [];
         
         // fetch the record for the user with the specified $id
-        $record = $model_obj->fetch($id);
+        $record = $model_obj->fetchOneByPkey($id);
         
-        if( !($record instanceof \BaseRecord) ) {
+        if( !($record instanceof \MovieCatalog\Models\Records\BaseRecord) ) {
             
             // Could not find record for the user with the specified $id
-            return $this->generateNotFoundResponse(
-                            $this->request, 
-                            $this->response,
-                            'Requested user does not exist.'
-                        );
+            $this->forceHttp404('Requested user does not exist.');
         }
         
         if( $this->request->getMethod() === 'POST' ) {
@@ -1346,19 +1474,16 @@ code below:
                 $has_field_errors = true;
                 
             } else {
-                
                 // check that posted username is not already assigned to an
                 // existing user (except the user with the value of $id)
-                $params = [
-                    'where' => [
-                        [ 'col' => 'username', 'op' => '=', 'val'=>$posted_data['username'] ],
-                        [ 'col' => 'id', 'op' => '!=', 'val' => $id ],
-                    ]
-                ];
-
-                $existing_user_with_same_username = $model_obj->fetchOneRecord($params);
+                $existing_user_with_same_username = 
+                    $model_obj->fetchOneRecord(
+                        $model_obj->getSelect()
+                                  ->where(' username = :username ', ['username' => $posted_data['username']])
+                                  ->where(' id != :id ', ['id' => $id])
+                    );
                 
-                if( $existing_user_with_same_username instanceof \BaseRecord ) {
+                if( $existing_user_with_same_username instanceof \MovieCatalog\Models\Records\BaseRecord ) {
 
                     // username is already assigned to an existing user
                     $error_msgs['username'][] = 'Username already taken!';
@@ -1384,11 +1509,11 @@ code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = $sMVC_MakeLink("users/index");
+                    $rdr_path = $this->makeLink("users/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all users page
-                    return $this->response->withHeader('Location', $rdr_path);
+                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -1418,10 +1543,15 @@ Now let's implement the view portion of the feature by creating an **edit.php**
 file in **./src/views/users/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4 style="margin-bottom: 20px;">Edit User</h4>
 
 <form method="POST" 
-      action="<?php echo $sMVC_MakeLink("users/edit/{$user_record->id}"); ?>" 
+      action="<?= $controller_object->makeLink("users/edit/{$user_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
@@ -1429,22 +1559,19 @@ file in **./src/views/users/** and adding the code below to it:
 
     <div class="row" id="row-username">
         
-        <div class="small-3 columns">
-            <label for="username" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="username" class="">
                 Username<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['username']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text" 
                    name="username" 
                    id="username" 
                    maxlength="255" 
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $user_record->username; ?>"
+                   value="<?= $user_record->username; ?>"
             >
             <?php printErrorMsg('username', $error_msgs); //print error message(s) if any ?>
         </div>
@@ -1452,20 +1579,17 @@ file in **./src/views/users/** and adding the code below to it:
     
     <div class="row" id="row-password">
         
-        <div class="small-3 columns">
-            <label for="password" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="password" class="">
                 Password
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['password']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="password" 
                    name="password" 
                    id="password" 
                    maxlength="255"
-                   <?php echo $input_elems_error_css_class; ?>
                    value=""
             >
             <?php printErrorMsg('password', $error_msgs); //print error message(s) if any ?>
@@ -1473,7 +1597,7 @@ file in **./src/views/users/** and adding the code below to it:
     </div>
 
     <div class="row">
-        <div class="small-3 small-centered columns">
+        <div class="col s3">
             <input type="submit" 
                    name="save-button" 
                    id="save-button" 
@@ -1492,15 +1616,13 @@ file in **./src/views/users/** and adding the code below to it:
 
 <script>
     // When Cancel button is clicked, redirect to list all users page
-    $('#cancel-button').on(
-        'click',
-        function( event ) {
-            // Do this so that when the Cancel button is clicked 
-            // the browser does not try to submit the form
-            event.preventDefault(); 
-            window.location.href = '<?php echo $sMVC_MakeLink("/users/index"); ?>';
-        }
-    );
+    document.getElementById('cancel-button').addEventListener('click', function(event) {
+
+        // Do this so that when the Cancel button is clicked 
+        // the browser does not try to submit the form
+        event.preventDefault(); 
+        window.location.href = '<?= $controller_object->makeLink("/users/index"); ?>';
+    });
 </script>
 
 <?php
@@ -1511,7 +1633,7 @@ function printErrorMsg($element_name, array $error_msgs) {
         foreach($error_msgs[$element_name] as $err_msg) {
 
             //spit out error message for $element_name
-            echo "<div class=\"alert callout\">{$err_msg}</div>";
+            echo "<div style=\"padding: 0.5em;\" class=\"card red\">{$err_msg}</div>";
 
         } //foreach($error_msgs[$element_name] as $err_msg)
     } //if( array_key_exists($element_name, $error_msgs) )
@@ -1535,7 +1657,10 @@ Add the code below to **\MovieCatalog\Controllers\Users**:
 ```php
     public function actionDelete($id) {
         
-        return $this->doDelete($id, 'users_model');
+        return $this->doDelete(
+            $id, 
+            \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class
+        );
     }
 ```
 
@@ -1560,24 +1685,22 @@ Then add the code below to **\MovieCatalog\Controllers\MovieCatalogBase**:
         }
 
         // get model object
-        $model_obj = $this->container->get($model_key_name_in_container);
+        $model_obj = $this->getContainerItem($model_key_name_in_container);
         
         // fetch the record
-        $record = $model_obj->fetch($id);
+        $record = $model_obj->fetchOneByPkey($id);
         
-        if( !($record instanceof \BaseRecord) ) {
+        if( !($record instanceof \MovieCatalog\Models\Records\BaseRecord) ) {
             
             // Could not find record with the specified $id
-            return $this->generateNotFoundResponse(
-                        $this->request, 
-                        $this->response,
-                        'Requested item could not be deleted. It does not exist.'
-                    );
+            $this->forceHttp404(
+                'Requested item could not be deleted. It does not exist.'
+            );
         }
         
         // We will be redirecting to the default action of the current 
         // controller
-        $rdr_path = $sMVC_MakeLink("{$this->controller_name_from_uri}");
+        $rdr_path = $this->makeLink("{$this->controller_name_from_uri}");
         
         if ( $record->delete() === false ) {
             
@@ -1617,17 +1740,20 @@ Let's implement the action method to list all movies; i.e. **actionIndex()**.
 To do this, update **actionIndex()** in **\MovieCatalog\Controllers\MovieListings** 
 with the code below:
 
-```php
+```php    
     public function actionIndex() {
         
         $view_data = [];
-        $model_obj = $this->container->get('movie_listings_model');
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
         
         // Grab all existing movie records.
         // Note that the variable $collection_of_movie_records will be available
         // in your index.php view (in this case ./src/views/movie-listings/index.php)
         // when $this->renderView('index.php', $view_data) is called.
-        $view_data['collection_of_movie_records'] = $model_obj->fetchRecordsIntoCollection();
+        $view_data['collection_of_movie_records'] = 
+                                    $model_obj->fetchRecordsIntoCollection();
         
         //render the view first and capture the output
         $view_str = $this->renderView('index.php', $view_data);
@@ -1641,14 +1767,20 @@ Now let's implement the view portion of the feature by adding the code below
 to **./src/views/movie-listings/index.php**:
 
 ```php
-<?php if( isset($is_logged_in) && $is_logged_in ): ?>
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+    use \MovieCatalog\Models\Collections\BaseCollection;
+?>
+<?php if( $controller_object->isLoggedIn() ): ?>
 
     <div class="row" style="margin-top: 1em;">
-        <div class="small-6 columns">
+        <div class="col s6">
             <h4>All Movies</h4>
         </div>
-        <div class="small-6 columns text-right">
-            <a class="button" href="<?php echo $sMVC_MakeLink( "movie-listings/add" ); ?>">
+        <div class="col s6  right-align">
+            <a class="btn" href="<?php echo $controller_object->makeLink( "movie-listings/add" ); ?>">
                 <strong>+ Add new Movie Listing</strong>
             </a>
         </div>
@@ -1656,19 +1788,19 @@ to **./src/views/movie-listings/index.php**:
 
 <?php endif; ?>
 
-<?php if( $collection_of_movie_records instanceof \BaseCollection && count($collection_of_movie_records) > 0 ): ?>
+<?php if( $collection_of_movie_records instanceof BaseCollection && count($collection_of_movie_records) > 0 ): ?>
 
     <ul>
     <?php foreach ($collection_of_movie_records as $movie_record): ?>
 
         <li>
             <?php echo $movie_record->title; ?> | 
-            <a href="<?php echo $sMVC_MakeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
+            <a href="<?php echo $controller_object->makeLink( "movie-listings/view/" . $movie_record->id ); ?>">View</a> 
 
-            <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+            <?php if( $controller_object->isLoggedIn() ): ?>
 
-                | <a href="<?php echo $sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-                <a href="<?php echo $sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
+                | <a href="<?php echo $controller_object->makeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+                <a href="<?php echo $controller_object->makeLink( "movie-listings/delete/" . $movie_record->id ); ?>"
                    onclick="return confirm('Are you sure?');"
                 >
                     Delete
@@ -1683,7 +1815,7 @@ to **./src/views/movie-listings/index.php**:
 <?php else: ?>
 
 <p>
-    No Movies yet. Please <a href="<?php echo $sMVC_MakeLink( "movie-listings/add" ); ?>">Add</a> 
+    No Movies yet. Please <a href="<?php echo $controller_object->makeLink( "movie-listings/add" ); ?>">Add</a> 
     one or more movie listing(s).
 </p>
 
@@ -1733,45 +1865,50 @@ Now let's implement the view portion of the feature by creating a **view.php**
 file in **./src/views/movie-listings/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4>View Movie</h4>
 <ul style="list-style: none;">
     <li>
         <strong>Title:</strong> 
-        <?php echo $movie_record->title; ?>
+        <?= $movie_record->title; ?>
     </li>
     <li>
         <strong>Year of Release:</strong> 
-        <?php echo $movie_record->release_year; ?>
+        <?= $movie_record->release_year; ?>
     </li>
     <li>
         <strong>Genre:</strong> 
-        <?php echo $movie_record->genre; ?>
+        <?= $movie_record->genre; ?>
     </li>
     <li>
         <strong>Duration in Minutes:</strong> 
-        <?php echo $movie_record->duration_in_minutes; ?>
+        <?= $movie_record->duration_in_minutes; ?>
     </li>
     <li>
         <strong>MPAA Rating:</strong> 
-        <?php echo $movie_record->mpaa_rating; ?>
+        <?= $movie_record->mpaa_rating; ?>
     </li>
     <li>
         <strong>Date Created:</strong> 
-        <?php echo $movie_record->getDateCreated(); ?>
+        <?= $movie_record->getDateCreated(); ?>
     </li>
     <li>
         <strong>Date Last Modified:</strong> 
-        <?php echo $movie_record->getLastModfiedDate(); ?>
+        <?= $movie_record->getLastModfiedDate(); ?>
     </li>
 </dl>
 <p>
-    <a href="<?php echo $sMVC_MakeLink( "movie-listings/index" ); ?>">View all Movies</a>
-    <?php if( isset($is_logged_in) && $is_logged_in ): ?>
+    <a href="<?= $controller_object->makeLink( "movie-listings/index" ); ?>">View all Movies</a>
+    <?php if( $controller_object->isLoggedIn() ): ?>
 
-        | <a href="<?php echo $sMVC_MakeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
-        <a href="<?php echo $sMVC_MakeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
+        | <a href="<?= $controller_object->makeLink( "movie-listings/edit/" . $movie_record->id ); ?>">Edit</a> |
+        <a href="<?= $controller_object->makeLink( "movie-listings/delete/" . $movie_record->id ); ?>">Delete</a>
 
-    <?php endif; //if( isset($is_logged_in) && $is_logged_in )  ?>
+    <?php endif;  ?>
 </p>
 ```
 
@@ -1803,7 +1940,10 @@ with the code below:
             return $login_response;
         }
         
-        $model_obj = $this->container->get('movie_listings_model');
+        /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
         $error_msgs = [];
         $error_msgs['form-errors'] = [];
         $error_msgs['title'] = []; // cannot be blank
@@ -1812,10 +1952,7 @@ with the code below:
         // create an associative array with keys being the names of the columns in the 
         // db table associated with the model and a default value of '' for each item 
         // in the array
-        $default_data = array_combine( 
-            $model_obj->getTableColNames(), 
-            array_fill(0, count($model_obj->getTableColNames()), '') 
-        );
+        $default_data = $model_obj->getDefaultColVals();
         
         // remove item whose key is primary key column name
         // since primary key values are auto-generated
@@ -1856,11 +1993,13 @@ with the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = $sMVC_MakeLink("movie-listings/index");
+                    $rdr_path = $this->makeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
-                    return $this->response->withStatus(302)->withHeader('Location', $rdr_path);
+                    return $this->response
+                                ->withStatus(302)
+                                ->withHeader('Location', $rdr_path);
                     
                 } else {
 
@@ -1890,102 +2029,101 @@ Now let's implement the view portion of the feature by creating an **add.php**
 file in **./src/views/movie-listings/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4 style="margin-bottom: 20px;">Add New Movie</h4>
 
 <form method="POST" 
-      action="<?php echo $sMVC_MakeLink("movie-listings/add"); ?>" 
+      action="<?= $controller_object->makeLink("movie-listings/add"); ?>" 
       enctype="multipart/form-data"
 >
 
 <?php printErrorMsg('form-errors', $error_msgs); //print form level error message(s) if any ?>
 
     <div class="row" id="row-title">
-        <div class="small-3 columns">
-            <label for="title" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="title" class="">
                 Title<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['title']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text" 
                    name="title" 
                    id="title" 
                    maxlength="1500" 
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $movie_record->title; ?>"
+                   value="<?= $movie_record->title; ?>"
             >
             <?php printErrorMsg('title', $error_msgs); //print error message(s) if any ?>
         </div>
     </div>
     
     <div class="row" id="row-release_year">
-        <div class="small-3 columns">
-            <label for="release_year" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="release_year" class="">
                 Year of Release<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['release_year']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="number"
                    name="release_year" 
                    id="release_year"
                    maxlength="4"
                    min="1"
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $movie_record->release_year; ?>"
+                   value="<?= $movie_record->release_year; ?>"
             >
             <?php printErrorMsg('release_year', $error_msgs); //print error message(s) if any ?>
         </div>
     </div>
     
     <div class="row" id="row-genre">
-        <div class="small-3 columns">
-            <label for="genre" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="genre" class="">
                 Genre
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text"
                    name="genre" 
                    id="genre" 
                    maxlength="255"
-                   value="<?php echo $movie_record->genre; ?>"
+                   value="<?= $movie_record->genre; ?>"
             >
         </div>
     </div>
     
     <div class="row" id="row-duration_in_minutes">
-        <div class="small-3 columns">
-            <label for="duration_in_minutes" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="duration_in_minutes" class="">
                 Duration in Minutes
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="number" 
                    name="duration_in_minutes" 
                    id="duration_in_minutes"
                    min="0"
-                   value="<?php echo $movie_record->duration_in_minutes; ?>"
+                   value="<?= $movie_record->duration_in_minutes; ?>"
             >
         </div>
     </div>
     
-    <div class="row" id="row-genre">
-        <div class="small-3 columns">
-            <label for="genre" class="middle text-right">
+    <div class="row" id="row-mpaa_rating">
+        <div class="col s3 right-align">
+            <label for="mpaa_rating" class="">
                 MPAA Rating
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             
             <?php $selected = 'selected="selected"'; ?>
             
@@ -1994,31 +2132,31 @@ file in **./src/views/movie-listings/** and adding the code below to it:
                 <option value="">----None----</option>
                 
                 <option value="G" title="General Audiences" 
-                        <?php echo ($movie_record->mpaa_rating === "G") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "G") ? $selected : '' ; ?> 
                 >
                     G
                 </option>
                 
                 <option value="NR" title="Not Rated"
-                        <?php echo ($movie_record->mpaa_rating === "NR") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "NR") ? $selected : '' ; ?> 
                 >
                     NR
                 </option>
                 
                 <option value="PG" title="Parental Guidance"
-                        <?php echo ($movie_record->mpaa_rating === "PG") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "PG") ? $selected : '' ; ?> 
                 >
                     PG
                 </option>
                 
                 <option value="PG-13" title="Parents Strongly Cautioned"
-                        <?php echo ($movie_record->mpaa_rating === "PG-13") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "PG-13") ? $selected : '' ; ?> 
                 >
                     PG-13
                 </option>
                 
                 <option value="R" title="Restricted"
-                        <?php echo ($movie_record->mpaa_rating === "R") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "R") ? $selected : '' ; ?> 
                 >
                     R
                 </option>
@@ -2028,7 +2166,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
     </div>
 
     <div class="row">
-        <div class="small-3 small-centered columns">
+        <div class="col s3">
             <input type="submit" 
                    name="save-button" 
                    id="save-button" 
@@ -2046,16 +2184,20 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 </form>
 
 <script>
-    // When Cancel button is clicked, redirect to list all movies page
-    $('#cancel-button').on(
-        'click',
-        function( event ) {
-            // Do this so that when the Cancel button is clicked 
-            // the browser does not try to submit the form
-            event.preventDefault(); 
-            window.location.href = '<?php echo $sMVC_MakeLink("/movie-listings/index"); ?>';
-        }
-    );
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+    });
+    
+    // When Cancel button is clicked, redirect to list all users page
+    document.getElementById('cancel-button').addEventListener('click', function(event) {
+
+        // Do this so that when the Cancel button is clicked 
+        // the browser does not try to submit the form
+        event.preventDefault(); 
+        window.location.href = '<?= $controller_object->makeLink("/movie-listings/index"); ?>';
+    });
 </script>
 
 <?php
@@ -2066,7 +2208,7 @@ function printErrorMsg($element_name, array $error_msgs) {
         foreach($error_msgs[$element_name] as $err_msg) {
 
             //spit out error message for $element_name
-            echo "<div class=\"alert callout\">{$err_msg}</div>";
+            echo "<div style=\"padding: 0.5em;\" class=\"card red\">{$err_msg}</div>";
 
         } //foreach($error_msgs[$element_name] as $err_msg)
     } //if( array_key_exists($element_name, $error_msgs) )
@@ -2098,23 +2240,22 @@ the code below:
             return $login_response;
         }
         
-        $model_obj = $this->container->get('movie_listings_model');
+        /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
         $error_msgs = [];
         $error_msgs['form-errors'] = [];
         $error_msgs['title'] = [];
         $error_msgs['release_year'] = [];
         
         // fetch the record for the movie with the specified $id
-        $record = $model_obj->fetch($id);
+        $record = $model_obj->fetchOneByPkey($id);
         
-        if( !($record instanceof \BaseRecord) ) {
+        if( !($record instanceof \MovieCatalog\Models\Records\BaseRecord) ) {
             
             // Could not find record for the movie with the specified $id
-            return $this->generateNotFoundResponse(
-                            $this->request, 
-                            $this->response,
-                            'Requested movie does not exist.'
-                        );
+            $this->forceHttp404('Requested movie does not exist.');
         }
         
         if( $this->request->getMethod() === 'POST' ) {
@@ -2146,7 +2287,7 @@ the code below:
                 if ( $record->save() !== false ) {
 
                     //successfully saved;
-                    $rdr_path = $sMVC_MakeLink("movie-listings/index");
+                    $rdr_path = $this->makeLink("movie-listings/index");
                     $this->setSuccessFlashMessage('Successfully Saved!');
 
                     // re-direct to the list all movies page
@@ -2180,102 +2321,101 @@ Now let's implement the view portion of the feature by creating an **edit.php**
 file in **./src/views/movie-listings/** and adding the code below to it:
 
 ```php
+<?php
+    /** @var \Vespula\Locale\Locale $__localeObj */
+    /** @var \Rotexsoft\FileRenderer\Renderer $this */
+    /** @var \SlimMvcTools\Controllers\BaseController $controller_object */
+?>
 <h4 style="margin-bottom: 20px;">Edit Movie</h4>
 
 <form method="POST" 
-      action="<?php echo $sMVC_MakeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
+      action="<?= $controller_object->makeLink("movie-listings/edit/{$movie_record->id}"); ?>" 
       enctype="multipart/form-data"
 >
 
 <?php printErrorMsg('form-errors', $error_msgs); //print form level error message(s) if any ?>
 
     <div class="row" id="row-title">
-        <div class="small-3 columns">
-            <label for="title" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="title" class="">
                 Title<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['title']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text" 
                    name="title" 
                    id="title" 
                    maxlength="1500" 
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $movie_record->title; ?>"
+                   value="<?= $movie_record->title; ?>"
             >
             <?php printErrorMsg('title', $error_msgs); //print error message(s) if any ?>
         </div>
     </div>
     
     <div class="row" id="row-release_year">
-        <div class="small-3 columns">
-            <label for="release_year" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="release_year" class="">
                 Year of Release<span style="color: red;"> *</span>
             </label>                
         </div>
-         
-        <?php $input_elems_error_css_class = (count($error_msgs['release_year']) > 0)? ' class="is-invalid-input" ' : ''; ?>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="number"
                    name="release_year" 
                    id="release_year"
                    maxlength="4"
                    min="1"
                    required="required"
-                   <?php echo $input_elems_error_css_class; ?>
-                   value="<?php echo $movie_record->release_year; ?>"
+                   value="<?= $movie_record->release_year; ?>"
             >
             <?php printErrorMsg('release_year', $error_msgs); //print error message(s) if any ?>
         </div>
     </div>
     
     <div class="row" id="row-genre">
-        <div class="small-3 columns">
-            <label for="genre" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="genre" class="">
                 Genre
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="text"
                    name="genre" 
                    id="genre" 
                    maxlength="255"
-                   value="<?php echo $movie_record->genre; ?>"
+                   value="<?= $movie_record->genre; ?>"
             >
         </div>
     </div>
     
     <div class="row" id="row-duration_in_minutes">
-        <div class="small-3 columns">
-            <label for="duration_in_minutes" class="middle text-right">
+        <div class="col s3 right-align">
+            <label for="duration_in_minutes" class="">
                 Duration in Minutes
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             <input type="number" 
                    name="duration_in_minutes" 
                    id="duration_in_minutes"
                    min="0"
-                   value="<?php echo $movie_record->duration_in_minutes; ?>"
+                   value="<?= $movie_record->duration_in_minutes; ?>"
             >
         </div>
     </div>
     
-    <div class="row" id="row-genre">
-        <div class="small-3 columns">
-            <label for="genre" class="middle text-right">
+    <div class="row" id="row-mpaa_rating">
+        <div class="col s3 right-align">
+            <label for="mpaa_rating" class="">
                 MPAA Rating
             </label>                
         </div>
         
-        <div class="small-7 columns end">
+        <div class="col s7">
             
             <?php $selected = 'selected="selected"'; ?>
             
@@ -2284,31 +2424,31 @@ file in **./src/views/movie-listings/** and adding the code below to it:
                 <option value="">----None----</option>
                 
                 <option value="G" title="General Audiences" 
-                        <?php echo ($movie_record->mpaa_rating === "G") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "G") ? $selected : '' ; ?> 
                 >
                     G
                 </option>
                 
                 <option value="NR" title="Not Rated"
-                        <?php echo ($movie_record->mpaa_rating === "NR") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "NR") ? $selected : '' ; ?> 
                 >
                     NR
                 </option>
                 
                 <option value="PG" title="Parental Guidance"
-                        <?php echo ($movie_record->mpaa_rating === "PG") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "PG") ? $selected : '' ; ?> 
                 >
                     PG
                 </option>
                 
                 <option value="PG-13" title="Parents Strongly Cautioned"
-                        <?php echo ($movie_record->mpaa_rating === "PG-13") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "PG-13") ? $selected : '' ; ?> 
                 >
                     PG-13
                 </option>
                 
                 <option value="R" title="Restricted"
-                        <?php echo ($movie_record->mpaa_rating === "R") ? $selected : '' ; ?> 
+                        <?= ($movie_record->mpaa_rating === "R") ? $selected : '' ; ?> 
                 >
                     R
                 </option>
@@ -2318,7 +2458,7 @@ file in **./src/views/movie-listings/** and adding the code below to it:
     </div>
 
     <div class="row">
-        <div class="small-3 small-centered columns">
+        <div class="col s3">
             <input type="submit" 
                    name="save-button" 
                    id="save-button" 
@@ -2336,16 +2476,20 @@ file in **./src/views/movie-listings/** and adding the code below to it:
 </form>
 
 <script>
-    // When Cancel button is clicked, redirect to list all movies page
-    $('#cancel-button').on(
-        'click',
-        function( event ) {
-            // Do this so that when the Cancel button is clicked 
-            // the browser does not try to submit the form
-            event.preventDefault(); 
-            window.location.href = '<?php echo $sMVC_MakeLink("/movie-listings/index"); ?>';
-        }
-    );
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+    });
+    
+    // When Cancel button is clicked, redirect to list all users page
+    document.getElementById('cancel-button').addEventListener('click', function(event) {
+
+        // Do this so that when the Cancel button is clicked 
+        // the browser does not try to submit the form
+        event.preventDefault(); 
+        window.location.href = '<?= $controller_object->makeLink("/movie-listings/index"); ?>';
+    });
 </script>
 
 <?php
@@ -2356,7 +2500,7 @@ function printErrorMsg($element_name, array $error_msgs) {
         foreach($error_msgs[$element_name] as $err_msg) {
 
             //spit out error message for $element_name
-            echo "<div class=\"alert callout\">{$err_msg}</div>";
+            echo "<div style=\"padding: 0.5em;\" class=\"card red\">{$err_msg}</div>";
 
         } //foreach($error_msgs[$element_name] as $err_msg)
     } //if( array_key_exists($element_name, $error_msgs) )
@@ -2375,7 +2519,10 @@ ability to delete a specific movie) by adding the code below to
 ```php
     public function actionDelete($id) {
         
-        return $this->doDelete($id, 'movie_listings_model');
+        return $this->doDelete(
+            $id,
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
     }
 ```
 
@@ -2392,18 +2539,22 @@ parameter with the value of **json** to the url like so
     public function actionIndex() {
         
         $view_data = [];
-        $model_obj = $this->container->get('movie_listings_model');
+        /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
         
         // Grab all existing movie records.
         // Note that the variable $collection_of_movie_records will be available
         // in your index.php view (in this case ./src/views/movie-listings/index.php)
         // when $this->renderView('index.php', $view_data) is called.
-        $view_data['collection_of_movie_records'] = $model_obj->fetchRecordsIntoCollection();
+        $view_data['collection_of_movie_records'] = 
+                                    $model_obj->fetchRecordsIntoCollection();
         
         $response_format = sMVC_GetSuperGlobal('get', 'format', null);
         
         if( 
-            !is_null($response_format) 
+            $response_format !== null
             && !in_array( trim(mb_strtolower( ''.$response_format, 'UTF-8')), ['html', 'xhtml'] )
         ) {
             //handle other specified formats (non-html)
@@ -2413,7 +2564,7 @@ parameter with the value of **json** to the url like so
                 $movie_listings_array = [];
                 
                 if( 
-                    $view_data['collection_of_movie_records'] instanceof \BaseCollection 
+                    $view_data['collection_of_movie_records'] instanceof \MovieCatalog\Models\Collections\BaseCollection 
                     && count($view_data['collection_of_movie_records']) > 0 
                 ) {
                     //convert collection of movie_listings records to an array of arrays
@@ -2436,23 +2587,25 @@ parameter with the value of **json** to the url like so
                 }
                 
                 return $this->response
+                            ->withStatus(302)
                             ->withHeader('Content-Type', 'application/json;charset=utf-8');
                 
             } else {
                 
                 // Unknown format specified, generate an error page
-                $req = $this->request;
-                $res = $this->response;
                 $msg = "Unknown format `$response_format` specified";
-                return $this->generateNotFoundResponse($req, $res, $msg);
+                $this->forceHttp404($msg);
             }
             
         } else {
-            
-            // return response in html format
-            // render the view first and capture the output
+        
+            //render the view first and capture the output
             $view_str = $this->renderView('index.php', $view_data);
+
             return $this->renderLayout( $this->layout_template_file_name, ['content'=>$view_str] );
         }
     }
 ```
+
+
+The repository containing all the code we wrote above for this application can be found [here](https://github.com/rotexsoft/movie-catalog-web-app). Cheers!

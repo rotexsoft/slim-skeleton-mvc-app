@@ -466,16 +466,15 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 
 ### SMVC Helper Functions
-* **`sMVC_CreateController(\Psr\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handlers to create controllers to handle mvc routes. You should not really need to call this function.
-* **`sMVC_DumpVar($v)`:** for dumping variables during development for debugging purposes.
-* **`sMVC_GetBaseUrlPath()`:** performs the same function as \Slim\Http\Uri::getBasePath()
-* **`$sMVC_MakeLink($path)`:** prepends **sMVC_GetBaseUrlPath()** followed by **/** to $path and returns the prepended string. Use this for generating links in your application.
-* **`sMVC_GetSuperGlobal($global_name='', $key='', $default_val='')`:** a helper function for accessing super globals.
-* **`sMVC_UriToString(\Psr\Http\Message\UriInterface $uri)`:** a helper function for converting PSR-7 uri objects to a string.
-* **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri, $param_name, $param_value)`:** a helper function for adding query string parameters to PSR-7 uri objects.
-* **`sMVC_psr7RequestObjToString(\Psr\Http\Message\ServerRequestInterface $req,...)`:** a helper function for dumping PSR-7 request objects for debugging purposes.
-* **`sMVC_psr7UploadedFileToString(\Psr\Http\Message\UploadedFileInterface $file)`:** a helper function for dumping PSR-7 file objects for debugging purposes.
+* **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri,  string $param_name, string $param_value): \Psr\Http\Message\UriInterface`:** a helper function for adding query string parameters to PSR-7 uri objects.
 
+* **`sMVC_CreateController(\Psr\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handler to create controllers to handle mvc routes. You should not really need to call this function.
+
+* **`sMVC_DumpVar(...$vals): void`:** for dumping variables during development for debugging purposes.
+
+* **`sMVC_GetSuperGlobal(string $global_name='', string $key='', $default_val='')`:** a helper function for accessing super globals.
+
+* **`sMVC_UriToString(\Psr\Http\Message\UriInterface $uri)`:** a helper function for converting PSR-7 uri objects to a string.
 
 ## Security Considerations
 * Make sure to validate / sanitize the password value posted to `\SlimMvcTools\Controllers\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
