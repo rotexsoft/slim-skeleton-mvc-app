@@ -2608,4 +2608,13 @@ parameter with the value of **json** to the url like so
 ```
 
 
-The repository containing all the code we wrote above for this application can be found [here](https://github.com/rotexsoft/movie-catalog-web-app). Cheers!
+The repository containing all the code we wrote above for this application can be found [here](https://github.com/rotexsoft/movie-catalog-web-app). 
+
+To view all the MVC routes available in this application, there's an action 
+automatically avalaible in all controllers that extend 
+**\SlimMvcTools\Controllers\BaseController** in any app built using the 
+[SlimPHP 4 Skeleton MVC App Framework](https://github.com/rotexsoft/slim-skeleton-mvc-app).
+
+The MVC routes url for this application is http://localhost:8888/movie-catalog-base/routes
+
+Cheers!

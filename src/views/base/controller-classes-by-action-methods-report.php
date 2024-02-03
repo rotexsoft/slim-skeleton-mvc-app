@@ -1,3 +1,28 @@
+<style>
+    #routes-table {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #routes-table td, #routes-table th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #routes-table tr:nth-child(even){background-color: #f2f2f2;}
+
+    #routes-table tr:hover {background-color: #ddd;}
+
+    #routes-table th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+    }
+</style>
+
 <?php
 use function \SlimMvcTools\Functions\Str\camelToDashes;
 
@@ -138,8 +163,8 @@ if ( count($action_methods_by_controller_class_name) > 0 ) {
 }//if ( $action_methods_by_controller_class_name->count() > 0 )
 
 ?>
-            <h1>App Routes</h1>
-            <table>
+            <h1 style="padding-bottom: 0.5em;">App Routes</h1>
+            <table id="routes-table">
                 <thead>
                     <tr>
                         <th>Controller Class Name</th>

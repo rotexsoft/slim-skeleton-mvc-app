@@ -19,6 +19,11 @@
                         <?= $__localeObj->gettext('main_template_text_home'); ?>
                     </a>&nbsp;
                 </li>
+                <li style="display: inline;">
+                    <a href="<?= $controller_object->makeLink("/{$controller_object->getControllerNameFromUri()}/action-routes");?>">
+                        <?= $__localeObj->gettext('main_template_text_all_mvc_routes'); ?>
+                    </a>&nbsp;
+                </li>
                 
                 <li style="display: inline;">
                     <a href="<?= sMVC_AddLangSelectionParamToUri($controller_object->getRequest()->getUri(), 'en_US') ;?>">

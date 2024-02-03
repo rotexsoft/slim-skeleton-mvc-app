@@ -24,6 +24,7 @@ return [
     'base_controller_text_french' => 'Français',
     
     'main_template_text_home' => "Maison",
+    'main_template_text_all_mvc_routes' => "Toutes les routes MVC",
     'main_template_text_copyright_footer' => "Copyright personne du tout. Aller en ville.",
     'main_template_text_header_1' => "Bienvenue sur votre nouveau site",
     'main_template_text_tagline_p_start' => "Ce site est alimenté par",
