@@ -92,6 +92,9 @@ of this template application framework.
     * [Nyholm PSR7](https://packagist.org/packages/nyholm/psr7): A fast PHP7 implementation of PSR-7 injected into SlimPHP by this framework
     * [Nyholm PSR7 Server](https://packagist.org/packages/nyholm/psr7-server): Helper classes to handle PSR-7 server requests, also used by SlimPHP within this framework
 
+    > You should also look at the public methods available in [\SlimMvcTools\Controllers\BaseController](https://github.com/rotexsoft/slim-skeleton-mvc-tools/blob/master/src/controllers/BaseController.php) which all your applications' controller classes will be extending & which will come in handy in your applications like the **forceHttp###**, **getResponseObjForLoginRedirectionIfNotLoggedIn**, **isLoggedIn**, **makeLink**, **renderLayout** & **renderView** methods
+
+
 * Strives to adhere strictly to the **PSR-7 HTTP messages** and **psr/container** interfaces, in order to make it easy to use different implementations of the PSR-7 request and response objects and **psr/container** compliant containers
 
 ## Requirements

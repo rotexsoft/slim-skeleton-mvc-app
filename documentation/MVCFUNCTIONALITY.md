@@ -410,7 +410,7 @@ application, you can easily create helper functions that will be accessible to a
 methods.
 
 To accomplish this, you need to first create a sub-class of **\Rotexsoft\FileRenderer\Renderer** and swap out 
-instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **new_layout_renderer** 
+instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER** 
 and **\SlimMvcTools\ContainerKeys::VIEW_RENDERER** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
 **\MyApp\Utils\MyCustomFileRenderer**, your updated dependencies entries would look like below:
 
@@ -466,6 +466,8 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 
 ### SMVC Helper Functions
+* **`sMVC_AddLangSelectionParamToUri(\Psr\Http\Message\UriInterface $uri, string $lang='en_US') : string`:** a helper function for adding lanuage toggle query string parameters to PSR-7 uri objects. See **./src/layout-templates/main-template.php** for examples of how this function is used to generate language toggle links in this default layout template that ships with this framework. **\SlimMvcTools\Controllers\BaseController** has an **updateSelectedLanguage()** method that checks for this query string parameter and updates the currently selected language used by the Locale object in the container whose key is **\SlimMvcTools\ContainerKeys::LOCALE_OBJ** each time a controller instance is created.
+
 * **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri,  string $param_name, string $param_value): \Psr\Http\Message\UriInterface`:** a helper function for adding query string parameters to PSR-7 uri objects.
 
 * **`sMVC_CreateController(\Psr\Container\ContainerInterface $container, $controller_name_from_url, $action_name_from_url, \Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)`:** used by the route handler to create controllers to handle mvc routes. You should not really need to call this function.
@@ -482,11 +484,12 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 ## Documentation for Components Used
 * SlimPHP 4 https://www.slimframework.com/docs/v4/
-* Slim Skeleton MVC Tools https://github.com/rotexsoft/slim-skeleton-mvc-tools contains BaseController.php and other Slim Skeleton MVC specific classes and functions 
+* Slim Skeleton MVC Tools https://github.com/rotexsoft/slim-skeleton-mvc-tools contains [\SlimMvcTools\Controllers\BaseController](https://github.com/rotexsoft/slim-skeleton-mvc-tools/blob/master/src/controllers/BaseController.php) and other Slim Skeleton MVC specific classes and helper functions that will be useful in applications built with this framework
 * Vespula.Log https://bitbucket.org/jelofson/vespula.log (a PSR-3 compliant logger)
 * Vespula.Auth for Authentication https://bitbucket.org/jelofson/vespula.auth
 * File-Renderer https://github.com/rotexsoft/file-renderer for rendering the template and view files
-* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used by this skeleton app works
+* [Vespula Locale](https://packagist.org/packages/vespula/locale) used for managing localized strings in this framework
+* See http://pimple.sensiolabs.org/ for more information on how the dependency injection container used to power [\SlimMvcTools\Container](https://github.com/rotexsoft/slim-skeleton-mvc-tools/blob/master/src/Container.php) (the PSR-11 compliant container that ships with this framework) works
 
 
 ## References
