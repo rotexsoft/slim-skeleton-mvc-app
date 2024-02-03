@@ -270,5 +270,9 @@ try {
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
-    echo sprintf($error_template, $title, $title, $html);
+    echo str_replace(
+            ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}'], 
+            [$title, $title, $html], 
+            $error_template
+        );
 }
