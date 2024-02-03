@@ -256,8 +256,6 @@ class BaseCollection extends \LeanOrm\Model\Collection {
 <?php
 namespace MovieCatalog\Models;
 
-namespace MovieCatalog\Models;
-
 class BaseModel extends \LeanOrm\Model {
 
     public function __construct(
@@ -380,7 +378,7 @@ dependencies file (**`./config/dependencies.php`**) to authenticate against the
 with the code below:
 
 ```php
-$container[ContainerKeys::VESPULA_AUTH] = function () {
+$container[ContainerKeys::VESPULA_AUTH] = function ($c) {
 
     $pdo = new \PDO(
         $c[ContainerKeys::APP_SETTINGS]['db_dsn'],
@@ -485,7 +483,7 @@ table and if there is none, it then proceeds to insert a row of data into the ta
 message to be displayed.
 
 All we now need to do to ensure we have a user with the username **`admin`** and
-password `admin` in our app is to browse to http://localhost:8888/users/init-users/admin. 
+password `admin` in our app is to restart the development web-server and browse to http://localhost:8888/users/init-users/admin. 
 After this, we can login to our app with a `username` of **`admin`** and a `password` of
 **`admin`**. We can login via any controller with the path **`<controller_name>/login`** 
 in our url, where **`<controller_name>`** can be substituted with the controller 
@@ -881,44 +879,6 @@ Next we edit our site's error layout template (**`./src/layout-templates/error-t
                     </a>
                     
                 </div>
-            </na<!doctype html>
-
-<html class="no-js" lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        
-        <!--Import materialize.css-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-        <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
-        <title>Da Numba 1 Movie Catalog App &ndash; {{{TITLE}}}</title>
-        
-        <style>
-            .container {
-                width: 98%;
-            }
-        </style>
-    </head>
-    
-    <body>
-        
-        <div class="navbar-fixed">
-                        
-            <nav>
-                <div class="nav-wrapper">
-                    
-                    <a href="#" class="brand-logo">
-                        Da Numba 1 Movie Catalog App
-                    </a>
-                    
-                </div>
             </nav>
             
         </div> <!-- <div class="navbar-fixed"> -->
@@ -959,6 +919,7 @@ Next we edit our site's error layout template (**`./src/layout-templates/error-t
         
     </body>
 </html>
+
 ```
 
 
