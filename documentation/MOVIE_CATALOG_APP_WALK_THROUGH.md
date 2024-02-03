@@ -94,8 +94,12 @@ the commands below:
 
 ```
 ./vendor/bin/smvc-create-controller -c movie-catalog-base -p "./src" -n "MovieCatalog\Controllers" -e "\SlimMvcTools\Controllers\BaseController"
+
 ./vendor/bin/smvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
+
 ./vendor/bin/smvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
+
+composer dumpautoload -o
 ``` 
 
 We should now have the following files and folders in our app:
@@ -155,7 +159,7 @@ and delete) that can login to our app.
     within **\MovieCatalog\Controllers\Users**.
 
 Next, we add the value (**`'\\MovieCatalog\\Controllers\\'`**) to the 
-**$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** array in the dependencies file.
+**$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** array in the dependencies file **./config/dependencies.php**.
 This would be used by the MVC routing mechanism when trying to create an instance
 of the controller class (whose name was extracted from the request url).
 
