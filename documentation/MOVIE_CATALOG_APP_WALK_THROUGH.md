@@ -1383,7 +1383,7 @@ function printErrorMsg($element_name, array $error_msgs) {
 ```
 
 Now our feature to add a new user is completed and can be accessed at 
-http://localhost:8888/users/add.
+http://localhost:8888/users/add. You will need to login with the username **admin** & password **admin** to be able to see the form we just created.
 
 Let's now implement the action method to edit an existing user; i.e. **actionEdit($id)**. 
 To do this, we add **actionEdit($id)** to **\MovieCatalog\Controllers\Users** with the 
@@ -1409,7 +1409,6 @@ code below:
         
         $model_class = 
             \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
-        /** @var \MovieCatalog\Models\BaseModel $model_obj */
         $model_obj = $this->getContainerItem($model_class);
         $error_msgs = [];
         $error_msgs['form-errors'] = [];
@@ -1797,25 +1796,23 @@ with the code below:
 ```php
     public function actionView($id) {
         
-        $model_obj = $this->container->get('movie_listings_model');
         $view_data = [];
+        /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
+        $model_obj = $this->getContainerItem(
+            \MovieCatalog\Models\MoviesListings\MoviesListingsModel::class
+        );
         
         // Grab record for the movie whose id was specified.
         // Note that the variable $movie_record will be available
         // in your view.php view (in this case ./src/views/movie-listings/view.php)
         // when $this->renderView('view.php', $view_data) is called.
-        $view_data['movie_record'] = $model_obj->fetch($id);
+        $view_data['movie_record'] = $model_obj->fetchOneByPkey($id);
         
-        if( !($view_data['movie_record'] instanceof \BaseRecord) ) {
+        if( !($view_data['movie_record'] instanceof \MovieCatalog\Models\Records\BaseRecord) ) {
             
             // We could not find any movie with the specified id in the database.
             // Generate and return an http 404 resposne.
-            return $this->generateNotFoundResponse(
-                            $this->request, 
-                            $this->response,
-                            'Requested movie does not exist.',
-                            'Requested movie does not exist.'
-                        );
+            $this->forceHttp404('Requested movie does not exist.');
         }
         
         //get the contents of the view first
