@@ -2527,7 +2527,7 @@ ability to delete a specific movie) by adding the code below to
 ```
 
 We are done, we have successfully implemented all the features required to manage 
-movie listings and users in our app. Obviously, other features like searching, e.t.c. 
+movie listings and users in our app. Obviously, other features like searching, Cross-site Request Forgery protection in the forms, e.t.c. 
 can be implemented to further enhance the app.
 
 To return a list of all movies in **json** format, you can update **actionIndex()** 
