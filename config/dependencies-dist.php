@@ -37,7 +37,7 @@ $container[ContainerKeys::LOCALE_OBJ] = function ($c) { // An object managing lo
 };
 
 // A PSR 3 / PSR Log Compliant logger
-$container[ContainerKeys::LOGGER] = function () {
+$container[ContainerKeys::LOGGER] = function ($c) {
     
     // See https://packagist.org/packages/vespula/log
     $ds = DIRECTORY_SEPARATOR;
@@ -101,7 +101,7 @@ $container[ContainerKeys::VIEW_RENDERER] = $container->factory(function ($c) {
 // 
 // \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
-$container[ContainerKeys::VESPULA_AUTH] = function () {
+$container[ContainerKeys::VESPULA_AUTH] = function ($c) {
 
     // See https://packagist.org/packages/vespula/auth
     

@@ -8,7 +8,7 @@ display correctly.
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>%s</title> <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <title>{{{TITLE}}}</title> <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
         <style>
             body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana,sans-serif}
             h1{margin:0;font-size:48px;font-weight:normal;line-height:48px}
@@ -16,9 +16,9 @@ display correctly.
         </style>
     </head>
     <body>
-        <h1>%s</h1>     <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <h1>{{{ERROR_HEADING}}}</h1>     <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
         <br>
-        <div>%s</div>   <!-- error message body injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <div>{{{ERROR_DETAILS}}}</div>   <!-- error message body injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
         <br>
         <a href="#" onclick="window.history.go(-1)">Go Back</a>
     </body>
