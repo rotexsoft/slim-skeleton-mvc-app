@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Rector\Set\ValueObject\SetList;
 use Rector\Config\RectorConfig;
 use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRector;
 
@@ -11,8 +10,7 @@ return RectorConfig::configure()
         __DIR__ . '/src/smvc-tools/post-composer-create-project.php',
         __DIR__ . '/src/controllers',
     ])
-    // uncomment to reach your current PHP version
-    ->withPhpSets( php81: true )
+    ->withPhpSets( php81: true ) // up to the php version here
     ->withRules([
         //AddVoidReturnTypeWhereNoReturnRector::class,
     ])
