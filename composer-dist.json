@@ -4,8 +4,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4.0",
-        "rotexsoft/slim-skeleton-mvc-tools": "^4.2.5"
+        "php": ">=8.1.0",
+        "rotexsoft/slim-skeleton-mvc-tools": "^5.0.0"
     },
     "require-dev": {
         

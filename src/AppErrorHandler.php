@@ -16,20 +16,20 @@ class AppErrorHandler extends \SlimMvcTools\ErrorHandler {
         
         $response = parent::__invoke($request, $exception, $displayErrorDetails, $logErrors, $logErrorDetails);
         
-        if($this->container !== null) {
-            
+        if($this->container instanceof \Psr\Container\ContainerInterface) {
+
             // Do some stuff with the container here, like pull out a mailer 
             // object and send out notification emails about the current error 
             // before finally displaying the error page.
-            
+
             if($exception instanceof \Slim\Exception\HttpNotFoundException) {
-                
+
                 // do some 404 specific processing here
-                
+
             } elseif ($exception instanceof \Slim\Exception\HttpMethodNotAllowedException) {
-                
+
                 // do some 405 specific processing here
-                
+
             } // .... on and on and on for other Http*Exception instances
         }
         

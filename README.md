@@ -99,7 +99,7 @@ of this template application framework.
 
 ## Requirements
 
-* PHP 7.2+ (for version 3.X) or PHP 7.4+ (for version 4.X)
+* PHP 7.2+ (for version 3.X) or PHP 7.4+ (for version 4.X) or PHP 8.1+ (for version 5.x)
 * Pdo sqlite (3) extension for Authentication in non-production environments
 * Composer (https://getcomposer.org)
 

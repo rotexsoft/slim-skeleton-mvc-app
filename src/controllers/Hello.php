@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace SlimSkeletonMvcApp\Controllers;
 
-use \Psr\Container\ContainerInterface,
-    \Psr\Http\Message\ServerRequestInterface,
-    \Psr\Http\Message\ResponseInterface;
+use \Psr\Container\ContainerInterface;
+use \Psr\Http\Message\ServerRequestInterface;
+use \Psr\Http\Message\ResponseInterface;
 
 /**
  * Description of Hello
@@ -24,7 +24,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         parent::__construct($container, $controller_name_from_uri, $action_name_from_uri, $req, $res);
     }
     
-    public function actionIndex() {
+    public function actionIndex(): ResponseInterface|string {
 
         //using a string here directly instead of a view
         $view_str = 'Hello@actionIndex: Controller Action Method Content Goes Here!';
@@ -42,7 +42,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
     
     public function actionThere($first_name, $last_name): string {
 
-        $view_str = "Hello There $first_name, $last_name<br>";
+        $view_str = "Hello There {$first_name}, {$last_name}<br>";
         
         return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
