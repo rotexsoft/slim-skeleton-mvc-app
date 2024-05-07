@@ -46,4 +46,18 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         
         return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
+    
+    public function actionForceHttp4xxOr5xx($http_code=400) {
+        
+        $allowed_codes = [400, 401, 403, 404, 405, 410, 500, 501];
+        
+        if(\in_array($http_code, $allowed_codes)) {
+            
+            $method = "forceHttp{$http_code}";
+            $message = "Forced HTTP {$http_code}";
+            $this->$method($message);
+        }
+        
+        return $this->renderLayout($this->layout_template_file_name, ['content'=> "Could not force http response with code: `{$http_code}`"] );
+    }
 }
