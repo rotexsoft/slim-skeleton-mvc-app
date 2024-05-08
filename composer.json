@@ -45,7 +45,7 @@
             "@php -r \"file_exists('./config/ini-settings.php') || copy('./config/ini-settings-dist.php', './config/ini-settings.php');\"",
             "@php -r \"file_exists('./config/dependencies.php') || copy('./config/dependencies-dist.php', './config/dependencies.php');\"",
             "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\"",
-            "@php -r \"file_exists('./public/index.php') || copy('./config/index-dist.php', './config/index.php');\""
+            "@php -r \"file_exists('./public/index.php') || copy('./public/index-dist.php', './public/index.php');\""
         ],
         "post-update-cmd": [
             "@php -r \"file_exists('./config/env.php') || copy('./config/env-dist.php', './config/env.php');\"",
@@ -53,7 +53,7 @@
             "@php -r \"file_exists('./config/ini-settings.php') || copy('./config/ini-settings-dist.php', './config/ini-settings.php');\"",
             "@php -r \"file_exists('./config/dependencies.php') || copy('./config/dependencies-dist.php', './config/dependencies.php');\"",
             "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\"",
-            "@php -r \"file_exists('./public/index.php') || copy('./config/index-dist.php', './config/index.php');\""
+            "@php -r \"file_exists('./public/index.php') || copy('./public/index-dist.php', './public/index.php');\""
         ]
     },
     "suggest": {
