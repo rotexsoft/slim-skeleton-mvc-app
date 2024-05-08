@@ -22,7 +22,7 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
         
         static::$web_server_host = (getenv('WEBSERVER_HOST') !== false) ? getenv('WEBSERVER_HOST') : static::$web_server_host;
         static::$web_server_port = (getenv('WEBSERVER_PORT') !== false) ? ((int)getenv('WEBSERVER_PORT')) : static::$web_server_port;
-        static::$web_server_docroot = (getenv('WEBSERVER_DOCROOT') !== false) ? getenv('WEBSERVER_DOCROOT') : dirname(__DIR__).DIRECTORY_SEPARATOR."public";
+        static::$web_server_docroot = (getenv('WEBSERVER_DOCROOT') !== false) ? getenv('WEBSERVER_DOCROOT') : static::$web_server_docroot;
         
         // Command that starts the built-in web server
         $command = sprintf(
