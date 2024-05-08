@@ -128,7 +128,11 @@ if ( count($action_methods_by_controller_class_name) > 0 ) {
                 . 
                 (
                     $onlyPublicMethodsPrefixedWithAction
-                        ? camelToDashes(str_replace('action', '', $ref_meth_obj->getName()))
+                        ? camelToDashes(
+                            $stripActionPrefixFromMethodName 
+                                ? str_replace('action', '', $ref_meth_obj->getName()) 
+                                : $ref_meth_obj->getName()
+                          )
                         : camelToDashes($ref_meth_obj->getName())
                 );
             

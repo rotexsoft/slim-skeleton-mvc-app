@@ -13,7 +13,7 @@
 
 <?php if( !empty($error_message) ): ?>
 
-    <p style="background-color: orange;"><?php echo $error_message;  ?></p>
+    <p style="background-color: orange;" id="login-form-errors"><?php echo $error_message;  ?></p>
     
 <?php endif; ?>
 

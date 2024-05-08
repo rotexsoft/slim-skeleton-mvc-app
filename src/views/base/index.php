@@ -41,8 +41,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1/0'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1/0'))->__toString(); ?>
             </a> displays all the potential routes in your application in a simple HTML table.
         </p>
         <ul>
@@ -50,7 +50,7 @@
                 This link is mapped to 
                 <strong>
                     <code>
-                        \SlimMvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true)
+                        \SlimMvcTools\Controllers\BaseController::actionRoutes($onlyPublicMethodsPrefixedWithAction=true, $stripActionPrefixFromMethodName=true)
                     </code>
                 </strong> 
                 under the hood
