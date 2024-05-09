@@ -116,7 +116,7 @@ of this template application framework.
 These are the branches in this repository:
 
 - **master:** contains code for the latest major version of this framework
-    > There should always be a slim-4-edition-versions-x.x branch that will be synced with master and from which the latest versions will be tagged. The composer.json in this branch will require the most recent stable version of **rotexsoft/slim-skeleton-mvc-tools** as opposed to the **dev-master** version that will always be required in the composer.json in the master branch.
+    > There should always be a slim-#-edition-versions-x.x branch that will be synced with master and from which the latest versions will be tagged. The composer.json in this branch will require the most recent stable version of **rotexsoft/slim-skeleton-mvc-tools** as opposed to the **dev-master** version that will always be required in the composer.json in the master branch.
 - **slim-4-edition-versions-5.x:** contains code for the **5.x** version of this package (currently being synced with master until a newer version 6.x starts being developed on master)
 - **slim-4-edition-versions-4.x:** contains code for the **4.x** version of this package. No new features, only bug fixes accepted.
 - **slim-3-edition:** contains code for the **3.x** version of this package. No new features, only bug fixes accepted.
