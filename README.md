@@ -111,6 +111,16 @@ of this template application framework.
 * All command-line examples assume you have changed directory to the root folder of your newly created application.
 * Please submit an issue or a pull request if you find any issues with the documentation.
 
+## Branching
+
+These are the branches in this repository:
+
+- **master:** contains code for the latest major version of this framework
+- **slim-4-edition-versions-5.x:** contains code for the **5.x** version of this package (currently being synced with master until a newer version 6.x starts being developed on master)
+- **slim-4-edition-versions-4.x:** contains code for the **4.x** version of this package. No new features, only bug fixes accepted.
+- **slim-3-edition:** contains code for the **3.x** version of this package. No new features, only bug fixes accepted.
+- **1.X:** contains code for the **1.x** version of this package. Abandoned.
+
 ## Issues
 
 * Please submit an issue or a pull request if you find any problems with this skeleton app.
