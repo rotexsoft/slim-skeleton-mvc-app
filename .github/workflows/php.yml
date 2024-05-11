@@ -2,9 +2,9 @@ name: Run PHP Tests and Code Quality Tools
 
 on:
   push:
-    branches: [ master ]
+    branches: [ slim-4-edition-versions-5.x ]
   pull_request:
-    branches: [ master ]
+    branches: [ slim-4-edition-versions-5.x ]
   schedule:
       # Also run  every Sunday at midnight
       - cron: '0 0 * * 0'
