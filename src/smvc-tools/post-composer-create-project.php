@@ -102,6 +102,7 @@ class SMVC_PostComposerCreateHandler {
             "{$root_folder}index.php-overview.png",
             "{$root_folder}phpunit.xml.dist",
             "{$root_folder}LICENSE",
+            "{$root_folder}rector.php",
         ];
 
         foreach ($files_to_delete as $file_to_delete) {
