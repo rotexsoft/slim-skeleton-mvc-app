@@ -27,7 +27,7 @@ $container[ContainerKeys::LOCALE_OBJ] = function ($c) { // An object managing lo
     
     // Try to update to previously selected language if stored in session
     if (
-        session_status() === PHP_SESSION_ACTIVE
+        session_status() === \PHP_SESSION_ACTIVE
         && array_key_exists(BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG, $_SESSION)
     ) {
         $locale_obj->setCode($_SESSION[BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG]);
@@ -45,7 +45,7 @@ $container[ContainerKeys::LOGGER] = function ($c) {
     $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
     $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
     $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
-    $adapter->setMinLevel(Psr\Log\LogLevel::DEBUG);
+    $adapter->setMinLevel(\Psr\Log\LogLevel::DEBUG);
     $adapter->setDateFormat('Y-M-d g:i:s A');
     
     return new \Vespula\Log\Log('error-log', $adapter);
@@ -104,7 +104,6 @@ $container[ContainerKeys::VIEW_RENDERER] = $container->factory(function ($c) {
 $container[ContainerKeys::VESPULA_AUTH] = function ($c) {
 
     // See https://packagist.org/packages/vespula/auth
-    
     $pdo = new \PDO(
                 'sqlite::memory:', 
                 null, 
@@ -132,7 +131,8 @@ SQL;
     //expires (in seconds)
     $expire = 3600;
     $max_idle = 1200;
-    $session = new \Vespula\Auth\Session\Session($max_idle, $expire);
+    $session_start_settings = $c->get(ContainerKeys::APP_SETTINGS)['session_start_options'];
+    $session = new \Vespula\Auth\Session\Session($max_idle, $expire, null, $session_start_settings);
 
     $cols = ['username', 'password'];
     $from = 'user_authentication_accounts';
