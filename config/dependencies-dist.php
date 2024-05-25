@@ -1,6 +1,7 @@
 <?php
 use \SlimMvcTools\ContainerKeys,
-    \SlimMvcTools\Controllers\BaseController;
+    \SlimMvcTools\Controllers\BaseController,
+    \Psr\Container\ContainerInterface;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Configure all the dependencies you'll need in your application in this file.
@@ -17,7 +18,7 @@ $container[ContainerKeys::APP_SETTINGS] = $app_settings;
 // See https://learn.microsoft.com/en-us/cpp/c-runtime-library/language-strings?view=msvc-170
 $container[ContainerKeys::DEFAULT_LOCALE] = 'en_US';
 $container[ContainerKeys::VALID_LOCALES] = ['en_US', 'fr_CA']; // add more values for languages you will be supporting in your application
-$container[ContainerKeys::LOCALE_OBJ] = function ($c) { // An object managing localized strings
+$container[ContainerKeys::LOCALE_OBJ] = function (ContainerInterface $c) { // An object managing localized strings
 
     // See https://packagist.org/packages/vespula/locale
     $ds = DIRECTORY_SEPARATOR;
@@ -37,7 +38,7 @@ $container[ContainerKeys::LOCALE_OBJ] = function ($c) { // An object managing lo
 };
 
 // A PSR 3 / PSR Log Compliant logger
-$container[ContainerKeys::LOGGER] = function ($c) {
+$container[ContainerKeys::LOGGER] = function (ContainerInterface $c) {
     
     // See https://packagist.org/packages/vespula/log
     $ds = DIRECTORY_SEPARATOR;
@@ -66,7 +67,7 @@ $container[ContainerKeys::NAMESPACES_4_CONTROLLERS] = [
 ];
 
 // Object for rendering layout files
-$container[ContainerKeys::LAYOUT_RENDERER]  = $container->factory(function ($c) {
+$container[ContainerKeys::LAYOUT_RENDERER]  = $container->factory(function (ContainerInterface $c) {
     
     // See https://github.com/rotexsoft/file-renderer
     // Return a new instance on each access to 
@@ -80,7 +81,7 @@ $container[ContainerKeys::LAYOUT_RENDERER]  = $container->factory(function ($c) 
 });
 
 // Object for rendering view files
-$container[ContainerKeys::VIEW_RENDERER] = $container->factory(function ($c) {
+$container[ContainerKeys::VIEW_RENDERER] = $container->factory(function (ContainerInterface $c) {
     
     // See https://github.com/rotexsoft/file-renderer
     // Return a new instance on each access to 
@@ -101,7 +102,7 @@ $container[ContainerKeys::VIEW_RENDERER] = $container->factory(function ($c) {
 // 
 // \SlimMvcTools\Controllers\BaseController->actionLogin will work out of 
 // the box with any properly configured \Vespula\Auth\Adapter\* instance.
-$container[ContainerKeys::VESPULA_AUTH] = function ($c) {
+$container[ContainerKeys::VESPULA_AUTH] = function (ContainerInterface $c) {
 
     // See https://packagist.org/packages/vespula/auth
     $pdo = new \PDO(
@@ -146,14 +147,14 @@ SQL;
 ////////////////////////////////////////////////////////////////////////////
 
 // New PSR 7 Request Object
-$container[ContainerKeys::NEW_REQUEST_OBJECT]  = $container->factory(function ($c) {
+$container[ContainerKeys::NEW_REQUEST_OBJECT]  = $container->factory(function (ContainerInterface $c) {
     
     $serverRequestCreator = \Slim\Factory\ServerRequestCreatorFactory::create();
     return $serverRequestCreator->createServerRequestFromGlobals();
 });
 
 // New PSR 7 Response Object
-$container[ContainerKeys::NEW_RESPONSE_OBJECT]  = $container->factory(function ($c) {
+$container[ContainerKeys::NEW_RESPONSE_OBJECT]  = $container->factory(function (ContainerInterface $c) {
     
     $responseFactory = \Slim\Factory\AppFactory::determineResponseFactory();
     return $responseFactory->createResponse();
