@@ -3,7 +3,22 @@
     "description": "This is a template mvc web-application (powered by SlimPHP 4), that can be extended to build more complex web applications.",
     "license": "BSD-3-Clause",
     "type": "project",
-    "keywords": [ "mvc", "framework", "slim 4", "slimphp 4",  "slim4", "slimphp4", "slim-4", "slimphp-4"],
+    "keywords": [ 
+        "mvc",
+        "framework",
+        "slim-framework",
+        "slim",
+        "skeleton",
+        "slim-skeleton",
+        "slim-mvc",
+        "slim 4",
+        "slimphp 4",
+        "slim4", 
+        "slimphp4",
+        "slim-4",
+        "slimphp-4",
+        "php"
+    ],
     "homepage": "https://github.com/rotexsoft/slim-skeleton-mvc-app",
     "authors": [
         {
