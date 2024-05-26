@@ -88,11 +88,11 @@
     - Customize **./config/app-settings.php**, **./config/dependencies.php**, **./config/env.php**, **./config/ini-settings.php** and optionally **./config/routes-and-middlewares.php** to suit your needs.
 
     - Start creating controllers for your application using **./vendor/bin/smvc-create-controller-wizard**
-            > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
+            
+        > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
-    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** in **./config/dependencies.php** 
+    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** in **./config/dependencies.php**
 
-    > Always run **composer dump** after each time your create a new controller class with **./vendor/bin/smvc-create-controller** or **./vendor/bin/smvc-create-controller-wizard**.
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application

@@ -98,8 +98,6 @@ the commands below:
 ./vendor/bin/smvc-create-controller -c users -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
 
 ./vendor/bin/smvc-create-controller -c movie-listings -p "./src" -n "MovieCatalog\Controllers" -e "\MovieCatalog\Controllers\MovieCatalogBase"
-
-composer dumpautoload -o
 ``` 
 
 We should now have the following files and folders in our app:
