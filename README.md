@@ -121,6 +121,8 @@ These are the branches in this repository:
 - **slim-4-edition-versions-4.x:** contains code for the **4.x** version of this package. No new features, only bug fixes accepted.
 - **slim-3-edition:** contains code for the **3.x** version of this package. No new features, only bug fixes accepted.
 - **1.X:** contains code for the **1.x** version of this package. Abandoned.
+- **project-website:** contains code for the documetation website for this project (https://rotexsoft.github.io/slim-skeleton-mvc-app/). 
+    - **THE project-website BRANCH WAS CREATED IN MAY 2024 AND IS CURRENTLY BEING DEVELOPED. WILL REMOVE THIS NOTICE WHEN THE DOCUMENTATION WEBSITE IS READY TO GO. FOR NOW KEEP READING THE DOCUMENTATION IN THE BRANCH FOR THE VERSION OF THIS FRAMEWORK YOU ARE CURRENTLY USING.**
 
 ## Issues
 
