@@ -2,9 +2,9 @@ name: Run PHP Tests and Code Quality Tools
 
 on:
   push:
-    branches: [ slim-4-edition-versions-5.x ]
+    branches: [ project-website ]
   pull_request:
-    branches: [ slim-4-edition-versions-5.x ]
+    branches: [ project-website ]
   schedule:
       # Also run  every Sunday at midnight
       - cron: '0 0 * * 0'
@@ -35,33 +35,33 @@ jobs:
 
     name: PHP-${{ matrix.php }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-          php-version: ${{ matrix.php }}
-          ini-values: pcre.jit=0, pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
-          coverage: xdebug
-
-    - name: PHP version
-      run: php -v
-
-    - name: Composer version
-      run: composer --version
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate
-
-    - name: Install Dependencies
-      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v4
+#
+#    - name: Setup PHP
+#      uses: shivammathur/setup-php@v2
+#      with:
+#          php-version: ${{ matrix.php }}
+#          ini-values: pcre.jit=0, pcre.backtrack_limit=9999999, pcre.recursion_limit=9999999
+#          coverage: xdebug
+#
+#    - name: PHP version
+#      run: php -v
+#
+#    - name: Composer version
+#      run: composer --version
+#
+#    - name: Validate composer.json and composer.lock
+#      run: composer validate
+#
+#    - name: Install Dependencies
+#      run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
-    - name: Run PHPUnit Test Suite
-      run: vendor/bin/phpunit
+#    - name: Run PHPUnit Test Suite
+#      run: vendor/bin/phpunit
 
 #    - name: Upload coverage results to Coveralls
 #      env: 
