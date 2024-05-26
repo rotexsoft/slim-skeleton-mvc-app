@@ -12,6 +12,8 @@ use \SlimMvcTools\ContainerKeys,
 
 // $container must be an instance of \Psr\Container\ContainerInterface
 // It must be returned at the end of this file.
+// See https://github.com/silexphp/Pimple for documentation on how to properly
+// use \SlimMvcTools\Container which extends \Pimple\Container
 $container = new \SlimMvcTools\Container();
 $container[ContainerKeys::APP_SETTINGS] = $app_settings;
 
