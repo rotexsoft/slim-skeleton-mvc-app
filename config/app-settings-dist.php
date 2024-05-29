@@ -33,7 +33,7 @@ return [
     'displayErrorDetails' => (sMVC_GetCurrentAppEnvironment() !== SMVC_APP_ENV_PRODUCTION), // should be always false in production
     'logErrors' => true,
     'logErrorDetails' => true,
-    'addContentLengthHeader' => true,
+    'addContentLengthHeader' => (sMVC_GetCurrentAppEnvironment() === SMVC_APP_ENV_PRODUCTION), // should be always true in production
     /////////////////////////////////////
     // End of Slim PHP Related Settings
     /////////////////////////////////////
