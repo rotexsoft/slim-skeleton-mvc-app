@@ -492,44 +492,6 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
         );
         
         $this->assertNonErrorLayoutIsPresentInResponseBody($response_body);
-        
-        ///////////////////////////////////////////////////////////////////////
-        // Now login, the successful login will redirect to
-        // /base-controller/action-login-status
-        ///////////////////////////////////////////////////////////////////////
-        $response2 = $client->request('POST', "http://{$web_server_host}:{$web_server_port}/base-controller/action-login", [
-            'form_params' => [
-                'username' => 'admin',
-                'password' => 'admin',
-            ]
-        ]);
-        
-        // Should contain the /base-controller/action-login-status page
-        $response_body2 = ((string)$response2->getBody());
-
-        // Test that the auth info is present in the response
-        self::assertStringContainsString('You are still logged in.', $response_body2);
-        self::assertStringContainsString('Login Status: ', $response_body2);
-        self::assertStringContainsString("Logged in Person's Username: admin<br />", $response_body2);
-        self::assertStringContainsString("Logged in User's Data: ", $response_body2);
-
-        // Test that the logged-in section of the 
-        // /base-controller/action-login-status is present in this response
-        self::assertStringContainsString(
-            '<a href="/base-controller/action-login-status">Check Login Status</a>', 
-            $response_body2
-        );
-        self::assertStringContainsString(
-            '<form action="/base-controller/action-logout/1" method="post">', 
-            $response_body2
-        );
-        self::assertStringContainsString(
-            '<input type="submit" value="Logout">', 
-            $response_body2
-        );
-        self::assertStringContainsString('</form>', $response_body2);
-        
-        $this->assertNonErrorLayoutIsPresentInResponseBody($response_body2);
     }
     
     public function testBaseControllerActionLogout() {
@@ -562,7 +524,7 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
         
         ///////////////////////////////////////////////////////////////////////
         // Now login, the successful login will redirect to
-        // /base-controller/action-login-status
+        // /base-controller/action-index
         ///////////////////////////////////////////////////////////////////////
         $response2 = $client->request('POST', "http://{$web_server_host}:{$web_server_port}/base-controller/action-login", [
             'form_params' => [
@@ -574,9 +536,9 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
         // Should contain the /base-controller/action-login-status page
         $response_body2 = ((string)$response2->getBody());
 
-        // Test that the auth info is present in the response
-        self::assertStringContainsString('You are still logged in.', $response_body2);
-        self::assertStringContainsString("Logged in Person's Username: admin<br />", $response_body2);
+        // Test that index page was returned
+        self::assertStringContainsString('<h4><strong>Below are the default links that are available in your application:</strong></h4>', $response_body2);
+        self::assertStringContainsString('<h4><strong>A little bit about Controllers and MVC:</strong></h4>', $response_body2);
         
         ////////////////////////////////////////////////////////////////////////
         // Now go to /base-controller/action-logout/1 which should log the user
