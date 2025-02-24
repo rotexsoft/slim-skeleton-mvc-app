@@ -45,7 +45,7 @@ return [
     'error_template_file'=> SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
                             . 'src' . DIRECTORY_SEPARATOR 
                             . 'layout-templates' . DIRECTORY_SEPARATOR 
-                            . 'error-template.php',
+                            . 'error-template.html',
     'use_mvc_routes' => true,
     'mvc_routes_http_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     'auto_prepend_action_to_action_method_names' => false,

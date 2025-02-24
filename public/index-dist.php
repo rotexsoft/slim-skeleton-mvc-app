@@ -229,7 +229,7 @@ try {
     // caused the exception to be able to see the full exception.
     
     $error_template = file_get_contents(
-        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'layout-templates' . DIRECTORY_SEPARATOR . 'error-template.php'
+        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'layout-templates' . DIRECTORY_SEPARATOR . 'error-template.html'
     );
     
     $title = 'Uncaught Exception Occurred<br>';
