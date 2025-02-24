@@ -33,4 +33,14 @@ return [
     'default_application_error_title_text' => "SlimPHP 4 Skeleton MVC App Error",
     'default_application_error_title_description' => "A website error has occurred. Sorry for the temporary inconvenience.",
     'default_application_error_title_detailed_description' => "The application could not run because of the following error",
+    
+    \Slim\Exception\HttpBadRequestException::class . '_description' => "The server cannot or will not process the request due to an apparent client error.",
+    \Slim\Exception\HttpForbiddenException::class . '_description'  => "You are not permitted to perform the requested operation.",
+    \Slim\Exception\HttpGoneException::class . '_description' => "The target resource is no longer available at the origin server.",
+    \Slim\Exception\HttpInternalServerErrorException::class . '_description' => "Unexpected condition encountered preventing server from fulfilling request.",
+    \Slim\Exception\HttpMethodNotAllowedException::class . '_description' => "The request method is not supported for the requested resource.",
+    \Slim\Exception\HttpNotFoundException::class . '_description' => "The requested resource could not be found. Please verify the URI and try again.",
+    \Slim\Exception\HttpNotImplementedException::class . '_description' => "The server does not support the functionality required to fulfill the request.",
+    \Slim\Exception\HttpTooManyRequestsException::class . '_description' => "The client application has surpassed its rate limit, or number of requests they can send in a given period of time.",
+    \Slim\Exception\HttpUnauthorizedException::class . '_description' => "The request requires valid user authentication.",
 ];
