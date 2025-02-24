@@ -33,4 +33,14 @@ return [
     'default_application_error_title_text' => "Erreur de l'application SlimPHP 4 Skeleton MVC",
     'default_application_error_title_description' => "Une erreur du site Web s'est produite. Désolé pour le désagrément temporaire.",
     'default_application_error_title_detailed_description' => "L'application n'a pas pu s'exécuter en raison de l'erreur suivante",
+    
+    \Slim\Exception\HttpBadRequestException::class . '_description' => "Le serveur ne peut pas ou ne veut pas traiter la demande en raison d'une erreur client apparente.",
+    \Slim\Exception\HttpForbiddenException::class . '_description'  => "Vous n'êtes pas autorisé à effectuer l'opération demandée.",
+    \Slim\Exception\HttpGoneException::class . '_description' => "La ressource cible n'est plus disponible sur le serveur d'origine.",
+    \Slim\Exception\HttpInternalServerErrorException::class . '_description' => "Une condition inattendue s'est produite empêchant le serveur de répondre à la demande.",
+    \Slim\Exception\HttpMethodNotAllowedException::class . '_description' => "La méthode de requête n'est pas prise en charge pour la ressource demandée.",
+    \Slim\Exception\HttpNotFoundException::class . '_description' => "La ressource demandée est introuvable. Veuillez vérifier l'URI et réessayer.",
+    \Slim\Exception\HttpNotImplementedException::class . '_description' => "Le serveur ne prend pas en charge les fonctionnalités requises pour répondre à la demande.",
+    \Slim\Exception\HttpTooManyRequestsException::class . '_description' => "L'application client a dépassé sa limite de débit, ou le nombre de requêtes qu'elle peut envoyer au cours d'une période de temps donnée.",
+    \Slim\Exception\HttpUnauthorizedException::class . '_description' => "La demande nécessite une authentification utilisateur valide.",
 ];
