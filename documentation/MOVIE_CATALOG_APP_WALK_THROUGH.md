@@ -836,7 +836,7 @@ for our app) like so:
     }
 ```
 
-Next we edit our site's error layout template (**`./src/layout-templates/error-template.php`**) which will be used by the framework to display errors like HTTP 404 Not Found, 500 Internal Server Error, etc. We want this template to have the same look and feel as **./src/layout-templates/main-template.php**
+Next we edit our site's error layout template (**`./src/layout-templates/error-template.html`**) which will be used by the framework to display errors like HTTP 404 Not Found, 500 Internal Server Error, etc. We want this template to have the same look and feel as **./src/layout-templates/main-template.php**
 
 ```php
 <!doctype html>

@@ -269,7 +269,7 @@
 
 * **`src/controllers/Hello.php`:** Example Controller class.
 
-* **`src/layout-templates/error-template.php`:** Default template used by this framework to display all your application's error pages like **404 - Not Found**, etc. Tweak it to match your site's look and feel while leaving the three **%s** tokens inside it (they are substituted with error title & description info when this template is rendered at run-time).
+* **`src/layout-templates/error-template.html`:** Default template used by this framework to display all your application's error pages like **404 - Not Found**, etc. Tweak it to match your site's look and feel while leaving the three **%s** tokens inside it (they are substituted with error title & description info when this template is rendered at run-time).
 
 * **`src/layout-templates/main-template.php`:** Default site template you can use as a starting point for your application's layout.
 
