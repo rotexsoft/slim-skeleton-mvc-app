@@ -119,7 +119,7 @@ $dataToRender = [];
 if ( count($action_methods_by_controller_class_name) > 0 ) {
     
     foreach ( $action_methods_by_controller_class_name  as $controller_class_name=>$action_methods ) {
-        
+
         foreach ( $action_methods as $action_method ) {
             
             $ref_meth_obj = $reflection_methods_map["{$controller_class_name}:{$action_method}"];
@@ -133,7 +133,11 @@ if ( count($action_methods_by_controller_class_name) > 0 ) {
                                 ? str_replace('action', '', $ref_meth_obj->getName()) 
                                 : $ref_meth_obj->getName()
                           )
-                        : camelToDashes($ref_meth_obj->getName())
+                        : camelToDashes(
+                            $stripActionPrefixFromMethodName 
+                                ? str_replace('action', '', $ref_meth_obj->getName()) 
+                                : $ref_meth_obj->getName()
+                        )
                 );
             
             foreach ($ref_meth_obj->getParameters() as $parameter) {

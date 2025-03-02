@@ -607,7 +607,7 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
         
         // Should contain the /base-controller/action-routes/0/0 page
         $response_body2 = ((string)$response2->getBody());
-
+        
         $expected_output1 = <<<HTML
         <div>
             <div>
@@ -705,6 +705,11 @@ class AllRoutesTest extends \PHPUnit\Framework\TestCase {
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>forceHttp410</td>
                             <td>base-controller/force-http410/message[/request=NULL]</td>
+                        </tr>
+                                            <tr>
+                            <td>SlimMvcTools\Controllers\BaseController</td>
+                            <td>forceHttp429</td>
+                            <td>base-controller/force-http429/message[/request=NULL]</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
@@ -969,27 +974,27 @@ HTML;
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>actionIndex</td>
-                            <td>base-controller/action-index</td>
+                            <td>base-controller/index</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>actionLogin</td>
-                            <td>base-controller/action-login</td>
+                            <td>base-controller/login</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>actionLoginStatus</td>
-                            <td>base-controller/action-login-status</td>
+                            <td>base-controller/login-status</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>actionLogout</td>
-                            <td>base-controller/action-logout[/show_status_on_completion=false]</td>
+                            <td>base-controller/logout[/show_status_on_completion=false]</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>actionRoutes</td>
-                            <td>base-controller/action-routes[/onlyPublicMethodsPrefixedWithAction=true][/stripActionPrefixFromMethodName=true]</td>
+                            <td>base-controller/routes[/onlyPublicMethodsPrefixedWithAction=true][/stripActionPrefixFromMethodName=true]</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
@@ -1020,6 +1025,11 @@ HTML;
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>forceHttp410</td>
                             <td>base-controller/force-http410/message[/request=NULL]</td>
+                        </tr>
+                                            <tr>
+                            <td>SlimMvcTools\Controllers\BaseController</td>
+                            <td>forceHttp429</td>
+                            <td>base-controller/force-http429/message[/request=NULL]</td>
                         </tr>
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
@@ -1197,22 +1207,22 @@ HTML;
                                             <tr>
                             <td>SlimSkeletonMvcApp\Controllers\Hello</td>
                             <td>actionForceHttpFourxxOrFivexx</td>
-                            <td>hello/action-force-http-fourxx-or-fivexx[/http_code=400]</td>
+                            <td>hello/force-http-fourxx-or-fivexx[/http_code=400]</td>
                         </tr>
                                             <tr>
                             <td>SlimSkeletonMvcApp\Controllers\Hello</td>
                             <td>actionIndex</td>
-                            <td>hello/action-index</td>
+                            <td>hello/index</td>
                         </tr>
                                             <tr>
                             <td>SlimSkeletonMvcApp\Controllers\Hello</td>
                             <td>actionThere</td>
-                            <td>hello/action-there/first_name/last_name</td>
+                            <td>hello/there/first_name/last_name</td>
                         </tr>
                                             <tr>
                             <td>SlimSkeletonMvcApp\Controllers\Hello</td>
                             <td>actionWorld</td>
-                            <td>hello/action-world/name/another_param</td>
+                            <td>hello/world/name/another_param</td>
                         </tr>
                                     </tbody>
             </table>
