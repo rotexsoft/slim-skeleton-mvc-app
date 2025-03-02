@@ -16,19 +16,19 @@ jobs:
 
     strategy:
         matrix:
-            php: [8.3, 8.2, 8.1]
+            php: [8.4, 8.3, 8.2, 8.1]
 # prefer-lowest is causing unit tests to fail when php 7.2 is run against PHPunit 7.x, 
 # PHPUnit 8.x is the latest stable release that supports PHP 7.2 and that runs fine
 #            dependency-version: [prefer-lowest, prefer-stable]
             dependency-version: [prefer-stable]
-            os: [ubuntu-20.04, ubuntu-22.04]
-            include:
-                - os: ubuntu-20.04
-                  php: 8.1
-                - os: ubuntu-20.04
-                  php: 8.2
-                - os: ubuntu-22.04
-                  php: 8.2
+            os: [ubuntu-latest]
+#            include:
+#                - os: ubuntu-20.04
+#                  php: 8.1
+#                - os: ubuntu-20.04
+#                  php: 8.2
+#                - os: ubuntu-22.04
+#                  php: 8.2
             #exclude:
                 #- os: ubuntu-20.04
                   #php: 7.3
