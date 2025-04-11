@@ -227,7 +227,6 @@ try {
     // so we display a non descriptive message by default and only site admins
     // will know to add a show_full_error=1 query param to the url that 
     // caused the exception to be able to see the full exception.
-    
     $error_template = file_get_contents(
         dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'layout-templates' . DIRECTORY_SEPARATOR . 'error-template.php'
     );
@@ -248,6 +247,13 @@ try {
         $html .= sprintf('<pre>%s</pre>', htmlentities($exception->getTraceAsString()));
     }
     
+    \error_log ( 
+        PHP_EOL . PHP_EOL . 'Uncaught Exception Occurred' 
+                . PHP_EOL . \SlimMvcTools\Utils::getThrowableAsStr($exception, PHP_EOL) 
+                . PHP_EOL , 
+        4
+    ); // message is sent directly to the SAPI logging handler.
+    
     if(isset($container) && $container instanceof \Psr\Container\ContainerInterface) {
         
         try {
@@ -265,7 +271,12 @@ try {
         } catch (\Throwable $ex) {
             
             // If another exception was thrown while logging, 
-            // there ain't nothing we can do about it
+            \error_log ( 
+                PHP_EOL . PHP_EOL . 'Uncaught Exception Occurred' 
+                        . PHP_EOL . \SlimMvcTools\Utils::getThrowableAsStr($ex, PHP_EOL) 
+                        . PHP_EOL , 
+                4
+            ); // message is sent directly to the SAPI logging handler.
             
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
