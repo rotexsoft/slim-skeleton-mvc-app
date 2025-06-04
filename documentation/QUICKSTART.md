@@ -229,7 +229,7 @@
 
         * **`\SlimMvcTools\ContainerKeys::NEW_RESPONSE_OBJECT:`** Returns a new PSR 7 Response object on each access 
 
-* **`config/env.php`:** Edit it to define your application's environment. It should return one of **SMVC_APP_ENV_DEV**, **SMVC_APP_ENV_PRODUCTION**, **SMVC_APP_ENV_STAGING** or **SMVC_APP_ENV_TESTING** relevant to the environment you are installing your web-application.
+* **`config/env.php`:** Edit it to define your application's environment. It should return one of **\SlimMvcTools\AppEnvironments::DEV**, **\SlimMvcTools\AppEnvironments::PRODUCTION**, **\SlimMvcTools\AppEnvironments::STAGING** or **\SlimMvcTools\AppEnvironments::TESTING** relevant to the environment you are installing your web-application.
 
     * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/env-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
 
@@ -253,13 +253,13 @@
 
         * **`sMVC_GetCurrentAppEnvironment(): string:`** This function detects which environment your web-application is running in (i.e. one of Production, Development, Staging or Testing). Below are its possible return values. You define your application's environment inside **`config/env.php`**.
 
-            * **`SMVC_APP_ENV_DEV:`** A string value representing that your application is running in development mode.
+            * **`\SlimMvcTools\AppEnvironments::DEV:`** A string value representing that your application is running in development mode.
 
-            * **`SMVC_APP_ENV_PRODUCTION:`** A string value representing that your application is running in production / live mode.
+            * **`\SlimMvcTools\AppEnvironments::PRODUCTION:`** A string value representing that your application is running in production / live mode.
 
-            * **`SMVC_APP_ENV_STAGING:`** A string value representing that your application is running in staging mode.
+            * **`\SlimMvcTools\AppEnvironments::STAGING:`** A string value representing that your application is running in staging mode.
 
-            * **`SMVC_APP_ENV_TESTING:`** A string value representing that your application is running in testing mode.
+            * **`\SlimMvcTools\AppEnvironments::TESTING:`** A string value representing that your application is running in testing mode.
 
         * **`SMVC_APP_PUBLIC_PATH:`** A string value. The absolute path to the **`public`** folder in your application.
 

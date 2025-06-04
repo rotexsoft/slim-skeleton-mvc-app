@@ -7,11 +7,11 @@
     <li>
         <?php  ?>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-index'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-index'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-index'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-index'))->__toString(); ?>
             </a> same as 
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -20,8 +20,8 @@
          <br>
     </li>
     <li>
-        <p><a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-login'))->__toString(); ?>">
-            <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-login'))->__toString(); ?>
+        <p><a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-login'))->__toString(); ?>">
+            <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-login'))->__toString(); ?>
             </a> comes with 2 default accounts <strong>admin:admin</strong> and <strong>root:root</strong></p>
         <ul>
             <li>This link is mapped to <strong><code>\SlimMvcTools\Controllers\BaseController::actionLogin()</code></strong> under the hood</li>
@@ -30,8 +30,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-logout/0'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-logout/0'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-logout/0'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-logout/0'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -41,8 +41,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1/0'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-routes/1/0'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-routes/1/0'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-routes/1/0'))->__toString(); ?>
             </a> displays all the potential routes in your application in a simple HTML table.
         </p>
         <ul>
@@ -70,8 +70,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-logout/1'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-logout/1'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-logout/1'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-logout/1'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -81,8 +81,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-login-status'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/base-controller/action-login-status'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-login-status'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/base-controller/action-login-status'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -92,11 +92,11 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-index/'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-index/'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-index/'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-index/'))->__toString(); ?>
             </a> same as 
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -106,8 +106,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login/'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login/'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login/'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login/'))->__toString(); ?>
             </a> comes with 2 default accounts <strong>admin:admin</strong> and <strong>root:root</strong></p>
         <ul>
             <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionLogin()</code></strong> under the hood</li>
@@ -116,8 +116,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-logout/0'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-logout/0'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-logout/0'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-logout/0'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -127,8 +127,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-logout/1'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-logout/1'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-logout/1'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-logout/1'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -138,8 +138,8 @@
     </li>
     <li>
         <p>
-            <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login-status/'))->__toString(); ?>">
-                <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login-status/'))->__toString(); ?>
+            <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login-status/'))->__toString(); ?>">
+                <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login-status/'))->__toString(); ?>
             </a>
         </p>
         <ul>
@@ -148,24 +148,24 @@
         <br>
     </li>
     <li>
-        <p><code><?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-there/'))->__toString(); ?>{first_name}/{last_name}</code></p>
+        <p><code><?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-there/'))->__toString(); ?>{first_name}/{last_name}</code></p>
         <ul>
             <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionThere($first_name, $last_name)</code></strong> under the hood</li>
             <li>you can do stuff like 
-                <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-there/'))->__toString(); ?>john/doe">
-                    <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-there/'))->__toString(); ?>john/doe
+                <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-there/'))->__toString(); ?>john/doe">
+                    <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-there/'))->__toString(); ?>john/doe
                 </a>
             </li>
         </ul>
         <br>
     </li>
     <li>
-        <p><code><?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-world/'))->__toString(); ?>{name}/{another_parameter}</code></p>
+        <p><code><?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-world/'))->__toString(); ?>{name}/{another_parameter}</code></p>
         <ul>
             <li>This link is mapped to <strong><code>\SlimSkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)</code></strong> under the hood</li>
             <li>you can do stuff like 
-                <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-world/'))->__toString(); ?>john/doe">
-                    <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-world/'))->__toString(); ?>john/doe
+                <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-world/'))->__toString(); ?>john/doe">
+                    <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-world/'))->__toString(); ?>john/doe
                 </a>
             </li>
         </ul>
@@ -177,20 +177,20 @@
 <ul>
     <li>
         For example 
-        <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login/'))->__toString(); ?>">
-            <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-login/'))->__toString(); ?>
+        <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login/'))->__toString(); ?>">
+            <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-login/'))->__toString(); ?>
         </a> will become 
         
-        <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/login/'))->__toString(); ?>">
-            <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/login/'))->__toString(); ?>
+        <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/login/'))->__toString(); ?>">
+            <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/login/'))->__toString(); ?>
         </a> and 
         
-        <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-there/john/doe'))->__toString(); ?>">
-            <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/action-there/john/doe'))->__toString(); ?>
+        <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-there/john/doe'))->__toString(); ?>">
+            <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/action-there/john/doe'))->__toString(); ?>
         </a> will become 
         
-        <a href="<?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/there/john/doe'))->__toString(); ?>">
-            <?php echo $uri_obj->withPath($sMVC_MakeLink('/hello/there/john/doe'))->__toString(); ?>
+        <a href="<?php echo $uri_obj->withPath($controller_object->makeLink('/hello/there/john/doe'))->__toString(); ?>">
+            <?php echo $uri_obj->withPath($controller_object->makeLink('/hello/there/john/doe'))->__toString(); ?>
         </a>
     </li>
 </ul>
@@ -210,15 +210,15 @@
              
             <ul style="margin-left: 4em;">
                 <li>
-                    <code><?php echo $uri_obj->withPath($sMVC_MakeLink('/mobile-data-providers/'))->__toString(); ?></code> 
+                    <code><?php echo $uri_obj->withPath($controller_object->makeLink('/mobile-data-providers/'))->__toString(); ?></code> 
                     will be responded to by the default action (defined via 
                     <strong>SMVC_APP_DEFAULT_ACTION_NAME</strong>; default value is 
                     <strong>actionIndex</strong> ) method in the controller named 
                     <strong>MobileDataProviders</strong>,<br><br>
                 </li>
                 <li>
-                    <code><?php echo $uri_obj->withPath($sMVC_MakeLink('/mobile-data-providers/list-providers'))->__toString(); ?></code> 
-                    or <code><?php echo $uri_obj->withPath($sMVC_MakeLink('/mobile-data-providers/action-list-providers'))->__toString(); ?></code> 
+                    <code><?php echo $uri_obj->withPath($controller_object->makeLink('/mobile-data-providers/list-providers'))->__toString(); ?></code> 
+                    or <code><?php echo $uri_obj->withPath($controller_object->makeLink('/mobile-data-providers/action-list-providers'))->__toString(); ?></code> 
                     (if <strong>SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES</strong> 
                     is set to <strong>false</strong>) will be responded to by the 
                     <strong>actionListProviders()</strong> method in the controller named 
