@@ -99,7 +99,7 @@ of this template application framework.
 
 ## Requirements
 
-* PHP 7.2+ (for version 3.X) or PHP 7.4+ (for version 4.X) or PHP 8.1+ (for version 5.x)
+* PHP 7.2+ (for version 3.X) or PHP 7.4+ (for version 4.X) or PHP 8.1+ (for version 5.x) or PHP 8.2+ (for vewrsion 6.x)
 * Pdo sqlite (3) extension for Authentication in non-production environments
 * Composer (https://getcomposer.org)
 
@@ -115,9 +115,9 @@ of this template application framework.
 
 These are the branches in this repository:
 
-- **master:** contains code for the latest major version of this framework
-    > There should always be a slim-#-edition-versions-x.x branch that will be synced with master and from which the latest major versions will be tagged. The composer.json in this branch will require the most recent stable version of **rotexsoft/slim-skeleton-mvc-tools** as opposed to the **dev-master** version that will always be required in the composer.json in the master branch.
-- **slim-4-edition-versions-5.x:** contains code for the **5.x** version of this package (currently being synced with master until a newer version 6.x starts being developed on master)
+- **master:** contains code for the latest major version of this framework (currently 6.x)
+    > Before starting development on the next major version, create a **slim-#-edition-versions-y.x** branch of the master branch (where y is the current latest version's first digit and # is the first digit of the slim framework version the current latest version was built for) and then you can start coding for the next major version on the master branch
+- **slim-4-edition-versions-5.x:** contains code for the **5.x** version of this package
 - **slim-4-edition-versions-4.x:** contains code for the **4.x** version of this package. No new features, only bug fixes accepted.
 - **slim-3-edition:** contains code for the **3.x** version of this package. No new features, only bug fixes accepted.
 - **1.X:** contains code for the **1.x** version of this package. Abandoned.
