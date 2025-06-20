@@ -73,8 +73,7 @@ function(
     \Psr\Http\Message\ServerRequestInterface $req,
     \Psr\Http\Message\ResponseInterface $resp,
     $args
-)
-use ($route_handler_obj) {
+) use ($route_handler_obj) {
     
     return $route_handler_obj($req, $resp, $args);
 };

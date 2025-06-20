@@ -47,7 +47,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
         return $this->renderLayout($this->layout_template_file_name, ['content'=>$view_str] );
     }
     
-    public function actionForceHttpFourxxOrFivexx($http_code=400) {
+    public function actionForceHttpFourxxOrFivexx($http_code=400): string {
         
         $allowed_codes = [400, 401, 403, 404, 405, 410, 500, 501];
         

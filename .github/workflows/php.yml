@@ -69,10 +69,10 @@ jobs:
 #      run: |
 #        vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
 #
-#    - name: Run Rector
-#      # Run rector for PHP 7.X but not 8.0, rector is currently blowing up with PHP 8.0
+    - name: Run Rector
+      # Run rector for PHP 7.X but not 8.0, rector is currently blowing up with PHP 8.0
 #      if: matrix.php == '7.4'
-#      run: vendor/bin/rector process src --dry-run
+      run: vendor/bin/rector process --dry-run
 #
 #    - name: Run Psalm
 #      # Run psalm for PHP 7.4 & 8.0 but not 7.2 & 7.3, psalm is currently blowing up with PHP 7.2 & 7.3

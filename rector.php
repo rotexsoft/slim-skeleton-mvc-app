@@ -6,7 +6,10 @@ use Rector\TypeDeclaration\Rector\ClassMethod\AddVoidReturnTypeWhereNoReturnRect
 
 return RectorConfig::configure()
     ->withPaths([
+        __DIR__ . '/src/AppEnvironments.php',
         __DIR__ . '/src/AppErrorHandler.php',
+        __DIR__ . '/src/AppSettingsKeys.php',
+        __DIR__ . '/src/ContainerKeys.php',
         __DIR__ . '/src/smvc-tools/post-composer-create-project.php',
         __DIR__ . '/src/controllers',
     ])

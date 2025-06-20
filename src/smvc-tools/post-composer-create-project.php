@@ -180,7 +180,7 @@ class SMVC_PostComposerCreateHandler {
 
         while(false !== ( $file = readdir($dir)) ) {
 
-            if (( $file != '.' ) && ( $file != '..' )) {
+            if (( $file !== '.' ) && ( $file !== '..' )) {
 
                 $full = $src . '/' . $file;
 
