@@ -11,6 +11,6 @@ namespace SlimSkeletonMvcApp;
 class ContainerKeys extends \SlimMvcTools\ContainerKeys {
     
     // Add more public constants that you want to be keys 
-    // for container items in you application below
+    // for container items in your application below
     
 }
