@@ -35,7 +35,7 @@ try {
     //                     
     //                     You can safely & should commit dependencies.php to your source 
     //                     control repo (e.g. Git). Sensitive app settings can be injected 
-    //                     into dependencies.php via the $app_settings variable, you would 
+    //                     into dependencies.php via the $appSettings variable, you would 
     //                     never need to directly store sensitive credentials in dependencies.php.
     // 
     // 3. env.php          Returns any one of \SlimSkeletonMvcApp\AppEnvironments::DEV, \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION, 
@@ -150,11 +150,11 @@ try {
 
     ///////////////////////////////////////////////
     // load app settings from app-settings.php
-    $app_settings = require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
+    $appSettings = require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'app-settings.php';
 
     // If true, the mvc routes will be enabled. If false, then you must explicitly
     // define all the routes for your application inside config/routes-and-middlewares.php
-    define( 'SMVC_APP_USE_MVC_ROUTES', ((bool)$app_settings[AppSettingsKeys::USE_MVC_ROUTES]) );
+    define( 'SMVC_APP_USE_MVC_ROUTES', ((bool)$appSettings[AppSettingsKeys::USE_MVC_ROUTES]) );
 
     // If true, the string `action` will be prepended to action method name (if the
     // method name does not already start with the string `action`). The resulting
@@ -162,18 +162,18 @@ try {
     // If false, then action method names will only be converted to camel
     // case before being executed.
     // NOTE: This setting only applies to the MVC routes below if 
-    //       $app_settings[AppSettingsKeys::USE_MVC_ROUTES] === true:
+    //       $appSettings[AppSettingsKeys::USE_MVC_ROUTES] === true:
     //          '/'
     //          '/{controller}[/]'
     //          '/{controller}/{action}[/{parameters:.+}]'
     //          '/{controller}/{action}/'
-    define( 'SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', ((bool)$app_settings[AppSettingsKeys::AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES]) );
+    define( 'SMVC_APP_AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES', ((bool)$appSettings[AppSettingsKeys::AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES]) );
 
     // This is used to create a controller object to handle the default / route.
     // Must be prefixed with the namespace if the controller class is in a namespace.
-    if(is_string($app_settings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME]) && $app_settings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME] !== '' ) {
+    if(is_string($appSettings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME]) && $appSettings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME] !== '' ) {
 
-        define('SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', $app_settings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME]);
+        define('SMVC_APP_DEFAULT_CONTROLLER_CLASS_NAME', $appSettings[AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME]);
 
     } else {
 
@@ -188,9 +188,9 @@ try {
     // to handle the default / route. This method should return a response string (ie.
     // valid html) or a PSR 7 response object containing valid html in its body.
     // This default action / method should accept no arguments / parameters.
-    if(is_string($app_settings[AppSettingsKeys::DEFAULT_ACTION_NAME]) && $app_settings[AppSettingsKeys::DEFAULT_ACTION_NAME] !== '' ) {
+    if(is_string($appSettings[AppSettingsKeys::DEFAULT_ACTION_NAME]) && $appSettings[AppSettingsKeys::DEFAULT_ACTION_NAME] !== '' ) {
 
-        define('SMVC_APP_DEFAULT_ACTION_NAME', $app_settings[AppSettingsKeys::DEFAULT_ACTION_NAME]);
+        define('SMVC_APP_DEFAULT_ACTION_NAME', $appSettings[AppSettingsKeys::DEFAULT_ACTION_NAME]);
 
     } else {
 
@@ -206,7 +206,7 @@ try {
     $container = require_once "{$smvc_root_dir}config". DIRECTORY_SEPARATOR.'dependencies.php';
 
     $app = AppFactory::create();
-    $app->setBasePath($app_settings[AppSettingsKeys::APP_BASE_PATH]); // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
+    $app->setBasePath($appSettings[AppSettingsKeys::APP_BASE_PATH]); // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
 
     ////////////////////////////////////////////////////////////////////////////////
     // Load app specific and slim mvc route definitions.

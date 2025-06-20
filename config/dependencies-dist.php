@@ -16,7 +16,7 @@ use \SlimSkeletonMvcApp\ContainerKeys,
 // See https://github.com/silexphp/Pimple for documentation on how to properly
 // use \SlimMvcTools\Container which extends \Pimple\Container
 $container = new \SlimMvcTools\Container();
-$container[ContainerKeys::APP_SETTINGS] = $app_settings;
+$container[ContainerKeys::APP_SETTINGS] = $appSettings;
 
 // See https://learn.microsoft.com/en-us/cpp/c-runtime-library/language-strings?view=msvc-170
 $container[ContainerKeys::DEFAULT_LOCALE] = 'en_US';
@@ -25,19 +25,19 @@ $container[ContainerKeys::LOCALE_OBJ] = function (ContainerInterface $c) { // An
 
     // See https://packagist.org/packages/vespula/locale
     $ds = DIRECTORY_SEPARATOR;
-    $locale_obj = new \Vespula\Locale\Locale($c[ContainerKeys::DEFAULT_LOCALE]);
-    $path_2_locale_language_files = SMVC_APP_ROOT_PATH.$ds.'config'.$ds.'languages';        
-    $locale_obj->load($path_2_locale_language_files); //load local entries for base controller
+    $localeObj = new \Vespula\Locale\Locale($c[ContainerKeys::DEFAULT_LOCALE]);
+    $pathToLocaleLanguageFiles = SMVC_APP_ROOT_PATH.$ds.'config'.$ds.'languages';        
+    $localeObj->load($pathToLocaleLanguageFiles); //load local entries for base controller
     
     // Try to update to previously selected language if stored in session
     if (
         session_status() === \PHP_SESSION_ACTIVE
         && array_key_exists(BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG, $_SESSION)
     ) {
-        $locale_obj->setCode($_SESSION[BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG]);
+        $localeObj->setCode($_SESSION[BaseController::SESSN_PARAM_CURRENT_LOCALE_LANG]);
     }
     
-    return $locale_obj;
+    return $localeObj;
 };
 
 // A PSR 3 / PSR Log Compliant logger
@@ -45,9 +45,9 @@ $container[ContainerKeys::LOGGER] = function (ContainerInterface $c) {
     
     // See https://packagist.org/packages/vespula/log
     $ds = DIRECTORY_SEPARATOR;
-    $log_type = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
+    $logType = \Vespula\Log\Adapter\ErrorLog::TYPE_FILE;
     $file = SMVC_APP_ROOT_PATH . "{$ds}logs{$ds}daily_log_" . date('Y_M_d') . '.txt';
-    $adapter = new \Vespula\Log\Adapter\ErrorLog($log_type , $file);
+    $adapter = new \Vespula\Log\Adapter\ErrorLog($logType , $file);
     $adapter->setMessageFormat('[{timestamp}] [{level}] {message}');
     $adapter->setMinLevel(\Psr\Log\LogLevel::DEBUG);
     $adapter->setDateFormat('Y-M-d g:i:s A');
@@ -76,11 +76,11 @@ $container[ContainerKeys::LAYOUT_RENDERER]  = $container->factory(function (Cont
     // Return a new instance on each access to 
     // $container[ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
-    $layout_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_layout_files]);
-    $layout_renderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
+    $pathToLayoutFiles = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
+    $layoutRenderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$pathToLayoutFiles]);
+    $layoutRenderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
     
-    return $layout_renderer;
+    return $layoutRenderer;
 });
 
 // Object for rendering view files
@@ -90,11 +90,11 @@ $container[ContainerKeys::VIEW_RENDERER] = $container->factory(function (Contain
     // Return a new instance on each access to 
     // $container[ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
-    $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
-    $view_renderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$path_2_view_files]);
-    $view_renderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
+    $pathToViewFiles = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
+    $viewRenderer = new \Rotexsoft\FileRenderer\Renderer('', [], [$pathToViewFiles]);
+    $viewRenderer->setVar('__localeObj', $c[ContainerKeys::LOCALE_OBJ]);
 
-    return $view_renderer;
+    return $viewRenderer;
 });
 
 ////////////////////////////////////////////////////////////////////////////
@@ -134,9 +134,9 @@ SQL;
     //Optionally pass a maximum idle time and a time until the session 
     //expires (in seconds)
     $expire = 3600;
-    $max_idle = 1200;
-    $session_start_settings = $c->get(ContainerKeys::APP_SETTINGS)[AppSettingsKeys::SESSION_START_OPTIONS];
-    $session = new \Vespula\Auth\Session\Session($max_idle, $expire, null, $session_start_settings);
+    $maxIdle = 1200;
+    $sessionStartSettings = $c->get(ContainerKeys::APP_SETTINGS)[AppSettingsKeys::SESSION_START_OPTIONS];
+    $session = new \Vespula\Auth\Session\Session($maxIdle, $expire, null, $sessionStartSettings);
 
     $cols = ['username', 'password'];
     $from = 'user_authentication_accounts';
