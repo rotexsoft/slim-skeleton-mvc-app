@@ -30,10 +30,10 @@ return [
     ///////////////////////////////
     // Slim PHP Related Settings
     //////////////////////////////
-    'displayErrorDetails' => (sMVC_GetCurrentAppEnvironment() !== \SlimMvcTools\AppEnvironments::PRODUCTION), // should be always false in production
+    'displayErrorDetails' => (sMVC_GetCurrentAppEnvironment() !== \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always false in production
     'logErrors' => true,
     'logErrorDetails' => true,
-    'addContentLengthHeader' => (sMVC_GetCurrentAppEnvironment() === \SlimMvcTools\AppEnvironments::PRODUCTION), // should be always true in production
+    'addContentLengthHeader' => (sMVC_GetCurrentAppEnvironment() === \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always true in production
     /////////////////////////////////////
     // End of Slim PHP Related Settings
     /////////////////////////////////////

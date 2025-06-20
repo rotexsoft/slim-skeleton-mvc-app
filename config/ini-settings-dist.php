@@ -2,12 +2,12 @@
 /** Set your ini settings here */
 
 ini_set('error_reporting', E_ALL);
-ini_set('display_errors', (sMVC_GetCurrentAppEnvironment() === \SlimMvcTools\AppEnvironments::PRODUCTION ? '0' : '1') );
+ini_set('display_errors', (sMVC_GetCurrentAppEnvironment() === \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION ? '0' : '1') );
 ini_set('html_errors', true);
 ini_set('date.timezone', 'America/Edmonton');
 ini_set('session.save_path', SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . 'session');
 
-if( sMVC_GetCurrentAppEnvironment() !== \SlimMvcTools\AppEnvironments::DEV ) {
+if( sMVC_GetCurrentAppEnvironment() !== \SlimSkeletonMvcApp\AppEnvironments::DEV ) {
     
     ini_set('error_reporting',  E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
 }

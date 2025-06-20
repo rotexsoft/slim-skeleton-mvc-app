@@ -37,8 +37,8 @@ try {
     //                     into dependencies.php via the $app_settings variable, you would 
     //                     never need to directly store sensitive credentials in dependencies.php.
     // 
-    // 3. env.php          Returns any one of \SlimMvcTools\AppEnvironments::DEV, \SlimMvcTools\AppEnvironments::PRODUCTION, 
-    //                     \SlimMvcTools\AppEnvironments::STAGING or \SlimMvcTools\AppEnvironments::TESTING. It basically
+    // 3. env.php          Returns any one of \SlimSkeletonMvcApp\AppEnvironments::DEV, \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION, 
+    //                     \SlimSkeletonMvcApp\AppEnvironments::STAGING or \SlimSkeletonMvcApp\AppEnvironments::TESTING. It basically
     //                     represents the mode your application is running in.
     //                     
     //                     Use sMVC_GetCurrentAppEnvironment() to get the value
@@ -47,7 +47,7 @@ try {
     //                     
     //                     This file should not be committed to your source control repo
     //                     (e.g. Git). A new copy of this file with default value of 
-    //                     \SlimMvcTools\AppEnvironments::DEV will be generated for your application 
+    //                     \SlimSkeletonMvcApp\AppEnvironments::DEV will be generated for your application 
     //                     when you run composer update or install (if the file does 
     //                     not exist).
     // 
@@ -97,8 +97,8 @@ try {
      * This function detects which environment your web-app is running in
      * (i.e. one of Production, Development, Staging or Testing).
      *
-     * NOTE: Make sure you edit ../config/env.php to return one of \SlimMvcTools\AppEnvironments::DEV,
-     *       \SlimMvcTools\AppEnvironments::PRODUCTION, \SlimMvcTools\AppEnvironments::STAGING or \SlimMvcTools\AppEnvironments::TESTING
+     * NOTE: Make sure you edit ../config/env.php to return one of \SlimSkeletonMvcApp\AppEnvironments::DEV,
+     *       \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION, \SlimSkeletonMvcApp\AppEnvironments::STAGING or \SlimSkeletonMvcApp\AppEnvironments::TESTING
      *       relevant to the environment you are installing your web-app.
      */
     function sMVC_GetCurrentAppEnvironment(): string {
