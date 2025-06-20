@@ -91,13 +91,13 @@
             
         > It is recommended that you first create a base controller for your application, which will contain all the logic that will be common to all your application's other controllers. The other controllers should extend your application's base controller.
 
-    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** in **./config/dependencies.php**
+    > Make sure you add the namespace for your apps controller classes to the array referenced by **$container[\SlimSkeletonMvcApp\ContainerKeys::NAMESPACES_4_CONTROLLERS]** in **./config/dependencies.php**
 
 
 ## Key Directories and Configuration
 * **`config`:** Contains files for configuring the application
 
-* **`config/languages`:** Contains localization files for language specific pieces of text used by **$container[\SlimMvcTools\ContainerKeys::LOCALE_OBJ]** in **./config/dependencies.php** 
+* **`config/languages`:** Contains localization files for language specific pieces of text used by **$container[\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ]** in **./config/dependencies.php** 
 
 * **`logs`:** Log files
 
@@ -128,7 +128,7 @@
 
 * **`README.md`:** Add documentation for your application here.
 
-* **`config/app-settings.php`:** Application settings and other environment specific settings needed by your application (like database credentials, etc.) should be stored here. These settings will be stored in **$container[\SlimMvcTools\ContainerKeys::APP_SETTINGS]** in **./config/dependencies.php**.
+* **`config/app-settings.php`:** Application settings and other environment specific settings needed by your application (like database credentials, etc.) should be stored here. These settings will be stored in **$container[\SlimSkeletonMvcApp\ContainerKeys::APP_SETTINGS]** in **./config/dependencies.php**.
 
     * This file should not be committed to version control (it has already been added (by default) to the `.gitignore` file for your application if you are using **git** for version control). Instead, it should be created by making a copy of **`config/app-settings-dist.php`** and then configured uniquely for each environment your application is to be deployed to.
 
@@ -139,13 +139,13 @@
 
     * Below are the items that are registered in the container:
 
-        * **`\SlimMvcTools\ContainerKeys::APP_SETTINGS:`** The array returned by **`config/app-settings.php`**
+        * **`\SlimSkeletonMvcApp\ContainerKeys::APP_SETTINGS:`** The array returned by **`config/app-settings.php`**
 
-        * **`\SlimMvcTools\ContainerKeys::DEFAULT_LOCALE:`** the default locale language code for localized strings of text in your application
+        * **`\SlimSkeletonMvcApp\ContainerKeys::DEFAULT_LOCALE:`** the default locale language code for localized strings of text in your application
 
-        * **`\SlimMvcTools\ContainerKeys::VALID_LOCALES:`** an array of allowable locale language codes for localized strings of text in your application
+        * **`\SlimSkeletonMvcApp\ContainerKeys::VALID_LOCALES:`** an array of allowable locale language codes for localized strings of text in your application
 
-        * **`\SlimMvcTools\ContainerKeys::LOCALE_OBJ:`** an object that is used to retrieve the appropriate localized strings of text in your application
+        * **`\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ:`** an object that is used to retrieve the appropriate localized strings of text in your application
 
             ```php
             <?php
@@ -153,11 +153,11 @@
                 $this->vespula_locale;
 
                 //or
-                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LOCALE_OBJ);
+                $this->getContainerItem(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ);
             ?>
             ```
 
-        * **`\SlimMvcTools\ContainerKeys::LOGGER:`** Any PSR-3 compliant logger that can be used for logging in your application.
+        * **`\SlimSkeletonMvcApp\ContainerKeys::LOGGER:`** Any PSR-3 compliant logger that can be used for logging in your application.
 
             ```php
             <?php
@@ -165,15 +165,15 @@
                 $this->logger;
 
                 //or
-                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LOGGER);
+                $this->getContainerItem(\SlimSkeletonMvcApp\ContainerKeys::LOGGER);
             ?>
             ```
 
-        * **`\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update this array. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\SlimSkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
+        * **`\SlimSkeletonMvcApp\ContainerKeys::NAMESPACES_4_CONTROLLERS:`** An array containing a list of the namespaces that your application's controller classes belong to. If all your controllers are in the global namespace, then you don't need to update this array. The default namespaces that ship with this package are **`'\\SlimMvcTools\\Controllers\\'`** (the namespace where **`BaseController`** belongs) and **`'\\SlimSkeletonMvcApp\\Controllers\\'`** (the namespace where **`Hello`** belongs).  
 
             * You still need to make sure that autoloading is properly configured in **./composer.json**. The **./composer.json** that ships with this framework uses the **classmap** method in the **autoload** section of **./composer.json** (meaning that you have to run the **`composer dumpautoload`** command each time you add a new class file to your **./src** folder). You can decide to use the **PSR-4** directive in the **autoload** section of your application's **./composer.json**.
 
-        * **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER:`** An object used for rendering layout-template(s) for your application (see the **`renderLayout`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -183,7 +183,7 @@
                                         // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
-                $this->getContainerItem(\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER); // keep in mind that accessing it like
+                $this->getContainerItem(\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER); // keep in mind that accessing it like
                                                               // this returns a new instance with
                                                               // each call.
 
@@ -193,7 +193,7 @@
             ?>
             ```
 
-        * **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
+        * **`\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER:`** An object used for rendering view file(s) associated with each action method in the controller(s) for your application (see the **`renderView`** method in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://github.com/rotexsoft/file-renderer for more details on how to configure this object.
 
             ```php
             <?php
@@ -203,7 +203,7 @@
                                       // \SlimMvcTools\Controllers\BaseController.
 
                 // You can also access this renderer from within your controller methods like so:
-                $this->getContainerItem(\SlimMvcTools\ContainerKeys::VIEW_RENDERER); // keep in mind that accessing it like
+                $this->getContainerItem(\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER); // keep in mind that accessing it like
                                                             // this returns a new instance with
                                                             // each call.
 
@@ -213,7 +213,7 @@
             ?>
             ```
 
-        * **`\SlimMvcTools\ContainerKeys::VESPULA_AUTH:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
+        * **`\SlimSkeletonMvcApp\ContainerKeys::VESPULA_AUTH:`** An object used by the **`BaseController`** to implement authentication functionality (see the **`isLoggedIn`**, **`actionLogin`**, **`actionLogout`** and **`actionLoginStatus`** methods in **`vendor/rotexsoft/slim-skeleton-mvc-tools/src/BaseController.php`**). See https://bitbucket.org/jelofson/vespula.auth for more details on how to configure this object.
 
             ```php
             <?php
@@ -221,13 +221,13 @@
                 $this->vespula_auth;
 
                 // or
-                $this->getContainerItem(\SlimMvcTools\ContainerKeys::VESPULA_AUTH);
+                $this->getContainerItem(\SlimSkeletonMvcApp\ContainerKeys::VESPULA_AUTH);
             ?>
             ```
 
-        * **`\SlimMvcTools\ContainerKeys::NEW_REQUEST_OBJECT:`** Returns a new PSR 7 Request object on each access 
+        * **`\SlimSkeletonMvcApp\ContainerKeys::NEW_REQUEST_OBJECT:`** Returns a new PSR 7 Request object on each access 
 
-        * **`\SlimMvcTools\ContainerKeys::NEW_RESPONSE_OBJECT:`** Returns a new PSR 7 Response object on each access 
+        * **`\SlimSkeletonMvcApp\ContainerKeys::NEW_RESPONSE_OBJECT:`** Returns a new PSR 7 Response object on each access 
 
 * **`config/env.php`:** Edit it to define your application's environment. It should return one of **\SlimMvcTools\AppEnvironments::DEV**, **\SlimMvcTools\AppEnvironments::PRODUCTION**, **\SlimMvcTools\AppEnvironments::STAGING** or **\SlimMvcTools\AppEnvironments::TESTING** relevant to the environment you are installing your web-application.
 

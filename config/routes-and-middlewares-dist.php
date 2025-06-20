@@ -124,13 +124,13 @@ $error_middleware = $app->addErrorMiddleware(
     $app_settings['displayErrorDetails'],
     $app_settings['logErrors'], 
     $app_settings['logErrorDetails'],
-    $container->get(\SlimMvcTools\ContainerKeys::LOGGER)
+    $container->get(\SlimSkeletonMvcApp\ContainerKeys::LOGGER)
 );
 $error_middleware->setDefaultErrorHandler(
     new $app_settings['error_handler_class'](
         $app->getCallableResolver(),
         $app->getResponseFactory(),
-        $container->get(\SlimMvcTools\ContainerKeys::LOGGER)
+        $container->get(\SlimSkeletonMvcApp\ContainerKeys::LOGGER)
     )
 );
 $error_handler = $error_middleware->getDefaultErrorHandler();
@@ -144,30 +144,30 @@ if($error_handler instanceof \SlimMvcTools\ErrorHandler) {
 
 /** @var \SlimMvcTools\HtmlErrorRenderer $html_error_renderer */
 $html_error_renderer = new $app_settings['html_renderer_class']($app_settings['error_template_file']);
-$html_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
-$html_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+$html_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$html_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\LogErrorRenderer $log_error_renderer */
 $log_error_renderer = new $app_settings['log_renderer_class']();
-$log_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
-$log_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+$log_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$log_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\JsonErrorRenderer $json_error_renderer */
 $json_error_renderer = new $app_settings['json_renderer_class']();
-$json_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
-$json_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+$json_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$json_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\XmlErrorRenderer $xml_error_renderer */
 $xml_error_renderer = new $app_settings['xml_renderer_class']();
-$xml_error_renderer->setDefaultErrorTitle($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
-$xml_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
+$xml_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
+$xml_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 if($app_settings['displayErrorDetails']) {
     
-    $html_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
-    $log_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
-    $json_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
-    $xml_error_renderer->setDefaultErrorDescription($container->get(\SlimMvcTools\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $html_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $log_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $json_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
+    $xml_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
 } 
 
 $error_handler->registerErrorRenderer('text/html', $html_error_renderer);

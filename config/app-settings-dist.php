@@ -22,7 +22,7 @@ return [
     //
     //  Put environment specific settings below.
     //  You can access the settings via your app's container
-    //  object (e.g. $c) like this: $c->get(\SlimMvcTools\ContainerKeys::APP_SETTINGS)['specific_setting_1']
+    //  object (e.g. $c) like this: $c->get(\SlimSkeletonMvcApp\ContainerKeys::APP_SETTINGS)['specific_setting_1']
     //  where `specific_setting_1` can be replaced with the actual setting name.
     // 
     ////////////////////////////////////////////////////////////////////////////

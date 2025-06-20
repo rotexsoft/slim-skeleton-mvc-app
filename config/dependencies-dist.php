@@ -1,5 +1,5 @@
 <?php
-use \SlimMvcTools\ContainerKeys,
+use \SlimSkeletonMvcApp\ContainerKeys,
     \SlimMvcTools\Controllers\BaseController,
     \Psr\Container\ContainerInterface;
 

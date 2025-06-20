@@ -157,7 +157,7 @@ and delete) that can login to our app.
     within **\MovieCatalog\Controllers\Users**.
 
 Next, we add the value (**`'\\MovieCatalog\\Controllers\\'`**) to the 
-**$container[\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS]** array in the dependencies file **./config/dependencies.php**.
+**$container[\SlimSkeletonMvcApp\ContainerKeys::NAMESPACES_4_CONTROLLERS]** array in the dependencies file **./config/dependencies.php**.
 This would be used by the MVC routing mechanism when trying to create an instance
 of the controller class (whose name was extracted from the request url).
 
@@ -788,7 +788,7 @@ configured. If you look closely at the edited template file, you will notice the
 following **php** variables:
 
 - **$__localeObj**
-    - It is injected in the dependencies files in the **\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER** & **\SlimMvcTools\ContainerKeys::VIEW_RENDERER** which are responsible for rendering view and layout files
+    - It is injected in the dependencies files in the **\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER** & **\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER** which are responsible for rendering view and layout files
 - **$controller_object**
     - this variable is the instance of the controller class that was used to render the layout file and gets automatically injected into layout files in **\SlimMvcTools\Controllers\BaseController->renderLayout(...)**
 - **$last_flash_message**

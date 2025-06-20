@@ -254,7 +254,7 @@ try {
         
         try {
             
-            $logger = $container->get(\SlimMvcTools\ContainerKeys::LOGGER);
+            $logger = $container->get(\SlimSkeletonMvcApp\ContainerKeys::LOGGER);
             
             if($logger instanceof \Psr\Log\LoggerInterface) {
                 

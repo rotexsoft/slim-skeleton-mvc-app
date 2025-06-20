@@ -55,7 +55,7 @@ class Hello extends \SlimMvcTools\Controllers\BaseController
     * **`The default route with default controller and default action route:`** responds to the **`/`** route by creating an instance of the default controller (defined via **`default_controller_class_name`**) and calling the default action method (defined via **`default_action_name`**) on the controller object and returning the result as a response object (if the method returns a string the default route handler will write the string into a response object and return that object). 
 
     * **`The controller with action and optional params route:`** The mvc route handler responds to the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes by going through the steps below:
-        * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`auto_prepend_action_to_action_method_names`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid class name, it then goes on to check if the class exists in the global namespace first, and if not, then it continues checking in the namespaces registered in the container (**\SlimMvcTools\ContainerKeys::NAMESPACES_4_CONTROLLERS**). If the class does not exist, it will throw a **\Slim\Exception\HttpNotFoundException**. If the class exists and is not an instance / sub-class of **\SlimMvcTools\Controllers\BaseController**, a **\Slim\Exception\HttpBadRequestException** will be thrown. Else an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will throw a **\Slim\Exception\HttpNotFoundException**. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (i.e. **$instance_of_hello_controller->actionWorld('john', 'doe')** ) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter (i.e. **$instance_of_hello_controller->actionWorld()** ) this happens when the **`/{controller}/{action}/`** route is matched. 
+        * extracting the **`{controller}`**, **`{action}`** and **`{parameters}`** segments of a request uri. Eg. http://localhost:8888/hello/action-world/john/doe will lead to `hello` being extracted as the value of the **`{controller}`** segment, `action-world` being extracted as the value of the **`{action}`** segment and `['john', 'doe']` as the value of the **`{parameters}`** segment. It then converts the value of the **`{action}`** segment to camel case; in this case from `action-world` to `actionWorld`. If **`auto_prepend_action_to_action_method_names`** is set to `true` then the handler will try to prepend the string `'action'` to the camel-cased value of the **`{action}`** segment; however in this case it will not prepend the string `'action'` to `actionWorld` since it already starts with the string `action`. It then goes on to validate that `actionWorld` is a valid name for a php class' method name, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid method name it tries to create an instance of a controller class by first converting the value of the **`{controller}`** segment, in this case `hello`, to studly case which will lead to `hello` being converted to `Hello` and it then goes on to validate that `Hello` is a valid name for a php class, if it's an invalid name it will throw a **\Slim\Exception\HttpBadRequestException**. If it's a valid class name, it then goes on to check if the class exists in the global namespace first, and if not, then it continues checking in the namespaces registered in the container (**\SlimSkeletonMvcApp\ContainerKeys::NAMESPACES_4_CONTROLLERS**). If the class does not exist, it will throw a **\Slim\Exception\HttpNotFoundException**. If the class exists and is not an instance / sub-class of **\SlimMvcTools\Controllers\BaseController**, a **\Slim\Exception\HttpBadRequestException** will be thrown. Else an instance will be created. The handler then goes on to check if the method named `actionWorld` exists in the instance of the controller class just created. If the method doesn't exist, the handler will throw a **\Slim\Exception\HttpNotFoundException**. Else if the method exists it will be called on the created controller object with the values of the **`{parameters}`** segment (in this case `['john', 'doe']`) as arguments (i.e. **$instance_of_hello_controller->actionWorld('john', 'doe')** ) and the result will be returned as a response object (if the method returns a string the handler will write the string into a response object and return that object). Note that if there are no values supplied for the **`{parameters}`** segment, the action method will be called on the controller with no parameter (i.e. **$instance_of_hello_controller->actionWorld()** ) this happens when the **`/{controller}/{action}/`** route is matched. 
         
     * **`The controller with no action and no params route:`** `/{controller}[/]`: works in a similar manner to how the **`/{controller}/{action}[/{parameters:.+}]`** and **`/{controller}/{action}/`** routes are handled. Except that the value of **`default_action_name`** is used for the method name and the method will always be invoked with no parameters.
 
@@ -183,9 +183,9 @@ and php code expected), no need to learn any new templating language or syntax.
 * **`renderLayout( string $file_name, array $data = ['content'=>'Content should be placed here!'] ): string:`** for rendering 
 the layout file for your application. This file should contain the overall html structure for all your website's 
 pages. Layout files should be located in **`./src/layout-templates`**, you can change this location or add extra 
-location(s) by updating the **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER`** section in **`./config/dependencies.php`**. Just call 
+location(s) by updating the **`\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER`** section in **`./config/dependencies.php`**. Just call 
 **renderLayout** with the name of the php layout file you want to render (e.g. `some-page.php` which will be 
-searched for in **`./src/layout-templates`** or whatever location(s) were registered in the **`\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER`** 
+searched for in **`./src/layout-templates`** or whatever location(s) were registered in the **`\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER`** 
 section in **`./config/dependencies.php`**) and an optional associative array whose key(s) will be injected into the 
 layout template file as variable(s). 
 
@@ -257,13 +257,13 @@ words separated with dashes. For example, view files for a controller named **Po
 **src/views/post-comments**. If a view file cannot be located in  **`src/views/<controller_name_from_uri>`**, 
 **renderView($file_name, array $data=[])** will search the view folder(s) of the parent classes of the specified 
 controller (NOTE: the view folder associated with **\SlimMvcTools\Controllers\BaseController** is **src/views/base**, 
-you can change this location by updating the **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER`** section in **`./config/dependencies.php`**). 
+you can change this location by updating the **`\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER`** section in **`./config/dependencies.php`**). 
 
     * For example, if the **PostComments** controller extends a controller named **MyAppBase** which in turn extends 
     **\SlimMvcTools\Controllers\BaseController**, then view files for the **PostComments** controller which cannot 
     be found in **src/views/post-comments** will be searched for first in **src/views/my-app-base** and if not 
     found in **src/views/my-app-base** will be finally searched for in **src/views/base** (or whatever location
-    you set for the view folder of **\SlimMvcTools\Controllers\BaseController** in the **`\SlimMvcTools\ContainerKeys::VIEW_RENDERER`** 
+    you set for the view folder of **\SlimMvcTools\Controllers\BaseController** in the **`\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER`** 
     section in **`./config/dependencies.php`**). If the specified view file cannot be found in any of the paths 
     then an exception would be thrown letting you know that the file could not be found in the expected paths.
     
@@ -410,16 +410,16 @@ application, you can easily create helper functions that will be accessible to a
 methods.
 
 To accomplish this, you need to first create a sub-class of **\Rotexsoft\FileRenderer\Renderer** and swap out 
-instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER** 
-and **\SlimMvcTools\ContainerKeys::VIEW_RENDERER** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
+instances of **Rotexsoft\FileRenderer\Renderer** with instances of this sub-class in the **\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER** 
+and **\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER** entries in the container in **`./config/dependencies.php`**. Assuming your sub-class is
 **\MyApp\Utils\MyCustomFileRenderer**, your updated dependencies entries would look like below:
 
 ```php
 <?php
 //Object for rendering layout files
-$container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER] = $container->factory(function () {
+$container[\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER] = $container->factory(function () {
     
-    //return a new instance on each access to $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER]
+    //return a new instance on each access to $container[\SlimSkeletonMvcApp\ContainerKeys::LAYOUT_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_layout_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'layout-templates';
     $layout_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_layout_files]);
@@ -428,9 +428,9 @@ $container[\SlimMvcTools\ContainerKeys::LAYOUT_RENDERER] = $container->factory(f
 });
 
 //Object for rendering view files
-$container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER] = $container->factory(function () {
+$container[\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER] = $container->factory(function () {
     
-    //return a new instance on each access to $container[\SlimMvcTools\ContainerKeys::VIEW_RENDERER]
+    //return a new instance on each access to $container[\SlimSkeletonMvcApp\ContainerKeys::VIEW_RENDERER]
     $ds = DIRECTORY_SEPARATOR;
     $path_2_view_files = SMVC_APP_ROOT_PATH.$ds.'src'.$ds.'views'."{$ds}base";
     $view_renderer = new \MyApp\Utils\MyCustomFileRenderer('', [], [$path_2_view_files]);
@@ -466,7 +466,7 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 
 ### SMVC Helper Functions
-* **`sMVC_AddLangSelectionParamToUri(\Psr\Http\Message\UriInterface $uri, string $lang='en_US') : string`:** a helper function for adding lanuage toggle query string parameters to PSR-7 uri objects. See **./src/layout-templates/main-template.php** for examples of how this function is used to generate language toggle links in this default layout template that ships with this framework. **\SlimMvcTools\Controllers\BaseController** has an **updateSelectedLanguage()** method that checks for this query string parameter and updates the currently selected language used by the Locale object in the container whose key is **\SlimMvcTools\ContainerKeys::LOCALE_OBJ** each time a controller instance is created.
+* **`sMVC_AddLangSelectionParamToUri(\Psr\Http\Message\UriInterface $uri, string $lang='en_US') : string`:** a helper function for adding lanuage toggle query string parameters to PSR-7 uri objects. See **./src/layout-templates/main-template.php** for examples of how this function is used to generate language toggle links in this default layout template that ships with this framework. **\SlimMvcTools\Controllers\BaseController** has an **updateSelectedLanguage()** method that checks for this query string parameter and updates the currently selected language used by the Locale object in the container whose key is **\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ** each time a controller instance is created.
 
 * **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri,  string $param_name, string $param_value): \Psr\Http\Message\UriInterface`:** a helper function for adding query string parameters to PSR-7 uri objects.
 
