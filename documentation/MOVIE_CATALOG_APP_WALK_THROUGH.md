@@ -162,15 +162,15 @@ This would be used by the MVC routing mechanism when trying to create an instanc
 of the controller class (whose name was extracted from the request url).
 
 We then go on to edit **`./config/app-settings.php`** by assigning the value of **`true`** 
-to `auto_prepend_action_to_action_method_names ` and the value of 
+to `AppSettingsKeys::AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES` and the value of 
 **`\MovieCatalog\Controllers\MovieListings::class`** to 
-`default_controller_class_name`. 
+`AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME`. 
 
 The first edit eliminates the need to prepend `action-` to action method names 
 in the request url and the second edit makes 
 **`\MovieCatalog\Controllers\MovieListings'`** the default controller for our app. 
 
-Since `default_action_name` has a default value of **`'actionIndex'`**, 
+Since `AppSettingsKeys::DEFAULT_ACTION_NAME` has a default value of **`'actionIndex'`**, 
 this means that the **`'actionIndex'`** method in 
 **`\MovieCatalog\Controllers\MovieListings'`** would be used to handle the 
 **`/`** route in our app.

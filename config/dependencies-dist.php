@@ -1,5 +1,6 @@
 <?php
 use \SlimSkeletonMvcApp\ContainerKeys,
+    \SlimSkeletonMvcApp\AppSettingsKeys,
     \SlimMvcTools\Controllers\BaseController,
     \Psr\Container\ContainerInterface;
 
@@ -134,7 +135,7 @@ SQL;
     //expires (in seconds)
     $expire = 3600;
     $max_idle = 1200;
-    $session_start_settings = $c->get(ContainerKeys::APP_SETTINGS)['session_start_options'];
+    $session_start_settings = $c->get(ContainerKeys::APP_SETTINGS)[AppSettingsKeys::SESSION_START_OPTIONS];
     $session = new \Vespula\Auth\Session\Session($max_idle, $expire, null, $session_start_settings);
 
     $cols = ['username', 'password'];

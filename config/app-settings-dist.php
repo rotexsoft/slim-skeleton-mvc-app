@@ -1,4 +1,5 @@
 <?php
+use \SlimSkeletonMvcApp\AppSettingsKeys;
 ////////////////////////////////////////////////////////////////////////////////
 // ./config/app-settings-dist.php is used to generate ./config/app-settings.php 
 // when setting up your app in a new environment.
@@ -30,10 +31,10 @@ return [
     ///////////////////////////////
     // Slim PHP Related Settings
     //////////////////////////////
-    'displayErrorDetails' => (sMVC_GetCurrentAppEnvironment() !== \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always false in production
-    'logErrors' => true,
-    'logErrorDetails' => true,
-    'addContentLengthHeader' => (sMVC_GetCurrentAppEnvironment() === \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always true in production
+    AppSettingsKeys::DISPLAY_ERROR_DETAILS => (sMVC_GetCurrentAppEnvironment() !== \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always false in production
+    AppSettingsKeys::LOG_ERRORS => true,
+    AppSettingsKeys::LOG_ERROR_DETAILS => true,
+    AppSettingsKeys::ADD_CONTENT_LENGTH_HEADER => (sMVC_GetCurrentAppEnvironment() === \SlimSkeletonMvcApp\AppEnvironments::PRODUCTION), // should be always true in production
     /////////////////////////////////////
     // End of Slim PHP Related Settings
     /////////////////////////////////////
@@ -41,23 +42,23 @@ return [
     /////////////////////////////////////////////
     // Your App's Environment Specific Settings
     /////////////////////////////////////////////
-    'app_base_path' => '', // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
-    'error_template_file'=> SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
-                            . 'src' . DIRECTORY_SEPARATOR 
-                            . 'layout-templates' . DIRECTORY_SEPARATOR 
-                            . 'error-template.html',
-    'use_mvc_routes' => true,
-    'mvc_routes_http_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    'auto_prepend_action_to_action_method_names' => false,
-    'default_controller_class_name' => \SlimMvcTools\Controllers\BaseController::class,
-    'default_action_name' => 'actionIndex',
+    AppSettingsKeys::APP_BASE_PATH => '', // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
+    AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH => SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
+                                                . 'src' . DIRECTORY_SEPARATOR 
+                                                . 'layout-templates' . DIRECTORY_SEPARATOR 
+                                                . 'error-template.html',
+    AppSettingsKeys::USE_MVC_ROUTES => true,
+    AppSettingsKeys::MVC_ROUTES_HTTP_METHODS => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    AppSettingsKeys::AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES => false,
+    AppSettingsKeys::DEFAULT_CONTROLLER_CLASS_NAME => \SlimMvcTools\Controllers\BaseController::class,
+    AppSettingsKeys::DEFAULT_ACTION_NAME => 'actionIndex',
     
-    'error_handler_class' => \SlimSkeletonMvcApp\AppErrorHandler::class,
+    AppSettingsKeys::ERROR_HANDLER_CLASS => \SlimSkeletonMvcApp\AppErrorHandler::class,
     
-    'html_renderer_class' => \SlimMvcTools\HtmlErrorRenderer::class,
-    'json_renderer_class' => \SlimMvcTools\JsonErrorRenderer::class,
-    'log_renderer_class'  => \SlimMvcTools\LogErrorRenderer::class,
-    'xml_renderer_class' => \SlimMvcTools\XmlErrorRenderer::class,
+    AppSettingsKeys::HTML_RENDERER_CLASS => \SlimMvcTools\HtmlErrorRenderer::class,
+    AppSettingsKeys::JSON_RENDERER_CLASS => \SlimMvcTools\JsonErrorRenderer::class,
+    AppSettingsKeys::LOG_RENDERER_CLASS  => \SlimMvcTools\LogErrorRenderer::class,
+    AppSettingsKeys::XML_RENDERER_CLASS => \SlimMvcTools\XmlErrorRenderer::class,
     
     ////////////////////////////////////////////////////////////////////////////
     // Options for PHP's session_start https://www.php.net/manual/en/function.session-start.php
@@ -74,7 +75,7 @@ return [
     // This setting is optional and you don't need to configure it if you don't
     // really need to.
     ////////////////////////////////////////////////////////////////////////////
-    'session_start_options' => [
+    AppSettingsKeys::SESSION_START_OPTIONS => [
 //        "cache_expire" => "180",
 //        "cache_limiter" => "nocache",
 //        "cookie_domain" => "",

@@ -25,7 +25,7 @@
     * **Automatic routing scheme for mapping request urls to methods in Controller classes that are sub-classes of SlimMvcTools\Controllers\BaseController:** urls in the form of
         > `http(s)://server[:port][/][<base-path>/][<controller-name>][/<method-name>][/param1]..[/paramN]`
 
-        can be automatically mapped to be responded to by a specific method in a Controller class, if **use_mvc_routes** is set to **`true`** in **`./config/app-settings.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
+        can be automatically mapped to be responded to by a specific method in a Controller class, if **AppSettingsKeys::USE_MVC_ROUTES** is set to **`true`** in **`./config/app-settings.php`**. Note that items enclosed in `[]` in the url scheme above are optional.
 
         * **`<base-path>`:** this is usually the alias setup in your webserver's configuration file that points to your site's document root folder  (in this case **`./public`**). For example in an apache web-server's configuration file you could have an alias definition like so:
             > Alias /my-app /path/to/my-app/public
@@ -78,7 +78,7 @@
             * This link is mapped to **`\SlimSkeletonMvcApp\Controllers\Hello::actionWorld($name, $another_param)`** under the hood
             * you can do stuff like [http://localhost:8888/hello/action-world/john/doe](http://localhost:8888/hello/action-world/john/doe)
 
-    * The **`action-`** prefix can be omitted from the links above if **auto_prepend_action_to_action_method_names** is set to **`true`** in **`./config/app-settings.php`**
+    * The **`action-`** prefix can be omitted from the links above if **AppSettingsKeys::AUTO_PREPEND_ACTION_TO_ACTION_METHOD_NAMES** is set to **`true`** in **`./config/app-settings.php`**
         * For example [http://localhost:8888/hello/action-login/](http://localhost:8888/hello/action-login/) will become [http://localhost:8888/hello/login/](http://localhost:8888/hello/login/) and [http://localhost:8888/hello/action-there/john/doe](http://localhost:8888/hello/action-there/john/doe) will become [http://localhost:8888/hello/there/john/doe](http://localhost:8888/hello/there/john/doe)
 
 4. If you are getting 404 errors, make sure that url-rewriting is enabled on your web-server.
@@ -237,7 +237,7 @@
 
 * **`config/ini-settings.php`:** Modify ini settings via **`ini_set(..)`** here. Remember to update **`date.timezone`** in this file to match your timezone (see http://php.net/manual/en/timezones.php).
 
-* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v4/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **use_mvc_routes** entry in **`config/app-settings.php`** to false). A default **`/`** route is defined in this file and will be active if  **use_mvc_routes** has a value of **`false`**.
+* **`config/routes-and-middlewares.php`:** Add additional routes and middlewares (see https://www.slimframework.com/docs/v4/concepts/middleware.html for more information on middlewares) for your application here (if needed). You can decide to define all the routes for your application here (in this case set the **AppSettingsKeys::USE_MVC_ROUTES** entry in **`config/app-settings.php`** to false). A default **`/`** route is defined in this file and will be active if  **AppSettingsKeys::USE_MVC_ROUTES** has a value of **`false`**.
 
 * **`public/.htaccess`:** Apache web-server settings.
 
@@ -283,4 +283,10 @@
 
 * **`src/views/hello/world.php`:** View file associated with the **`actionWorld`** method in **`src/controllers/Hello.php`**.
 
-* **`src/AppErrorHandler.php`:** The ErrorHandler class registered with SlimPHP's ErrorMiddleware for handling all your application's errors. You can add extra logic like sending notification emails when errors occur and etc. in your application. See the **error_handler_class** entry in **./config/app-settings.php** and references to **error_handler_class** in **./config/routes-and-middlewares.php** for how this Handler is setup in this framework.
+* **`src/AppEnvironments.php`:** A class containing names for possible environments an application is running as defined as constants, one of which is returned in **config/env.php**. You can add more constants to this class to define custom environment names for your application.
+
+* **`src/AppErrorHandler.php`:** The ErrorHandler class registered with SlimPHP's ErrorMiddleware for handling all your application's errors. You can add extra logic like sending notification emails when errors occur and etc. in your application. See the **AppSettingsKeys::ERROR_HANDLER_CLASS** entry in **./config/app-settings.php** and references to **AppSettingsKeys::ERROR_HANDLER_CLASS** in **./config/routes-and-middlewares.php** for how this Handler is setup in this framework.
+
+* **`src/AppSettingsKeys.php`:** A class containing constants to be used as keys for items in **config/app-settings.php**. You can add more constants to represent keys for custom settings for your application.
+
+* **`src/ContainerKeys.php`:** A class containing constants to be used as keys for container items in **config/dependencies.php**. You can add more constants to represent keys for extra container items specific to your application.

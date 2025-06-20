@@ -1,4 +1,6 @@
 <?php
+use \SlimSkeletonMvcApp\AppSettingsKeys;
+
 ///////////////////////////////////////////////////////////////////////////////////
 // This file contains all route & middleware definitions & every other 
 // modfication(s) you need to make to the $app object.
@@ -85,22 +87,22 @@ use ($route_handler_obj) {
 /////////////////////////////
 if( SMVC_APP_USE_MVC_ROUTES ) {
     
-    $app->map($app_settings['mvc_routes_http_methods'], '/', $smvc_route_handler); // default route
+    $app->map($app_settings[AppSettingsKeys::MVC_ROUTES_HTTP_METHODS], '/', $smvc_route_handler); // default route
     
     $app->map(
-        $app_settings['mvc_routes_http_methods'], 
+        $app_settings[AppSettingsKeys::MVC_ROUTES_HTTP_METHODS], 
         '/{controller}[/]', 
         $smvc_route_handler
     ); // controller with no action and params route handler
     
     $app->map(
-        $app_settings['mvc_routes_http_methods'], 
+        $app_settings[AppSettingsKeys::MVC_ROUTES_HTTP_METHODS], 
         '/{controller}/{action}[/{parameters:.+}]', 
         $smvc_route_handler
     ); // controller with action and optional params route handler
     
     $app->map(
-        $app_settings['mvc_routes_http_methods'], 
+        $app_settings[AppSettingsKeys::MVC_ROUTES_HTTP_METHODS], 
         '/{controller}/{action}/', 
         $smvc_route_handler
     ); //handle trailing slash
@@ -121,13 +123,13 @@ if( SMVC_APP_USE_MVC_ROUTES ) {
  * for middleware added after it.
  */
 $error_middleware = $app->addErrorMiddleware(
-    $app_settings['displayErrorDetails'],
-    $app_settings['logErrors'], 
-    $app_settings['logErrorDetails'],
+    $app_settings[AppSettingsKeys::DISPLAY_ERROR_DETAILS],
+    $app_settings[AppSettingsKeys::LOG_ERRORS], 
+    $app_settings[AppSettingsKeys::LOG_ERROR_DETAILS],
     $container->get(\SlimSkeletonMvcApp\ContainerKeys::LOGGER)
 );
 $error_middleware->setDefaultErrorHandler(
-    new $app_settings['error_handler_class'](
+    new $app_settings[AppSettingsKeys::ERROR_HANDLER_CLASS](
         $app->getCallableResolver(),
         $app->getResponseFactory(),
         $container->get(\SlimSkeletonMvcApp\ContainerKeys::LOGGER)
@@ -143,26 +145,26 @@ if($error_handler instanceof \SlimMvcTools\ErrorHandler) {
 }
 
 /** @var \SlimMvcTools\HtmlErrorRenderer $html_error_renderer */
-$html_error_renderer = new $app_settings['html_renderer_class']($app_settings['error_template_file']);
+$html_error_renderer = new $app_settings[AppSettingsKeys::HTML_RENDERER_CLASS]($app_settings[AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH]);
 $html_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
 $html_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\LogErrorRenderer $log_error_renderer */
-$log_error_renderer = new $app_settings['log_renderer_class']();
+$log_error_renderer = new $app_settings[AppSettingsKeys::LOG_RENDERER_CLASS]();
 $log_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
 $log_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\JsonErrorRenderer $json_error_renderer */
-$json_error_renderer = new $app_settings['json_renderer_class']();
+$json_error_renderer = new $app_settings[AppSettingsKeys::JSON_RENDERER_CLASS]();
 $json_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
 $json_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
 /** @var \SlimMvcTools\XmlErrorRenderer $xml_error_renderer */
-$xml_error_renderer = new $app_settings['xml_renderer_class']();
+$xml_error_renderer = new $app_settings[AppSettingsKeys::XML_RENDERER_CLASS]();
 $xml_error_renderer->setDefaultErrorTitle($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_text'));
 $xml_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_description'));
 
-if($app_settings['displayErrorDetails']) {
+if($app_settings[AppSettingsKeys::DISPLAY_ERROR_DETAILS]) {
     
     $html_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
     $log_error_renderer->setDefaultErrorDescription($container->get(\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ)->gettext('default_application_error_title_detailed_description'));
@@ -184,9 +186,9 @@ $error_handler->setDefaultErrorRenderer('text/html', $html_error_renderer);
 // application to display an error page when they happen.
 $serverRequestCreator = \Slim\Factory\ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
-$displayErrorDetails = $app_settings['displayErrorDetails'];
-$logErrors = $app_settings['logErrors'];
-$logErrorDetails = $app_settings['logErrorDetails'];
+$displayErrorDetails = $app_settings[AppSettingsKeys::DISPLAY_ERROR_DETAILS];
+$logErrors = $app_settings[AppSettingsKeys::LOG_ERRORS];
+$logErrorDetails = $app_settings[AppSettingsKeys::LOG_ERROR_DETAILS];
 
 $shutdownHandler = function() use ($request, $error_handler, $displayErrorDetails, $logErrors, $logErrorDetails) {
     
@@ -235,7 +237,7 @@ $shutdownHandler = function() use ($request, $error_handler, $displayErrorDetail
 };
 register_shutdown_function($shutdownHandler);
 
-if($app_settings['addContentLengthHeader']) {
+if($app_settings[AppSettingsKeys::ADD_CONTENT_LENGTH_HEADER]) {
     
     // You may need to move this code up if the ContentLength calculation doesn't look right to you.
     // https://www.slimframework.com/docs/v4/start/upgrade.html#new-content-length-middleware

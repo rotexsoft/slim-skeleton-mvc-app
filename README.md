@@ -56,7 +56,10 @@ of this template application framework.
 |   |-- layout-templates/
 |   |-- models/
 |   |-- views/
-|   `-- AppErrorHandler.php
+|   |-- AppEnvironments.php
+|   |-- AppErrorHandler.php
+|   |-- AppSettingsKeys.php
+|   `-- ContainerKeys.php
 |
 |-- tests/
 |
