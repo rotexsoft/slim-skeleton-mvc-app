@@ -241,7 +241,7 @@ try {
         $html .= sprintf('<div><strong>File:</strong> %s</div>', $exception->getFile());
         $html .= sprintf('<div><strong>Line:</strong> %s</div>', $exception->getLine());
         $html .= '<h2>Trace</h2>';
-        $html .= sprintf('<pre>%s</pre>', nl2br(htmlentities($exception->getTraceAsString())) );
+        $html .= sprintf('<pre>%s</pre>', nl2br(htmlentities($exception->getTraceAsString()), false) );
     }
     
     \error_log ( 
