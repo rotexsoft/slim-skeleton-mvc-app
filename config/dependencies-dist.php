@@ -29,6 +29,28 @@ $container[ContainerKeys::LOCALE_OBJ] = function (ContainerInterface $c) { // An
     $pathToLocaleLanguageFiles = SMVC_APP_ROOT_PATH.$ds.'config'.$ds.'languages';        
     $localeObj->load($pathToLocaleLanguageFiles); //load local entries for base controller
     
+    if(session_status() !== \PHP_SESSION_ACTIVE) {
+        
+        // Try to start or resume existing session
+        
+        $sessionOptions = $c->get(ContainerKeys::APP_SETTINGS)[AppSettingsKeys::SESSION_START_OPTIONS];
+        
+        if(isset($sessionOptions['name'])) {
+
+            ////////////////////////////////////////////////////////////////
+            // Set the session name first
+            // https://www.php.net/manual/en/function.session-start.php
+            //      To use a named session, call session_name() before 
+            //      calling session_start(). 
+            // 
+            // https://www.php.net/manual/en/function.session-name.php
+            ////////////////////////////////////////////////////////////////
+            session_name($sessionOptions['name']);
+        }
+
+        session_start($sessionOptions);
+    }
+    
     // Try to update to previously selected language if stored in session
     if (
         session_status() === \PHP_SESSION_ACTIVE
