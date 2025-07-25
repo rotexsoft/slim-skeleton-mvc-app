@@ -151,20 +151,40 @@ $htmlErrorRenderer = new $appSettings[AppSettingsKeys::HTML_RENDERER_CLASS]($app
 $htmlErrorRenderer->setDefaultErrorTitle($localeObject->gettext('default_application_error_title_text'));
 $htmlErrorRenderer->setDefaultErrorDescription($localeObject->gettext('default_application_error_title_description'));
 
+if($htmlErrorRenderer instanceof \SlimMvcTools\HtmlErrorRenderer) {
+    
+    $htmlErrorRenderer->setContainer($container);
+}
+
 /** @var \SlimMvcTools\LogErrorRenderer $logErrorRenderer */
 $logErrorRenderer = new $appSettings[AppSettingsKeys::LOG_RENDERER_CLASS]();
 $logErrorRenderer->setDefaultErrorTitle($localeObject->gettext('default_application_error_title_text'));
 $logErrorRenderer->setDefaultErrorDescription($localeObject->gettext('default_application_error_title_description'));
+
+if($logErrorRenderer instanceof \SlimMvcTools\LogErrorRenderer) {
+    
+    $logErrorRenderer->setContainer($container);
+}
 
 /** @var \SlimMvcTools\JsonErrorRenderer $jsonErrorRenderer */
 $jsonErrorRenderer = new $appSettings[AppSettingsKeys::JSON_RENDERER_CLASS]();
 $jsonErrorRenderer->setDefaultErrorTitle($localeObject->gettext('default_application_error_title_text'));
 $jsonErrorRenderer->setDefaultErrorDescription($localeObject->gettext('default_application_error_title_description'));
 
+if($jsonErrorRenderer instanceof \SlimMvcTools\JsonErrorRenderer) {
+    
+    $jsonErrorRenderer->setContainer($container);
+}
+
 /** @var \SlimMvcTools\XmlErrorRenderer $xmlErrorRenderer */
 $xmlErrorRenderer = new $appSettings[AppSettingsKeys::XML_RENDERER_CLASS]();
 $xmlErrorRenderer->setDefaultErrorTitle($localeObject->gettext('default_application_error_title_text'));
 $xmlErrorRenderer->setDefaultErrorDescription($localeObject->gettext('default_application_error_title_description'));
+
+if($xmlErrorRenderer instanceof \SlimMvcTools\XmlErrorRenderer) {
+    
+    $xmlErrorRenderer->setContainer($container);
+}
 
 if($appSettings[AppSettingsKeys::DISPLAY_ERROR_DETAILS]) {
     
