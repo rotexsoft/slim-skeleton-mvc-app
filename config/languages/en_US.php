@@ -34,6 +34,16 @@ return [
     'default_application_error_title_description' => "A website error has occurred. Sorry for the temporary inconvenience.",
     'default_application_error_title_detailed_description' => "The application could not run because of the following error",
     
+    \Slim\Exception\HttpBadRequestException::class . '_title' => "400 Bad Request",
+    \Slim\Exception\HttpForbiddenException::class . '_title'  => "403 Forbidden",
+    \Slim\Exception\HttpGoneException::class . '_title' => "410 Gone",
+    \Slim\Exception\HttpInternalServerErrorException::class . '_title' => "500 Internal Server Error",
+    \Slim\Exception\HttpMethodNotAllowedException::class . '_title' => "405 Method Not Allowed",
+    \Slim\Exception\HttpNotFoundException::class . '_title' => "404 Not Found",
+    \Slim\Exception\HttpNotImplementedException::class . '_title' => "501 Not Implemented",
+    \Slim\Exception\HttpTooManyRequestsException::class . '_title' => "429 Too Many Requests",
+    \Slim\Exception\HttpUnauthorizedException::class . '_title' => "401 Unauthorized",
+    
     \Slim\Exception\HttpBadRequestException::class . '_description' => "The server cannot or will not process the request due to an apparent client error.",
     \Slim\Exception\HttpForbiddenException::class . '_description'  => "You are not permitted to perform the requested operation.",
     \Slim\Exception\HttpGoneException::class . '_description' => "The target resource is no longer available at the origin server.",
@@ -43,4 +53,12 @@ return [
     \Slim\Exception\HttpNotImplementedException::class . '_description' => "The server does not support the functionality required to fulfill the request.",
     \Slim\Exception\HttpTooManyRequestsException::class . '_description' => "The client application has surpassed its rate limit, or number of requests they can send in a given period of time.",
     \Slim\Exception\HttpUnauthorizedException::class . '_description' => "The request requires valid user authentication.",
+    
+    'html_error_renderer_text_details' => 'Details',
+    'html_error_renderer_text_type' => 'Type',
+    'html_error_renderer_text_code' => 'Code',
+    'html_error_renderer_text_mssg' => 'Message',
+    'html_error_renderer_text_file' => 'File',
+    'html_error_renderer_text_line' => 'Line',
+    'html_error_renderer_text_trace' => 'Trace',
 ];
