@@ -1537,7 +1537,7 @@ HTML;
         self::assertStringContainsString('strong{display:inline-block;width:65px}', $response_body);
         self::assertStringContainsString('<body>', $response_body);
         self::assertStringContainsString('</body>', $response_body);
-        self::assertStringContainsString('<a href="#" onclick="window.history.go(-1)">Go Back</a>', $response_body);
+        self::assertStringContainsString('<a href="#" onclick="window.history.go(-1)">&lt;&lt; Go Back</a>', $response_body);
     }
     
     protected function assertNonErrorLayoutIsPresentInResponseBody(string $response_body) {
