@@ -9,7 +9,7 @@ ini_set('session.save_path', SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'tmp' . 
 
 if( sMVC_GetCurrentAppEnvironment() !== \SlimSkeletonMvcApp\AppEnvironments::DEV ) {
     
-    ini_set('error_reporting',  E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
+    ini_set('error_reporting',  E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_WARNING);
 }
 
 set_error_handler(function ($severity, $message, $file, $line) {
