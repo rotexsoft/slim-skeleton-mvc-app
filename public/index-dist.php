@@ -278,9 +278,25 @@ try {
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
-    echo str_replace(
-            ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}'], 
-            [$title, $title, $html], 
-            $error_template
-        );
+    $appBasePath = '';
+    
+    if(
+        isset($appSettings)
+        && \is_array($appSettings) 
+        && \array_key_exists(AppSettingsKeys::APP_BASE_PATH, $appSettings)
+    ) {
+        $appBasePath = ''.$appSettings[AppSettingsKeys::APP_BASE_PATH];
+        
+        if(\str_ends_with($appBasePath, '/')) {
+            
+            // remove trailing forward slash
+            $appBasePath = \substr($appBasePath, 0, -1);
+        }
+    }
+    
+    echo \str_replace(
+        ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}', '{{{APP_BASE_PATH}}}'], 
+        [$title, $title, $html, $appBasePath], 
+        $error_template
+    );
 }
