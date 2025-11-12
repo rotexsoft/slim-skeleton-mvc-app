@@ -8,6 +8,11 @@ If your app bootstrapping fails, this file will be used as final fallback error 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{{TITLE}}}</title> <!-- title injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        
+        <!-- {{{APP_BASE_PATH}}} is injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <link rel="stylesheet" href="{{{APP_BASE_PATH}}}/css/app.css">
+        <script src="{{{APP_BASE_PATH}}}/js/app.js"></script>
+        
         <style>
             body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana,sans-serif}
             h1{margin:0;font-size:48px;font-weight:normal;line-height:48px}
