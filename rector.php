@@ -32,4 +32,5 @@ return RectorConfig::configure()
         \Rector\DeadCode\Rector\PropertyProperty\RemoveNullPropertyInitializationRector::class,
         \Rector\TypeDeclaration\Rector\ClassMethod\ReturnNeverTypeRector::class,
         \Rector\CodeQuality\Rector\If_\CompleteMissingIfElseBracketRector::class,
+        \Rector\DeadCode\Rector\ClassMethod\RemoveParentDelegatingConstructorRector::class,
     ]);

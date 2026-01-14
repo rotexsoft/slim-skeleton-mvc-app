@@ -51,7 +51,7 @@
             "Composer\\Config::disableProcessTimeout",
             "vendor/bin/phpunit --no-coverage --display-all-issues"
         ],
-        "rector": "vendor/bin/rector process --dry-run -vvv",
+        "rector": "vendor/bin/rector process --dry-run",
         "qa": "composer test && composer rector",
         "post-create-project-cmd": [
             "SMVC_PostComposerCreateHandler::exec",
