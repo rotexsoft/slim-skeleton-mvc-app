@@ -59,7 +59,8 @@ of this template application framework.
 |   |-- AppEnvironments.php
 |   |-- AppErrorHandler.php
 |   |-- AppSettingsKeys.php
-|   `-- ContainerKeys.php
+|   |-- ContainerKeys.php
+|   `-- framework-bootstrap.php
 |
 |-- tests/
 |
