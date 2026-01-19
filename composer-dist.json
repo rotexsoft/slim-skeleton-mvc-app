@@ -1,5 +1,5 @@
 {
-    "name": "package/name",
+    "name": "vendor-name/app-name",
     "description": "Description of your web app goes here.",
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -14,15 +14,17 @@
         "classmap": [ "src/", "tests/", "vendor/slim/" ]
     },
     "scripts": {
-        "post-install-cmd": [
+        "generate-framework-files": [
+            "@php -r \" echo 'Generating framework files...' . PHP_EOL; \"",
             "@php -r \"file_exists('./public/.htaccess') || copy('./public/.htaccess.dist', './public/.htaccess');\"",
             "@php -r \"file_exists('./config/env.php') || copy('./config/env-dist.php', './config/env.php');\"",
             "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\""
         ],
+        "post-install-cmd": [
+            "@composer generate-framework-files"
+        ],
         "post-update-cmd": [
-            "@php -r \"file_exists('./public/.htaccess') || copy('./public/.htaccess.dist', './public/.htaccess');\"",
-            "@php -r \"file_exists('./config/env.php') || copy('./config/env-dist.php', './config/env.php');\"",
-            "@php -r \"file_exists('./config/app-settings.php') || copy('./config/app-settings-dist.php', './config/app-settings.php');\""
+            "@composer generate-framework-files"
         ]
     }
 }
