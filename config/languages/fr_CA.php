@@ -34,6 +34,9 @@ return [
     'default_application_error_title_description' => "Une erreur du site Web s'est produite. Désolé pour le désagrément temporaire.",
     'default_application_error_title_detailed_description' => "L'application n'a pas pu s'exécuter en raison de l'erreur suivante",
     
+    'error_layout_not_found' => "Mise en page pour la ressource demandée introuvable",
+    'error_view_not_found' => "La ressource demandée est introuvable",
+    
     \Slim\Exception\HttpBadRequestException::class . '_title' => "400 Mauvaise demande",
     \Slim\Exception\HttpForbiddenException::class . '_title'  => "403 Interdit",
     \Slim\Exception\HttpGoneException::class . '_title' => "410 Gone",

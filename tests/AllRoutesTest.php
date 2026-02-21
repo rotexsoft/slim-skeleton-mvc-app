@@ -767,7 +767,7 @@ HTML;
                                             <tr>
                             <td>SlimMvcTools\Controllers\BaseController</td>
                             <td>forceHttp400</td>
-                            <td>base-controller/force-http400/message[/request=NULL]</td>
+                            <td>base-controller/force-http400/message[/request=NULL][/previous_exception=NULL]</td>
                         </tr>
 HTML;
         self::assertStringContainsString($expected_output2, $response_body3);

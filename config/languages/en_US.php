@@ -34,6 +34,9 @@ return [
     'default_application_error_title_description' => "A website error has occurred. Sorry for the temporary inconvenience.",
     'default_application_error_title_detailed_description' => "The application could not run because of the following error",
     
+    'error_layout_not_found' => "Layout for requested resource not found",
+    'error_view_not_found' => "View for requested resource not found",
+    
     \Slim\Exception\HttpBadRequestException::class . '_title' => "400 Bad Request",
     \Slim\Exception\HttpForbiddenException::class . '_title'  => "403 Forbidden",
     \Slim\Exception\HttpGoneException::class . '_title' => "410 Gone",
