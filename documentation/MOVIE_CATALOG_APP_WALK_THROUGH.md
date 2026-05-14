@@ -416,7 +416,7 @@ secure if your app or web-server logs the url of each request).
 Below is the method:
 
 ```php
-    public function actionInitUsers($password) {
+    public function actionInitUsers($password): ResponseInterface|string {
         
         $view_str = ''; // will hold output to be injected into the site layout 
                         // file (i.e. `./src/layout-templates/main-template.php`)
