@@ -992,7 +992,7 @@ the action method to list all users; i.e. **actionIndex()**. To do this, update
 **actionIndex()** in **\MovieCatalog\Controllers\Users** with the code below:
 
 ```php
-    public function actionIndex() {
+    public function actionIndex(): ResponseInterface|string {
         
         $view_data = [];
         $model_class = \MovieCatalog\Models\UsersAuthenticationsAccounts\UsersAuthenticationsAccountsModel::class;
@@ -1085,7 +1085,7 @@ To do this, we add **actionView($id)** to **\MovieCatalog\Controllers\Users** wi
 code below:
 
 ```php
-    public function actionView($id) {
+    public function actionView($id): ResponseInterface|string {
         
         $view_data = [];
         $model_class = 
@@ -1158,7 +1158,7 @@ To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\Users** with
 the code below:
 
 ```php
-    public function actionAdd() {
+    public function actionAdd(): ResponseInterface|string {
         
         // The call below is to get a response object for
         // redirecting the user to the login page if the
@@ -1388,7 +1388,7 @@ To do this, we add **actionEdit($id)** to **\MovieCatalog\Controllers\Users** wi
 code below:
 
 ```php
-    public function actionEdit($id) {
+    public function actionEdit($id): ResponseInterface|string {
         
         // The call below is to get a response object for
         // redirecting the user to the login page if the
@@ -1617,7 +1617,7 @@ will also be used by the **actionDelete($id)** we will be adding later to
 Add the code below to **\MovieCatalog\Controllers\Users**:
 
 ```php
-    public function actionDelete($id) {
+    public function actionDelete($id): ResponseInterface|string {
         
         return $this->doDelete(
             $id, 
@@ -1703,7 +1703,7 @@ To do this, update **actionIndex()** in **\MovieCatalog\Controllers\MovieListing
 with the code below:
 
 ```php    
-    public function actionIndex() {
+    public function actionIndex(): ResponseInterface|string {
         
         $view_data = [];
         $model_obj = $this->getContainerItem(
@@ -1792,7 +1792,7 @@ To do this, we add **actionView($id)** to **\MovieCatalog\Controllers\MovieListi
 with the code below:
 
 ```php
-    public function actionView($id) {
+    public function actionView($id): ResponseInterface|string {
         
         $view_data = [];
         /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
@@ -1883,7 +1883,7 @@ To do this, we add **actionAdd()** to **\MovieCatalog\Controllers\MovieListings*
 with the code below:
 
 ```php
-    public function actionAdd() {
+    public function actionAdd(): ResponseInterface|string {
         
         // The call below is to get a response object for
         // redirecting the user to the login page if the
@@ -2183,7 +2183,7 @@ To do this, we add **actionEdit($id)** to **\MovieCatalog\Controllers\MovieListi
 the code below:
 
 ```php
-    public function actionEdit($id) {
+    public function actionEdit($id): ResponseInterface|string {
         
         // The call below is to get a response object for
         // redirecting the user to the login page if the
@@ -2477,7 +2477,7 @@ ability to delete a specific movie) by adding the code below to
 **\MovieCatalog\Controllers\MovieListings**:
 
 ```php
-    public function actionDelete($id) {
+    public function actionDelete($id): ResponseInterface|string {
         
         return $this->doDelete(
             $id,
@@ -2496,7 +2496,7 @@ parameter with the value of **json** to the url like so
 (http://localhost:8888/movie-listings?format=json)
 
 ```php
-    public function actionIndex() {
+    public function actionIndex(): ResponseInterface|string {
         
         $view_data = [];
         /** @var \MovieCatalog\Models\MoviesListings\MoviesListingsModel $model_obj */
