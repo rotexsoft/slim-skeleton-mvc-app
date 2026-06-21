@@ -154,7 +154,7 @@ return function(SlimApp $app, array $appSettings, ContainerInterface|null $injec
     }
 
     /** @var \SlimMvcTools\HtmlErrorRenderer $htmlErrorRenderer */
-    $htmlErrorRenderer = new $appSettings[AppSettingsKeys::HTML_RENDERER_CLASS]($appSettings[AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH]);
+    $htmlErrorRenderer = new $appSettings[AppSettingsKeys::HTML_RENDERER_CLASS]((string)$appSettings[AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH]);
     $isLocaleObjectValid && $htmlErrorRenderer->setDefaultErrorTitle($localeObject->gettext('default_application_error_title_text'));
     $isLocaleObjectValid && $htmlErrorRenderer->setDefaultErrorDescription($localeObject->gettext('default_application_error_title_description'));
 
