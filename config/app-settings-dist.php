@@ -43,6 +43,21 @@ return [
     // Your App's Environment Specific Settings
     /////////////////////////////////////////////
     AppSettingsKeys::APP_BASE_PATH => '', // https://www.slimframework.com/docs/v4/start/web-servers.html#run-from-a-sub-directory
+
+    // The file below will be used to render application errors.
+    // It should contain valid html & can also contain php code but its
+    // name must end in .php in order for the php code contained in it
+    // to be executed.
+    // It should conatin the tokens below which will be substituted by the 
+    // framework with the appropriate error related values at runtime:
+    /*
+        - {{{TITLE}}}
+        - {{{APP_BASE_PATH}}}
+        - {{{ERROR_HEADING}}}
+        - {{{ERROR_DETAILS}}}
+     */
+    // See the default ./src/layout-templates/error-template.html for an example
+    // of how this file should be structured
     AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH => SMVC_APP_ROOT_PATH. DIRECTORY_SEPARATOR 
                                                 . 'src' . DIRECTORY_SEPARATOR 
                                                 . 'layout-templates' . DIRECTORY_SEPARATOR 

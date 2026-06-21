@@ -228,9 +228,80 @@ try {
     // so we display a non descriptive message by default and only site admins
     // will know to add a show_full_error=1 query param to the url that 
     // caused the exception to be able to see the full exception.
-    $error_template = file_get_contents(
-        dirname(__DIR__) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'layout-templates' . DIRECTORY_SEPARATOR . 'error-template.html'
-    );
+    $appBasePath = '';
+    $errorTemplateFilePath = '';
+    
+    if(
+        isset($appSettings)
+        && \is_array($appSettings)
+    ) {
+        if(\array_key_exists(AppSettingsKeys::APP_BASE_PATH, $appSettings)) {
+            $appBasePath = ''.$appSettings[AppSettingsKeys::APP_BASE_PATH];
+
+            if(\str_ends_with($appBasePath, '/')) {
+
+                // remove trailing forward slash
+                $appBasePath = \substr($appBasePath, 0, -1);
+            }
+        }
+        
+        if(\array_key_exists(AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH, $appSettings)) {
+            
+            $errorTemplateFilePath = ''.$appSettings[AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH];
+        }
+    }
+    
+    // Initialize to a default html template in case the file specified in
+    // in $errorTemplateFilePath cannot be loaded or rendered
+    $errorTemplate = <<<'HTML'
+<!doctype html>
+<!-- 
+Do not delete the following tokens strating with {{{ and ending with }}} 
+(move them around if you decide to modify the template below):
+- TITLE
+- APP_BASE_PATH
+- ERROR_HEADING
+- ERROR_DETAILS
+-->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{{TITLE}}}</title>
+        
+        <!-- {{{APP_BASE_PATH}}} is injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+        <link rel="stylesheet" href="{{{APP_BASE_PATH}}}/css/app.css">
+        <script src="{{{APP_BASE_PATH}}}/js/app.js"></script>
+        
+        <style>
+            body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana,sans-serif}
+            h1{margin:0;font-size:48px;font-weight:normal;line-height:48px}
+            strong{display:inline-block;width:65px}
+        </style>
+    </head>
+    <body>
+        <h1>{{{ERROR_HEADING}}}</h1>
+        <br>
+        <div>{{{ERROR_DETAILS}}}</div>
+        <br>
+        <a href="#" onclick="window.history.go(-1)">&lt;&lt; Go Back</a>
+    </body>
+</html>
+HTML;
+    
+    if(\file_exists($errorTemplateFilePath)) {
+        
+        if(\str_ends_with(\mb_strtolower((string)$errorTemplateFilePath), 'php')) {
+            
+            $phpFileRenderer = new \Rotexsoft\FileRenderer\Renderer();
+            $errorTemplate = $phpFileRenderer->renderToString($errorTemplateFilePath);
+                    
+        } else {
+            
+            $errorTemplate = \file_get_contents($errorTemplateFilePath);
+        }
+    }
+    
     
     $title = 'Uncaught Exception Occurred<br>';
     $html = 'An Uncaught Exception Occurred. Please contact site admin for further investigation<br><br>';
@@ -282,25 +353,9 @@ try {
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
-    $appBasePath = '';
-    
-    if(
-        isset($appSettings)
-        && \is_array($appSettings) 
-        && \array_key_exists(AppSettingsKeys::APP_BASE_PATH, $appSettings)
-    ) {
-        $appBasePath = ''.$appSettings[AppSettingsKeys::APP_BASE_PATH];
-        
-        if(\str_ends_with($appBasePath, '/')) {
-            
-            // remove trailing forward slash
-            $appBasePath = \substr($appBasePath, 0, -1);
-        }
-    }
-    
     echo \str_replace(
         ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}', '{{{APP_BASE_PATH}}}'], 
         [$title, $title, $html, $appBasePath], 
-        $error_template
+        $errorTemplate
     );
 }
