@@ -230,6 +230,7 @@ try {
     // caused the exception to be able to see the full exception.
     $appBasePath = '';
     $errorTemplateFilePath = '';
+    $displayErrorDetails = false;
     
     if(
         isset($appSettings)
@@ -249,6 +250,11 @@ try {
             
             $errorTemplateFilePath = ''.$appSettings[AppSettingsKeys::ERROR_TEMPLATE_FILE_PATH];
         }
+        
+        if(\array_key_exists(AppSettingsKeys::DISPLAY_ERROR_DETAILS, $appSettings)) {
+            
+            $displayErrorDetails = (bool)$appSettings[AppSettingsKeys::DISPLAY_ERROR_DETAILS];
+        }
     }
     
     // Initialize to a default html template in case the file specified in
@@ -256,7 +262,7 @@ try {
     $errorTemplate = <<<'HTML'
 <!doctype html>
 <!-- 
-Do not delete the following tokens strating with {{{ and ending with }}} 
+Do not delete the following tokens starting with {{{ and ending with }}} 
 (move them around if you decide to modify the template below):
 - TITLE
 - APP_BASE_PATH
@@ -268,8 +274,7 @@ Do not delete the following tokens strating with {{{ and ending with }}}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{{TITLE}}}</title>
-        
-        <!-- {{{APP_BASE_PATH}}} is injected by \SlimMvcTools\HtmlErrorRenderer->renderHtmlBody(string $title = '', string $html = '') -->
+
         <link rel="stylesheet" href="{{{APP_BASE_PATH}}}/css/app.css">
         <script src="{{{APP_BASE_PATH}}}/js/app.js"></script>
         
@@ -306,7 +311,7 @@ HTML;
     $title = 'Uncaught Exception Occurred<br>';
     $html = 'An Uncaught Exception Occurred. Please contact site admin for further investigation<br><br>';
     
-    if( ($_GET['show_full_error'] ?? false) === '1'  ) {
+    if($displayErrorDetails || ($_GET['show_full_error'] ?? false) === '1') {
         
         $html = 'An Uncaught Exception Occurred. See Exception details below:<br><br>';
         $html .= sprintf('<div><strong>Type:</strong> %s</div>', get_class($exception));
@@ -353,6 +358,8 @@ HTML;
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
+    // Set response code to 500
+    \http_response_code(500);
     echo \str_replace(
         ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}', '{{{APP_BASE_PATH}}}'], 
         [$title, $title, $html, $appBasePath], 
