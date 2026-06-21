@@ -241,8 +241,7 @@ try {
 
             if(\str_ends_with($appBasePath, '/')) {
 
-                // remove trailing forward slash
-                $appBasePath = \substr($appBasePath, 0, -1);
+                $appBasePath = \substr($appBasePath, 0, -1); // remove trailing forward slash
             }
         }
         
@@ -307,7 +306,6 @@ HTML;
         }
     }
     
-    
     $title = 'Uncaught Exception Occurred<br>';
     $html = 'An Uncaught Exception Occurred. Please contact site admin for further investigation<br><br>';
     
@@ -326,8 +324,8 @@ HTML;
     
     \error_log ( 
         PHP_EOL . PHP_EOL . 'Uncaught Exception Occurred' 
-                . PHP_EOL . \SlimMvcTools\Utils::getThrowableAsStr($exception, PHP_EOL) 
-                . PHP_EOL , 
+        . PHP_EOL . \SlimMvcTools\Utils::getThrowableAsStr($exception, PHP_EOL) 
+        . PHP_EOL, 
         4
     ); // message is sent directly to the SAPI logging handler.
     
@@ -354,13 +352,10 @@ HTML;
                         . PHP_EOL , 
                 4
             ); // message is sent directly to the SAPI logging handler.
-            
         } // try ... catch
     } // if(isset($container) && $container instanceof \Psr\Container\ContainerInterface)
     
-    // Set response code to 500
-    \http_response_code(500);
-
+    \http_response_code(500); // Set response code to 500
     echo \str_replace(
         ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}', '{{{APP_BASE_PATH}}}'], 
         [$title, $title, $html, $appBasePath], 
