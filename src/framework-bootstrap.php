@@ -360,6 +360,7 @@ HTML;
     
     // Set response code to 500
     \http_response_code(500);
+
     echo \str_replace(
         ['{{{TITLE}}}', '{{{ERROR_HEADING}}}', '{{{ERROR_DETAILS}}}', '{{{APP_BASE_PATH}}}'], 
         [$title, $title, $html, $appBasePath], 
