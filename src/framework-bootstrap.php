@@ -84,7 +84,7 @@ try {
     //                                      You can safely & should commit these locale files
     //                                      to your source control repo (e.g. Git).
     ////////////////////////////////////////////////////////////////////////////////
-    define('SMVC_APP_ROOT_PATH', dirname(dirname(__FILE__)));
+    define('SMVC_APP_ROOT_PATH', dirname(__FILE__, 2));
     define('SMVC_APP_PUBLIC_PATH', SMVC_APP_ROOT_PATH . DIRECTORY_SEPARATOR . 'public');
 
     sMVC_GetSuperGlobal();  // this method is first called here to ensure that $_SERVER,
