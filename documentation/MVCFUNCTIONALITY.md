@@ -466,6 +466,9 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 
 
 ### SMVC Helper Functions
+
+Below are some helper functions you may find useful for applications built using this framework.
+
 * **`sMVC_AddLangSelectionParamToUri(\Psr\Http\Message\UriInterface $uri, string $lang='en_US') : string`:** a helper function for adding lanuage toggle query string parameters to PSR-7 uri objects. See **./src/layout-templates/main-template.php** for examples of how this function is used to generate language toggle links in this default layout template that ships with this framework. **\SlimMvcTools\Controllers\BaseController** has an **updateSelectedLanguage()** method that checks for this query string parameter and updates the currently selected language used by the Locale object in the container whose key is **\SlimSkeletonMvcApp\ContainerKeys::LOCALE_OBJ** each time a controller instance is created.
 
 * **`sMVC_addQueryStrParamToUri(\Psr\Http\Message\UriInterface $uri,  string $param_name, string $param_value): \Psr\Http\Message\UriInterface`:** a helper function for adding query string parameters to PSR-7 uri objects.
@@ -477,6 +480,19 @@ or `\SlimMvcTools\Controllers\BaseController::renderView( $file_name, array $dat
 * **`sMVC_GetSuperGlobal(string $global_name='', string $key='', $default_val='')`:** a helper function for accessing super globals.
 
 * **`sMVC_UriToString(\Psr\Http\Message\UriInterface $uri)`:** a helper function for converting PSR-7 uri objects to a string.
+
+* **`sMVC_UriToStringWithoutSchemeAndAuthorityAndPort(\Psr\Http\Message\UriInterface $uri)`:** a helper function for converting PSR-7 uri objects to a string without the scheme, authority & port parts. Very handy for generating **href** & **src** values as the string returned is a relative URL.
+
+The other helper functions below are used internally by the framework and usually won't be useful in applications built using this framework.
+
+* **sMVC_DisplayAndLogFrameworkFileNotFoundError**
+
+* **sMVC_DoGetCurrentAppEnvironment**
+
+* **sMVC_DumpAuthinfo**
+
+* **sMVC_PrependAction2ActionMethodName**
+
 
 ## Security Considerations
 * Make sure to validate / sanitize the password value posted to `\SlimMvcTools\Controllers\BaseController::actionLogin()` in your Controller(s). It is deliberately left un-sanitized and un-validated because each application should define which characters are allowed in passwords and validation / sanitization should be based on the allowed characters.
